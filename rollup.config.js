@@ -53,7 +53,6 @@ export default {
   plugins: [
     alias({
       entries: [
-        { find: '@interfaces', replacement: path.resolve(projectRootDir, 'src/interfaces') },
         { find: '@commands', replacement: path.resolve(projectRootDir, 'src/commands') },
         { find: '@types', replacement: path.resolve(projectRootDir, 'src/types') }
       ]

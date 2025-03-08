@@ -9,7 +9,6 @@ export default {
     }]
   },
   moduleNameMapper: {
-    '@interfaces': '<rootDir>/src/interfaces',
     '@commands': '<rootDir>/src/commands',
     '@types': '<rootDir>/src/types'
   },
