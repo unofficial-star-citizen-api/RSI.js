@@ -3,7 +3,7 @@ export * from './progress-tracker';
 export * from './roadmap';
 export * from './ship';
 export * from './starmap';
-export * from './stats';
+export * from './funding-goals';
 export * from './telemetry';
 export * from './user';
 export * from './version';

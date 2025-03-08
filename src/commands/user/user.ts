@@ -4,6 +4,7 @@ import { UserAffiliation, UserData } from '../../types'
 
 /**
  * User class for retrieving Star Citizen user information
+ * @see https://robertsspaceindustries.com/citizens/{handle}
  */
 export class User {
   private readonly urlProfile = "https://robertsspaceindustries.com/citizens/{0}";

@@ -1,5 +1,5 @@
 import { HttpClient } from '../../http-client';
-import { TelemetryInfo, TelemetryResponse } from './types'
+import { TelemetryResponse } from './types'
 
 type VersionNumber = '3.12' | '3.13' | '3.14'
   | '3.15' | '3.16' | '3.17'
@@ -13,6 +13,7 @@ export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
 
 /**
  * Telemetry class for retrieving Star Citizen telemetry data
+ * @see https://robertsspaceindustries.com/en/telemetry
  */
 export class Telemetry {
   private readonly urlTelemetry = "https://robertsspaceindustries.com/api/telemetry/v2/community/";
@@ -28,7 +29,7 @@ export class Telemetry {
    * @param version The Star Citizen version to retrieve data for
    * @returns TelemetryInfo
    */
-  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<TelemetryInfo> {
+  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<TelemetryResponse> {
     const query = `?&timetable=${timetable}&branch=${version}`;
 
     const response = await this.httpClient.get<TelemetryResponse>(this.urlTelemetry + query);
@@ -37,16 +38,6 @@ export class Telemetry {
       throw new Error(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);
     }
 
-    // Check response
-    if(response.data == null)
-      throw new Error('An error occurred while retrieving telemetry data');
-
-    if (response.data.success !== 1 )
-      throw new Error(`Error code: ${response.data.code}, Message: ${response.data.msg}`);
-
-    if(response.data.data == null)
-      throw new Error('No telemetry data available');
-
-    return response.data.data;
+    return response.data;
   }
 }

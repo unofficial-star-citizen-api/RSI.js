@@ -1,12 +1,163 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "required": [
-        "current_etf",
-        "current_live",
-        "current_ptu",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "number"
+    },
+    "code": {
+      "type": "string"
+    },
+    "msg": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "chart": {
+          "type": "object",
+          "properties": {
+            "2025-03-01": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-02": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-03": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-04": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-05": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-06": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            },
+            "2025-03-07": {
+              "type": "object",
+              "properties": {
+                "gross": {
+                  "type": "string"
+                },
+                "axis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gross",
+                "axis"
+              ]
+            }
+          },
+          "required": [
+            "2025-03-01",
+            "2025-03-02",
+            "2025-03-03",
+            "2025-03-04",
+            "2025-03-05",
+            "2025-03-06",
+            "2025-03-07"
+          ]
+        },
+        "fans": {
+          "type": "number"
+        },
+        "funds": {
+          "type": "number"
+        },
+        "fleet": {},
+        "alpha_slots_left": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "chart",
         "fans",
+        "funds",
         "fleet",
-        "funds"
-    ]
+        "alpha_slots_left"
+      ]
+    }
+  },
+  "required": [
+    "success",
+    "code",
+    "msg",
+    "data"
+  ]
 }

@@ -5,10 +5,10 @@ import {
   RSI,
   Ship,
   Starmap,
-  Stats,
+  FundingGoals,
   Telemetry,
   User,
-  TelemetryVersion
+  Version
 } from '../src';
 
 describe('RSI', () => {
@@ -69,7 +69,7 @@ describe('RSI', () => {
       expect(rsi.roadmap).toBeInstanceOf(Roadmap);
       expect(rsi.ships).toBeInstanceOf(Ship);
       expect(rsi.starmap).toBeInstanceOf(Starmap);
-      expect(rsi.stats).toBeInstanceOf(Stats);
+      expect(rsi.fundingGoals).toBeInstanceOf(FundingGoals);
       expect(rsi.telemetry).toBeInstanceOf(Telemetry);
       expect(rsi.version).toBeInstanceOf(Version);
     });

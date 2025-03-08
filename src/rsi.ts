@@ -4,7 +4,7 @@ import {
   Roadmap,
   Ship,
   Starmap,
-  Stats,
+  FundingGoals,
   Telemetry,
   User,
   ProgressTracker,
@@ -24,7 +24,7 @@ export class RSI {
   public readonly roadmap: Roadmap;
   public readonly ships: Ship;
   public readonly starmap: Starmap;
-  public readonly stats: Stats;
+  public readonly fundingGoals: FundingGoals;
   public readonly telemetry: Telemetry;
   public readonly version: Version;
 
@@ -37,7 +37,7 @@ export class RSI {
     this.roadmap = new Roadmap(this.httpClient);
     this.ships = new Ship(this.httpClient);
     this.starmap = new Starmap(this.httpClient);
-    this.stats = new Stats(this.httpClient);
+    this.fundingGoals = new FundingGoals(this.httpClient);
     this.telemetry = new Telemetry(this.httpClient);
     this.version = new Version(this.httpClient);
   }
