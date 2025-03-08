@@ -4,7 +4,7 @@ import { RouteResultInterface } from './interfaces/route-result.interface';
 /**
  * StarmapRouteSearch class for searching routes in Star Citizen starmap
  */
-export class StarmapRouteSearch {
+export class StarmapRoute {
   private readonly urlFind = "https://robertsspaceindustries.com/api/starmap/routes/find";
   private readonly httpClient: HttpClient;
 
@@ -12,7 +12,7 @@ export class StarmapRouteSearch {
     this.httpClient = httpClient;
   }
 
-  async search(from: string, to: string, shipSize: string): Promise<RouteResultInterface | null> {
+  async find(from: string, to: string, shipSize: string): Promise<RouteResultInterface | null> {
     const data = {
       departure: from,
       destination: to,

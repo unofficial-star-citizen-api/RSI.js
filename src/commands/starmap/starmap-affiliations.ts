@@ -12,7 +12,7 @@ export class StarmapAffiliations {
     this.httpClient = httpClient;
   }
 
-  public async search(name?: string): Promise<AffiliationInterface[] | null> {
+  public async find(name?: string): Promise<AffiliationInterface[] | null> {
     const affiliations = await StarMapHelper.getStarmapData<AffiliationInterface>(this.httpClient ,"affiliations");
     if (affiliations === null) {
       return null;

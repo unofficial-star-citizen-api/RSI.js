@@ -12,7 +12,7 @@ export class StarmapTunnels {
     this.httpClient = httpClient;
   }
 
-  public async search(tunnelId?: string): Promise<TunnelInterface[] | null> {
+  public async find(tunnelId?: string): Promise<TunnelInterface[] | null> {
     const tunnels = await StarMapHelper.getStarmapData<TunnelInterface>(this.httpClient, "tunnels");
     if (tunnels === null) {
       return null;

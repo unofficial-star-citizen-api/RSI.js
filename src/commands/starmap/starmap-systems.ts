@@ -12,7 +12,7 @@ export class StarmapSystems {
     this.httpClient = httpClient;
   }
 
-  public async search(name?: string): Promise<StarSystemInterface[] | null> {
+  public async find(name?: string): Promise<StarSystemInterface[] | null> {
     const systems = await StarMapHelper.getStarmapData<StarSystemInterface>(this.httpClient, "systems");
     if (systems === null) {
       return null;

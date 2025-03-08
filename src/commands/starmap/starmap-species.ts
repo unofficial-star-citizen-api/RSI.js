@@ -12,7 +12,7 @@ export class StarmapSpecies {
     this.httpClient = httpClient;
   }
 
-  public async search(name?: string): Promise<SpeciesInterface[] | null> {
+  public async find(name?: string): Promise<SpeciesInterface[] | null> {
     const species = await StarMapHelper.getStarmapData<SpeciesInterface>(this.httpClient,"species");
     if (species === null) {
       return null;

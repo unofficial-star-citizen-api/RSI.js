@@ -12,7 +12,7 @@ export class StarmapCelestialObjects {
     this.httpClient = httpClient;
   }
 
-  async search(code: string): Promise<CelestialObjectInterface | null> {
+  async find(code: string): Promise<CelestialObjectInterface | null> {
     const req = await this.httpClient.post<{
       success: number;
       data?: { resultset: CelestialObjectInterface };

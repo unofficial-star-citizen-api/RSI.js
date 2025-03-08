@@ -12,7 +12,7 @@ export class StarmapSearch {
     this.httpClient = httpClient;
   }
 
-  public async search(searchPattern: string): Promise<SearchResultInterface | null> {
+  public async find(searchPattern: string): Promise<SearchResultInterface | null> {
     const data = {
       query: searchPattern
     };

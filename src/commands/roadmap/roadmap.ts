@@ -42,7 +42,7 @@ export class Roadmap {
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async list(board: 'starcitizen'|'squadron42', version?: string): Promise<RoadmapRelease[] | null> {
+  public async getBoardReleases(board: 'starcitizen'|'squadron42', version?: string): Promise<RoadmapRelease[] | null> {
     let req;
 
     if (board === "starcitizen") {

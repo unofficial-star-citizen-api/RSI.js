@@ -12,7 +12,7 @@ export class StarmapStarSystems {
     this.httpClient = httpClient;
   }
 
-  async search(code: string): Promise<StarSystemDetailInterface | null> {
+  async find(code: string): Promise<StarSystemDetailInterface | null> {
     const req = await this.httpClient.post<{
       success: number;
       data?: { resultset: StarSystemDetailInterface };
