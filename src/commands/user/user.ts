@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { UserAffiliation, UserData } from '@types';
+import { UserAffiliation, UserData } from '../../types'
 
 /**
  * User class for retrieving Star Citizen user information

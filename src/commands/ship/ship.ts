@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { HttpHelper } from 'src/helpers/http.helper'
+import { HttpHelper } from '../../helpers/http.helper'
 
 interface ShipData {
   id?: string;

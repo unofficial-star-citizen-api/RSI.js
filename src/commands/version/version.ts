@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { HttpClient } from 'src/http-client';
+import { HttpClient } from '../../http-client';
 
 interface VersionData {
   link?: string;

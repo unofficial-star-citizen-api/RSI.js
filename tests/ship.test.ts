@@ -1,5 +1,5 @@
 import { RSI } from '../src/index';
-import { assertValidSchema } from './validator';
+import { assertValidSchema } from './utils/validator';
 
 describe('Ship', () => {
   test('should return ship data', async () => {

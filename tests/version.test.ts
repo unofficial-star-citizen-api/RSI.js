@@ -1,5 +1,6 @@
 import { RSI } from '../src/index';
-import { assertValidSchema } from './validator';
+import { assertValidSchema } from './utils/validator';
+import version from './schemas/version.json';
 
 describe('Version', () => {
   test('should return version data', async () => {
@@ -7,6 +8,6 @@ describe('Version', () => {
     const data = await rsi.version.search();
 
     expect(data).not.toBeNull();
-    assertValidSchema(data, 'version.json');
+    assertValidSchema(data, version);
   });
 });

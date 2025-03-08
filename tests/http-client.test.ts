@@ -1,7 +1,7 @@
 import { HttpClient } from '../src/index';
 import axios from 'axios';
 
-const url = 'http://icanhazip.com';
+const url = 'http://ipv4.icanhazip.com';
 
 describe('HttpClient', () => {
   test('should make a request', async () => {
@@ -19,24 +19,24 @@ describe('HttpClient', () => {
   });
 
   test('should use proxy if configured', async () => {
-    // Get public IP
-    const publicResponse = await axios.get(url);
+    // Get public IP without proxy using a direct axios instance
+    const axiosInstance = axios.create();
+    const publicResponse = await axiosInstance.get(url);
     const ipPublic = publicResponse.data.trim();
     expect(publicResponse.status).toBe(200);
 
-    // Get IP through HttpClient
-    const conn = new HttpClient({httpProxy: process.env.HTTP_PROXY });
+    // Get IP through HttpClient with proxy
+    const conn = new HttpClient({httpsProxy: process.env.HTTPS_PROXY});
     const proxyResponse = await conn.post<string>(url);
     const ipProxy = proxyResponse.data.trim();
     expect(proxyResponse.status).toBe(200);
 
     // If proxy is configured, IPs should be different
-    if (conn.config.httpProxy) {
-      if (ipPublic === ipProxy) {
-        console.warn('Bad proxy configuration');
-      }
+    if (conn.config.httpsProxy) {
+      expect(ipPublic).not.toBe(ipProxy);
     } else {
       console.warn('Executing without proxy');
+      expect(ipPublic).toBe(ipProxy);
     }
   });
 

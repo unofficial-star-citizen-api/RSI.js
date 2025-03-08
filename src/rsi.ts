@@ -1,5 +1,4 @@
-import { HttpClient } from './http-client';
-import { HttpConfigOptions } from './config';
+import { HttpClient, HttpConfigOptions } from './http-client';
 import {
   Organization,
   Roadmap,

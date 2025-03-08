@@ -1,5 +1,5 @@
 import { RSI } from '../src/index';
-import { assertValidSchema } from './validator';
+import { assertValidSchema } from './utils/validator';
 
 describe('Stats', () => {
   test('should return stats data', async () => {
