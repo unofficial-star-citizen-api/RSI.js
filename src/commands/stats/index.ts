@@ -1,27 +1,25 @@
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
-import { StatsData, CrowdStats } from '../types';
+import { HttpClient } from '../../http-client';
+import { StatsData, CrowdStats } from '../../types';
 
 /**
  * Stats class for retrieving Star Citizen stats
  */
-export class Stats extends BaseCommand<StatsData> {
+export class Stats {
   private readonly urlCrowStat = "https://robertsspaceindustries.com/api/stats/getCrowdfundStats";
   private readonly urlRoadmap = "https://robertsspaceindustries.com/api/roadmap/v1/init";
   private readonly regexApiLive = /(live\s*version\s*:\s*(?<live_api>(\d+(\.\d+)*))?)/i;
   private readonly regexApiPtu = /(ptu\s*version\s*:\s*(?<ptu_version>(\d+(\.\d+)*))?)/i;
   private readonly regexApiEtf = /(ptu\s*version\s*:\s*(?<etf_version>(\d+(\.\d+)*)(.*?)((ETF)|(Evocati))))/i;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
-  constructor() {
-    super();
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve game stats
    */
-  public async execute(): Promise<StatsData | null> {
+  public async search(): Promise<StatsData | null> {
     // Get stats info
     const stats = await this.__getCrowStats();
     if (stats === null) {
@@ -33,7 +31,7 @@ export class Stats extends BaseCommand<StatsData> {
       fleet = parseInt(stats.fleet, 10);
     }
 
-    const req = await this.connector.request<string>(this.urlRoadmap, null, {}, 'get');
+    const req = await this.httpClient.get<string>(this.urlRoadmap);
     if (req === null || req.status !== 200) {
       return null;
     }
@@ -91,7 +89,7 @@ export class Stats extends BaseCommand<StatsData> {
       funds: true,
     };
 
-    const req = await this.connector.request<{
+    const req = await this.httpClient.post<{
       success: number;
       data?: CrowdStats;
     }>(this.urlCrowStat, data);

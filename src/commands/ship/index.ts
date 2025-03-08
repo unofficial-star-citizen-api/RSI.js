@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from '../../http-client';
+import { HttpHelper } from 'src/helpers/http.helper'
 
 interface ShipData {
   id?: string;
@@ -10,7 +10,7 @@ interface ShipData {
   [key: string]: unknown;
 }
 
-type ShipKwargs = {
+type SearchArgs = {
   name?: string;
   classification?: string;
   length_min?: number;
@@ -28,53 +28,43 @@ type ShipKwargs = {
 /**
  * Ship class for retrieving Star Citizen ship data
  */
-export class Ship extends BaseCommand<ShipData[]> {
+export class Ship {
   private readonly urlSearchShips = "https://robertsspaceindustries.com/api/store/getShips";
   private readonly urlShipsId = "https://robertsspaceindustries.com/ship-matrix/index";
-  private readonly kwargs: ShipKwargs;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
   /**
    * Get ships
    * @param kwargs - Search parameters
    */
-  constructor(kwargs: ShipKwargs = {}) {
-    super();
-    this.kwargs = kwargs;
-    this.connector = new Connector();
-  }
-
-  /**
-   * Execute the command to retrieve ship data
-   */
-  public async execute(): Promise<ShipData[] | null> {
-    return this.getShipsPages();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Get all ships using advanced search through pages
    * @returns Ships data
    */
-  private async getShipsPages(): Promise<ShipData[]> {
-    const name = this.convertVal(this.kwargs.name);
-    const classification = this.convertVal(this.kwargs.classification);
-    const length_min = this.convertVal(this.kwargs.length_min);
-    const length_max = this.convertVal(this.kwargs.length_max);
-    const crew_min = this.convertVal(this.kwargs.crew_min);
-    const crew_max = this.convertVal(this.kwargs.crew_max);
-    const price_min = this.convertVal(this.kwargs.price_min);
-    const price_max = this.convertVal(this.kwargs.price_max);
-    const mass_min = this.convertVal(this.kwargs.mass_min);
-    const mass_max = this.convertVal(this.kwargs.mass_max);
+  public async search(searchArgs: SearchArgs): Promise<ShipData[]> {
+    const name = HttpHelper.convertVal(searchArgs.name);
+    const classification = HttpHelper.convertVal(searchArgs.classification);
+    const length_min = HttpHelper.convertVal(searchArgs.length_min);
+    const length_max = HttpHelper.convertVal(searchArgs.length_max);
+    const crew_min = HttpHelper.convertVal(searchArgs.crew_min);
+    const crew_max = HttpHelper.convertVal(searchArgs.crew_max);
+    const price_min = HttpHelper.convertVal(searchArgs.price_min);
+    const price_max = HttpHelper.convertVal(searchArgs.price_max);
+    const mass_min = HttpHelper.convertVal(searchArgs.mass_min);
+    const mass_max = HttpHelper.convertVal(searchArgs.mass_max);
 
-    let page: number | string = this.convertVal(this.kwargs.page);
+    let page: number | string = HttpHelper.convertVal(searchArgs.page);
     if (/^\d+?$/.test(page)) {
       page = parseInt(page);
     } else {
       page = 1;
     }
 
-    let page_max: number | string = this.convertVal(this.kwargs.page_max);
+    let page_max: number | string = HttpHelper.convertVal(searchArgs.page_max);
     if (/^\d+?$/.test(page_max)) {
       page_max = parseInt(page_max);
     } else {
@@ -84,11 +74,11 @@ export class Ship extends BaseCommand<ShipData[]> {
     const data = {
       classification: classification,
       itemType: 'ships',
-      length: this.httpFormatter(length_min, length_max),
+      length: [length_min, length_max].join(','),
       manufacturer_id: [],
-      mass: this.httpFormatter(mass_min, mass_max),
-      max_crew: this.httpFormatter(crew_min, crew_max),
-      msrp: this.httpFormatter(price_min, price_max),
+      mass: [mass_min, mass_max].join(','),
+      max_crew: [crew_min, crew_max].join(','),
+      msrp: [price_min, price_max].join(','),
       search: name,
       page: page,
       sort: 'id',
@@ -96,7 +86,7 @@ export class Ship extends BaseCommand<ShipData[]> {
       type: '',
     };
 
-    const req = await this.connector.request<{
+    const req = await this.httpClient.post<{
       success: number;
       data: {
         html: string;
@@ -156,8 +146,8 @@ export class Ship extends BaseCommand<ShipData[]> {
     }
 
     if (resp.data.rowcount !== 0 && typeof page === 'number' && page < (typeof page_max === 'number' ? page_max : 1)) {
-      const newKwargs = { ...this.kwargs, page: page + 1 };
-      const nextPageShips = await new Ship(newKwargs).execute();
+      const newKwargs = { ...searchArgs, page: page + 1 };
+      const nextPageShips = await this.search(newKwargs);
       if (nextPageShips && nextPageShips.length > 0) {
         ships.push(...nextPageShips);
       }
@@ -181,12 +171,7 @@ export class Ship extends BaseCommand<ShipData[]> {
       return null;
     }
 
-    const reqPage = await this.connector.request<string>(
-      Connector.urlHost + respShip.url,
-      null,
-      {},
-      'get'
-    );
+    const reqPage = await this.httpClient.get<string>(HttpClient.urlHost + respShip.url);
 
     if (reqPage === null || reqPage.status !== 200) {
       return null;
@@ -207,7 +192,7 @@ export class Ship extends BaseCommand<ShipData[]> {
       parameters.id = shipId;
     }
 
-    const req = await this.connector.request<{
+    const req = await this.httpClient.post<{
       success: number;
       data?: ShipData[];
     }>(this.urlShipsId, parameters);
@@ -238,12 +223,7 @@ export class Ship extends BaseCommand<ShipData[]> {
 
       for (const s of ships) {
         if (s.url) {
-          const reqPage = await this.connector.request<string>(
-            Connector.urlHost + s.url,
-            null,
-            {},
-            'get'
-          );
+          const reqPage = await this.httpClient.get<string>(HttpClient.urlHost + s.url);
 
           if (reqPage !== null && reqPage.status === 200) {
             const pageTree = load(reqPage.data);

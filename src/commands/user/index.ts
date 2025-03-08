@@ -1,33 +1,22 @@
 import { load } from 'cheerio';
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from '../../http-client';
 import { UserAffiliation, UserData } from '@types';
 
 /**
  * User class for retrieving Star Citizen user information
  */
-export class User extends BaseCommand<UserData> {
+export class User {
   private readonly urlProfile = "https://robertsspaceindustries.com/citizens/{0}";
   private readonly urlAffiliation = "https://robertsspaceindustries.com/citizens/{0}/organizations";
-  private readonly userHandle: string;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
-  /**
-   * Get user info
-   * @param userHandle - The user handle
-   */
-  constructor(userHandle: string) {
-    super();
-    this.userHandle = userHandle;
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve user information
    */
-  public async execute(): Promise<UserData | null> {
-    return this.getUserInfo(this.userHandle);
-  }
 
   /**
    * Get the user profile
@@ -35,12 +24,12 @@ export class User extends BaseCommand<UserData> {
    * @param userHandle - The user handle
    * @returns The user info
    */
-  private async getUserInfo(userHandle: string): Promise<UserData | null> {
+  public async getUserInfo(userHandle: string): Promise<UserData | null> {
     // Format URL
     const url = this.urlProfile.replace('{0}', userHandle);
 
     // Request website
-    const req = await this.connector.request<string>(url, null, {}, 'get');
+    const req = await this.httpClient.get<string>(url);
 
     if (req === null) {
       return null;
@@ -93,13 +82,13 @@ export class User extends BaseCommand<UserData> {
     // Get profile image
     const profileImg = $('.title:contains("Profile")').next().find('.thumb').find('img').attr('src');
     if (profileImg) {
-      result.profile.image = Connector.convertPath(profileImg.trim());
+      result.profile.image = HttpClient.convertPath(profileImg.trim());
     }
 
     // Get organization image
     const orgImg = $('.title:contains("Main organization")').next().find('.thumb').find('a').find('img').attr('src');
     if (orgImg) {
-      result.organization.image = Connector.convertPath(orgImg.trim());
+      result.organization.image = HttpClient.convertPath(orgImg.trim());
     }
 
     // Get organization name
@@ -172,7 +161,7 @@ export class User extends BaseCommand<UserData> {
     const url = this.urlAffiliation.replace('{0}', userHandle);
 
     // Request website
-    const req = await this.connector.request<string>(url, null, {}, 'get');
+    const req = await this.httpClient.get<string>(url);
 
     if (req === null) {
       return [];
@@ -198,7 +187,7 @@ export class User extends BaseCommand<UserData> {
 
       const imgSrc = $(affiliation).find('img').attr('src');
       if (imgSrc) {
-        aff.image = Connector.convertPath(imgSrc.trim());
+        aff.image = HttpClient.convertPath(imgSrc.trim());
       }
 
       result.push(aff);

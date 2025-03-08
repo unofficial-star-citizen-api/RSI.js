@@ -1,6 +1,5 @@
 import { load } from 'cheerio';
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from '../../http-client';
 
 interface OrganizationData {
   url?: string;
@@ -44,41 +43,29 @@ interface OrganizationData {
   [key: string]: unknown;
 }
 
-interface OrganizationMemberData {
-  handle?: string;
-  display?: string;
-  stars?: number;
-  rank?: string;
-  roles?: string[];
-  image?: string;
-}
-
 /**
  * Organization class for retrieving Star Citizen organization information
  */
-export class Organization extends BaseCommand<OrganizationData> {
+export class OrganizationSearch {
   private readonly urlOrganization = "https://robertsspaceindustries.com/orgs/{0}";
   private readonly urlSearchOrgs = "https://robertsspaceindustries.com/api/orgs/getOrgs";
-  private readonly sid: string;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
   /**
    * @param sid - The Spectrum Identification (sid)
    */
-  constructor(sid: string) {
-    super();
-    this.sid = sid;
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve organization information
    */
-  public async execute(): Promise<OrganizationData | null> {
+  public async findOrganization(sid: string): Promise<OrganizationData | null> {
     // Using Promise.all instead of threads
     const [orgInfo, searchResult] = await Promise.all([
-      this.getOrganizationInfo(this.sid),
-      this.searchOrgs(this.sid)
+      this.getOrganizationInfo(sid),
+      this.searchOrgs(sid)
     ]);
 
     if (orgInfo === null && searchResult === null) {
@@ -121,7 +108,7 @@ export class Organization extends BaseCommand<OrganizationData> {
     const url = this.urlOrganization.replace('{0}', sid);
 
     // Request website
-    const req = await this.connector.request<string>(url, null, {}, 'get');
+    const req = await this.httpClient.get<string>(url);
 
     if (req === null) {
       return null;
@@ -140,7 +127,7 @@ export class Organization extends BaseCommand<OrganizationData> {
     // Get logo
     const logo = $('.logo.noshadow img').attr('src');
     if (logo) {
-      result.logo = Connector.convertPath(logo);
+      result.logo = HttpClient.convertPath(logo);
     }
 
     // Get organization name
@@ -155,7 +142,7 @@ export class Organization extends BaseCommand<OrganizationData> {
     // Primary focus
     const primaryImg = $('.primary.tooltip-wrap img').attr('src');
     if (primaryImg) {
-      result.focus.primary!.image = Connector.convertPath(primaryImg);
+      result.focus.primary!.image = HttpClient.convertPath(primaryImg);
     }
 
     const primaryAlt = $('.primary.tooltip-wrap img').attr('alt');
@@ -166,7 +153,7 @@ export class Organization extends BaseCommand<OrganizationData> {
     // Secondary focus
     const secondaryImg = $('.secondary.tooltip-wrap img').attr('src');
     if (secondaryImg) {
-      result.focus.secondary!.image = Connector.convertPath(secondaryImg);
+      result.focus.secondary!.image = HttpClient.convertPath(secondaryImg);
     }
 
     const secondaryAlt = $('.secondary.tooltip-wrap img').attr('alt');
@@ -177,7 +164,7 @@ export class Organization extends BaseCommand<OrganizationData> {
     // Get banner image
     const banner = $('.banner img').attr('src');
     if (banner) {
-      result.banner = Connector.convertPath(banner);
+      result.banner = HttpClient.convertPath(banner);
     }
 
     // Get headline
@@ -238,7 +225,7 @@ export class Organization extends BaseCommand<OrganizationData> {
       sort: ""
     };
 
-    const req = await this.connector.request<{
+    const req = await this.httpClient.post<{
       success: number;
       code?: string;
       msg?: string;
@@ -285,13 +272,13 @@ export class Organization extends BaseCommand<OrganizationData> {
       // Get href
       const href = $(element).find('a').attr('href');
       if (href) {
-        org.href = Connector.convertPath(href);
+        org.href = HttpClient.convertPath(href);
       }
 
       // Get logo
       const logo = $(element).find('.left .thumb img').attr('src');
       if (logo) {
-        org.logo = Connector.convertPath(logo);
+        org.logo = HttpClient.convertPath(logo);
       }
 
       // Get name
@@ -322,139 +309,5 @@ export class Organization extends BaseCommand<OrganizationData> {
     });
 
     return results;
-  }
-}
-
-/**
- * OrganizationMembers class for retrieving organization member information
- */
-export class OrganizationMembers extends BaseCommand<OrganizationMemberData[]> {
-  private readonly urlOrganizationMembers = "https://robertsspaceindustries.com/api/orgs/getOrgMembers";
-  private readonly sid: string;
-  private readonly kwargs: Record<string, unknown>;
-  private connector: Connector;
-
-  /**
-   * @param sid - The Spectrum Identification (sid)
-   * @param kwargs - Additional filtering options
-   */
-  constructor(sid: string, kwargs: Record<string, unknown> = {}) {
-    super();
-    this.sid = sid;
-    this.kwargs = kwargs;
-    this.connector = new Connector();
-  }
-
-  /**
-   * Execute the command to retrieve organization member information
-   */
-  public async execute(): Promise<OrganizationMemberData[]> {
-    const result: OrganizationMemberData[] = [];
-    const page = this.convertVal(this.kwargs.page);
-
-    const jsonData: Record<string, unknown> = {
-      symbol: this.sid,
-      search: "",
-      pagesize: 32,
-      page: page
-    };
-
-    if ('rank' in this.kwargs) {
-      jsonData.rank = this.convertVal(this.kwargs.rank);
-    } else if ('role' in this.kwargs) {
-      jsonData.role = this.convertVal(this.kwargs.role);
-    } else if ('main_org' in this.kwargs) {
-      const mainOrg = this.convertVal(this.kwargs.main_org);
-      jsonData.main_org = mainOrg.toLowerCase() === 'true' ? 1 : 0;
-    }
-
-    // Request website
-    const req = await this.connector.request<{
-      success: number;
-      code?: string;
-      msg?: string;
-      data?: {
-        html: string;
-      }
-    }>(this.urlOrganizationMembers, jsonData);
-
-    if (req === null) {
-      return result;
-    } else if (req.status !== 200) {
-      return result;
-    }
-
-    const res = req.data;
-
-    if (res.success === 0) {
-      if (res.code === 'ErrApiThrottled') {
-        console.log("Failed, retrying");
-      } else {
-        console.log(`Failed (${res.msg})`);
-      }
-      return result;
-    }
-
-    if (!res.data?.html || res.data.html === '') {
-      return result;
-    }
-
-    // Get HTML contents
-    const $ = load(res.data.html);
-    const handles = new Set<string>(); // To track unique handles
-
-    $('.member-item').each((_, element) => {
-      const user: OrganizationMemberData = {};
-
-      // Get handle
-      user.handle = $(element).find('.nick').text().trim();
-
-      // Check if the handle is already in result
-      if (user.handle && handles.has(user.handle)) {
-        return;
-      }
-
-      if (user.handle) {
-        handles.add(user.handle);
-      }
-
-      // Get display name
-      user.display = $(element).find('.name').text().trim();
-
-      // Get star rating
-      const starsStyle = $(element).find('.stars[style]').attr('style');
-      if (starsStyle) {
-        const match = /:\s*([0-9]*)%/.exec(starsStyle);
-        if (match) {
-          user.stars = Math.floor(parseInt(match[1]) / 20);
-        }
-      }
-
-      // Get rank
-      const rankElement = $(element).find('.rank').filter((_, el) => $(el).attr('class') === 'rank');
-      user.rank = rankElement.text().trim();
-
-      // Get roles
-      user.roles = [];
-      $(element).find('.rolelist li').each((_, role) => {
-        const roleText = $(role).text();
-        if (roleText) {
-          user.roles!.push(roleText);
-        }
-      });
-
-      // Get image
-      const imgSrc = $(element).find('img').attr('src');
-      if (imgSrc) {
-        user.image = Connector.convertPath(imgSrc.trim());
-      }
-
-      // Skip entries that are empty or just contain "&nbsp;"
-      if (user.handle && user.handle.trim() !== "") {
-        result.push(user);
-      }
-    });
-
-    return result;
   }
 }

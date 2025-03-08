@@ -1,5 +1,5 @@
 export * from './organization';
-export * from './progressTracker';
+export * from './progress-tracker';
 export * from './roadmap';
 export * from './ship';
 export * from './starmap';

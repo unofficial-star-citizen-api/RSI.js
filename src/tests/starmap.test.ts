@@ -12,7 +12,7 @@ import { assertValidSchema } from './validator';
 describe('Starmap', () => {
   test('should return systems data', async () => {
     const systems = new StarmapSystems('pyro');
-    const data = await systems.execute();
+    const data = await systems.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_systems.json');
@@ -20,7 +20,7 @@ describe('Starmap', () => {
 
   test('should return search data', async () => {
     const search = new StarmapSearch('Stanton');
-    const data = await search.execute();
+    const data = await search.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_search.json');
@@ -28,7 +28,7 @@ describe('Starmap', () => {
 
   test('should return celestial object data', async () => {
     const celestialObject = new StarmapCelestialObjects('TOHIL.PLANETS.TOHILIII');
-    const data = await celestialObject.execute();
+    const data = await celestialObject.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_object.json');
@@ -36,7 +36,7 @@ describe('Starmap', () => {
 
   test('should return star system data', async () => {
     const starSystem = new StarmapStarSystems('STANTON');
-    const data = await starSystem.execute();
+    const data = await starSystem.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_star_system.json');
@@ -44,7 +44,7 @@ describe('Starmap', () => {
 
   test('should return tunnels data', async () => {
     const tunnels = new StarmapTunnels('1188');
-    const data = await tunnels.execute();
+    const data = await tunnels.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_tunnels.json');
@@ -52,7 +52,7 @@ describe('Starmap', () => {
 
   test('should return species data', async () => {
     const species = new StarmapSpecies();
-    const data = await species.execute();
+    const data = await species.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_species.json');
@@ -67,7 +67,7 @@ describe('Starmap', () => {
   ])('should return route search data from %s to %s with ship size %s',
     async (from, to, shipSize) => {
       const routeSearch = new StarmapRouteSearch(from, to, shipSize);
-      const data = await routeSearch.execute();
+      const data = await routeSearch.list();
 
       expect(data).not.toBeNull();
       assertValidSchema(data, 'starmap_route_search.json');

@@ -1,24 +1,10 @@
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from '../../http-client';
 
 interface TimeAllocation {
   startDate: string;
   endDate: string;
   uuid: string;
   partialTime: boolean;
-  __typename: string;
-}
-
-interface ProgressTrackerTeam {
-  title: string;
-  description: string;
-  uuid: string;
-  abbreviation: string;
-  startDate: string;
-  endDate: string;
-  numberOfDeliverables: number;
-  slug: string;
-  timeAllocations: TimeAllocation[];
   __typename: string;
 }
 
@@ -48,7 +34,7 @@ interface Project {
   __typename: string;
 }
 
-interface ProgressTrackerDeliverable {
+interface Deliverable {
   uuid: string;
   slug: string;
   title: string;
@@ -75,172 +61,32 @@ interface DisciplineData {
 }
 
 /**
- * ProgressTracker class for retrieving Star Citizen progress tracker information
- */
-export class ProgressTracker extends BaseCommand<ProgressTrackerTeam[]> {
-  private readonly urlProgressTracker = "https://robertsspaceindustries.com/graphql";
-  private readonly dateMin: string;
-  private readonly dateMax: string;
-  private readonly limit: number;
-  private readonly offset: number;
-  private connector: Connector;
-
-  /**
-   * @param dateMin - The roadmap start date
-   * @param dateMax - The roadmap end date
-   */
-  constructor(dateMin = "2020-01-01", dateMax = "2022-12-31") {
-    super();
-    this.dateMin = dateMin;
-    this.dateMax = dateMax;
-    this.limit = 20;
-    this.offset = 0;
-    this.connector = new Connector();
-  }
-
-  /**
-   * Execute the command to retrieve progress tracker information
-   */
-  public async execute(): Promise<ProgressTrackerTeam[] | null> {
-    return this.getTeams();
-  }
-
-  /**
-   * Get teams from the progress tracker
-   */
-  private async getTeams(): Promise<ProgressTrackerTeam[] | null> {
-    const data = {
-      operationName: "teams",
-      query: `query
-        teams(
-          $startDate: String!,
-          $endDate: String!,
-          $search: String,
-          $teamSlug: String,
-          $deliverableSlug: String,
-          $projectSlugs: [String],
-          $disciplineSlugs: [String],
-          $sortBy: SortMethod,
-          $offset: Int,
-          $limit: Int
-        ) {
-          progressTracker {
-            teams(
-              startDate: $startDate
-              endDate: $endDate
-              search: $search
-              teamSlug: $teamSlug
-              deliverableSlug: $deliverableSlug
-              projectSlugs: $projectSlugs
-              disciplineSlugs: $disciplineSlugs
-              sortBy: $sortBy
-              offset: $offset
-              limit: $limit) {
-                totalCount
-                metaData {
-                  ...Team
-                  timeAllocations {
-                    ...TimeAllocation
-                    __typename
-                  }
-                  __typename
-                }
-                __typename
-              }
-            __typename
-          }
-        }
-        fragment Team on Team {
-          title
-          description
-          uuid
-          abbreviation
-          startDate
-          endDate
-          numberOfDeliverables
-          slug
-          __typename
-        }
-
-        fragment TimeAllocation on TimeAllocation {
-          startDate
-          endDate
-          uuid
-          partialTime
-          __typename
-        }
-      `,
-      variables: {
-        startDate: this.dateMin,
-        endDate: this.dateMax,
-        offset: this.offset,
-        limit: this.limit
-      }
-    };
-
-    const req = await this.connector.request<{
-      data?: {
-        progressTracker: {
-          teams: {
-            totalCount: number;
-            metaData: ProgressTrackerTeam[];
-          }
-        }
-      }
-    }>(this.urlProgressTracker, data);
-
-    if (req === null || req.status !== 200) {
-      return null;
-    }
-
-    try {
-      const resp = req.data;
-      if (!resp.data) {
-        return null;
-      }
-
-      return resp.data.progressTracker.teams.metaData;
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-}
-
-/**
  * ProgressTrackerInfo class for retrieving detailed Star Citizen progress tracker information
  */
-export class ProgressTrackerInfo extends BaseCommand<ProgressTrackerDeliverable[]> {
+export class ProgressTrackerDeliverable {
   private readonly urlProgressTracker = "https://robertsspaceindustries.com/graphql";
-  private readonly teamSlug: string;
-  private readonly dateMin: string;
-  private readonly dateMax: string;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
   /**
    * @param slug - The slug identifier to get
    * @param dateMin - The roadmap start date
    * @param dateMax - The roadmap end date
    */
-  constructor(slug: string, dateMin = "2020-01-01", dateMax = "2022-12-31") {
-    super();
-    this.teamSlug = slug;
-    this.dateMin = dateMin;
-    this.dateMax = dateMax;
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve detailed progress tracker information
    */
-  public async execute(): Promise<ProgressTrackerDeliverable[] | null> {
-    const deliverables = await this.getDeliverables(this.teamSlug);
+  public async getTeamDeliverableInfo(teamSlug: string, dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<Deliverable[] | null> {
+    const deliverables = await this.getDeliverables(teamSlug, dateMin, dateMax);
     if (deliverables === null) {
       return null;
     }
 
     const disciplinesSlugs: string[] = deliverables.map(deliv => deliv.slug);
-    const disciplines = await this.getDisciplines(this.teamSlug, disciplinesSlugs);
+    const disciplines = await this.getDisciplines(teamSlug, disciplinesSlugs, dateMin, dateMax);
 
     if (disciplines) {
       for (let i = 0; i < deliverables.length; i++) {
@@ -254,7 +100,7 @@ export class ProgressTrackerInfo extends BaseCommand<ProgressTrackerDeliverable[
   /**
    * Get deliverables from the progress tracker
    */
-  private async getDeliverables(teamSlug: string): Promise<ProgressTrackerDeliverable[] | null> {
+  private async getDeliverables(teamSlug: string, dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<Deliverable[] | null> {
     const data = {
       operationName: "deliverables",
       query: `query
@@ -341,16 +187,16 @@ export class ProgressTrackerInfo extends BaseCommand<ProgressTrackerDeliverable[
       `,
       variables: {
         teamSlug,
-        startDate: this.dateMin,
-        endDate: this.dateMax,
+        startDate: dateMin,
+        endDate: dateMax,
       }
     };
 
-    const req = await this.connector.request<{
+    const req = await this.httpClient.post<{
       data?: {
         progressTracker: {
           deliverables: {
-            metaData: ProgressTrackerDeliverable[];
+            metaData: Deliverable[];
           }
         }
       }
@@ -376,7 +222,7 @@ export class ProgressTrackerInfo extends BaseCommand<ProgressTrackerDeliverable[
   /**
    * Get disciplines from the progress tracker
    */
-  private async getDisciplines(teamSlug: string, deliverySlugs: string[]): Promise<DisciplineData[] | null> {
+  private async getDisciplines(teamSlug: string, deliverySlugs: string[],dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<DisciplineData[] | null> {
     // Since we need to handle multiple queries, we'll use a different approach
     const results: DisciplineData[] = [];
 
@@ -415,12 +261,12 @@ export class ProgressTrackerInfo extends BaseCommand<ProgressTrackerDeliverable[
         variables: {
           teamSlug,
           deliverableSlug: delSlug,
-          startDate: this.dateMin,
-          endDate: this.dateMax,
+          startDate: dateMin,
+          endDate: dateMax,
         }
       };
 
-      const req = await this.connector.request<{
+      const req = await this.httpClient.post<{
         data?: {
           progressTracker: {
             disciplines: DisciplineData[];

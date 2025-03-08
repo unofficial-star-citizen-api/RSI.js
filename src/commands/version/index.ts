@@ -1,6 +1,5 @@
 import { load } from 'cheerio';
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from 'src/http-client';
 
 interface VersionData {
   link?: string;
@@ -12,24 +11,23 @@ interface VersionData {
 /**
  * Version class for retrieving Star Citizen version info
  */
-export class Version extends BaseCommand<VersionData[]> {
+export class Version {
   private readonly urlPatchNotes = "https://robertsspaceindustries.com/patch-notes";
   private readonly regexWebsiteVersion = /(\d\.?)+/;
   private readonly regexWebsiteBackground = /(background-image\s*:\s*url\(')(.*)('\))/;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
-  constructor() {
-    super();
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve version information
    */
-  public async execute(): Promise<VersionData[] | null> {
+  public async search(): Promise<VersionData[] | null> {
     const result: VersionData[] = [];
 
-    const req = await this.connector.request<string>(this.urlPatchNotes, null, {}, 'get');
+    const req = await this.httpClient.get<string>(this.urlPatchNotes);
 
     if (req === null || req.status !== 200) {
       return null;
@@ -42,7 +40,7 @@ export class Version extends BaseCommand<VersionData[]> {
       // Get article URL
       const href = $(element).attr('href');
       if (href) {
-        patch.link = Connector.convertPath(href);
+        patch.link = HttpClient.convertPath(href);
       }
 
       // Get article title
@@ -61,7 +59,7 @@ export class Version extends BaseCommand<VersionData[]> {
         const match = this.regexWebsiteBackground.exec(backgroundStyle);
         if (match) {
           const background = match[2];
-          patch.image = Connector.convertPath(background);
+          patch.image = HttpClient.convertPath(background);
         }
       }
 

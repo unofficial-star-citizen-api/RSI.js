@@ -23,7 +23,6 @@
     "baseUrl": ".",
     "paths": {
       "@interfaces": ["src/interfaces"],
-      "@services": ["src/services"],
       "@commands": ["src/commands"],
       "@types": ["src/types"]
     }

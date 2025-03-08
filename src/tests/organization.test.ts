@@ -10,7 +10,7 @@ describe('Organization', () => {
     ['STARD']
   ])('should return organization data for %s', async (sid) => {
     const org = new Organization(sid);
-    const data = await org.execute();
+    const data = await org.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'organization.json');

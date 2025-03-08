@@ -1,5 +1,4 @@
-import { BaseCommand } from '@interfaces';
-import { Connector } from '@services';
+import { HttpClient } from '../../http-client';
 
 interface RoadmapCard {
   id: number;
@@ -27,46 +26,41 @@ interface RoadmapCategory {
 /**
  * Roadmap class for retrieving Star Citizen roadmap information
  */
-export class Roadmap extends BaseCommand<RoadmapRelease[]> {
+export class Roadmap {
   private readonly urlRoadmapSC = "https://robertsspaceindustries.com/api/roadmap/v1/boards/1";
   private readonly urlRoadmapS42 = "https://robertsspaceindustries.com/api/roadmap/v1/boards/2";
-  private readonly board: string;
-  private readonly version?: string;
-  private connector: Connector;
+  private readonly httpClient: HttpClient;
 
   /**
    * @param board - The roadmap board ("starcitizen" or "squadron42")
    * @param version - The starcitizen version (optional)
    */
-  constructor(board: string, version?: string) {
-    super();
-    this.board = board;
-    this.version = version;
-    this.connector = new Connector();
+  constructor(httpClient: HttpClient) {
+    this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async execute(): Promise<RoadmapRelease[] | null> {
+  public async list(board: 'starcitizen'|'squadron42', version?: string): Promise<RoadmapRelease[] | null> {
     let req;
 
-    if (this.board === "starcitizen") {
-      req = await this.connector.request<{
+    if (board === "starcitizen") {
+      req = await this.httpClient.get<{
         success: number;
         data?: {
           releases: RoadmapRelease[];
           categories: RoadmapCategory[];
         };
-      }>(this.urlRoadmapSC, null, {}, 'get');
-    } else if (this.board === "squadron42") {
-      req = await this.connector.request<{
+      }>(this.urlRoadmapSC);
+    } else if (board === "squadron42") {
+      req = await this.httpClient.get<{
         success: number;
         data?: {
           releases: RoadmapRelease[];
           categories: RoadmapCategory[];
         };
-      }>(this.urlRoadmapS42, null, {}, 'get');
+      }>(this.urlRoadmapS42);
     } else {
       return null;
     }
@@ -97,12 +91,12 @@ export class Roadmap extends BaseCommand<RoadmapRelease[]> {
         }
       }
 
-      if (this.version === undefined) {
+      if (version === undefined) {
         return releases;
       }
 
       for (const r of releases) {
-        if (r.name === this.version) {
+        if (r.name === version) {
           return [r];
         }
       }

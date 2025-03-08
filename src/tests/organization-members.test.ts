@@ -9,7 +9,7 @@ describe('Organization Members', () => {
     ['IPIX', 3]
   ])('should return organization members for %s page %i', async (sid, page) => {
     const members = new OrganizationMembers(sid, { page });
-    const data = await members.execute();
+    const data = await members.list();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'organization_members.json');

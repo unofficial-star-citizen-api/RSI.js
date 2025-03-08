@@ -4,7 +4,7 @@ import { assertValidSchema } from './validator';
 describe('Stats', () => {
   test('should return stats data', async () => {
     const stats = new Stats();
-    const data = await stats.execute();
+    const data = await stats.search();
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'stats.json');
