@@ -41,9 +41,7 @@ export class User
     } else if (req.status === 404)
     {
       return {
-        profile: {
-          page: { url: '', title: '' }
-        },
+        profile: { page: { url: '', title: '' } },
         organization: {},
         affiliation: []
       };

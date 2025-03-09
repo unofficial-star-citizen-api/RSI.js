@@ -13,7 +13,21 @@ export default tseslint.config(
       'indent': ['error', 2],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
+      '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+      'object-curly-spacing': ['error', 'always'],
+      'object-curly-newline': ['error', {
+        'ObjectExpression': {
+          'multiline': true,
+          'minProperties': 3,
+          'consistent': true
+        },
+        'ObjectPattern': { 'multiline': true, 'minProperties': 3 },
+        'ImportDeclaration': 'never',
+        'ExportDeclaration': {
+          'multiline': true,
+          'minProperties': 3
+        }
+      }]
     }
   }
 );

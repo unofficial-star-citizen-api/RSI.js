@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
-    "lint": "npx eslint . --fix",
+    "lint": "npx eslint .",
     "prepare": "npm run build"
   },
   "keywords": [

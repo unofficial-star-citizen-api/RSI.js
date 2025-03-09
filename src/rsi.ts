@@ -1,6 +1,5 @@
 import { HttpClient, HttpConfigOptions } from './http-client';
-import {
-  Organization,
+import { Organization,
   Roadmap,
   Ship,
   Starmap,
@@ -8,8 +7,7 @@ import {
   Telemetry,
   User,
   ProgressTracker,
-  Version
-} from './commands';
+  Version } from './commands';
 
 export interface RSIConfig {
   httpConfig?: Partial<HttpConfigOptions>;

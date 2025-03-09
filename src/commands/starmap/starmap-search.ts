@@ -13,9 +13,7 @@ export class StarmapSearch {
   }
 
   public async find(searchPattern: string): Promise<SearchResultInterface | null> {
-    const data = {
-      query: searchPattern
-    };
+    const data = { query: searchPattern };
 
     const req = await this.httpClient.post<{
       success: number;

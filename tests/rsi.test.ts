@@ -1,5 +1,4 @@
-import {
-  Organization,
+import { Organization,
   ProgressTracker,
   Roadmap,
   RSI,
@@ -8,8 +7,7 @@ import {
   FundingGoals,
   Telemetry,
   User,
-  Version
-} from '../src';
+  Version } from '../src';
 
 describe('RSI', () => {
   let rsi: RSI;
@@ -93,28 +91,27 @@ describe('RSI', () => {
 
       // Create spy on the private shouldUseProxy method
       const shouldUseProxySpy = jest.spyOn(
-        // @ts-ignore - Accessing private method for testing
-        httpClient as any,
+        httpClient as never,
         'shouldUseProxy'
       );
 
       // Test with URLs that should bypass proxy
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('http://localhost/api')).toBe(false);
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('https://example.com/page')).toBe(false);
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('http://server.internal.domain/data')).toBe(false);
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('https://api.test.com/v1')).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('http://localhost/api')).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('https://example.com/page')).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('http://server.internal.domain/data')).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('https://api.test.com/v1')).toBe(false);
 
       // Test with URLs that should use proxy
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('https://google.com')).toBe(true);
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('http://robertsspaceindustries.com')).toBe(true);
-      // @ts-ignore - Direct call to private method for testing
-      expect(httpClient.shouldUseProxy('https://other.domain.com')).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('https://google.com')).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('http://robertsspaceindustries.com')).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((httpClient as any).isProxyRequired('https://other.domain.com')).toBe(true);
 
       // Restore the spy
       shouldUseProxySpy.mockRestore();
