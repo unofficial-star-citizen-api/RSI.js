@@ -1,0 +1,73 @@
+{
+  "success": 1,
+  "code": "OK",
+  "msg": "OK",
+  "data": {
+    "config": {
+      "events_url": "",
+      "home_url": "https:\/\/robertsspaceindustries.com",
+      "ga_tracking_id": "UA-39586040-1",
+      "session_name": null
+    },
+    "canEdit": false,
+    "who": null,
+    "boards": [
+      {
+        "id": 1,
+        "url_slug": "Release-View",
+        "name": "Release View",
+        "description": "Live Version: 4.0.1 ([more info](https:\/\/robertsspaceindustries.com\/spectrum\/community\/SC\/forum\/190048\/thread\/star-citizen-alpha-4-0-1-live-release-notes)) \u25aa Latest Roadmap Roundup: 12\/11\/2024",
+        "body": "# The\u202fRelease View  \n\nThe Persistent Universe of Star Citizen receives updates on a monthly basis, and the Release View's intent is to show the planned features for the next three months's Persistent Universe updates. These cards represent a high level of confidence in their release timing, however these features may still move depending on development.\n\n\n# Deliverable Labels \n\n* Tentative: This deliverable is tentatively scheduled, but hasn't gone through the review process and may shift around on the Roadmap.   \n* Committed: This deliverable is scheduled and has passed the final review process. There is a very low chance of this deliverable being pushed back. \n* Released: This deliverable has been released. \n\n\n# The\u202fProgress Tracker  \n\nThe\u202fProgress Tracker\u202fshows you what each team is working on in the near future and their priorities after completing the immediate deliverable at hand. Keep in mind that this isn\u2019t necessarily when these items will be completed, simply when the work on them is scheduled to finish out by that team specifically. \n\nFor the Progress Tracker view, we\u2019re giving you three months of visibility into some teams\u2019 developments. \n\n\n# The Roadmap Companion Guide\n\nFor more detailed information on the Public Roadmap and how to navigate it, check out our comprehensive Roadmap Companion Guide here: https:\/\/robertsspaceindustries.com\/comm-link\/transmission\/18532-The-Public-Roadmap-Companion\n\n\n# Roadmap Origin \n\nFor a detailed look into the rationale behind the creation of our new Public Roadmap, make sure to check out our past Letter from the Chairman: https:\/\/robertsspaceindustries.com\/comm-link\/transmission\/17936-Letter-From-The-Chairman\n\n\n\n\n---------------------",
+        "order": 0,
+        "thumbnail": {
+          "id": 1296463,
+          "urls": {
+            "square": "\/media\/8iv5eqjfabb80r\/heap_infobox\/Logos.png",
+            "rect": "\/media\/8iv5eqjfabb80r\/product_thumb_large\/Logos.png",
+            "large": "\/media\/8iv5eqjfabb80r\/hub_large\/Logos.png",
+            "source": "\/media\/8iv5eqjfabb80r\/source\/Logos.png"
+          }
+        },
+        "background": {
+          "id": 2351648,
+          "urls": {
+            "square": "\/media\/l3m8eaws8oxrpr\/heap_infobox\/Roadmap_RV_Prod.jpg",
+            "rect": "\/media\/l3m8eaws8oxrpr\/product_thumb_large\/Roadmap_RV_Prod.jpg",
+            "large": "\/media\/l3m8eaws8oxrpr\/hub_large\/Roadmap_RV_Prod.jpg",
+            "source": "\/media\/l3m8eaws8oxrpr\/source\/Roadmap_RV_Prod.jpg"
+          }
+        },
+        "importer_id": "SC",
+        "info_heading": "Roadmap: Caveats",
+        "notification_title": "Roadmap Roundup for December 11, 2024",
+        "notification_body": "([Read Now]( https:\/\/robertsspaceindustries.com\/comm-link\/transmission\/20348-Roadmap-Roundup-December-11-2024 ))",
+        "notification_enabled": true,
+        "last_updated": 1740599719
+      },
+      {
+        "id": 2,
+        "url_slug": "Squadron-42",
+        "name": "Squadron 42",
+        "description": "This version of the Squadron 42 Roadmap will not be updated. Learn more [here.](https:\/\/robertsspaceindustries.com\/comm-link\/spectrum-dispatch\/17518-Roadmap-Roundup-March-13th-2020)",
+        "body": "---\n\n# Differences Between The Squadron 42 Roadmap & The Persistent Universe Roadmap\n\n\n# Feature Driven\n\nWhile the Persistent Universe has shifted to a milestone driven schedule of quarterly installments and we are happy to showcase \u201cwork in progress\u201d to our community, the focus for Squadron 42 is to deliver an experience that contains both the narrative and feature scope we envision in one final game. As such, Squadron 42 will only be released when we have achieved our final, polished, creative vision. If there is any slip in our quarterly goals, this will push out for the project\u2019s end date. \n\n# Feature Complexity\n\nAs Squadron 42 is a single player experience, the complexity of some features can be simpler than on the Persistent Universe, where additional considerations need to be made to ensure a fun multiplayer experience; this means that a Squadron 42 feature may complete sooner or have less development tasks than its counterpart on the Persistent Universe roadmap.\n\n# Staffing\n\nCloud Imperium Games is continuing to expand the team to support our vision.  The Squadron 42 roadmap makes the assumption that certain hiring targets will be hit by the company to ensure that that the team is fully staffed to complete their tasks on time. Delays in hitting our hiring goals, or sudden fluctuations in personnel may cause changes to the roadmap.\n\n\n# Chapter Considerations\n\nThe Chapters outlined on the roadmap represent breaks in the story and script and shouldn\u2019t be considered as \u201cmissions\u201d or the same length of gameplay; some are shorter, some longer and will always differ in the amount of work needed. \n\n# Quality will always be our number one goal.\n\nWhen we initially set out on this journey, we looked out at the gaming landscape and asked: can we do better? We continue to ask that question about everything we do. As a result, we will ALWAYS extend timelines or re-do features and content if we do not feel they are up to our standards. The freedom to fight for a new level of quality in game development is what crowdfunding has allowed us to do, and we will continue to fight to make sure Star Citizen and Squadron 42 are the best possible games they can be.\n \n\n# Roadmap Focuses On Big Features, But Not Fully Exhaustive \n\nBehind-the-scenes work, spoiler-specific, and smaller tasks will be happening in addition to the tasks outlined here, as well as on-going improvements to existing features. This is also not intended to be a final list, there will potentially be additional features added down the line and features may shift in their projected release.\n \n\n# Roadmap Data from Internal Project Management Database \n\nIn the spirit of transparency, the data found on this page is pulled directly from JIRA, our internal database that we are using to plan and manage the project. Feature progress and release plans will be updated here in an automated fashion, once per week.\n\n# Future Work Estimates Are Just That: Estimates \n\nAll estimates are based on our knowledge and experience but there are many aspects of game development that are impossible to predict because they literally cover uncharted territory. You will see the same estimates we use in our internal planning, but it is important to understand that in many cases (especially with groundbreaking engineering tasks) these estimates are often subject to change due to unforeseen complexity in implementing the features.\n\n\n# Internal Schedules Tend To Have Aggressive Dates \n\nThis helps to help the team focus and scope their tasks, especially in the case of tech development. Every team needs target dates, so you may see dates adjust when we get more accurate information and understanding of what\u2019s needed to be completed.\n\n \n# Roadmap Doesn\u2019t Cover Everything\n\nThe roadmap is meant to highlight our aims for the remainder of the year on the Squadron 42. Although technology is shared between the two games, this does not currently reflect the Persistent Universe roadmap.\n\n\n# Terminology\n\nThe status of each Feature in the roadmap indicates where it is in the development process. Here is a handy list of terms used on each card and their meaning.\n\n\n|      |                                      |\n| ------------------ | ----------------------------------------------- |\n| **Scheduled**          | The feature is planned but not in development.\n| **In Development**     | The feature is being actively developed.\n| **Completed**          | The feature is considered complete.\n\n \n\n \n\n ",
+        "order": 1,
+        "thumbnail": {
+          "id": 1626724,
+          "urls": {
+            "square": "\/media\/ezcbe5nf9yw16r\/heap_infobox\/S42-2x.png",
+            "rect": "\/media\/ezcbe5nf9yw16r\/product_thumb_large\/S42-2x.png",
+            "large": "\/media\/ezcbe5nf9yw16r\/hub_large\/S42-2x.png",
+            "source": "\/media\/ezcbe5nf9yw16r\/source\/S42-2x.png"
+          }
+        },
+        "background": null,
+        "importer_id": "S42",
+        "info_heading": "SQ42 Roadmap: Caveats",
+        "notification_title": "This version of the Squadron 42 Roadmap will not be updated.",
+        "notification_body": " Learn more [here.](https:\/\/robertsspaceindustries.com\/comm-link\/spectrum-dispatch\/17518-Roadmap-Roundup-March-13th-2020)",
+        "notification_enabled": true,
+        "last_updated": 1611779127
+      }
+    ]
+  }
+}
