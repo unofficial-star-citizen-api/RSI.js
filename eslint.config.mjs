@@ -29,5 +29,14 @@ export default tseslint.config(
         }
       }]
     }
+  },
+  // Add override for test files
+  {
+    files: ['**/*.test.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unused-vars': 'off'
+    }
   }
 );

@@ -33,25 +33,21 @@ export class User
     const url = this.urlProfile.replace('{0}', userHandle);
 
     // Request website
-    const req = await this.httpClient.get<string>(url);
-
-    if (req === null)
-    {
-      return null;
-    } else if (req.status === 404)
+    const response = await this.httpClient.get<string>(url);
+    if (response.status === 404)
     {
       return {
         profile: { page: { url: '', title: '' } },
         organization: {},
         affiliation: []
       };
-    } else if (req.status !== 200)
+    } else if (response.status !== 200)
     {
       return null;
     }
 
     // Get HTML contents
-    const $ = load(req.data);
+    const $ = load(response.data);
 
     // Begin store basic data
     const result: UserData = {

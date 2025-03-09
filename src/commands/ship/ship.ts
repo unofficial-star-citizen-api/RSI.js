@@ -1,8 +1,9 @@
 import { load } from 'cheerio';
-import { HttpClient } from '../../http-client';
 import { HttpHelper } from '../../helpers/http.helper';
+import { HttpClient } from '../../http-client';
 
-interface ShipData {
+interface ShipData
+{
   id?: string;
   name?: string;
   url?: string;
@@ -28,7 +29,8 @@ type SearchArgs = {
 /**
  * Ship class for retrieving Star Citizen ship data
  */
-export class Ship {
+export class Ship
+{
   private readonly urlSearchShips = 'https://robertsspaceindustries.com/api/store/getShips';
   private readonly urlShipsId = 'https://robertsspaceindustries.com/ship-matrix/index';
   private readonly httpClient: HttpClient;
@@ -37,7 +39,8 @@ export class Ship {
    * Get ships
    * @param kwargs - Search parameters
    */
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
@@ -45,7 +48,8 @@ export class Ship {
    * Get all ships using advanced search through pages
    * @returns Ships data
    */
-  public async search(searchArgs: SearchArgs): Promise<ShipData[]> {
+  public async search(searchArgs: SearchArgs): Promise<ShipData[]>
+  {
     const name = HttpHelper.convertVal(searchArgs.name);
     const classification = HttpHelper.convertVal(searchArgs.classification);
     const length_min = HttpHelper.convertVal(searchArgs.length_min);
@@ -58,16 +62,20 @@ export class Ship {
     const mass_max = HttpHelper.convertVal(searchArgs.mass_max);
 
     let page: number | string = HttpHelper.convertVal(searchArgs.page);
-    if (/^\d+?$/.test(page)) {
+    if (/^\d+?$/.test(page))
+    {
       page = parseInt(page);
-    } else {
+    } else
+    {
       page = 1;
     }
 
     let page_max: number | string = HttpHelper.convertVal(searchArgs.page_max);
-    if (/^\d+?$/.test(page_max)) {
+    if (/^\d+?$/.test(page_max))
+    {
       page_max = parseInt(page_max);
-    } else {
+    } else
+    {
       page_max = 1;
     }
 
@@ -91,21 +99,25 @@ export class Ship {
       data: {
         html: string;
         rowcount: number;
-      }
+      };
     }>(this.urlSearchShips, data);
 
-    if (req === null) {
+    if (req === null)
+    {
       return [];
-    } else if (req.status === 404) {
+    } else if (req.status === 404)
+    {
       return [];
-    } else if (req.status !== 200) {
+    } else if (req.status !== 200)
+    {
       return [];
     }
 
     const resp = req.data;
 
     // Get html contents
-    if (resp.success !== 1) {
+    if (resp.success !== 1)
+    {
       return [];
     }
 
@@ -113,9 +125,11 @@ export class Ship {
     const $ = load(resp.data.html);
     const shipIds: string[] = [];
 
-    $('[data-ship-id]').each((_, element) => {
+    $('[data-ship-id]').each((_, element) =>
+    {
       const shipId = $(element).attr('data-ship-id');
-      if (shipId) {
+      if (shipId)
+      {
         shipIds.push(shipId.trim());
       }
     });
@@ -125,18 +139,21 @@ export class Ship {
       shipIds.map(id => this.getShipAsync(id))
     );
 
-    for (const result of shipResults.filter(Boolean)) {
-      const [respShip, reqPage] = result as [ShipData, { data: string }];
+    for (const result of shipResults.filter(Boolean))
+    {
+      const [respShip, reqPage] = result as [ShipData, { data: string; }];
 
       const pageContent = load(reqPage.data);
 
       // Get the Ship price
       let price = 0;
-      pageContent('[data-value].final-price').each((_, element) => {
+      pageContent('[data-value].final-price').each((_, element) =>
+      {
         const priceVal = parseInt($(element).attr('data-value') || '0');
         const p = priceVal / 100;
 
-        if (price === 0 || price > p) {
+        if (price === 0 || price > p)
+        {
           price = p;
         }
       });
@@ -145,10 +162,12 @@ export class Ship {
       ships.push(respShip);
     }
 
-    if (resp.data.rowcount !== 0 && typeof page === 'number' && page < (typeof page_max === 'number' ? page_max : 1)) {
+    if (resp.data.rowcount !== 0 && typeof page === 'number' && page < (typeof page_max === 'number' ? page_max : 1))
+    {
       const newKwargs = { ...searchArgs, page: page + 1 };
       const nextPageShips = await this.search(newKwargs);
-      if (nextPageShips && nextPageShips.length > 0) {
+      if (nextPageShips && nextPageShips.length > 0)
+      {
         ships.push(...nextPageShips);
       }
     }
@@ -161,19 +180,23 @@ export class Ship {
    * @param shipId - The ship ID
    * @returns Ship data and page response
    */
-  private async getShipAsync(shipId: string): Promise<[ShipData, { data: string }] | null> {
+  private async getShipAsync(shipId: string): Promise<[ShipData, { data: string; }] | null>
+  {
     const respShip = await this.getShipById(shipId);
-    if (!respShip) {
+    if (!respShip)
+    {
       return null;
     }
 
-    if (!respShip.url) {
+    if (!respShip.url)
+    {
       return null;
     }
 
-    const reqPage = await this.httpClient.get<string>(HttpClient.urlHost + respShip.url);
+    const reqPage = await this.httpClient.get<string>(HttpClient.host + respShip.url);
 
-    if (reqPage === null || reqPage.status !== 200) {
+    if (reqPage === null || reqPage.status !== 200)
+    {
       return null;
     }
 
@@ -186,9 +209,11 @@ export class Ship {
    * @param getPrice - If the price needs to be retrieved
    * @returns The ship data
    */
-  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<ShipData | null> {
+  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<ShipData | null>
+  {
     const parameters: Record<string, string> = {};
-    if (shipId !== undefined) {
+    if (shipId !== undefined)
+    {
       parameters.id = shipId;
     }
 
@@ -197,44 +222,56 @@ export class Ship {
       data?: ShipData[];
     }>(this.urlShipsId, parameters);
 
-    if (req === null) {
+    if (req === null)
+    {
       return null;
-    } else if (req.status === 404) {
+    } else if (req.status === 404)
+    {
       return {};
-    } else if (req.status !== 200) {
+    } else if (req.status !== 200)
+    {
       return null;
     }
 
     const respShip = req.data;
 
-    if (respShip.success !== 1 || !respShip.data || respShip.data.length === 0) {
+    if (respShip.success !== 1 || !respShip.data || respShip.data.length === 0)
+    {
       return null;
     }
 
     let res: ShipData | ShipData[] = [];
-    if (shipId === undefined) {
+    if (shipId === undefined)
+    {
       res = respShip.data;
-    } else {
+    } else
+    {
       res = respShip.data[0];
     }
 
-    if (getPrice) {
+    if (getPrice)
+    {
       const ships = Array.isArray(res) ? res : [res];
 
-      for (const s of ships) {
-        if (s.url) {
-          const reqPage = await this.httpClient.get<string>(HttpClient.urlHost + s.url);
+      for (const s of ships)
+      {
+        if (s.url)
+        {
+          const reqPage = await this.httpClient.get<string>(HttpClient.host + s.url);
 
-          if (reqPage !== null && reqPage.status === 200) {
+          if (reqPage !== null && reqPage.status === 200)
+          {
             const pageTree = load(reqPage.data);
 
             // Get the Ship price
             let price = 0;
-            pageTree('[data-value].final-price').each((_, element) => {
+            pageTree('[data-value].final-price').each((_, element) =>
+            {
               const priceVal = parseInt(pageTree(element).attr('data-value') || '0');
               const p = priceVal / 100;
 
-              if (price === 0 || price > p) {
+              if (price === 0 || price > p)
+              {
                 price = p;
               }
             });

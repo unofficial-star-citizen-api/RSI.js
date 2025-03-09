@@ -31,9 +31,8 @@ export class FundingGoals {
 
     const response = await this.httpClient.post<FundingGoalsData>(this.urlCrowStat, data);
 
-    if (response === null || response.status !== 200) {
+    if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
-    }
 
     return response.data;
   }
