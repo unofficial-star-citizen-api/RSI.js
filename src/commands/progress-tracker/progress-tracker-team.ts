@@ -25,7 +25,7 @@ interface Team {
  * ProgressTracker class for retrieving Star Citizen progress tracker information
  */
 export class ProgressTrackerTeam {
-  private readonly urlProgressTracker = "https://robertsspaceindustries.com/graphql";
+  private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly limit: number = 20;
   private readonly offset: number = 0;
   private readonly httpClient: HttpClient;
@@ -41,9 +41,9 @@ export class ProgressTrackerTeam {
   /**
    * Get teams from the progress tracker
    */
-  public async getTeamsInRange(dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<Team[] | null> {
+  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<Team[] | null> {
     const data = {
-      operationName: "teams",
+      operationName: 'teams',
       query: `query
         teams(
           $startDate: String!,

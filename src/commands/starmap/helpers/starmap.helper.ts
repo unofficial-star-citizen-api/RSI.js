@@ -1,8 +1,8 @@
-import { HttpClient } from 'src/http-client'
+import { HttpClient } from 'src/http-client';
 
 export class StarMapHelper {
   public static async getStarmapData<T>(httpClient: HttpClient, field: string): Promise<T[] | null> {
-    const url = "https://robertsspaceindustries.com/api/starmap/bootup";
+    const url = 'https://robertsspaceindustries.com/api/starmap/bootup';
 
     const req = await httpClient.post<{
       success: number;

@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { HttpHelper } from '../../helpers/http.helper'
+import { HttpHelper } from '../../helpers/http.helper';
 
 interface OrganizationMemberData {
   handle?: string;
@@ -15,7 +15,7 @@ interface OrganizationMemberData {
  * OrganizationMembers class for retrieving organization member information
  */
 export class OrganizationMembers {
-  private readonly urlOrganizationMembers = "https://robertsspaceindustries.com/api/orgs/getOrgMembers";
+  private readonly urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
   private readonly httpClient: HttpClient;
 
   /**
@@ -35,7 +35,7 @@ export class OrganizationMembers {
 
     const jsonData: Record<string, unknown> = {
       symbol: sid,
-      search: "",
+      search: '',
       pagesize: 32,
       page: page
     };
@@ -69,7 +69,7 @@ export class OrganizationMembers {
 
     if (res.success === 0) {
       if (res.code === 'ErrApiThrottled') {
-        console.log("Failed, retrying");
+        console.log('Failed, retrying');
       } else {
         console.log(`Failed (${res.msg})`);
       }
@@ -131,7 +131,7 @@ export class OrganizationMembers {
       }
 
       // Skip entries that are empty or just contain "&nbsp;"
-      if (user.handle && user.handle.trim() !== "") {
+      if (user.handle && user.handle.trim() !== '') {
         result.push(user);
       }
     });

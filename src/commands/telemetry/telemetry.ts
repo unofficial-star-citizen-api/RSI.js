@@ -1,5 +1,5 @@
 import { HttpClient } from '../../http-client';
-import { TelemetryResponse } from './types'
+import { TelemetryResponse } from './types';
 
 type VersionNumber = '3.12' | '3.13' | '3.14'
   | '3.15' | '3.16' | '3.17'
@@ -16,7 +16,7 @@ export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
  * @see https://robertsspaceindustries.com/en/telemetry
  */
 export class Telemetry {
-  private readonly urlTelemetry = "https://robertsspaceindustries.com/api/telemetry/v2/community/";
+  private readonly urlTelemetry = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

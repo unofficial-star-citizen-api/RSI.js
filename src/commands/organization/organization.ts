@@ -1,6 +1,6 @@
-import { HttpClient } from 'src/http-client'
-import { OrganizationMembers } from './organization-member'
-import { OrganizationSearch } from './organization-search'
+import { HttpClient } from 'src/http-client';
+import { OrganizationMembers } from './organization-member';
+import { OrganizationSearch } from './organization-search';
 
 export class Organization {
   public readonly findOrganization: OrganizationSearch['findOrganization'];

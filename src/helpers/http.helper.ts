@@ -1,7 +1,7 @@
 export class HttpHelper {
   public static convertVal(val: unknown): string {
     if (val === null || val === undefined) {
-      return "";
+      return '';
     }
 
     if (Array.isArray(val) && val.length === 1) {

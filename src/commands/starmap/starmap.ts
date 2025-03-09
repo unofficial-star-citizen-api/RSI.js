@@ -1,15 +1,15 @@
-import { HttpClient } from 'src/http-client'
-import { StarmapSearch } from './starmap-search'
-import { StarmapRoute } from './starmap-routes'
-import { StarmapCelestialObjects } from './starmap-celestial-objects'
-import { StarmapAffiliations } from './starmap-affiliations'
-import { StarmapSpecies } from './starmap-species'
-import { StarmapStarSystems } from './starmap-star-systems'
-import { StarmapTunnels } from './starmap-tunnels'
-import { StarmapSystems } from './starmap-systems'
+import { HttpClient } from 'src/http-client';
+import { StarmapSearch } from './starmap-search';
+import { StarmapRoute } from './starmap-routes';
+import { StarmapCelestialObjects } from './starmap-celestial-objects';
+import { StarmapAffiliations } from './starmap-affiliations';
+import { StarmapSpecies } from './starmap-species';
+import { StarmapStarSystems } from './starmap-star-systems';
+import { StarmapTunnels } from './starmap-tunnels';
+import { StarmapSystems } from './starmap-systems';
 
 export class Starmap {
-  public readonly search: StarmapSearch['find']
+  public readonly search: StarmapSearch['find'];
   public readonly findAffilations: StarmapAffiliations['find'];
   public readonly findCelestialObjects: StarmapCelestialObjects['find'];
   public readonly findRoutes: StarmapRoute['find'];

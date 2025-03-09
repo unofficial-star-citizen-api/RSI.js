@@ -1,6 +1,6 @@
 import { HttpClient } from '../../http-client';
 import { SpeciesInterface } from './interfaces/species.interface';
-import { StarMapHelper } from './helpers/starmap.helper'
+import { StarMapHelper } from './helpers/starmap.helper';
 
 /**
  * StarmapSpecies class for retrieving Star Citizen starmap species
@@ -13,7 +13,7 @@ export class StarmapSpecies {
   }
 
   public async find(name?: string): Promise<SpeciesInterface[] | null> {
-    const species = await StarMapHelper.getStarmapData<SpeciesInterface>(this.httpClient,"species");
+    const species = await StarMapHelper.getStarmapData<SpeciesInterface>(this.httpClient,'species');
     if (species === null) {
       return null;
     }

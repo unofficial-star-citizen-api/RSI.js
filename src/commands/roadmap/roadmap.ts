@@ -27,8 +27,8 @@ interface RoadmapCategory {
  * Roadmap class for retrieving Star Citizen roadmap information
  */
 export class Roadmap {
-  private readonly urlRoadmapSC = "https://robertsspaceindustries.com/api/roadmap/v1/boards/1";
-  private readonly urlRoadmapS42 = "https://robertsspaceindustries.com/api/roadmap/v1/boards/2";
+  private readonly urlRoadmapSC = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
+  private readonly urlRoadmapS42 = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/2';
   private readonly httpClient: HttpClient;
 
   /**
@@ -45,7 +45,7 @@ export class Roadmap {
   public async getBoardReleases(board: 'starcitizen'|'squadron42', version?: string): Promise<RoadmapRelease[] | null> {
     let req;
 
-    if (board === "starcitizen") {
+    if (board === 'starcitizen') {
       req = await this.httpClient.get<{
         success: number;
         data?: {
@@ -53,7 +53,7 @@ export class Roadmap {
           categories: RoadmapCategory[];
         };
       }>(this.urlRoadmapSC);
-    } else if (board === "squadron42") {
+    } else if (board === 'squadron42') {
       req = await this.httpClient.get<{
         success: number;
         data?: {

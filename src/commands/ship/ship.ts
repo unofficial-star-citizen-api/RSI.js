@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { HttpHelper } from '../../helpers/http.helper'
+import { HttpHelper } from '../../helpers/http.helper';
 
 interface ShipData {
   id?: string;
@@ -29,8 +29,8 @@ type SearchArgs = {
  * Ship class for retrieving Star Citizen ship data
  */
 export class Ship {
-  private readonly urlSearchShips = "https://robertsspaceindustries.com/api/store/getShips";
-  private readonly urlShipsId = "https://robertsspaceindustries.com/ship-matrix/index";
+  private readonly urlSearchShips = 'https://robertsspaceindustries.com/api/store/getShips';
+  private readonly urlShipsId = 'https://robertsspaceindustries.com/ship-matrix/index';
   private readonly httpClient: HttpClient;
 
   /**

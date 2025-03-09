@@ -5,7 +5,7 @@ import { StarSystemDetailInterface } from './interfaces/star-system-detail.inter
  * StarmapStarSystems class for retrieving Star Citizen starmap star systems
  */
 export class StarmapStarSystems {
-  private readonly urlStarSystem = "https://robertsspaceindustries.com/api/starmap/star-systems/{0}";
+  private readonly urlStarSystem = 'https://robertsspaceindustries.com/api/starmap/star-systems/{0}';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

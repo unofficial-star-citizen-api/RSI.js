@@ -64,7 +64,7 @@ interface DisciplineData {
  * ProgressTrackerInfo class for retrieving detailed Star Citizen progress tracker information
  */
 export class ProgressTrackerDeliverable {
-  private readonly urlProgressTracker = "https://robertsspaceindustries.com/graphql";
+  private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly httpClient: HttpClient;
 
   /**
@@ -79,7 +79,7 @@ export class ProgressTrackerDeliverable {
   /**
    * Execute the command to retrieve detailed progress tracker information
    */
-  public async getTeamDeliverableInfo(teamSlug: string, dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<Deliverable[] | null> {
+  public async getTeamDeliverableInfo(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<Deliverable[] | null> {
     const deliverables = await this.getDeliverables(teamSlug, dateMin, dateMax);
     if (deliverables === null) {
       return null;
@@ -100,9 +100,9 @@ export class ProgressTrackerDeliverable {
   /**
    * Get deliverables from the progress tracker
    */
-  private async getDeliverables(teamSlug: string, dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<Deliverable[] | null> {
+  private async getDeliverables(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<Deliverable[] | null> {
     const data = {
-      operationName: "deliverables",
+      operationName: 'deliverables',
       query: `query
         deliverables(
           $startDate: String!,
@@ -222,13 +222,13 @@ export class ProgressTrackerDeliverable {
   /**
    * Get disciplines from the progress tracker
    */
-  private async getDisciplines(teamSlug: string, deliverySlugs: string[],dateMin = "2020-01-01", dateMax = "2022-12-31"): Promise<DisciplineData[] | null> {
+  private async getDisciplines(teamSlug: string, deliverySlugs: string[],dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<DisciplineData[] | null> {
     // Since we need to handle multiple queries, we'll use a different approach
     const results: DisciplineData[] = [];
 
     for (const delSlug of deliverySlugs) {
       const data = {
-        operationName: "disciplines",
+        operationName: 'disciplines',
         query: `query
           disciplines($teamSlug: String! $deliverableSlug: String! $startDate: String! $endDate: String! ) {
             progressTracker {

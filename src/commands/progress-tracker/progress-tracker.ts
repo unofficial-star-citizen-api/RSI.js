@@ -1,6 +1,6 @@
-import { HttpClient } from 'src/http-client'
-import { ProgressTrackerDeliverable } from './progress-tracker-deliverable'
-import { ProgressTrackerTeam } from './progress-tracker-team'
+import { HttpClient } from 'src/http-client';
+import { ProgressTrackerDeliverable } from './progress-tracker-deliverable';
+import { ProgressTrackerTeam } from './progress-tracker-team';
 
 export class ProgressTracker {
   public readonly getTeamsInRange: ProgressTrackerTeam['getTeamsInRange'];

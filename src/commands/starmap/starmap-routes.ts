@@ -5,7 +5,7 @@ import { RouteResultInterface } from './interfaces/route-result.interface';
  * StarmapRouteSearch class for searching routes in Star Citizen starmap
  */
 export class StarmapRoute {
-  private readonly urlFind = "https://robertsspaceindustries.com/api/starmap/routes/find";
+  private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/routes/find';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

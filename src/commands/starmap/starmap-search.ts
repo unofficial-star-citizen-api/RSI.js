@@ -5,7 +5,7 @@ import { SearchResultInterface } from './interfaces/search-result.interface';
  * StarmapSearch class for searching Star Citizen starmap
  */
 export class StarmapSearch {
-  private readonly urlFind = "https://robertsspaceindustries.com/api/starmap/find";
+  private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/find';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

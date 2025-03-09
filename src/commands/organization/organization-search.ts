@@ -47,8 +47,8 @@ interface OrganizationData {
  * Organization class for retrieving Star Citizen organization information
  */
 export class OrganizationSearch {
-  private readonly urlOrganization = "https://robertsspaceindustries.com/orgs/{0}";
-  private readonly urlSearchOrgs = "https://robertsspaceindustries.com/api/orgs/getOrgs";
+  private readonly urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
+  private readonly urlSearchOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
   private readonly httpClient: HttpClient;
 
   /**
@@ -222,7 +222,7 @@ export class OrganizationSearch {
       search: sid,
       page: page,
       size: [],
-      sort: ""
+      sort: ''
     };
 
     const req = await this.httpClient.post<{
@@ -251,7 +251,7 @@ export class OrganizationSearch {
     }
 
     const rowHtml = result.data?.html;
-    if (!rowHtml || rowHtml.trim() === "") {
+    if (!rowHtml || rowHtml.trim() === '') {
       return null;
     }
 
@@ -295,11 +295,11 @@ export class OrganizationSearch {
 
       // Get recruiting status
       const recruiting = $(element).find('.right .infocontainer:nth-child(2) .infoitem:nth-child(1) .value').text();
-      org.recruiting = (recruiting === "Yes");
+      org.recruiting = (recruiting === 'Yes');
 
       // Get roleplay status
       const roleplay = $(element).find('.right .infocontainer:nth-child(2) .infoitem:nth-child(2) .value').text();
-      org.roleplay = (roleplay === "Yes");
+      org.roleplay = (roleplay === 'Yes');
 
       // Get member count
       const members = $(element).find('.right .infocontainer:nth-child(2) .infoitem:nth-child(3) .value').text();

@@ -1,6 +1,6 @@
 import { HttpClient } from '../../http-client';
 import { TunnelInterface } from './interfaces/tunnel.interface';
-import { StarMapHelper } from './helpers/starmap.helper'
+import { StarMapHelper } from './helpers/starmap.helper';
 
 /**
  * StarmapTunnels class for retrieving Star Citizen starmap tunnels
@@ -13,7 +13,7 @@ export class StarmapTunnels {
   }
 
   public async find(tunnelId?: string): Promise<TunnelInterface[] | null> {
-    const tunnels = await StarMapHelper.getStarmapData<TunnelInterface>(this.httpClient, "tunnels");
+    const tunnels = await StarMapHelper.getStarmapData<TunnelInterface>(this.httpClient, 'tunnels');
     if (tunnels === null) {
       return null;
     }

@@ -8,7 +8,7 @@ export type FoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
  * @see https://robertsspaceindustries.com/en/funding-goals
  */
 export class FundingGoals {
-  private readonly urlCrowStat = "https://robertsspaceindustries.com/api/stats/getCrowdfundStats";
+  private readonly urlCrowStat = 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

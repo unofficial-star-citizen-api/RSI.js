@@ -1,6 +1,6 @@
 import { HttpClient } from '../../http-client';
 import { AffiliationInterface } from './interfaces/affiliation.interface';
-import { StarMapHelper } from './helpers/starmap.helper'
+import { StarMapHelper } from './helpers/starmap.helper';
 
 /**
  * StarmapAffiliations class for retrieving Star Citizen starmap affiliations
@@ -13,7 +13,7 @@ export class StarmapAffiliations {
   }
 
   public async find(name?: string): Promise<AffiliationInterface[] | null> {
-    const affiliations = await StarMapHelper.getStarmapData<AffiliationInterface>(this.httpClient ,"affiliations");
+    const affiliations = await StarMapHelper.getStarmapData<AffiliationInterface>(this.httpClient ,'affiliations');
     if (affiliations === null) {
       return null;
     }

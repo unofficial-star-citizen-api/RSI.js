@@ -5,7 +5,7 @@ import { CelestialObjectInterface } from './interfaces/celestial-object.interfac
  * StarmapCelestialObjects class for retrieving Star Citizen celestial objects
  */
 export class StarmapCelestialObjects {
-  private readonly urlCelestial = "https://robertsspaceindustries.com/api/starmap/celestial-objects/{0}";
+  private readonly urlCelestial = 'https://robertsspaceindustries.com/api/starmap/celestial-objects/{0}';
   private readonly httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {

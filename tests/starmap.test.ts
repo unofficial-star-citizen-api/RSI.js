@@ -36,7 +36,7 @@ describe('Starmap', () => {
 
   test('should return tunnels data', async () => {
     const rsi = new RSI();
-    const data = await rsi.starmap.findTunnels('1188')
+    const data = await rsi.starmap.findTunnels('1188');
 
     expect(data).not.toBeNull();
     assertValidSchema(data, 'starmap_tunnels.json');

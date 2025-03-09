@@ -12,8 +12,8 @@ interface PatchNoteData {
  * Version class for retrieving Star Citizen version info
  */
 export class Version {
-  private readonly urlPatchNotes = "https://robertsspaceindustries.com/patch-notes";
-  private readonly urlRoadmap = "https://robertsspaceindustries.com/api/roadmap/v1/init";
+  private readonly urlPatchNotes = 'https://robertsspaceindustries.com/patch-notes';
+  private readonly urlRoadmap = 'https://robertsspaceindustries.com/api/roadmap/v1/init';
 
   private readonly regexWebsiteVersion = /(\d\.?)+/;
   private readonly regexWebsiteBackground = /(background-image\s*:\s*url\(')(.*)('\))/;
