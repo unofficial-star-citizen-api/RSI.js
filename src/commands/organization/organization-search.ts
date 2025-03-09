@@ -1,7 +1,8 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
 
-interface OrganizationData {
+interface OrganizationData
+{
   url?: string;
   sid?: string;
   logo?: string;
@@ -46,7 +47,8 @@ interface OrganizationData {
 /**
  * Organization class for retrieving Star Citizen organization information
  */
-export class OrganizationSearch {
+export class OrganizationSearch
+{
   private readonly urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
   private readonly urlSearchOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
   private readonly httpClient: HttpClient;
@@ -54,35 +56,42 @@ export class OrganizationSearch {
   /**
    * @param sid - The Spectrum Identification (sid)
    */
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve organization information
    */
-  public async findOrganization(sid: string): Promise<OrganizationData | null> {
+  public async findOrganization(sid: string): Promise<OrganizationData | null>
+  {
     // Using Promise.all instead of threads
     const [orgInfo, searchResult] = await Promise.all([
       this.getOrganizationInfo(sid),
       this.searchOrgs(sid)
     ]);
 
-    if (orgInfo === null && searchResult === null) {
+    if (orgInfo === null && searchResult === null)
+    {
       return null;
     }
 
     // If no organization info is found
-    if (orgInfo === null) {
-      if (Array.isArray(searchResult) && searchResult.length > 0) {
+    if (orgInfo === null)
+    {
+      if (Array.isArray(searchResult) && searchResult.length > 0)
+      {
         return searchResult[0];
       }
       return null;
     }
 
     // If no search result is found
-    if (searchResult === null) {
-      if (orgInfo && Object.keys(orgInfo).length > 0) {
+    if (searchResult === null)
+    {
+      if (orgInfo && Object.keys(orgInfo).length > 0)
+      {
         return orgInfo;
       }
       return null;
@@ -91,7 +100,8 @@ export class OrganizationSearch {
     // Merge data
     let result: OrganizationData = { ...orgInfo };
 
-    if (Array.isArray(searchResult) && searchResult.length > 0) {
+    if (Array.isArray(searchResult) && searchResult.length > 0)
+    {
       result = { ...result, ...searchResult[0] };
     }
 
@@ -103,18 +113,22 @@ export class OrganizationSearch {
    * @param sid - The Spectrum Identification (sid)
    * @returns Organization information
    */
-  private async getOrganizationInfo(sid: string): Promise<OrganizationData | null> {
+  private async getOrganizationInfo(sid: string): Promise<OrganizationData | null>
+  {
     const result: OrganizationData = {};
     const url = this.urlOrganization.replace('{0}', sid);
 
     // Request website
     const req = await this.httpClient.get<string>(url);
 
-    if (req === null) {
+    if (req === null)
+    {
       return null;
-    } else if (req.status === 404) {
+    } else if (req.status === 404)
+    {
       return {};
-    } else if (req.status !== 200) {
+    } else if (req.status !== 200)
+    {
       return null;
     }
 
@@ -126,8 +140,9 @@ export class OrganizationSearch {
 
     // Get logo
     const logo = $('.logo.noshadow img').attr('src');
-    if (logo) {
-      result.logo = HttpClient.convertPath(logo);
+    if (logo)
+    {
+      result.logo = HttpClient.toAbsoluteUrl(logo);
     }
 
     // Get organization name
@@ -141,36 +156,42 @@ export class OrganizationSearch {
 
     // Primary focus
     const primaryImg = $('.primary.tooltip-wrap img').attr('src');
-    if (primaryImg) {
-      result.focus.primary!.image = HttpClient.convertPath(primaryImg);
+    if (primaryImg)
+    {
+      result.focus.primary!.image = HttpClient.toAbsoluteUrl(primaryImg);
     }
 
     const primaryAlt = $('.primary.tooltip-wrap img').attr('alt');
-    if (primaryAlt) {
+    if (primaryAlt)
+    {
       result.focus.primary!.name = primaryAlt.trim();
     }
 
     // Secondary focus
     const secondaryImg = $('.secondary.tooltip-wrap img').attr('src');
-    if (secondaryImg) {
-      result.focus.secondary!.image = HttpClient.convertPath(secondaryImg);
+    if (secondaryImg)
+    {
+      result.focus.secondary!.image = HttpClient.toAbsoluteUrl(secondaryImg);
     }
 
     const secondaryAlt = $('.secondary.tooltip-wrap img').attr('alt');
-    if (secondaryAlt) {
+    if (secondaryAlt)
+    {
       result.focus.secondary!.name = secondaryAlt.trim();
     }
 
     // Get banner image
     const banner = $('.banner img').attr('src');
-    if (banner) {
-      result.banner = HttpClient.convertPath(banner);
+    if (banner)
+    {
+      result.banner = HttpClient.toAbsoluteUrl(banner);
     }
 
     // Get headline
     result.headline = {};
     const headlineHtml = $('.body.markitup-text').html();
-    if (headlineHtml) {
+    if (headlineHtml)
+    {
       result.headline.html = headlineHtml;
       result.headline.plaintext = $('.body.markitup-text').text();
     }
@@ -178,7 +199,8 @@ export class OrganizationSearch {
     // Get history
     result.history = {};
     const historyHtml = $('#tab-history div').html();
-    if (historyHtml) {
+    if (historyHtml)
+    {
       result.history.html = historyHtml;
       result.history.plaintext = $('#tab-history div').text();
     }
@@ -186,7 +208,8 @@ export class OrganizationSearch {
     // Get manifesto
     result.manifesto = {};
     const manifestoHtml = $('#tab-manifesto div').html();
-    if (manifestoHtml) {
+    if (manifestoHtml)
+    {
       result.manifesto.html = manifestoHtml;
       result.manifesto.plaintext = $('#tab-manifesto div').text();
     }
@@ -194,7 +217,8 @@ export class OrganizationSearch {
     // Get charter
     result.charter = {};
     const charterHtml = $('#tab-charter div').html();
-    if (charterHtml) {
+    if (charterHtml)
+    {
       result.charter.html = charterHtml;
       result.charter.plaintext = $('#tab-charter div').text();
     }
@@ -207,7 +231,8 @@ export class OrganizationSearch {
    * @param sid - Spectrum Identification of the organization
    * @returns Organizations found
    */
-  private async searchOrgs(sid: string): Promise<OrganizationData[] | null> {
+  private async searchOrgs(sid: string): Promise<OrganizationData[] | null>
+  {
     const results: OrganizationData[] = [];
     const page = 1;
 
@@ -231,54 +256,63 @@ export class OrganizationSearch {
       msg?: string;
       data?: {
         html: string;
-      }
+      };
     }>(this.urlSearchOrgs, payload);
 
-    if (req === null) {
+    if (req === null)
+    {
       return null;
-    } else if (req.status === 404) {
+    } else if (req.status === 404)
+    {
       return [];
-    } else if (req.status !== 200) {
+    } else if (req.status !== 200)
+    {
       return null;
     }
 
     // Get html contents
     const result = req.data;
 
-    if (result.success === 0) {
+    if (result.success === 0)
+    {
       console.log(`${result.code}: ${result.msg}`);
       return null;
     }
 
     const rowHtml = result.data?.html;
-    if (!rowHtml || rowHtml.trim() === '') {
+    if (!rowHtml || rowHtml.trim() === '')
+    {
       return null;
     }
 
     // Start process html
     const $ = load(rowHtml);
 
-    $('.org-cell').each((_, element) => {
+    $('.org-cell').each((_, element) =>
+    {
       const org: OrganizationData = {};
 
       // Get SID
       org.sid = $(element).find('.left .identity .symbol').text().trim();
 
       // Ensure the right Organization is returned
-      if (org.sid !== sid) {
+      if (org.sid !== sid)
+      {
         return;
       }
 
       // Get href
       const href = $(element).find('a').attr('href');
-      if (href) {
-        org.href = HttpClient.convertPath(href);
+      if (href)
+      {
+        org.href = HttpClient.toAbsoluteUrl(href);
       }
 
       // Get logo
       const logo = $(element).find('.left .thumb img').attr('src');
-      if (logo) {
-        org.logo = HttpClient.convertPath(logo);
+      if (logo)
+      {
+        org.logo = HttpClient.toAbsoluteUrl(logo);
       }
 
       // Get name

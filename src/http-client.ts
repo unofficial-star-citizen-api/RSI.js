@@ -151,9 +151,6 @@ export class HttpClient
     // Add a response interceptor to handle errors
     instance.interceptors.response.use((response) =>
     {
-      if (/2\d\d/.test(response.status.toString()) === false)
-        throw new Error(`HTTP request failed, status code: ${response.status}`);
-
       if (response.data == null)
         throw new Error('HTTP request failed, no data received');
 
@@ -212,8 +209,11 @@ export class HttpClient
   /**
    * Converts a relative path to an absolute URL
    */
-  public static convertPath(path: string): string
+  public static toAbsoluteUrl(path?: string): string | undefined
   {
+    if (path == null)
+      return undefined;
+
     return new URL(path, HttpClient.host).toString();
   }
 

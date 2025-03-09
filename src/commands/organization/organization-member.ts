@@ -1,8 +1,9 @@
 import { load } from 'cheerio';
-import { HttpClient } from '../../http-client';
 import { HttpHelper } from '../../helpers/http.helper';
+import { HttpClient } from '../../http-client';
 
-interface OrganizationMemberData {
+interface OrganizationMemberData
+{
   handle?: string;
   display?: string;
   stars?: number;
@@ -14,7 +15,8 @@ interface OrganizationMemberData {
 /**
  * OrganizationMembers class for retrieving organization member information
  */
-export class OrganizationMembers {
+export class OrganizationMembers
+{
   private readonly urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
   private readonly httpClient: HttpClient;
 
@@ -22,14 +24,16 @@ export class OrganizationMembers {
    * @param sid - The Spectrum Identification (sid)
    * @param kwargs - Additional filtering options
    */
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve organization member information
    */
-  public async getOrganizationMembers(sid: string, kwargs: Record<string, unknown> = {}): Promise<OrganizationMemberData[]> {
+  public async getOrganizationMembers(sid: string, kwargs: Record<string, unknown> = {}): Promise<OrganizationMemberData[]>
+  {
     const result: OrganizationMemberData[] = [];
     const page = HttpHelper.convertVal(kwargs.page);
 
@@ -40,11 +44,14 @@ export class OrganizationMembers {
       page: page
     };
 
-    if ('rank' in kwargs) {
+    if ('rank' in kwargs)
+    {
       jsonData.rank = HttpHelper.convertVal(kwargs.rank);
-    } else if ('role' in kwargs) {
+    } else if ('role' in kwargs)
+    {
       jsonData.role = HttpHelper.convertVal(kwargs.role);
-    } else if ('main_org' in kwargs) {
+    } else if ('main_org' in kwargs)
+    {
       const mainOrg = HttpHelper.convertVal(kwargs.main_org);
       jsonData.main_org = mainOrg.toLowerCase() === 'true' ? 1 : 0;
     }
@@ -56,27 +63,33 @@ export class OrganizationMembers {
       msg?: string;
       data?: {
         html: string;
-      }
+      };
     }>(this.urlOrganizationMembers, jsonData);
 
-    if (req === null) {
+    if (req === null)
+    {
       return result;
-    } else if (req.status !== 200) {
+    } else if (req.status !== 200)
+    {
       return result;
     }
 
     const res = req.data;
 
-    if (res.success === 0) {
-      if (res.code === 'ErrApiThrottled') {
+    if (res.success === 0)
+    {
+      if (res.code === 'ErrApiThrottled')
+      {
         console.log('Failed, retrying');
-      } else {
+      } else
+      {
         console.log(`Failed (${res.msg})`);
       }
       return result;
     }
 
-    if (!res.data?.html || res.data.html === '') {
+    if (!res.data?.html || res.data.html === '')
+    {
       return result;
     }
 
@@ -84,18 +97,21 @@ export class OrganizationMembers {
     const $ = load(res.data.html);
     const handles = new Set<string>(); // To track unique handles
 
-    $('.member-item').each((_, element) => {
+    $('.member-item').each((_, element) =>
+    {
       const user: OrganizationMemberData = {};
 
       // Get handle
       user.handle = $(element).find('.nick').text().trim();
 
       // Check if the handle is already in result
-      if (user.handle && handles.has(user.handle)) {
+      if (user.handle && handles.has(user.handle))
+      {
         return;
       }
 
-      if (user.handle) {
+      if (user.handle)
+      {
         handles.add(user.handle);
       }
 
@@ -104,9 +120,11 @@ export class OrganizationMembers {
 
       // Get star rating
       const starsStyle = $(element).find('.stars[style]').attr('style');
-      if (starsStyle) {
+      if (starsStyle)
+      {
         const match = /:\s*([0-9]*)%/.exec(starsStyle);
-        if (match) {
+        if (match)
+        {
           user.stars = Math.floor(parseInt(match[1]) / 20);
         }
       }
@@ -117,21 +135,25 @@ export class OrganizationMembers {
 
       // Get roles
       user.roles = [];
-      $(element).find('.rolelist li').each((_, role) => {
+      $(element).find('.rolelist li').each((_, role) =>
+      {
         const roleText = $(role).text();
-        if (roleText) {
+        if (roleText)
+        {
           user.roles!.push(roleText);
         }
       });
 
       // Get image
       const imgSrc = $(element).find('img').attr('src');
-      if (imgSrc) {
-        user.image = HttpClient.convertPath(imgSrc.trim());
+      if (imgSrc)
+      {
+        user.image = HttpClient.toAbsoluteUrl(imgSrc.trim());
       }
 
       // Skip entries that are empty or just contain "&nbsp;"
-      if (user.handle && user.handle.trim() !== '') {
+      if (user.handle && user.handle.trim() !== '')
+      {
         result.push(user);
       }
     });
