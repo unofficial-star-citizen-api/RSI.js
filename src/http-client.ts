@@ -23,6 +23,37 @@ export interface HttpConfigOptions
 /**
  * A module to perform HTTP requests
  */
+/**
+ * Http client for making requests to the Roberts Space Industries (RSI) website.
+ *
+ * This client handles web requests with features including:
+ * - Automatic proxy configuration from environment variables
+ * - Support for HTTP, HTTPS, and SOCKS proxies
+ * - NO_PROXY pattern matching to bypass proxies for specific domains
+ * - Configurable user agent and timeout settings
+ * - Type-safe request/response handling
+ *
+ * @example
+ * ```typescript
+ * // Create a client with default settings (reads from environment variables)
+ * const client = new HttpClient();
+ *
+ * // Or with custom configuration
+ * const client = new HttpClient({
+ *   httpProxy: 'http://proxy:8080',
+ *   userAgent: 'MyCustomApp/1.0'
+ * });
+ *
+ * // Make a request to RSI
+ * const response = await client.get<ApiResponse>('/api/endpoint');
+ * ```
+ *
+ * Environment variables:
+ * - HTTP_PROXY/http_proxy: Proxy for HTTP requests
+ * - HTTPS_PROXY/https_proxy: Proxy for HTTPS requests
+ * - NO_PROXY/no_proxy: Comma-separated list of domains to bypass proxy
+ * - USER_AGENT: Custom user agent string
+ */
 export class HttpClient
 {
   public static readonly host = 'https://robertsspaceindustries.com';
@@ -207,7 +238,16 @@ export class HttpClient
   }
 
   /**
-   * Converts a relative path to an absolute URL
+   * Converts a relative path to an absolute URL using the host specified in the HttpClient.
+   *
+   * @param path - The relative path to convert to an absolute URL. Can be undefined.
+   * @returns The absolute URL as a string, or undefined if the path parameter is null or undefined.
+   *
+   * @example
+   * // Assuming HttpClient.host is "https://example.com"
+   * HttpClient.toAbsoluteUrl("/api/users");                    // Returns "https://example.com/api/users"
+   * HttpClient.toAbsoluteUrl("https://example.com/api/users"); // Returns "https://example.com/api/users"
+   * HttpClient.toAbsoluteUrl(undefined);                       // Returns undefined
    */
   public static toAbsoluteUrl(path?: string): string | undefined
   {
