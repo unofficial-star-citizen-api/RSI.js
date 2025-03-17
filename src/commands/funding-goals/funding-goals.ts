@@ -1,5 +1,5 @@
 import { HttpClient } from '../../http-client';
-import { FundingGoalsData } from '../../types';
+import { FundingGoalsData } from './types';
 
 export type FoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
 
@@ -7,11 +7,13 @@ export type FoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
  * Stats class for retrieving Star Citizen game stats
  * @see https://robertsspaceindustries.com/en/funding-goals
  */
-export class FundingGoals {
+export class FundingGoals
+{
   private readonly urlCrowStat = 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats';
   private readonly httpClient: HttpClient;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
@@ -20,7 +22,8 @@ export class FundingGoals {
    * @param chart - Chart type
    * @returns Associative array of stats
    */
-  public async getCrowStats(chart: FoundingGoalChart): Promise<FundingGoalsData> {
+  public async getCrowStats(chart: FoundingGoalChart): Promise<FundingGoalsData>
+  {
     const data = {
       alpha_slots: true,
       chart: chart,

@@ -8,18 +8,20 @@ type VersionNumber = '3.12' | '3.13' | '3.14'
   | '3.24' | '4.0';
 
 
-export type TelemetryTimetable = 'DAY'|'WEEK'|'MONTH';
+export type TelemetryTimetable = 'DAY' | 'WEEK' | 'MONTH';
 export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
 
 /**
  * Telemetry class for retrieving Star Citizen telemetry data
  * @see https://robertsspaceindustries.com/en/telemetry
  */
-export class Telemetry {
+export class Telemetry
+{
   private readonly urlTelemetry = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
   private readonly httpClient: HttpClient;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
@@ -29,7 +31,8 @@ export class Telemetry {
    * @param version The Star Citizen version to retrieve data for
    * @returns TelemetryInfo
    */
-  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<TelemetryResponse> {
+  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<TelemetryResponse>
+  {
     const query = `?&timetable=${timetable}&branch=${version}`;
 
     const response = await this.httpClient.get<TelemetryResponse>(this.urlTelemetry + query);
