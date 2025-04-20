@@ -3,8 +3,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
-import typescript from '@rollup/plugin-typescript';
 import { createRequire } from 'module';
+import typescript from 'rollup-plugin-typescript2';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -27,7 +27,7 @@ export default {
     {
       file: 'dist/index.browser.js',
       format: 'umd',
-      name: 'RsiScraper',
+      name: 'RSI.js',
       exports: 'named',
       sourcemap: true,
       globals: {
@@ -38,7 +38,7 @@ export default {
     {
       file: 'dist/index.browser.min.js',
       format: 'umd',
-      name: 'RsiScraper',
+      name: 'RSI.js',
       exports: 'named',
       sourcemap: true,
       plugins: [terser()],
@@ -55,8 +55,22 @@ export default {
       ]
     }),
     json(),
-    resolve(),
-    commonjs(),
-    typescript({ tsconfig: './tsconfig.json' })
+    typescript({
+      tsconfig: './tsconfig.json',
+      useTsconfigDeclarationDir: true,
+      tsconfigDefaults: {
+        compilerOptions: {
+          declaration: true,
+          declarationDir: './dist',
+          emitDeclarationOnly: false
+        }
+      },
+      typescript: require('typescript'),
+      clean: true
+    }),
+    resolve({
+      extensions: ['.js', '.ts']
+    }),
+    commonjs()
   ]
 };

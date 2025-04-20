@@ -2,8 +2,12 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "esnext",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "declaration": true,
+    "declarationDir": "dist",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
@@ -21,9 +25,13 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
-    "paths": {
-    }
+    "paths": {}
   },
-  "include": ["src/**/*", "tests"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
