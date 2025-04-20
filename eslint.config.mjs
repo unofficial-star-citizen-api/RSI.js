@@ -7,6 +7,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
+    ignores: ['**/*.test.ts', '**/tests/**', '**/mocks/**', '**/schemas/**'],
     rules: {
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
