@@ -1,6 +1,6 @@
 {
-  "name": "RSI.js",
-  "version": "1.0",
+  "name": "@unofficial-star-citizen-api/rsi.js",
+  "version": "1.0.0",
   "description": "A TypeScript library for retrieving Star Citizen data from the Roberts Space Industries website",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,6 +21,13 @@
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unofficial-star-citizen-api/RSI.js.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "ajv": "^8.17.1",
     "axios": "^1.8.2",
