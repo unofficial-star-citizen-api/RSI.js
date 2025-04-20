@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  rotating-proxy:
+    image: mattes/rotating-proxy:latest
+    ports:
+      - "5566:5566"  # Main proxy port
+      - "4444:4444"  # Control API port
+    environment:
+      - TOR_INSTANCES=5  # Number of Tor instances to run
+      - HAPROXY_STATS_PORT=4444  # Port for HAProxy stats
+      - TOR_NewCircuitPeriod=60  # Create a new circuit every 60 seconds
+    restart: unless-stopped
+    volumes:
+      - ./proxy/logs:/var/log/tor  # For logs
