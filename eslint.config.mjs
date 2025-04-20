@@ -7,7 +7,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
-    ignores: ['**/*.test.ts', '**/tests/**', '**/mocks/**', '**/schemas/**'],
+    ignores: ['dist/**'],
     rules: {
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
@@ -23,7 +23,10 @@ export default tseslint.config(
           'consistent': true
         },
         'ObjectPattern': { 'multiline': true, 'minProperties': 3 },
-        'ImportDeclaration': 'never',
+        'ImportDeclaration': {
+          'multiline': true,
+          'minProperties': 3
+        },
         'ExportDeclaration': {
           'multiline': true,
           'minProperties': 3
@@ -33,7 +36,7 @@ export default tseslint.config(
   },
   // Add override for test files
   {
-    files: ['**/*.test.ts'],
+    files: ['**/tests/**'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',

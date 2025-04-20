@@ -5,11 +5,9 @@ import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import { createRequire } from 'module';
-import path from 'path';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
-const projectRootDir = path.resolve(__dirname);
 
 export default {
   input: 'src/index.ts',
