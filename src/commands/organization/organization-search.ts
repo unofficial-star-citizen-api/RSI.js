@@ -1,6 +1,8 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { OrganizationArchetype, OrganizationCommitment, OrganizationSearchResult, RSIResponse } from './types';
+import {
+  OrganizationArchetype, OrganizationCommitment, OrganizationSearchResult, RSIResponse 
+} from './types';
 import { GetOrgsParams } from './types/organization-get.request.types';
 
 export type ReturnFunction = (params?: GetOrgsParams) => Promise<OrganizationSearchResult[]>;

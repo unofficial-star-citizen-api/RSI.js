@@ -1,19 +1,24 @@
-import { HttpClient, HttpConfigOptions } from './http-client';
-import { Organization,
+import
+{
+  FundingGoals,
+  Organization,
+  ProgressTracker,
   Roadmap,
   Ship,
   Starmap,
-  FundingGoals,
   Telemetry,
   User,
-  ProgressTracker,
-  Version } from './commands';
+  Version
+} from './commands';
+import { HttpClient, HttpConfigOptions } from './http-client';
 
-export interface RSIConfig {
+export interface RSIConfig
+{
   httpConfig?: Partial<HttpConfigOptions>;
 }
 
-export class RSI {
+export class RSI
+{
   public readonly httpClient: HttpClient;
 
   public readonly user: User;
@@ -26,7 +31,8 @@ export class RSI {
   public readonly telemetry: Telemetry;
   public readonly version: Version;
 
-  constructor(config: RSIConfig = {}) {
+  constructor(config: RSIConfig = {})
+  {
     this.httpClient = new HttpClient(config.httpConfig);
 
     this.user = new User(this.httpClient);
