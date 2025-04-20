@@ -1,10 +1,11 @@
-import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
-import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
-import path from 'path';
+import typescript from '@rollup/plugin-typescript';
 import { createRequire } from 'module';
+import path from 'path';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -55,6 +56,7 @@ export default {
       entries: [
       ]
     }),
+    json(),
     resolve(),
     commonjs(),
     typescript({ tsconfig: './tsconfig.json' })
