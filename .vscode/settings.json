@@ -1,0 +1,10 @@
+{
+  "jest.nodeEnv": {
+    // "HTTPS_PROXY": "https://157.90.194.35:3128"
+  },
+  "cSpell.words": [
+    "EPTU",
+    "Evocati",
+    "starmap"
+  ]
+}
