@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { Groups, Spectrum } from '../../src/commands/version/version-spectrum';
 import { HttpClient } from '../../src/http-client';
 
@@ -16,16 +14,6 @@ describe('Spectrum', () =>
 
   describe('Environment and Version Detection', () =>
   {
-    beforeEach(() =>
-    {
-      // Mock the HTTP client get method to return our HTML
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
-        data: fs.readFileSync(
-          path.join(__dirname, 'mocks/spectrum.json'),
-          'utf8'
-        )
-      } as any);
-    });
 
     // Tests for private methods using TypeScript accessor workaround
     const testCases = [
@@ -78,11 +66,9 @@ describe('Spectrum', () =>
     }) =>
     {
       // Access private methods for testing through type casting
-      const spectrumAny = spectrum as any;
-
-      const env = spectrumAny.getEnvironment(thread);
-      const version = spectrumAny.getVersionFromSubject(thread);
-      const group = spectrumAny.getGroup(thread);
+      const env = spectrum['getEnvironment']({ subject: thread.subject } as any);
+      const version = spectrum['getVersionFromSubject']({ subject: thread.subject } as any);
+      const group = spectrum['getGroup']({ subject: thread.subject } as any);
 
       expect(env).toBe(expectedEnv);
       expect(version).toBe(expectedVer);
