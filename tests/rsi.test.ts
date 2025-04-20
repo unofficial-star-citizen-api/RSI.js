@@ -1,51 +1,63 @@
-import { Organization,
+import
+{
+  FundingGoals,
+  Organization,
   ProgressTracker,
   Roadmap,
   RSI,
   Ship,
   Starmap,
-  FundingGoals,
   Telemetry,
   User,
-  Version } from '../src';
+  Version
+} from '../src';
 
-describe('RSI', () => {
+describe('RSI', () =>
+{
   let rsi: RSI;
 
-  beforeEach(() => {
+  beforeEach(() =>
+  {
     rsi = new RSI();
   });
 
-  describe('Constructor', () => {
-    test('should create instance with default config', () => {
+  describe('Constructor', () =>
+  {
+    test('should create instance with default config', () =>
+    {
       expect(rsi).toBeInstanceOf(RSI);
     });
 
-    test('should create instance with custom config', () => {
+    test('should create instance with custom config', () =>
+    {
       const customRsi = new RSI({ httpConfig: { userAgent: 'CustomAgent' } });
       expect(customRsi).toBeInstanceOf(RSI);
       expect(customRsi.httpClient.config.userAgent).toBe('CustomAgent');
     });
 
-    test('should apply httpProxy config option', () => {
+    test('should apply httpProxy config option', () =>
+    {
       const proxy = 'socks5://127.0.0.1:1080';
       const customRsi = new RSI({ httpConfig: { httpProxy: proxy } });
       expect(customRsi.httpClient.config.httpProxy).toBe(proxy);
     });
 
-    test('should apply httpsProxy config option', () => {
+    test('should apply httpsProxy config option', () =>
+    {
       const proxy = 'socks5://127.0.0.1:1080';
       const customRsi = new RSI({ httpConfig: { httpsProxy: proxy } });
       expect(customRsi.httpClient.config.httpsProxy).toBe(proxy);
     });
 
-    test('should apply noProxy config option', () => {
+    test('should apply noProxy config option', () =>
+    {
       const noProxy = 'localhost,127.0.0.1';
       const customRsi = new RSI({ httpConfig: { noProxy } });
       expect(customRsi.httpClient.config.noProxy).toBe(noProxy);
     });
 
-    test('should apply multiple config options at once', () => {
+    test('should apply multiple config options at once', () =>
+    {
       const config = {
         userAgent: 'CustomAgent',
         httpProxy: 'http://proxy:8080',
@@ -60,7 +72,8 @@ describe('RSI', () => {
       expect(customRsi.httpClient.config.noProxy).toBe(config.noProxy);
     });
 
-    test('should initialize all public properties', () => {
+    test('should initialize all public properties', () =>
+    {
       expect(rsi.user).toBeInstanceOf(User);
       expect(rsi.organization).toBeInstanceOf(Organization);
       expect(rsi.progressTracker).toBeInstanceOf(ProgressTracker);
@@ -73,10 +86,12 @@ describe('RSI', () => {
     });
   });
 
-  describe('noProxy functionality', () => {
+  describe('noProxy functionality', () =>
+  {
     // This test exposes the private shouldUseProxy method for testing
     // via spying on the HTTP client
-    test('should bypass proxy for URLs matching noProxy patterns', () => {
+    test('should bypass proxy for URLs matching noProxy patterns', () =>
+    {
       // Create RSI with proxy and noProxy settings
       const customRsi = new RSI({
         httpConfig: {
@@ -96,21 +111,21 @@ describe('RSI', () => {
       );
 
       // Test with URLs that should bypass proxy
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('http://localhost/api')).toBe(false);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('https://example.com/page')).toBe(false);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('http://server.internal.domain/data')).toBe(false);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('https://api.test.com/v1')).toBe(false);
 
       // Test with URLs that should use proxy
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('https://google.com')).toBe(true);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('http://robertsspaceindustries.com')).toBe(true);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((httpClient as any).isProxyRequired('https://other.domain.com')).toBe(true);
 
       // Restore the spy
