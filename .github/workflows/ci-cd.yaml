@@ -96,7 +96,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           echo "Updating CURRENT_VERSION repository variable to: ${{ steps.get_version.outputs.new_version }}"
-          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          echo "${{ secrets.ACCESS_TOKEN }}" | gh auth login --with-token
           gh variable set CURRENT_VERSION -b "${{ steps.get_version.outputs.new_version }}" --repo ${{ github.repository }}
 
       # - name: Publish to GitHub Packages
