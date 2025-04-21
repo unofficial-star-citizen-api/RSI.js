@@ -9,7 +9,7 @@ import
 } from './types';
 import { RSIGetOrgsParams } from './types/organization-get.request.types';
 
-export type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearchResult[]>;
+type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearchResult[]>;
 
 /**
  * Get organization search results

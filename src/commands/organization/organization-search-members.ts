@@ -41,7 +41,7 @@ export type OrganizationMembersSearchParams = {
 };
 
 
-export type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMemberData[]>;
+type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMemberData[]>;
 
 export function searchMembers(httpClient: HttpClient): ReturnFunction
 {

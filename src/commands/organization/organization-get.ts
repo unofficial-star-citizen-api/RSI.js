@@ -2,7 +2,7 @@ import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
 import { RSIOrganizationDetail } from './types';
 
-export type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
+type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
 
 export function get(httpClient: HttpClient): ReturnFunction
 {
