@@ -36,11 +36,24 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Upload build artifact
+    - name: Create npm package
+      run: |
+        # Pack the package into a tarball (will run prepare script if needed)
+        npm pack
+        echo "Package tarball created successfully"
+        # List the contents of the tarball for verification
+        echo "Package contents:"
+        tar -tvf *.tgz
+        # Move the tarball to a fixed name for easier reference
+        mv *.tgz package.tgz
+
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: dist
-        path: dist/
+        name: package-artifacts
+        path: |
+          dist/
+          package.tgz
         retention-days: 7
 
   publish:
@@ -99,8 +112,16 @@ jobs:
           echo "${{ secrets.ACCESS_TOKEN }}" | gh auth login --with-token
           gh variable set CURRENT_VERSION -b "${{ steps.get_version.outputs.new_version }}" --repo ${{ github.repository }}
 
-      # - name: Publish to GitHub Packages
-      #   if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download package artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/download-artifact@v4
+        with:
+          name: package-artifacts
+
+      - name: Publish to GitHub Packages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          # Publish the downloaded package
+          npm publish package.tgz --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
