@@ -1,3 +1,4 @@
-export interface CelestialObjectInterface {
+export interface RSICelestialObjectInterface
+{
   [key: string]: unknown;
 }

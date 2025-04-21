@@ -1,12 +1,12 @@
-export interface SpectrumThreadContent
+export interface RSISpectrumThreadContent
 {
   success: number;
   code: string;
   msg: string;
-  data: SpectrumThreadContentData;
+  data: RSISpectrumThreadContentData;
 }
 
-export interface SpectrumThreadContentData
+export interface RSISpectrumThreadContentData
 {
   id: string;
   time_created: number;
@@ -26,335 +26,335 @@ export interface SpectrumThreadContentData
   content_reply_id: string;
   annotation_plaintext: null;
   subscription_key: string;
-  content_blocks: DatumElement[];
+  content_blocks: RSIDatumElement[];
   highlight_role_id: string;
   community_id: string;
-  member: ErasedByClass;
+  member: RSIErasedByClass;
   replies_count: number;
   views_count: number;
   latest: number;
-  latest_activity: LatestActivity;
-  votes: Votes;
-  reactions: Reaction[];
+  latest_activity: RSILatestActivity;
+  votes: RSIVotes;
+  reactions: RSIReaction[];
   tracked_replies_references: unknown[];
   children_replies_references: unknown[];
   notification_subscription: null;
   aspect: string;
   nested_replies_ids: string[];
-  replies: DataReply[];
+  replies: RSIDataReply[];
 }
 
-export interface DatumElement
+export interface RSIDatumElement
 {
   id: number;
-  type: DatumType;
-  data: ContentBlockDataClass;
+  type: RSIDatumType;
+  data: RSIContentBlockDataClass;
 }
 
-export interface ContentBlockDataClass
+export interface RSIContentBlockDataClass
 {
-  blocks: Block[];
-  entityMap: EntityMap[];
+  blocks: RSIBlock[];
+  entityMap: RSIEntityMap[];
 }
 
-export interface Block
+export interface RSIBlock
 {
   key: string;
   text: string;
-  type: BlockType;
+  type: RSIBlockType;
   depth: number;
-  inlineStyleRanges: InlineStyleRange[];
-  entityRanges: EntityRange[];
+  inlineStyleRanges: RSIInlineStyleRange[];
+  entityRanges: RSIEntityRange[];
   data: unknown[];
 }
 
-export interface EntityRange
+export interface RSIEntityRange
 {
   offset: number;
   length: number;
   key: number;
 }
 
-export interface InlineStyleRange
+export interface RSIInlineStyleRange
 {
   offset: number;
   length: number;
   style: string;
 }
 
-export type BlockType = 'header-one' | 'unstyled' | 'unordered-list-item' | 'blockquote';
+export type RSIBlockType = 'header-one' | 'unstyled' | 'unordered-list-item' | 'blockquote';
 
-export interface EntityMap
+export interface RSIEntityMap
 {
   type: string;
   mutability: string;
-  data: PurpleData | string;
+  data: RSIPurpleData | string;
 }
 
-export interface PurpleData
+export interface RSIPurpleData
 {
   href: string;
 }
 
-export type DatumType = 'image' | 'text';
+export type RSIDatumType = 'image' | 'text';
 
-export interface LatestActivity
+export interface RSILatestActivity
 {
   time_created: number;
-  member: LatestActivityMember;
+  member: RSILatestActivityMember;
   highlight_role_id: null;
 }
 
-export interface LatestActivityMember
+export interface RSILatestActivityMember
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: null | string;
   signature: string;
-  meta: PurpleMeta;
+  meta: RSIPurpleMeta;
   isGM: boolean;
   spoken_languages: string[];
-  roles?: Roles;
+  roles?: RSIRoles;
 }
 
-export interface PurpleMeta
+export interface RSIPurpleMeta
 {
-  badges: PurpleBadge[];
+  badges: RSIPurpleBadge[];
 }
 
-export interface PurpleBadge
+export interface RSIPurpleBadge
 {
   name: string;
   icon: string;
 }
 
-export interface Roles
+export interface RSIRoles
 {
   '1': string[];
 }
 
-export interface ErasedByClass
+export interface RSIErasedByClass
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: null | string;
-  signature: Signature;
-  meta: ErasedByMeta;
+  signature: RSISignature;
+  meta: RSIErasedByMeta;
   isGM: boolean;
   spoken_languages: string[];
-  presence?: Presence;
+  presence?: RSIPresence;
   roles?: { [key: string]: string[]; };
 }
 
-export interface ErasedByMeta
+export interface RSIErasedByMeta
 {
-  badges: FluffyBadge[];
+  badges: RSIFluffyBadge[];
 }
 
-export interface FluffyBadge
+export interface RSIFluffyBadge
 {
   name: string;
   icon: string;
   url?: string;
 }
 
-export interface Presence
+export interface RSIPresence
 {
   status: string;
   info: null;
   since: number;
 }
 
-export type Signature = '' | 'TypicalDutch';
+export type RSISignature = '' | 'TypicalDutch';
 
-export interface Reaction
+export interface RSIReaction
 {
   type: string;
   count: number;
   members: { [key: string]: string; };
 }
 
-export interface DataReply
+export interface RSIDataReply
 {
   id: string;
   time_created: number;
   time_modified: number;
   thread_id: string;
-  content_blocks: PurpleContentBlock[];
+  content_blocks: RSIPurpleContentBlock[];
   is_erased: boolean;
   erased_by: null;
   annotation_plaintext: null;
-  member: PurpleMember;
-  votes: Votes;
-  reactions: Reaction[];
+  member: RSIPurpleMember;
+  votes: RSIVotes;
+  reactions: RSIReaction[];
   parent_reply_reference: null;
-  children_replies_references: Reference[];
+  children_replies_references: RSIReference[];
   tracked_replies_references: unknown[];
   read: boolean;
   replies_count: number;
-  replies: PurpleReply[];
+  replies: RSIPurpleReply[];
 }
 
-export interface Reference
+export interface RSIReference
 {
   id: string;
   label: string;
 }
 
-export interface PurpleContentBlock
+export interface RSIPurpleContentBlock
 {
   id: number | string;
-  type: DatumType;
-  data: PurpleDatum[] | ContentBlockDataClass;
+  type: RSIDatumType;
+  data: RSIPurpleDatum[] | RSIContentBlockDataClass;
 }
 
-export interface PurpleDatum
+export interface RSIPurpleDatum
 {
   id: string;
   type: string;
-  data: FluffyData;
+  data: RSIFluffyData;
 }
 
-export interface FluffyData
+export interface RSIFluffyData
 {
   url: string;
   image_width: string;
   image_height: string;
-  sizes: PurpleSizes;
+  sizes: RSIPurpleSizes;
 }
 
-export interface PurpleSizes
+export interface RSIPurpleSizes
 {
-  mini: PurpleLarge;
-  square: PurpleLarge;
-  small: PurpleLarge;
-  medium: PurpleLarge;
-  large: PurpleLarge;
+  mini: RSIPurpleLarge;
+  square: RSIPurpleLarge;
+  small: RSIPurpleLarge;
+  medium: RSIPurpleLarge;
+  large: RSIPurpleLarge;
 }
 
-export interface PurpleLarge
+export interface RSIPurpleLarge
 {
   url: string;
 }
 
-export interface PurpleMember
+export interface RSIPurpleMember
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: null | string;
   signature: string;
-  meta: ErasedByMeta;
+  meta: RSIErasedByMeta;
   isGM: boolean;
   spoken_languages: string[];
   roles: { [key: string]: string[]; };
 }
 
-export interface PurpleReply
+export interface RSIPurpleReply
 {
   id: string;
   time_created: number;
   time_modified: number;
   thread_id: string;
-  content_blocks: FluffyContentBlock[];
+  content_blocks: RSIFluffyContentBlock[];
   is_erased: boolean;
   erased_by: null;
   annotation_plaintext: null;
-  member: FluffyMember;
-  votes: Votes;
+  member: RSIFluffyMember;
+  votes: RSIVotes;
   reactions: unknown[];
-  parent_reply_reference: Reference;
-  children_replies_references: Reference[];
+  parent_reply_reference: RSIReference;
+  children_replies_references: RSIReference[];
   tracked_replies_references: unknown[];
   read: boolean;
   replies_count: number;
-  replies: FluffyReply[];
+  replies: RSIFluffyReply[];
 }
 
-export interface FluffyContentBlock
+export interface RSIFluffyContentBlock
 {
   id: number | string;
-  type: PurpleType;
-  data: DatumElement[] | ContentBlockDataClass;
+  type: RSIPurpleType;
+  data: RSIDatumElement[] | RSIContentBlockDataClass;
   reply_id?: string;
-  member?: LatestActivityMember;
+  member?: RSILatestActivityMember;
 }
 
-export type PurpleType = 'text' | 'quote';
+export type RSIPurpleType = 'text' | 'quote';
 
-export interface FluffyMember
+export interface RSIFluffyMember
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: null | string;
   signature: string;
-  meta: ErasedByMeta;
+  meta: RSIErasedByMeta;
   isGM: boolean;
   spoken_languages: string[];
   roles: { [key: string]: string[]; };
 }
 
-export interface FluffyReply
+export interface RSIFluffyReply
 {
   id: string;
   time_created: number;
   time_modified: number;
   thread_id: string;
-  content_blocks: FluffyContentBlock[];
+  content_blocks: RSIFluffyContentBlock[];
   is_erased: boolean;
   erased_by: null;
   annotation_plaintext: null;
-  member: PurpleMember;
-  votes: Votes;
+  member: RSIPurpleMember;
+  votes: RSIVotes;
   reactions: unknown[];
-  parent_reply_reference: Reference;
-  children_replies_references: Reference[];
+  parent_reply_reference: RSIReference;
+  children_replies_references: RSIReference[];
   tracked_replies_references: unknown[];
   read: boolean;
   replies_count: number;
-  replies: TentacledReply[];
+  replies: RSITentacledReply[];
 }
 
-export interface TentacledReply
+export interface RSITentacledReply
 {
   id: string;
   time_created: number;
   time_modified: number;
   thread_id: string;
-  content_blocks: TentacledContentBlock[];
+  content_blocks: RSITentacledContentBlock[];
   is_erased: boolean;
-  erased_by: ErasedByClass | null;
+  erased_by: RSIErasedByClass | null;
   annotation_plaintext: null;
-  member?: ErasedByClass;
-  votes?: Votes;
+  member?: RSIErasedByClass;
+  votes?: RSIVotes;
   reactions?: unknown[];
-  parent_reply_reference: Reference;
-  children_replies_references: Reference[];
+  parent_reply_reference: RSIReference;
+  children_replies_references: RSIReference[];
   tracked_replies_references: unknown[];
   read: boolean;
   replies_count: number;
-  replies: StickyReply[];
+  replies: RSIStickyReply[];
 }
 
-export interface TentacledContentBlock
+export interface RSITentacledContentBlock
 {
   id: number | string;
-  type: DatumType;
-  data: FluffyDatum[] | ContentBlockDataClass;
+  type: RSIDatumType;
+  data: RSIFluffyDatum[] | RSIContentBlockDataClass;
 }
 
-export interface FluffyDatum
+export interface RSIFluffyDatum
 {
   id: string;
   slug: string;
   type: string;
-  data: TentacledData;
+  data: RSITentacledData;
 }
 
-export interface TentacledData
+export interface RSITentacledData
 {
   embed_type: string;
   url: string;
@@ -366,39 +366,39 @@ export interface TentacledData
   image_height: number;
   provider_icon: string;
   time_fetched: number;
-  sizes: FluffySizes;
+  sizes: RSIFluffySizes;
 }
 
-export interface FluffySizes
+export interface RSIFluffySizes
 {
-  mini: FluffyLarge;
-  square: FluffyLarge;
-  small: FluffyLarge;
-  medium: FluffyLarge;
-  large: FluffyLarge;
+  mini: RSIFluffyLarge;
+  square: RSIFluffyLarge;
+  small: RSIFluffyLarge;
+  medium: RSIFluffyLarge;
+  large: RSIFluffyLarge;
 }
 
-export interface FluffyLarge
+export interface RSIFluffyLarge
 {
   url: string;
   image_width: number;
   image_height: number;
 }
 
-export interface StickyReply
+export interface RSIStickyReply
 {
   id: string;
   time_created: number;
   time_modified: number;
   thread_id: string;
-  content_blocks: DatumElement[];
+  content_blocks: RSIDatumElement[];
   is_erased: boolean;
   erased_by: null;
   annotation_plaintext: null;
-  member: ErasedByClass;
-  votes: Votes;
+  member: RSIErasedByClass;
+  votes: RSIVotes;
   reactions: unknown[];
-  parent_reply_reference: Reference;
+  parent_reply_reference: RSIReference;
   children_replies_references: unknown[];
   tracked_replies_references: unknown[];
   read: boolean;
@@ -406,7 +406,7 @@ export interface StickyReply
   replies: unknown[];
 }
 
-export interface Votes
+export interface RSIVotes
 {
   count: number;
   voted: number;

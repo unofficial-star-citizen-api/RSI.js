@@ -1,4 +1,4 @@
-export type PatchNoteModel = {
+export type RSIPatchNoteModel = {
   title: string | undefined;
   version: string | undefined;
   link: string | undefined;

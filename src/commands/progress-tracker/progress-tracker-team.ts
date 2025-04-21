@@ -1,6 +1,7 @@
 import { HttpClient } from '../../http-client';
 
-interface TimeAllocation {
+interface RSITimeAllocation
+{
   startDate: string;
   endDate: string;
   uuid: string;
@@ -8,7 +9,8 @@ interface TimeAllocation {
   __typename: string;
 }
 
-interface Team {
+interface RSITeam
+{
   title: string;
   description: string;
   uuid: string;
@@ -17,14 +19,15 @@ interface Team {
   endDate: string;
   numberOfDeliverables: number;
   slug: string;
-  timeAllocations: TimeAllocation[];
+  timeAllocations: RSITimeAllocation[];
   __typename: string;
 }
 
 /**
  * ProgressTracker class for retrieving Star Citizen progress tracker information
  */
-export class ProgressTrackerTeam {
+export class ProgressTrackerTeam
+{
   private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly limit: number = 20;
   private readonly offset: number = 0;
@@ -34,14 +37,16 @@ export class ProgressTrackerTeam {
    * @param dateMin - The roadmap start date
    * @param dateMax - The roadmap end date
    */
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
   /**
    * Get teams from the progress tracker
    */
-  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<Team[] | null> {
+  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSITeam[] | null>
+  {
     const data = {
       operationName: 'teams',
       query: `query
@@ -116,24 +121,28 @@ export class ProgressTrackerTeam {
         progressTracker: {
           teams: {
             totalCount: number;
-            metaData: Team[];
-          }
-        }
-      }
+            metaData: RSITeam[];
+          };
+        };
+      };
     }>(this.urlProgressTracker, data);
 
-    if (req === null || req.status !== 200) {
+    if (req === null || req.status !== 200)
+    {
       return null;
     }
 
-    try {
+    try
+    {
       const resp = req.data;
-      if (!resp.data) {
+      if (!resp.data)
+      {
         return null;
       }
 
       return resp.data.progressTracker.teams.metaData;
-    } catch (e) {
+    } catch (e)
+    {
       console.error(e);
       return null;
     }

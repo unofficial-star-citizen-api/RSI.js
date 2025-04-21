@@ -1,3 +1,3 @@
-export type TelemetryData = {
+export type RSITelemetryData = {
   [key: string]: unknown;
 }

@@ -1,7 +1,10 @@
 import { CheerioAPI, load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import {
-  AffiliationOrganization, MainOrganization, UserOrganization, UserProfile 
+import
+{
+  RSIAffiliationOrganization, RSIMainOrganization,
+  RSIUserOrganization,
+  RSIUserProfile
 } from './types';
 
 /**
@@ -20,7 +23,7 @@ export class User
   }
 
 
-  public async getProfile(userHandle: string): Promise<UserProfile | null>
+  public async getProfile(userHandle: string): Promise<RSIUserProfile | null>
   {
     // Format URL
     const url = this.urlProfile.replace('{0}', userHandle);
@@ -53,7 +56,7 @@ export class User
       website: $('.label:contains("Enlisted")').next().attr('href'),
       bio: {
         text: $('.label:contains("Bio")').next().text().trim(),
-        html: $('.label:contains("Bio")').next().html() ?? undefined
+        html: $('.label:contains("Bio")').next().html()?.trim() ?? undefined
       }
     };
   }
@@ -63,7 +66,7 @@ export class User
    * @param userHandle - The user handle
    * @returns The user affiliations
    */
-  public async getOrganization(userHandle: string): Promise<UserOrganization | null>
+  public async getOrganization(userHandle: string): Promise<RSIUserOrganization | null>
   {
     // Format URL
     const url = this.urlAffiliation.replace('{0}', userHandle);
@@ -80,7 +83,7 @@ export class User
     const $ = load(response.data);
 
     const mainOrg = $('.org.main');
-    const organization: MainOrganization = {
+    const organization: RSIMainOrganization = {
       info: {
         url: HttpClient.toAbsoluteUrl($(mainOrg).find('.info .entry').first().find('a').attr('href')),
         sid: $(mainOrg).find('.label:contains("SID")').next().text().trim(),
@@ -110,9 +113,9 @@ export class User
     };
   }
 
-  private extractAffiliations($: CheerioAPI): AffiliationOrganization[]
+  private extractAffiliations($: CheerioAPI): RSIAffiliationOrganization[]
   {
-    const affiliations: AffiliationOrganization[] = [];
+    const affiliations: RSIAffiliationOrganization[] = [];
     $('.org.affiliation').each((_, affiliation) =>
     {
       // check if the affiliation is restricted
@@ -139,7 +142,7 @@ export class User
     return affiliations;
   }
 
-  private extractProfileLocations($: CheerioAPI): UserProfile['location']
+  private extractProfileLocations($: CheerioAPI): RSIUserProfile['location']
   {
     const text = $('.label:contains("Location")').next().text().trim();
     if (text == null || text == '')
@@ -153,7 +156,7 @@ export class User
     };
   }
 
-  private extractProfileFluency($: CheerioAPI): UserProfile['fluency']
+  private extractProfileFluency($: CheerioAPI): RSIUserProfile['fluency']
   {
     const text = $('.label:contains("Fluency")').next().text().trim();
     if (text == null || text == '')

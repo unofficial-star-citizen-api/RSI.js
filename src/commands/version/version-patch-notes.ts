@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { PatchNoteModel } from './types/patch-note.type';
+import { RSIPatchNoteModel } from './types/patch-note.type';
 
 export class PatchNote
 {
@@ -12,7 +12,7 @@ export class PatchNote
     this.httpClient = httpClient;
   }
 
-  public async getAll(): Promise<PatchNoteModel[]>
+  public async getAll(): Promise<RSIPatchNoteModel[]>
   {
     const response = await this.httpClient.get<string>(this.url);
 
@@ -28,13 +28,13 @@ export class PatchNote
     }));
   }
 
-  public async getLatest(): Promise<PatchNoteModel | undefined>
+  public async getLatest(): Promise<RSIPatchNoteModel | undefined>
   {
     return this.getAll()
       .then(patchNotes => patchNotes.at(0));
   }
 
-  public async find(version: string): Promise<PatchNoteModel | undefined>
+  public async find(version: string): Promise<RSIPatchNoteModel | undefined>
   {
     return this.getAll().then(patchNotes => patchNotes.find(patchNote => patchNote.version?.includes(version)));
   }

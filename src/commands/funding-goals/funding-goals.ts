@@ -1,7 +1,7 @@
 import { HttpClient } from '../../http-client';
-import { FundingGoalsData } from './types';
+import { RSIFundingGoalsData } from './types';
 
-export type FoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
+export type RSIFoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
 
 /**
  * Stats class for retrieving Star Citizen game stats
@@ -22,7 +22,7 @@ export class FundingGoals
    * @param chart - Chart type
    * @returns Associative array of stats
    */
-  public async getCrowStats(chart: FoundingGoalChart): Promise<FundingGoalsData>
+  public async getCrowStats(chart: RSIFoundingGoalChart): Promise<RSIFundingGoalsData>
   {
     const data = {
       alpha_slots: true,
@@ -32,7 +32,7 @@ export class FundingGoals
       funds: true,
     };
 
-    const response = await this.httpClient.post<FundingGoalsData>(this.urlCrowStat, data);
+    const response = await this.httpClient.post<RSIFundingGoalsData>(this.urlCrowStat, data);
 
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);

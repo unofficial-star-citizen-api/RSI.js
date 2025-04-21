@@ -1,33 +1,33 @@
-export type TelemetryResponse = {
+export type RSITelemetryResponse = {
   success: number;
   code: number;
-  data?: TelemetryInfo | null;
+  data?: RSITelemetryInfo | null;
   msg: string;
 };
 
-export type TelemetryInfo = {
-  readonly current: Current;
+export type RSITelemetryInfo = {
+  readonly current: RSICurrent;
   readonly past: unknown;
   [property: string]: unknown;
 };
 
-export type Current = {
+export type RSICurrent = {
   readonly doc_count: number;
   readonly last_updated_at: number;
-  readonly latency_avg: LatencyAvg;
-  readonly load_times_hdd: LoadTimesHDD;
-  readonly load_times_ssd: LoadTimesSSD;
+  readonly latency_avg: RSILatencyAvg;
+  readonly load_times_hdd: RSILoadTimesHDD;
+  readonly load_times_ssd: RSILoadTimesSSD;
   readonly popular_resolutions: Array<number[]>;
   readonly stability_score: number;
   [property: string]: unknown;
 };
 
-export type LatencyAvg = {
+export type RSILatencyAvg = {
   readonly value: number;
   [property: string]: unknown;
 };
 
-export type LoadTimesHDD = {
+export type RSILoadTimesHDD = {
   readonly percent: number;
   readonly percentiles: { [key: string]: unknown; };
   readonly avg: unknown;
@@ -36,7 +36,7 @@ export type LoadTimesHDD = {
   [property: string]: unknown;
 };
 
-export type LoadTimesSSD = {
+export type RSILoadTimesSSD = {
   readonly avg: number;
   readonly max: number;
   readonly min: number;

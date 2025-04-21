@@ -1,3 +1,4 @@
-export interface StarSystemDetailInterface {
+export interface RSIStarSystemDetailInterface
+{
   [key: string]: unknown;
 }

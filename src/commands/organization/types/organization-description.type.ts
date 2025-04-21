@@ -1,7 +1,7 @@
 /**
  * Represents a focus area with an image and name
  */
-export type FocusArea = {
+export type RSIFocusArea = {
   image: string | undefined;
   name: string | undefined;
 };
@@ -9,7 +9,7 @@ export type FocusArea = {
 /**
  * Represents content that has both HTML and plaintext versions
  */
-export type FormattedContent = {
+export type RSIFormattedContent = {
   html: string | undefined;
   plaintext: string | undefined;
 };
@@ -17,7 +17,7 @@ export type FormattedContent = {
 /**
  * Represents the detailed information of an organization
  */
-export type OrganizationDetail = {
+export type RSIOrganizationDetail = {
   // Basic identification
   sid: string;
   url: string;
@@ -32,13 +32,13 @@ export type OrganizationDetail = {
 
   // Organization focus areas
   focus: {
-    primary: FocusArea;
-    secondary: FocusArea;
+    primary: RSIFocusArea;
+    secondary: RSIFocusArea;
   };
 
   // Descriptive content
-  headline: FormattedContent;
-  history: FormattedContent;
-  manifesto: FormattedContent;
-  charter: FormattedContent;
+  headline: RSIFormattedContent;
+  history: RSIFormattedContent;
+  manifesto: RSIFormattedContent;
+  charter: RSIFormattedContent;
 };

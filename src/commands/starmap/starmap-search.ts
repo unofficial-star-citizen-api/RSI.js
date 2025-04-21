@@ -1,36 +1,41 @@
 import { HttpClient } from '../../http-client';
-import { SearchResultInterface } from './interfaces/search-result.interface';
+import { RSISearchResultInterface } from './interfaces/search-result.interface';
 
 /**
  * StarmapSearch class for searching Star Citizen starmap
  */
-export class StarmapSearch {
+export class StarmapSearch
+{
   private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/find';
   private readonly httpClient: HttpClient;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
-  public async find(searchPattern: string): Promise<SearchResultInterface | null> {
+  public async find(searchPattern: string): Promise<RSISearchResultInterface | null>
+  {
     const data = { query: searchPattern };
 
     const req = await this.httpClient.post<{
       success: number;
       data?: {
-        systems: { resultset: Array<Record<string, unknown>> };
-        objects: { resultset: Array<Record<string, unknown>> }
+        systems: { resultset: Array<Record<string, unknown>>; };
+        objects: { resultset: Array<Record<string, unknown>>; };
       };
     }>(this.urlFind, data);
 
-    if (req === null || req.status !== 200) {
+    if (req === null || req.status !== 200)
+    {
       return null;
     }
 
     const resp = req.data;
 
     // Check response
-    if (resp.success !== 1 || !resp.data) {
+    if (resp.success !== 1 || !resp.data)
+    {
       return null;
     }
 

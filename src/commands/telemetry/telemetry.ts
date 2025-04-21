@@ -1,5 +1,5 @@
 import { HttpClient } from '../../http-client';
-import { TelemetryResponse } from './types';
+import { RSITelemetryResponse } from './types';
 
 type VersionNumber = '3.12' | '3.13' | '3.14'
   | '3.15' | '3.16' | '3.17'
@@ -31,11 +31,11 @@ export class Telemetry
    * @param version The Star Citizen version to retrieve data for
    * @returns TelemetryInfo
    */
-  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<TelemetryResponse>
+  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetryResponse>
   {
     const query = `?&timetable=${timetable}&branch=${version}`;
 
-    const response = await this.httpClient.get<TelemetryResponse>(this.urlTelemetry + query);
+    const response = await this.httpClient.get<RSITelemetryResponse>(this.urlTelemetry + query);
 
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);

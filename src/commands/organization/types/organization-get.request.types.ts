@@ -1,40 +1,40 @@
-export type GetOrgsParams = {
-  activity?: Activities[];
-  commitment?: Commitment[];
-  languages?: Language[];
-  model?: Archetype[];
+export type RSIGetOrgsParams = {
+  activity?: RSIActivities[];
+  commitment?: RSICommitment[];
+  languages?: RSILanguage[];
+  model?: RSIArchetype[];
   page?: number;
-  recruiting?: Boolean[];
-  roleplay?: Boolean[];
+  recruiting?: RSIBoolean[];
+  roleplay?: RSIBoolean[];
   search?: string;
-  size?: Size[];
-  sort?: Sort;
+  size?: RSISize[];
+  sort?: RSISort;
 };
 
-export type SortOrder = 'desc' | 'asc';
-export type SortField = 'size' | 'name' | 'created' | 'active';
-export type Sort = `${SortField}_${SortOrder}`;
+export type RSISortOrder = 'desc' | 'asc';
+export type RSISortField = 'size' | 'name' | 'created' | 'active';
+export type RSISort = `${RSISortField}_${RSISortOrder}`;
 
-export enum Boolean
+export enum RSIBoolean
 {
   Yes = '0',
   No = '1',
 }
 
-export enum Commitment
+export enum RSICommitment
 {
   Casual = 'CA',
   Regular = 'RE',
   Hardcore = 'HA',
 }
 
-export enum Size
+export enum RSISize
 {
   Small = 'small',
   Medium = 'medium',
   Large = 'large',
 }
-export enum Archetype
+export enum RSIArchetype
 {
   Organization = 'generic',
   Corporation = 'corp',
@@ -44,7 +44,7 @@ export enum Archetype
   Club = 'club',
 }
 
-export enum Activities
+export enum RSIActivities
 {
   Transport = '1',
   Smuggling = '2',
@@ -62,7 +62,7 @@ export enum Activities
   Medical = '14'
 }
 
-export enum Language
+export enum RSILanguage
 {
   All = '',
   Abkhazian = 'ab',

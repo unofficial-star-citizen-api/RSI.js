@@ -1,11 +1,15 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import {
-  OrganizationArchetype, OrganizationCommitment, OrganizationSearchResult, RSIResponse 
+import
+{
+  RSIOrganizationArchetype,
+  RSIOrganizationCommitment,
+  RSIOrganizationSearchResult,
+  RSIResponse
 } from './types';
-import { GetOrgsParams } from './types/organization-get.request.types';
+import { RSIGetOrgsParams } from './types/organization-get.request.types';
 
-export type ReturnFunction = (params?: GetOrgsParams) => Promise<OrganizationSearchResult[]>;
+export type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearchResult[]>;
 
 /**
  * Get organization search results
@@ -18,7 +22,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 {
   const urlGetOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
 
-  return async function (params?: GetOrgsParams): Promise<OrganizationSearchResult[]>
+  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearchResult[]>
   {
     const response = await httpClient.post<RSIResponse>(urlGetOrgs, params);
     if (response.status !== 200)
@@ -33,7 +37,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 
     const $ = load(response.data.data.html);
 
-    const organizations: OrganizationSearchResult[] = [];
+    const organizations: RSIOrganizationSearchResult[] = [];
     for (const orgElement of $('.org-cell ').toArray())
     {
       organizations.push({
@@ -42,8 +46,8 @@ export function search(httpClient: HttpClient): ReturnFunction
         icon: HttpClient.toAbsoluteUrl($(orgElement).find('.thumb img').attr('src')),
         href: HttpClient.toAbsoluteUrl($(orgElement).find('a').attr('href')),
         characteristics: {
-          archetype: $(orgElement).find('.label:contains("Archetype")').next().text().trim() as OrganizationArchetype,
-          commitment: $(orgElement).find('.label:contains("Commitment")').next().text().trim() as OrganizationCommitment,
+          archetype: $(orgElement).find('.label:contains("Archetype")').next().text().trim() as RSIOrganizationArchetype,
+          commitment: $(orgElement).find('.label:contains("Commitment")').next().text().trim() as RSIOrganizationCommitment,
           language: $(orgElement).find('.label:contains("Lang")').next().text().trim(),
           isRecruiting: $(orgElement).find('.label:contains("Recruiting")').next().text().trim().toLowerCase() === 'yes',
           isRoleplay: $(orgElement).find('.label:contains("Role play")').next().text().trim().toLowerCase() === 'yes',

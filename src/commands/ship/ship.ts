@@ -2,7 +2,7 @@ import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
 import { HttpClient } from '../../http-client';
 
-interface ShipData
+interface RSIShipData
 {
   id?: string;
   name?: string;
@@ -11,7 +11,7 @@ interface ShipData
   [key: string]: unknown;
 }
 
-type SearchArgs = {
+type RSISearchArgs = {
   name?: string;
   classification?: string;
   length_min?: number;
@@ -48,7 +48,7 @@ export class Ship
    * Get all ships using advanced search through pages
    * @returns Ships data
    */
-  public async search(searchArgs: SearchArgs): Promise<ShipData[]>
+  public async search(searchArgs: RSISearchArgs): Promise<RSIShipData[]>
   {
     const name = HttpHelper.convertVal(searchArgs.name);
     const classification = HttpHelper.convertVal(searchArgs.classification);
@@ -121,7 +121,7 @@ export class Ship
       return [];
     }
 
-    const ships: ShipData[] = [];
+    const ships: RSIShipData[] = [];
     const $ = load(resp.data.html);
     const shipIds: string[] = [];
 
@@ -141,7 +141,7 @@ export class Ship
 
     for (const result of shipResults.filter(Boolean))
     {
-      const [respShip, reqPage] = result as [ShipData, { data: string; }];
+      const [respShip, reqPage] = result as [RSIShipData, { data: string; }];
 
       const pageContent = load(reqPage.data);
 
@@ -180,7 +180,7 @@ export class Ship
    * @param shipId - The ship ID
    * @returns Ship data and page response
    */
-  private async getShipAsync(shipId: string): Promise<[ShipData, { data: string; }] | null>
+  private async getShipAsync(shipId: string): Promise<[RSIShipData, { data: string; }] | null>
   {
     const respShip = await this.getShipById(shipId);
     if (!respShip)
@@ -209,7 +209,7 @@ export class Ship
    * @param getPrice - If the price needs to be retrieved
    * @returns The ship data
    */
-  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<ShipData | null>
+  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<RSIShipData | null>
   {
     const parameters: Record<string, string> = {};
     if (shipId !== undefined)
@@ -219,7 +219,7 @@ export class Ship
 
     const req = await this.httpClient.post<{
       success: number;
-      data?: ShipData[];
+      data?: RSIShipData[];
     }>(this.urlShipsId, parameters);
 
     if (req === null)
@@ -240,7 +240,7 @@ export class Ship
       return null;
     }
 
-    let res: ShipData | ShipData[] = [];
+    let res: RSIShipData | RSIShipData[] = [];
     if (shipId === undefined)
     {
       res = respShip.data;

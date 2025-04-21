@@ -2,25 +2,25 @@ export type RSIRoadmap = {
   readonly success: number;
   readonly code: string;
   readonly msg: string;
-  readonly data: Data;
+  readonly data: RSIData;
 };
 
-export type Data = {
-  readonly config: Config;
+export type RSIData = {
+  readonly config: RSIConfig;
   readonly canEdit: boolean;
   readonly who: null;
-  readonly boards: Board[];
+  readonly boards: RSIBoard[];
 };
 
-export type Board = {
+export type RSIBoard = {
   readonly id: number;
   readonly url_slug: string;
   readonly name: string;
   readonly description: string;
   readonly body: string;
   readonly order: number;
-  readonly thumbnail: Thumbnail;
-  readonly background: Thumbnail | null;
+  readonly thumbnail: RSIThumbnail;
+  readonly background: RSIThumbnail | null;
   readonly importer_id: string;
   readonly info_heading: string;
   readonly notification_title: string;
@@ -29,19 +29,19 @@ export type Board = {
   readonly last_updated: number;
 };
 
-export type Thumbnail = {
+export type RSIThumbnail = {
   readonly id: number;
-  readonly urls: Urls;
+  readonly urls: RSIUrls;
 };
 
-export type Urls = {
+export type RSIUrls = {
   readonly square: string;
   readonly rect: string;
   readonly large: string;
   readonly source: string;
 };
 
-export type Config = {
+export type RSIConfig = {
   readonly events_url: string;
   readonly home_url: string;
   readonly ga_tracking_id: string;

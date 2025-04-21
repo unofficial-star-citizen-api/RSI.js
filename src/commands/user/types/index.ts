@@ -1,4 +1,4 @@
-export type UserProfile = {
+export type RSIUserProfile = {
   page: {
     url: string | undefined;
     title: string | undefined;
@@ -22,12 +22,12 @@ export type UserProfile = {
   };
 };
 
-export type UserOrganization = {
-  organization: MainOrganization;
-  affiliations: AffiliationOrganization[];
+export type RSIUserOrganization = {
+  organization: RSIMainOrganization;
+  affiliations: RSIAffiliationOrganization[];
 };
 
-export type MainOrganization = {
+export type RSIMainOrganization = {
   info: {
     url: string | undefined;
     sid: string | undefined;
@@ -49,7 +49,7 @@ export type MainOrganization = {
   };
 };
 
-export type AffiliationOrganization = {
+export type RSIAffiliationOrganization = {
   sid: string | undefined;
   name: string | undefined;
   rank: string | undefined;

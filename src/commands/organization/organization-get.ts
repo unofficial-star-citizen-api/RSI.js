@@ -1,14 +1,14 @@
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
-import { OrganizationDetail } from './types';
+import { RSIOrganizationDetail } from './types';
 
-export type ReturnFunction = (sid: string) => Promise<OrganizationDetail>;
+export type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
 
 export function get(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
 
-  return async function (sid: string): Promise<OrganizationDetail>
+  return async function (sid: string): Promise<RSIOrganizationDetail>
   {
     const url = urlOrganization.replace('{0}', sid);
 

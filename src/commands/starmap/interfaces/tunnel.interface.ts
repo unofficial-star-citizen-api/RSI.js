@@ -1,4 +1,5 @@
-export interface TunnelInterface {
+export interface RSITunnelInterface
+{
   id: string;
   [key: string]: unknown;
 }

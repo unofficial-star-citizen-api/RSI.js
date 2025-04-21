@@ -1,4 +1,5 @@
-export interface RouteResultInterface {
+export interface RSIRouteResultInterface
+{
   shortest: Array<Record<string, unknown>>;
   leastjumps: Array<Record<string, unknown>>;
 }

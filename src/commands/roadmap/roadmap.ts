@@ -1,6 +1,7 @@
 import { HttpClient } from '../../http-client';
 
-interface RoadmapCard {
+interface RSIRoadmapCard
+{
   id: number;
   name: string;
   description: string;
@@ -9,15 +10,17 @@ interface RoadmapCard {
   [key: string]: unknown;
 }
 
-interface RoadmapRelease {
+interface RSIRoadmapRelease
+{
   id: number;
   name: string;
   description: string;
-  cards: RoadmapCard[];
+  cards: RSIRoadmapCard[];
   [key: string]: unknown;
 }
 
-interface RoadmapCategory {
+interface RSIRoadmapCategory
+{
   id: number;
   name: string;
   [key: string]: unknown;
@@ -26,7 +29,8 @@ interface RoadmapCategory {
 /**
  * Roadmap class for retrieving Star Citizen roadmap information
  */
-export class Roadmap {
+export class Roadmap
+{
   private readonly urlRoadmapSC = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
   private readonly urlRoadmapS42 = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/2';
   private readonly httpClient: HttpClient;
@@ -35,45 +39,53 @@ export class Roadmap {
    * @param board - The roadmap board ("starcitizen" or "squadron42")
    * @param version - The starcitizen version (optional)
    */
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async getBoardReleases(board: 'starcitizen'|'squadron42', version?: string): Promise<RoadmapRelease[] | null> {
+  public async getBoardReleases(board: 'starcitizen' | 'squadron42', version?: string): Promise<RSIRoadmapRelease[] | null>
+  {
     let req;
 
-    if (board === 'starcitizen') {
+    if (board === 'starcitizen')
+    {
       req = await this.httpClient.get<{
         success: number;
         data?: {
-          releases: RoadmapRelease[];
-          categories: RoadmapCategory[];
+          releases: RSIRoadmapRelease[];
+          categories: RSIRoadmapCategory[];
         };
       }>(this.urlRoadmapSC);
-    } else if (board === 'squadron42') {
+    } else if (board === 'squadron42')
+    {
       req = await this.httpClient.get<{
         success: number;
         data?: {
-          releases: RoadmapRelease[];
-          categories: RoadmapCategory[];
+          releases: RSIRoadmapRelease[];
+          categories: RSIRoadmapCategory[];
         };
       }>(this.urlRoadmapS42);
-    } else {
+    } else
+    {
       return null;
     }
 
-    if (req === null || req.status !== 200) {
+    if (req === null || req.status !== 200)
+    {
       return null;
     }
 
-    try {
+    try
+    {
       const resp = req.data;
 
       // Check response
-      if (resp.success !== 1 || !resp.data || !resp.data.releases) {
+      if (resp.success !== 1 || !resp.data || !resp.data.releases)
+      {
         return null;
       }
 
@@ -81,28 +93,35 @@ export class Roadmap {
       const categories = resp.data.categories;
 
       const cats: Record<number, string> = {};
-      for (const c of categories) {
+      for (const c of categories)
+      {
         cats[c.id] = c.name;
       }
 
-      for (const r of releases) {
-        for (const c of r.cards) {
+      for (const r of releases)
+      {
+        for (const c of r.cards)
+        {
           c.category_name = cats[c.category_id];
         }
       }
 
-      if (version === undefined) {
+      if (version === undefined)
+      {
         return releases;
       }
 
-      for (const r of releases) {
-        if (r.name === version) {
+      for (const r of releases)
+      {
+        if (r.name === version)
+        {
           return [r];
         }
       }
 
       return [];
-    } catch (e) {
+    } catch (e)
+    {
       console.error(e);
       return null;
     }

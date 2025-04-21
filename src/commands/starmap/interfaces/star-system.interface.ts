@@ -1,4 +1,5 @@
-export interface StarSystemInterface {
+export interface RSIStarSystemInterface
+{
   id: string;
   name: string;
   code: string;

@@ -1,18 +1,21 @@
 import { HttpClient } from '../../http-client';
-import { RouteResultInterface } from './interfaces/route-result.interface';
+import { RSIRouteResultInterface } from './interfaces/route-result.interface';
 
 /**
  * StarmapRouteSearch class for searching routes in Star Citizen starmap
  */
-export class StarmapRoute {
+export class StarmapRoute
+{
   private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/routes/find';
   private readonly httpClient: HttpClient;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     this.httpClient = httpClient;
   }
 
-  async find(from: string, to: string, shipSize: string): Promise<RouteResultInterface | null> {
+  async find(from: string, to: string, shipSize: string): Promise<RSIRouteResultInterface | null>
+  {
     const data = {
       departure: from,
       destination: to,
@@ -27,14 +30,16 @@ export class StarmapRoute {
       };
     }>(this.urlFind, data);
 
-    if (req === null || req.status !== 200) {
+    if (req === null || req.status !== 200)
+    {
       return null;
     }
 
     const resp = req.data;
 
     // Check response
-    if (resp.success !== 1 || !resp.data) {
+    if (resp.success !== 1 || !resp.data)
+    {
       return null;
     }
 
