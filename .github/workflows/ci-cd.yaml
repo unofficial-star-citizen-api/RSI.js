@@ -1,13 +1,13 @@
 name: CI
 
 on:
+  workflow_dispatch:
+
   push:
     branches: [ main ]
-    tags:
-      - 'v*' # Run workflow on version tags, e.g. v1.0.0
+
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build-and-test:
@@ -43,34 +43,85 @@ jobs:
         path: dist/
         retention-days: 7
 
-  # publish-gpr:
-  #   needs: build-and-test
-  #   if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  publish:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20.x'
-  #         registry-url: 'https://npm.pkg.github.com'
-  #         scope: '@${{ github.repository_owner }}'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@${{ github.repository_owner }}'
 
-  #     - name: Download build artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: dist
-  #         path: dist
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
-  #     - name: Install dependencies
-  #       run: npm ci --production=false
+      - name: Install dependencies
+        run: npm ci --production=false
 
-  #     - name: Publish to GitHub Packages
-  #       run: npm publish
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get current version from repository variable
+        id: get_version
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          # Get current version from GitHub repository variable
+          CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.1' }}"
+          echo "Current version from repository variable: $CURRENT_VERSION"
+
+          # Parse version components
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          echo "Current components: $major.$minor.$patch"
+
+          # Increment patch version
+          NEW_PATCH=$((patch + 1))
+          NEW_VERSION="$major.$minor.$NEW_PATCH"
+          echo "New version: $NEW_VERSION"
+
+          # Set outputs for next steps
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Update package.json version
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          # Update package.json with new version without creating a commit
+          npm --no-git-tag-version version ${{ steps.get_version.outputs.new_version }}
+          echo "Updated package.json to version ${{ steps.get_version.outputs.new_version }}"
+
+      - name: Update repository variable
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const newVersion = '${{ steps.get_version.outputs.new_version }}';
+            console.log(`Updating CURRENT_VERSION repository variable to: ${newVersion}`);
+
+            try {
+              await github.rest.actions.updateRepoVariable({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'CURRENT_VERSION',
+                value: newVersion
+              });
+              console.log('Repository variable updated successfully');
+            } catch (error) {
+              console.error('Error updating repository variable:', error);
+              core.setFailed(`Failed to update repository variable: ${error.message}`);
+            }
+
+      # - name: Publish to GitHub Packages
+      #   if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      #   run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
