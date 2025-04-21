@@ -44,10 +44,16 @@ jobs:
         CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.1' }}"
         echo "Current version from repository variable: $CURRENT_VERSION"
 
-        # Use npm version to increment the patch version
-        NEW_VERSION=$(npm --no-git-tag-version version patch)
-        NEW_VERSION=$(echo $NEW_VERSION | sed 's/v//')
-        echo "New version (incremented by npm): $NEW_VERSION"
+        # Increment the patch version directly from CURRENT_VERSION
+        MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
+        MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+        PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
+        PATCH=$((PATCH + 1))
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "New version (incremented patch): $NEW_VERSION"
+
+        # Update package.json version to match
+        npm --no-git-tag-version version $NEW_VERSION
 
         # Set outputs for next steps
         echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
