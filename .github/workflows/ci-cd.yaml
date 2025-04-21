@@ -81,33 +81,33 @@ jobs:
           package.tgz
         retention-days: 7
 
-  publish:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # publish:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@${{ github.repository_owner }}'
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '22.x'
+  #         registry-url: 'https://npm.pkg.github.com'
+  #         scope: '@${{ github.repository_owner }}'
 
-      - name: Download package artifact
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        uses: actions/download-artifact@v4
-        with:
-          name: package-artifacts
+  #     - name: Download package artifact
+  #       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: package-artifacts
 
-      - name: Publish to GitHub Packages
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: |
-          # Publish the downloaded package
-          npm publish package.tgz --access private
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Publish to GitHub Packages
+  #       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+  #       run: |
+  #         # Publish the downloaded package
+  #         npm publish package.tgz --access private
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
