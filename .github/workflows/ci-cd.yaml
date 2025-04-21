@@ -60,12 +60,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@${{ github.repository_owner }}'
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-
       - name: Install dependencies
         run: npm ci --production=false
 
@@ -98,27 +92,12 @@ jobs:
           npm --no-git-tag-version version ${{ steps.get_version.outputs.new_version }}
           echo "Updated package.json to version ${{ steps.get_version.outputs.new_version }}"
 
-      - name: Update repository variable
+      - name: Update repository variable with GitHub CLI
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const newVersion = '${{ steps.get_version.outputs.new_version }}';
-            console.log(`Updating CURRENT_VERSION repository variable to: ${newVersion}`);
-
-            try {
-              await github.rest.actions.updateRepoVariable({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: 'CURRENT_VERSION',
-                value: newVersion
-              });
-              console.log('Repository variable updated successfully');
-            } catch (error) {
-              console.error('Error updating repository variable:', error);
-              core.setFailed(`Failed to update repository variable: ${error.message}`);
-            }
+        run: |
+          echo "Updating CURRENT_VERSION repository variable to: ${{ steps.get_version.outputs.new_version }}"
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          gh variable set CURRENT_VERSION -b "${{ steps.get_version.outputs.new_version }}" --repo ${{ github.repository }}
 
       # - name: Publish to GitHub Packages
       #   if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
