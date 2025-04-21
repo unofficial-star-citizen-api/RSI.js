@@ -1,6 +1,6 @@
 {
   "name": "@unofficial-star-citizen-api/rsi.js",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A TypeScript library for retrieving Star Citizen data from the Roberts Space Industries website",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
