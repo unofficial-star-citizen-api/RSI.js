@@ -36,6 +36,31 @@ jobs:
     - name: Build
       run: npm run build
 
+    - name: Update package version
+      id: update_version
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      run: |
+        # Get current version from GitHub repository variable
+        CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.1' }}"
+        echo "Current version from repository variable: $CURRENT_VERSION"
+
+        # Use npm version to increment the patch version
+        NEW_VERSION=$(npm --no-git-tag-version version patch)
+        NEW_VERSION=$(echo $NEW_VERSION | sed 's/v//')
+        echo "New version (incremented by npm): $NEW_VERSION"
+
+        # Set outputs for next steps
+        echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Update repository variable with GitHub CLI
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      run: |
+        echo "Updating CURRENT_VERSION repository variable to: ${{ steps.update_version.outputs.new_version }}"
+        echo "${{ secrets.ACCESS_TOKEN }}" | gh auth login --with-token
+        gh variable set CURRENT_VERSION -b "${{ steps.update_version.outputs.new_version }}" --repo ${{ github.repository }}
+
     - name: Create npm package
       run: |
         # Pack the package into a tarball (will run prepare script if needed)
@@ -76,48 +101,16 @@ jobs:
       - name: Install dependencies
         run: npm ci --production=false
 
-      - name: Update package version
-        id: update_version
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: |
-          # Get current version from GitHub repository variable
-          CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.1' }}"
-          echo "Current version from repository variable: $CURRENT_VERSION"
-
-          # Use npm version to increment the patch version
-          NEW_VERSION=$(npm --no-git-tag-version version patch)
-          NEW_VERSION=$(echo $NEW_VERSION | sed 's/v//')
-          echo "New version (incremented by npm): $NEW_VERSION"
-
-          # Set outputs for next steps
-          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Update repository variable with GitHub CLI
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: |
-          echo "Updating CURRENT_VERSION repository variable to: ${{ steps.update_version.outputs.new_version }}"
-          echo "${{ secrets.ACCESS_TOKEN }}" | gh auth login --with-token
-          gh variable set CURRENT_VERSION -b "${{ steps.update_version.outputs.new_version }}" --repo ${{ github.repository }}
-
       - name: Download package artifact
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/download-artifact@v4
         with:
           name: package-artifacts
 
-      - name: Update package.json version
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: |
-          # Update package.json with the new version
-          npm version ${{ steps.update_version.outputs.new_version }} --no-git-tag-version
-          echo "Updated package.json to version ${{ steps.update_version.outputs.new_version }}"
-
       - name: Publish to GitHub Packages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           # Publish the downloaded package
-          npm publish package.tgz --access public
+          npm publish package.tgz --access private
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
