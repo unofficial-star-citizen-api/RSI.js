@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { load } from 'cheerio';
 import { HttpClient } from '../../http-client';
 import { RSIOrganizationDetail } from './types';
@@ -15,11 +16,11 @@ export function get(httpClient: HttpClient): ReturnFunction
     const response = await httpClient.get<string>(url);
     if (response.status === 404)
     {
-      throw new Error(`Organization "${sid}" not found`);
+      throw new AxiosError(`Organization "${sid}" not found`, 'NOT_FOUND');
     }
     else if (response.status !== 200)
     {
-      throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
+      throw new AxiosError(`HTTP request failed while retrieving stats data, status code: ${response.status}`, 'HTTP_ERROR');
     }
 
     // Get HTML contents
