@@ -1,29 +1,29 @@
+import { AxiosError } from 'axios';
 import fs from 'fs';
 import path from 'path';
-import { HttpClient, Organization } from '../../src/index';
+import { Organization } from '../../src/index';
+import { HttpClientMock } from '../mocks/http-client.mock';
 
-describe('Organization', () =>
+describe('Organization with HttpClientMock', () =>
 {
   describe('get', () =>
   {
-    let httpClient: HttpClient;
-    let organization: Organization;
-
-    beforeEach(() =>
+    test('should return organization data', async () =>
     {
-      httpClient = new HttpClient();
-      organization = new Organization(httpClient);
-    });
+      // Create our mock HttpClient
+      const httpClientMock = new HttpClientMock();
 
-    test('should return organization data for %s', async () =>
-    {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 200,
-        data: fs.readFileSync(
+      // Set up the mock response for the organization URL
+      httpClientMock.mockResponse(
+        'https://robertsspaceindustries.com/orgs/TEST',
+        fs.readFileSync(
           path.join(__dirname, 'mocks', 'organization-description.html'),
           'utf8'
         )
-      } as any);
+      );
+
+      // Create the organization controller with our mock client
+      const organization = new Organization(httpClientMock);
 
       const data = await organization.get('TEST');
 
@@ -46,23 +46,40 @@ describe('Organization', () =>
       expect(data?.manifesto.plaintext).not.toBeUndefined();
       expect(data?.charter.html).not.toBeUndefined();
       expect(data?.charter.plaintext).not.toBeUndefined();
-
-      spy.mockRestore();
     });
 
     test('should throw an error for non-existing organization', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 404,
-        data: fs.readFileSync(
-          path.join(__dirname, 'mocks', 'organization-not-found.html'),
-          'utf8'
-        )
-      } as any);
+      // Create our mock HttpClient
+      const httpClientMock = new HttpClientMock();
+
+      // Create an error object similar to what axios would return
+      const errorObj = new AxiosError(
+        'Request failed with status code 404',
+        'ERR_BAD_REQUEST',
+        {
+          url: 'https://robertsspaceindustries.com/orgs/{INVALID}'
+        } as any,
+        undefined,
+        {
+          status: 404,
+          statusText: 'Not Found',
+          headers: {},
+          config: {} as any,
+          data: fs.readFileSync(
+            path.join(__dirname, 'mocks', 'organization-not-found.html'),
+            'utf8'
+          )
+        } as any
+      );
+
+      // Set up the mock error for the organization URL
+      httpClientMock.mockError('https://robertsspaceindustries.com/orgs/{INVALID}', errorObj);
+
+      // Create the organization controller with our mock client
+      const organization = new Organization(httpClientMock);
 
       await expect(organization.get('{INVALID}')).rejects.toThrow('Organization "{INVALID}" not found');
-
-      spy.mockRestore();
     });
   });
 });
