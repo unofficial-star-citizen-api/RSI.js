@@ -192,16 +192,27 @@ export class HttpClient
     {
       if (error.response)
       {
-        // Handle specific error codes
-        switch (error.response.status)
+        if (error.response.status === 401)
         {
-          case 401:
-            throw new Error('Unauthorized access - invalid credentials');
-          case 403:
-            throw new Error('Forbidden access - insufficient permissions');
-          default:
-            throw new Error(`Request failed with status code ${error.response.status}`);
+          // Handle 401 Unauthorized error
+          console.error('Unauthorized access - invalid credentials');
         }
+        else if (error.response.status === 403)
+        {
+          // Handle 403 Forbidden error
+          console.error('Forbidden access - insufficient permissions');
+        }
+        else if (error.response.status === 404)
+        {
+          // Handle 404 Not Found error
+          console.error('Resource not found');
+        }
+        else if (error.response.status === 500)
+        {
+          // Handle 500 Internal Server Error
+          console.error('Internal server error');
+        }
+
       }
       else if (error.request)
       {
