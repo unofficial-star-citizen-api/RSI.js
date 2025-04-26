@@ -15,7 +15,7 @@ export function get(httpClient: HttpClient): ReturnFunction
     const response = await httpClient.get<string>(url);
     if (response.status === 404)
     {
-      throw new Error(`Organization ${sid} not found`);
+      throw new Error(`Organization "${sid}" not found`);
     }
     else if (response.status !== 200)
     {

@@ -54,10 +54,13 @@ describe('Organization', () =>
     {
       const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
         status: 404,
-        data: ''
+        data: fs.readFileSync(
+          path.join(__dirname, 'mocks', 'organization-not-found.html'),
+          'utf8'
+        )
       } as any);
 
-      await expect(organization.get('INVALID')).rejects.toThrow('Organization INVALID not found');
+      await expect(organization.get('{INVALID}')).rejects.toThrow('Organization "{INVALID}" not found');
 
       spy.mockRestore();
     });

@@ -195,19 +195,20 @@ export class HttpClient
         if (error.response.status === 401)
         {
           // Handle 401 Unauthorized error
-          console.error('Unauthorized access - invalid credentials');
+          throw new Error('Unauthorized access - invalid credentials');
         }
         else if (error.response.status === 403)
         {
           // Handle 403 Forbidden error
-          console.error('Forbidden access - insufficient permissions');
+          throw new Error('Forbidden access - you do not have permission to access this resource');
         }
         else if (error.response.status === 500)
         {
           // Handle 500 Internal Server Error
-          console.error('Internal server error');
+          throw new Error('Internal Server Error - please try again later');
         }
 
+        return Promise.resolve(error.response);
       }
       else if (error.request)
       {
