@@ -13,7 +13,11 @@ export function get(httpClient: HttpClient): ReturnFunction
     const url = urlOrganization.replace('{0}', sid);
 
     const response = await httpClient.get<string>(url);
-    if (response.status !== 200)
+    if (response.status === 404)
+    {
+      throw new Error(`Organization ${sid} not found`);
+    }
+    else if (response.status !== 200)
     {
       throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
     }

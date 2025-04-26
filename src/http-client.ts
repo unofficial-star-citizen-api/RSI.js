@@ -188,7 +188,32 @@ export class HttpClient
         throw new Error('HTTP request failed, no data received');
 
       return response;
-    });
+    }, (error =>
+    {
+      if (error.response)
+      {
+        // Handle specific error codes
+        switch (error.response.status)
+        {
+          case 401:
+            throw new Error('Unauthorized access - invalid credentials');
+          case 403:
+            throw new Error('Forbidden access - insufficient permissions');
+          default:
+            throw new Error(`Request failed with status code ${error.response.status}`);
+        }
+      }
+      else if (error.request)
+      {
+        // The request was made but no response was received
+        throw new Error('No response received from server');
+      }
+      else
+      {
+        // Something happened in setting up the request that triggered an Error
+        throw new Error(`Error in request setup: ${error.message}`);
+      }
+    }));
 
     return instance;
   }

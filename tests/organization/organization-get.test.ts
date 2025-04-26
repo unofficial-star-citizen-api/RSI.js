@@ -49,5 +49,17 @@ describe('Organization', () =>
 
       spy.mockRestore();
     });
+
+    test('should throw an error for non-existing organization', async () =>
+    {
+      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 404,
+        data: ''
+      } as any);
+
+      await expect(organization.get('INVALID')).rejects.toThrow('Organization INVALID not found');
+
+      spy.mockRestore();
+    });
   });
 });
