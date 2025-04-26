@@ -208,7 +208,7 @@ export class HttpClient
           throw new Error('Internal Server Error - please try again later');
         }
 
-        return Promise.resolve(error.response);
+        return Promise.reject(error);
       }
       else if (error.request)
       {

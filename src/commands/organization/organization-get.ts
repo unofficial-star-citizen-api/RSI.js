@@ -5,6 +5,20 @@ import { RSIOrganizationDetail } from './types';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
 
+export function handleError(error: AxiosError): void
+{
+  const sid = error.config?.url?.split('/').pop() ?? 'unknown';
+  if (error.response?.status === 404)
+  {
+    error.message = `Organization "${sid}" not found`;
+    throw error;
+  }
+  else if (error.response?.status !== 200)
+  {
+    throw new AxiosError(`HTTP request failed while retrieving stats data, status code: ${error.response?.status}`, 'HTTP_ERROR');
+  }
+}
+
 export function get(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
@@ -12,15 +26,10 @@ export function get(httpClient: HttpClient): ReturnFunction
   return async function (sid: string): Promise<RSIOrganizationDetail>
   {
     const url = urlOrganization.replace('{0}', sid);
-
-    const response = await httpClient.get<string>(url);
-    if (response.status === 404)
+    const response = await httpClient.get<string>(url).catch(handleError);
+    if (!response)
     {
-      throw new AxiosError(`Organization "${sid}" not found`, 'NOT_FOUND');
-    }
-    else if (response.status !== 200)
-    {
-      throw new AxiosError(`HTTP request failed while retrieving stats data, status code: ${response.status}`, 'HTTP_ERROR');
+      throw new Error(`Failed to get response for organization ${sid}`);
     }
 
     // Get HTML contents
