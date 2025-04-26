@@ -202,11 +202,6 @@ export class HttpClient
           // Handle 403 Forbidden error
           console.error('Forbidden access - insufficient permissions');
         }
-        else if (error.response.status === 404)
-        {
-          // Handle 404 Not Found error
-          console.error('Resource not found');
-        }
         else if (error.response.status === 500)
         {
           // Handle 500 Internal Server Error
