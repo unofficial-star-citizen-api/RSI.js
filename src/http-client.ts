@@ -114,9 +114,8 @@ export class HttpClient
    */
   private configureAxios(): AxiosInstance
   {
-    const version = packageJSON.version || 'DEVELOPMENT';
-    const userAgent = this.config.userAgent ||
-      `StarCitizen REST API/${version} (starcitizen-api.com)`;
+    const version = packageJSON.version ?? 'DEVELOPMENT';
+    const userAgent = this.config.userAgent ?? `StarCitizen REST API/${version} (starcitizen-api.com)`;
 
     const axiosConfig: AxiosRequestConfig = {
       headers: {
@@ -188,39 +187,7 @@ export class HttpClient
         throw new Error('HTTP request failed, no data received');
 
       return response;
-    }, (error =>
-    {
-      if (error.response)
-      {
-        if (error.response.status === 401)
-        {
-          // Handle 401 Unauthorized error
-          throw new Error('Unauthorized access - invalid credentials');
-        }
-        else if (error.response.status === 403)
-        {
-          // Handle 403 Forbidden error
-          throw new Error('Forbidden access - you do not have permission to access this resource');
-        }
-        else if (error.response.status === 500)
-        {
-          // Handle 500 Internal Server Error
-          throw new Error('Internal Server Error - please try again later');
-        }
-
-        return Promise.reject(error);
-      }
-      else if (error.request)
-      {
-        // The request was made but no response was received
-        throw new Error('No response received from server');
-      }
-      else
-      {
-        // Something happened in setting up the request that triggered an Error
-        throw new Error(`Error in request setup: ${error.message}`);
-      }
-    }));
+    });
 
     return instance;
   }
