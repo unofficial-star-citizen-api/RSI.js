@@ -1,9 +1,9 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import
-  {
-    RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearchResult, RSIResponse
-  } from './types';
+{
+  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearchResult, RSIResponse
+} from './types';
 import { RSIGetOrgsParams } from './types/organization-get.request.types';
 
 type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearchResult[]>;

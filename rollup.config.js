@@ -54,20 +54,14 @@ export default {
       entries: [
       ]
     }),
-    json(),
     typescript({
       tsconfig: './tsconfig.json',
       useTsconfigDeclarationDir: true,
-      tsconfigDefaults: {
-        compilerOptions: {
-          declaration: true,
-          declarationDir: './dist',
-          emitDeclarationOnly: false
-        }
-      },
       typescript: require('typescript'),
-      clean: true
+      clean: true,
+      include: ['src/**/*', 'src/*']
     }),
+    json(),
     resolve({
       extensions: ['.js', '.ts']
     }),

@@ -1,16 +1,16 @@
 import
-  {
-    FundingGoals,
-    Organization,
-    ProgressTracker,
-    Roadmap,
-    RSI,
-    Ship,
-    Starmap,
-    Telemetry,
-    User,
-    Version
-  } from '../src';
+{
+  FundingGoals,
+  Organization,
+  ProgressTracker,
+  Roadmap,
+  RSI,
+  Ship,
+  Starmap,
+  Telemetry,
+  User,
+  Version
+} from '../src';
 
 describe('RSI', () =>
 {
