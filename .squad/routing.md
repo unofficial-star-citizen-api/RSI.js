@@ -45,3 +45,11 @@
 5. **"Team, ..." → fan-out.** Spawn all relevant agents in parallel as `mode: "background"`.
 6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
 7. **Issue-labeled work** — when a `squad:{member}` label is applied to an issue, route to that member. The Lead handles all `squad` (base label) triage.
+
+## Token Optimization
+
+- **Caveman Skill:** All agents operate in caveman mode (`/caveman full`) by default
+- **Token Budget:** Target ~75% reduction vs. normal mode while maintaining technical accuracy
+- **Clarity Override:** Auto-switch to normal mode for security warnings, destructive operations, or multi-step sequences where fragment order risks misunderstanding
+- **Intensity Levels:** Use `lite` for formal documentation, `ultra` for high-volume operations, `full` (default) for standard work
+- **Resume:** Return to caveman mode after clarity requirement satisfied

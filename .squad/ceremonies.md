@@ -7,20 +7,20 @@ None configured yet. Manual ceremonies available on request.
 ## Manual Ceremonies
 
 ### Sprint Planning
-**Participants:** Lead (facilitator), Backend, Frontend, Tester  
-**When:** On request via "Team, plan sprint" or similar  
-**Duration:** ~30 min sync  
+**Participants:** Lead (facilitator), Backend, Frontend, Tester
+**When:** On request via "Team, plan sprint" or similar
+**Duration:** ~30 min sync
 **Output:** Work items prioritized, dependencies mapped, assignments clear
 
 ### Code Review (Built-in)
-**Participants:** Tester (reviewer)  
-**Trigger:** Every code change  
-**Rule:** Tester approves or rejects before merge  
+**Participants:** Tester (reviewer)
+**Trigger:** Every code change
+**Rule:** Tester approves or rejects before merge
 **Rejection:** Original author locked out; different agent revises
 
 ### Architecture Review
-**Participants:** Lead (facilitator), Backend, Frontend  
-**When:** Major design decisions  
+**Participants:** Lead (facilitator), Backend, Frontend
+**When:** Major design decisions
 **Output:** Decision recorded in `.squad/decisions.md`
 
 ## Cooldowns
