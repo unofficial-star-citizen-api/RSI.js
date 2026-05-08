@@ -1,12 +1,12 @@
-import { HttpClient } from 'src/http-client';
-import { StarmapSearch } from './starmap-search';
-import { StarmapRoute } from './starmap-routes';
-import { StarmapCelestialObjects } from './starmap-celestial-objects';
+import { HttpClient } from '@/http-client';
 import { StarmapAffiliations } from './starmap-affiliations';
+import { StarmapCelestialObjects } from './starmap-celestial-objects';
+import { StarmapRoute } from './starmap-routes';
+import { StarmapSearch } from './starmap-search';
 import { StarmapSpecies } from './starmap-species';
 import { StarmapStarSystems } from './starmap-star-systems';
-import { StarmapTunnels } from './starmap-tunnels';
 import { StarmapSystems } from './starmap-systems';
+import { StarmapTunnels } from './starmap-tunnels';
 
 export class Starmap {
   public readonly search: StarmapSearch['find'];
@@ -19,13 +19,28 @@ export class Starmap {
   public readonly findTunnels: StarmapTunnels['find'];
 
   constructor(httpClient: HttpClient) {
-    this.search = new StarmapSearch(httpClient).find;
-    this.findAffilations = new StarmapAffiliations(httpClient).find;
-    this.findCelestialObjects = new StarmapCelestialObjects(httpClient).find;
-    this.findRoutes = new StarmapRoute(httpClient).find;
-    this.findSpecies = new StarmapSpecies(httpClient).find;
-    this.findStarSystems = new StarmapStarSystems(httpClient).find;
-    this.findSystems = new StarmapSystems(httpClient).find;
-    this.findTunnels = new StarmapTunnels(httpClient).find;
+    const starmapSearch = new StarmapSearch(httpClient);
+    this.search = starmapSearch.find.bind(starmapSearch);
+
+    const starmapAffiliations = new StarmapAffiliations(httpClient);
+    this.findAffilations = starmapAffiliations.find.bind(starmapAffiliations);
+
+    const starmapCelestialObjects = new StarmapCelestialObjects(httpClient);
+    this.findCelestialObjects = starmapCelestialObjects.find.bind(starmapCelestialObjects);
+
+    const starmapRoute = new StarmapRoute(httpClient);
+    this.findRoutes = starmapRoute.find.bind(starmapRoute);
+
+    const starmapSpecies = new StarmapSpecies(httpClient);
+    this.findSpecies = starmapSpecies.find.bind(starmapSpecies);
+
+    const starmapStarSystems = new StarmapStarSystems(httpClient);
+    this.findStarSystems = starmapStarSystems.find.bind(starmapStarSystems);
+
+    const starmapSystems = new StarmapSystems(httpClient);
+    this.findSystems = starmapSystems.find.bind(starmapSystems);
+
+    const starmapTunnels = new StarmapTunnels(httpClient);
+    this.findTunnels = starmapTunnels.find.bind(starmapTunnels);
   }
 }

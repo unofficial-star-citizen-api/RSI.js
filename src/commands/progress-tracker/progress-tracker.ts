@@ -1,4 +1,4 @@
-import { HttpClient } from 'src/http-client';
+import { HttpClient } from '@/http-client';
 import { ProgressTrackerDeliverable } from './progress-tracker-deliverable';
 import { ProgressTrackerTeam } from './progress-tracker-team';
 
@@ -8,7 +8,10 @@ export class ProgressTracker {
 
 
   constructor(httpClient: HttpClient) {
-    this.getTeamsInRange = new ProgressTrackerTeam(httpClient).getTeamsInRange;
-    this.getTeamDeliverableInfo = new ProgressTrackerDeliverable(httpClient).getTeamDeliverableInfo;
+    const team = new ProgressTrackerTeam(httpClient);
+    this.getTeamsInRange = team.getTeamsInRange.bind(team);
+
+    const deliverable = new ProgressTrackerDeliverable(httpClient);
+    this.getTeamDeliverableInfo = deliverable.getTeamDeliverableInfo.bind(deliverable);
   }
 }

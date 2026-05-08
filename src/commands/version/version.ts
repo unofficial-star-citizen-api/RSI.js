@@ -1,4 +1,4 @@
-import { HttpClient } from 'src/http-client';
+import { HttpClient } from '@/http-client';
 import { PatchNote } from './version-patch-notes';
 import { Roadmap } from './version-roadmap';
 import { Spectrum } from './version-spectrum';

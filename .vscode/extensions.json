@@ -3,8 +3,13 @@
     "streetsidesoftware.code-spell-checker",
     "visualstudioexptteam.vscodeintellicode",
     "orta.vscode-jest",
+    "firsttris.vscode-jest-runner",
     "christian-kohler.npm-intellisense",
     "christian-kohler.path-intellisense",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "ms-vscode.makefile-tools",
+    "GitHub.copilot"
   ]
 }

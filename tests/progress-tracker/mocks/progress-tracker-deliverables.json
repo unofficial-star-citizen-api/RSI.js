@@ -1,0 +1,52 @@
+{
+  "data": {
+    "progressTracker": {
+      "__typename": "ProgressTracker",
+      "deliverables": {
+        "__typename": "DeliverablesResult",
+        "totalCount": 1,
+        "metaData": [
+          {
+            "__typename": "Deliverable",
+            "uuid": "deliverable-uuid-001",
+            "slug": "core-tech-improvements",
+            "title": "Core Tech Improvements",
+            "description": "Improvements to core engine technology and performance.",
+            "startDate": "2021-01-04",
+            "endDate": "2021-06-30",
+            "numberOfDisciplines": 1,
+            "numberOfTeams": 1,
+            "updateDate": "2021-06-01",
+            "totalCount": 1,
+            "card": {
+              "__typename": "Card",
+              "id": 1,
+              "title": "Core Tech Improvements",
+              "description": "Improve core engine technology",
+              "category": "Feature",
+              "release": {
+                "__typename": "Release",
+                "id": 1,
+                "title": "4.0"
+              },
+              "board": {
+                "__typename": "Board",
+                "id": 1,
+                "title": "Star Citizen"
+              },
+              "updateDate": "2021-06-01",
+              "thumbnail": "https://robertsspaceindustries.com/media/thumb.jpg"
+            },
+            "projects": [
+              {
+                "__typename": "Project",
+                "title": "Star Citizen",
+                "logo": "https://robertsspaceindustries.com/media/sc-logo.png"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

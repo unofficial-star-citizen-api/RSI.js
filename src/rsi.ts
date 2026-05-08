@@ -8,7 +8,7 @@ import
   Starmap,
   Telemetry,
   User,
-  Version
+  Version,
 } from './commands';
 import { HttpClient, HttpConfigOptions } from './http-client';
 

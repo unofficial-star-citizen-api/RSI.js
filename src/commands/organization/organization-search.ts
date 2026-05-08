@@ -1,11 +1,8 @@
+import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { HttpClient } from '../../http-client';
 import
 {
-  RSIOrganizationArchetype,
-  RSIOrganizationCommitment,
-  RSIOrganizationSearchResult,
-  RSIResponse
+  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearchResult, RSIResponse
 } from './types';
 import { RSIGetOrgsParams } from './types/organization-get.request.types';
 

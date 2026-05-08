@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSITelemetryResponse } from './types';
 
 type VersionNumber = '3.12' | '3.13' | '3.14'

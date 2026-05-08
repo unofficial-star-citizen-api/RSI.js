@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { OrganizationMembersSearchParams } from 'src/commands/organization/organization-search-members';
+import { OrganizationMembersSearchParams } from '../../src/commands/organization/organization-search-members';
 import { HttpClient, Organization } from '../../src/index';
 
 export type TestMembersParams = {

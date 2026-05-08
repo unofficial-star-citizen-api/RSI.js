@@ -1,10 +1,43 @@
 {
-  "jest.nodeEnv": {
-    // "HTTPS_PROXY": "https://157.90.194.35:3128"
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
   },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.git": true,
+    "**/coverage": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/dist/**": true,
+    "**/coverage/**": true
+  },
+  "jest.runMode": "on-demand",
   "cSpell.words": [
     "EPTU",
     "Evocati",
     "starmap"
-  ]
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "js/ts.format.enabled": true,
+    "js/ts.preferences.quoteStyle": "single",
+    "js/ts.format.semicolons": "insert",
+    "js/ts.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "js/ts.format.placeOpenBraceOnNewLineForFunctions": true,
+    "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "files.insertFinalNewline": true,
+  }
 }

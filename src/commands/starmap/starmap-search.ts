@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSISearchResultInterface } from './interfaces/search-result.interface';
 
 /**

@@ -1,4 +1,4 @@
-import { HttpClient } from 'src/http-client';
+import { HttpClient } from '@/http-client';
 import { get as getFunction } from './organization-get';
 import { search as searchFunction } from './organization-search';
 import { searchMembers as searchMembersFunction } from './organization-search-members';

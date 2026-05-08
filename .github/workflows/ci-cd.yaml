@@ -29,9 +29,8 @@ jobs:
     - name: Lint
       run: npm run lint
 
-    # test are broken for now
-    # - name: Run tests
-    #   run: npm test
+    - name: Run tests
+      run: npm test
 
     - name: Build
       run: npm run build
@@ -89,6 +88,7 @@ jobs:
 
   publish:
     needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -105,13 +105,11 @@ jobs:
           scope: '@${{ github.repository_owner }}'
 
       - name: Download package artifact
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/download-artifact@v4
         with:
           name: package-artifacts
 
       - name: Publish to GitHub Packages
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           # Publish the downloaded package
           npm publish package.tgz --access private

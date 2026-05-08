@@ -1,5 +1,5 @@
 // External modules
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { SpectrumThreads, Thread } from './types/spectrum-thread.type';
 
 export type SpectrumVersion = SpectrumVersionPtu | {

@@ -112,21 +112,21 @@ describe('RSI', () =>
 
       // Test with URLs that should bypass proxy
 
-      expect((httpClient as any).isProxyRequired('http://localhost/api')).toBe(false);
+      expect((httpClient as any).shouldUseProxy('http://localhost/api')).toBe(false);
 
-      expect((httpClient as any).isProxyRequired('https://example.com/page')).toBe(false);
+      expect((httpClient as any).shouldUseProxy('https://example.com/page')).toBe(false);
 
-      expect((httpClient as any).isProxyRequired('http://server.internal.domain/data')).toBe(false);
+      expect((httpClient as any).shouldUseProxy('http://server.internal.domain/data')).toBe(false);
 
-      expect((httpClient as any).isProxyRequired('https://api.test.com/v1')).toBe(false);
+      expect((httpClient as any).shouldUseProxy('https://api.test.com/v1')).toBe(false);
 
       // Test with URLs that should use proxy
 
-      expect((httpClient as any).isProxyRequired('https://google.com')).toBe(true);
+      expect((httpClient as any).shouldUseProxy('https://google.com')).toBe(true);
 
-      expect((httpClient as any).isProxyRequired('http://robertsspaceindustries.com')).toBe(true);
+      expect((httpClient as any).shouldUseProxy('http://robertsspaceindustries.com')).toBe(true);
 
-      expect((httpClient as any).isProxyRequired('https://other.domain.com')).toBe(true);
+      expect((httpClient as any).shouldUseProxy('https://other.domain.com')).toBe(true);
 
       // Restore the spy
       shouldUseProxySpy.mockRestore();

@@ -1,6 +1,6 @@
+import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
-import { HttpClient } from '../../http-client';
 
 interface RSIShipData
 {
@@ -240,14 +240,7 @@ export class Ship
       return null;
     }
 
-    let res: RSIShipData | RSIShipData[] = [];
-    if (shipId === undefined)
-    {
-      res = respShip.data;
-    } else
-    {
-      res = respShip.data[0];
-    }
+    const res: RSIShipData | RSIShipData[] = shipId === undefined ? respShip.data : respShip.data[0];
 
     if (getPrice)
     {

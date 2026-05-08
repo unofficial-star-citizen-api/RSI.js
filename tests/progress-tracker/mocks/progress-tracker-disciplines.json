@@ -1,0 +1,25 @@
+{
+  "data": {
+    "progressTracker": {
+      "__typename": "ProgressTracker",
+      "disciplines": [
+        {
+          "__typename": "Discipline",
+          "title": "Art",
+          "color": "#FF5500",
+          "uuid": "discipline-uuid-001",
+          "numberOfMembers": 8,
+          "timeAllocations": [
+            {
+              "__typename": "TimeAllocation",
+              "startDate": "2021-01-04",
+              "endDate": "2021-06-30",
+              "uuid": "ta-discipline-001",
+              "partialTime": false
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

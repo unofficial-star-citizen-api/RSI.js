@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
 import { RSITunnelInterface } from './interfaces/tunnel.interface';
 

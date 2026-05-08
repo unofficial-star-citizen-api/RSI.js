@@ -1,4 +1,4 @@
-import { HttpClient } from 'src/http-client';
+import { HttpClient } from '@/http-client';
 
 export class StarMapHelper {
   public static async getStarmapData<T>(httpClient: HttpClient, field: string): Promise<T[] | null> {
