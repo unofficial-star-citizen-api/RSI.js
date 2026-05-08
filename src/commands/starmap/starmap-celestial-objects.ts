@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSICelestialObjectInterface } from './interfaces/celestial-object.interface';
 
 /**

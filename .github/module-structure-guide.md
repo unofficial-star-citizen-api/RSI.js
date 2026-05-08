@@ -67,7 +67,7 @@ Each function should be implemented in its own file:
 
 Example:
 ```typescript
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { ResultType } from './types';
 
 type ReturnFunction = (param: string) => Promise<ResultType>;
@@ -243,7 +243,7 @@ export class Organization
 ```typescript
 // organization-get.ts
 import { AxiosError } from 'axios';
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSIOrganizationDetail } from './types';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
@@ -276,7 +276,7 @@ export function get(httpClient: HttpClient): ReturnFunction
 
 ```typescript
 // tests/organization-get.test.ts
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { Organization } from '../organization';
 import fs from 'fs';
 import path from 'path';

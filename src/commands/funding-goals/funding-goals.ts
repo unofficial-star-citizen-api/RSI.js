@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSIFundingGoalsData } from './types';
 
 export type RSIFoundingGoalChart = 'hour' | 'day' | 'week' | 'month';

@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSIStarSystemDetailInterface } from './interfaces/star-system-detail.interface';
 
 /**

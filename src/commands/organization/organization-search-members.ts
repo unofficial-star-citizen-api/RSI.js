@@ -1,5 +1,5 @@
+import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { HttpClient } from '../../http-client';
 import { RSIOrganizationMemberData } from './types/organization-members.types';
 import { RSIResponse } from './types/rsi-response';
 

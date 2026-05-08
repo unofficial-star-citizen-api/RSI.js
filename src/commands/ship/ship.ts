@@ -1,6 +1,6 @@
+import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
-import { HttpClient } from '../../http-client';
 
 interface RSIShipData
 {

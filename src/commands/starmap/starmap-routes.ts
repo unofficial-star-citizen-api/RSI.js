@@ -1,4 +1,4 @@
-import { HttpClient } from '../../http-client';
+import { HttpClient } from '@/http-client';
 import { RSIRouteResultInterface } from './interfaces/route-result.interface';
 
 /**

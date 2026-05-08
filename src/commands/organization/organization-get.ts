@@ -1,6 +1,6 @@
+import { HttpClient } from '@/http-client';
 import { AxiosError } from 'axios';
 import { load } from 'cheerio';
-import { HttpClient } from '../../http-client';
 import { RSIOrganizationDetail } from './types';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;

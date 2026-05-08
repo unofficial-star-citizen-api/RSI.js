@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "jest"
+    ],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "strictPropertyInitialization": false,
+    "declaration": false,
+    "declarationDir": null,
+    "noEmit": true,
+    "rootDir": ".."
+  },
+  "include": [
+    "../src/**/*",
+    "./**/*"
+  ]
+}
