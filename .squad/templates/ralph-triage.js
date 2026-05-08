@@ -73,7 +73,9 @@ function parseRoutingRules(routingMd) {
     const agentName = cleanCell(row[agentIndex] || '');
     const keywords = splitKeywords(examplesIndex >= 0 ? row[examplesIndex] : '');
     if (!workType || !agentName) continue;
-    rules.push({ workType, agentName, keywords });
+    rules.push({
+      workType, agentName, keywords 
+    });
   }
 
   return rules;
@@ -97,7 +99,9 @@ function parseModuleOwnership(routingMd) {
     const secondary = normalizeOptionalOwner(secondaryRaw);
 
     if (!modulePath || !primary) continue;
-    modules.push({ modulePath, primary, secondary });
+    modules.push({
+      modulePath, primary, secondary 
+    });
   }
 
   return modules;
