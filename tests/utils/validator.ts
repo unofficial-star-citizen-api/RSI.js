@@ -4,7 +4,8 @@ export function assertValidSchema(data: any, schema: any): void {
   // Initialize Ajv
   const ajv = new Ajv({
     allErrors: true,
-    verbose: true
+    verbose: true,
+    allowUnionTypes: true
   });
 
   // Compile and validate against schema
