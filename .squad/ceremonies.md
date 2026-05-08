@@ -1,53 +1,32 @@
-# Ceremonies
+# Team Ceremonies
 
-> Team meetings that happen before or after work. Each squad configures their own.
+## Auto-Triggered Ceremonies
 
-## Design Review
+None configured yet. Manual ceremonies available on request.
 
-| Field | Value |
-|-------|-------|
-| **Trigger** | auto |
-| **When** | before |
-| **Condition** | multi-agent task involving 2+ agents modifying shared systems |
-| **Facilitator** | lead |
-| **Participants** | all-relevant |
-| **Time budget** | focused |
-| **Enabled** | ✅ yes |
+## Manual Ceremonies
 
-**Agenda:**
-1. Review the task and requirements
-2. Agree on interfaces and contracts between components
-3. Identify risks and edge cases
-4. Assign action items
+### Sprint Planning
+**Participants:** Lead (facilitator), Backend, Frontend, Tester  
+**When:** On request via "Team, plan sprint" or similar  
+**Duration:** ~30 min sync  
+**Output:** Work items prioritized, dependencies mapped, assignments clear
 
----
+### Code Review (Built-in)
+**Participants:** Tester (reviewer)  
+**Trigger:** Every code change  
+**Rule:** Tester approves or rejects before merge  
+**Rejection:** Original author locked out; different agent revises
 
-## Retrospective
+### Architecture Review
+**Participants:** Lead (facilitator), Backend, Frontend  
+**When:** Major design decisions  
+**Output:** Decision recorded in `.squad/decisions.md`
 
-| Field | Value |
-|-------|-------|
-| **Trigger** | auto |
-| **When** | after |
-| **Condition** | build failure, test failure, or reviewer rejection |
-| **Facilitator** | lead |
-| **Participants** | all-involved |
-| **Time budget** | focused |
-| **Enabled** | ✅ yes |
+## Cooldowns
 
-**Agenda:**
-1. What happened? (facts only)
-2. Root cause analysis
-3. What should change?
-4. Action items for next iteration
-
-
----
-
-## Retrospective with Enforcement
-
-| Field | Value |
-|-------|-------|
-| **Trigger** | auto |
+- No automatic ceremony cooldowns configured
+- Manual ceremonies can be called back-to-back if needed
 | **When** | weekly |
 | **Condition** | No *retrospective* log in .squad/log/ within the last 7 days |
 | **Facilitator** | lead |

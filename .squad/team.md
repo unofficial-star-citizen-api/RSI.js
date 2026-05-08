@@ -12,8 +12,18 @@
 
 | Name | Role | Charter | Status |
 |------|------|---------|--------|
+| Lead | Tech Lead | `.squad/agents/lead/charter.md` | 🏗️ Active |
+| Backend | Backend Dev | `.squad/agents/backend/charter.md` | 🔧 Active |
+| Frontend | Frontend Dev | `.squad/agents/frontend/charter.md` | ⚛️ Active |
+| Tester | QA / Tester | `.squad/agents/tester/charter.md` | 🧪 Active |
+| Scribe | Logger | `.squad/agents/scribe/charter.md` | 📋 Active |
 
 ## Project Context
 
 - **Project:** RSI.js
+- **Owner:** Dymerz
 - **Created:** 2026-05-08
+- **Type:** npm library (Node.js + Browser compatible)
+- **Purpose:** Scrape content from https://robertsspaceindustries.com
+- **Tech Stack:** TypeScript, Jest, ESLint, Rollup
+- **Repository:** private GitHub repo

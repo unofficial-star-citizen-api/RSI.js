@@ -1,18 +1,26 @@
-# Work Routing
+# Work Routing Rules
 
-How to decide who handles what.
+## By Signal
 
-## Routing Table
+| Signal | Primary Agent | Secondary | Reason |
+|--------|---------------|-----------|--------|
+| Architecture, scope decisions | Lead | — | Owns project direction |
+| HTTP client, API logic, scraping | Backend | Lead | Implements core scraping logic |
+| Module exports, browser compat | Frontend | Lead | Ensures cross-platform export |
+| Test coverage, edge cases | Tester | Lead | Validates quality, gates approvals |
+| Decisions, logs, session state | Scribe | — | Mechanical append-only ops |
 
-| Work Type | Route To | Examples |
-|-----------|----------|----------|
-| {domain 1} | {Name} | {example tasks} |
-| {domain 2} | {Name} | {example tasks} |
-| {domain 3} | {Name} | {example tasks} |
-| Code review | {Name} | Review PRs, check quality, suggest improvements |
-| Testing | {Name} | Write tests, find edge cases, verify fixes |
-| Scope & priorities | {Name} | What to build next, trade-offs, decisions |
-| Session logging | Scribe | Automatic — never needs routing |
+## Default Routing
+
+- **Code review required:** All changes → Tester (approval gate)
+- **Architecture questions:** → Lead (decision + routing)
+- **Multi-domain work:** → Lead coordinates parallel agents
+- **Unknown domain:** → Lead (triage + re-route)
+
+## Reviewer Gates
+
+- **Tester** approves all code before merge
+- **Lead** reviews architecture decisions before implementation
 
 ## Issue Routing
 
