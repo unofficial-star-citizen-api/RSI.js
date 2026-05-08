@@ -1,1 +1,33 @@
-{}
+{
+  "data": {
+    "progressTracker": {
+      "__typename": "ProgressTracker",
+      "teams": {
+        "__typename": "TeamsResult",
+        "totalCount": 1,
+        "metaData": [
+          {
+            "__typename": "Team",
+            "title": "Game Code (Persistent Universe)",
+            "description": "Responsible for core game systems and mechanics.",
+            "uuid": "g42qg07ipfday",
+            "abbreviation": "GC",
+            "startDate": "2021-01-04",
+            "endDate": "2021-12-31",
+            "numberOfDeliverables": 5,
+            "slug": "g42qg07ipfday",
+            "timeAllocations": [
+              {
+                "__typename": "TimeAllocation",
+                "startDate": "2021-01-04",
+                "endDate": "2021-06-30",
+                "uuid": "ta-uuid-001",
+                "partialTime": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

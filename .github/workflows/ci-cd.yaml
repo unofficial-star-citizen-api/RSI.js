@@ -29,9 +29,8 @@ jobs:
     - name: Lint
       run: npm run lint
 
-    # test are broken for now
-    # - name: Run tests
-    #   run: npm test
+    - name: Run tests
+      run: npm test
 
     - name: Build
       run: npm run build

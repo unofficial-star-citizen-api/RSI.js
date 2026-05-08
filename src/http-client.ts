@@ -267,10 +267,9 @@ export class HttpClient
 
     if (typeof process !== 'undefined' && process.env)
     {
-      // Check both uppercase and lowercase variants as per convention
-      envConfig.httpProxy = process.env.HTTP_PROXY || process.env.http_proxy;
-      envConfig.httpsProxy = process.env.HTTPS_PROXY || process.env.https_proxy;
-      envConfig.noProxy = process.env.NO_PROXY || process.env.no_proxy;
+      envConfig.httpProxy = process.env.HTTP_PROXY;
+      envConfig.httpsProxy = process.env.HTTPS_PROXY;
+      envConfig.noProxy = process.env.NO_PROXY;
       envConfig.userAgent = process.env.USER_AGENT;
     }
 
