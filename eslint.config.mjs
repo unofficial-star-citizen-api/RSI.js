@@ -36,6 +36,16 @@ export default tseslint.config(
       }]
     }
   },
+  // Node.js scripts
+  {
+    files: ['*.mjs', '*.cjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+      },
+    },
+  },
   // Add override for test files
   {
     files: ['**/tests/**'],
