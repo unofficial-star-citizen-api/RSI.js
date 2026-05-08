@@ -20,9 +20,6 @@
     "**/dist/**": true,
     "**/coverage/**": true
   },
-  "jest.nodeEnv": {
-    // "HTTPS_PROXY": "https://157.90.194.35:3128"
-  },
   "jest.runMode": "on-demand",
   "cSpell.words": [
     "EPTU",
@@ -39,4 +36,8 @@
     "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
     "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true
   },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "files.insertFinalNewline": true,
+  }
 }
