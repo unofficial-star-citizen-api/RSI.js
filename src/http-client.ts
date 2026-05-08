@@ -4,7 +4,6 @@ import axios, {
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
-import { URL } from 'url';
 import packageJSON from '../package.json';
 
 /**
