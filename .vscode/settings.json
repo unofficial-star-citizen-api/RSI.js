@@ -1,17 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "search.exclude": {
     "**/node_modules": true,
@@ -33,11 +23,20 @@
   "jest.nodeEnv": {
     // "HTTPS_PROXY": "https://157.90.194.35:3128"
   },
-  "jest.showCoverageOnLoad": false,
   "jest.runMode": "on-demand",
   "cSpell.words": [
     "EPTU",
     "Evocati",
     "starmap"
-  ]
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "js/ts.format.enabled": true,
+    "js/ts.preferences.quoteStyle": "single",
+    "js/ts.format.semicolons": "insert",
+    "js/ts.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "js/ts.format.placeOpenBraceOnNewLineForFunctions": true,
+    "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true
+  },
 }
