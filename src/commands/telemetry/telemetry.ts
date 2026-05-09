@@ -1,13 +1,7 @@
 import { HttpClient } from '@/http-client';
 import { RSITelemetryResponse } from './types';
 
-type VersionNumber = '3.12' | '3.13' | '3.14'
-  | '3.15' | '3.16' | '3.17'
-  | '3.18' | '3.19' | '3.20'
-  | '3.21' | '3.22' | '3.23'
-  | '3.24' | '4.0';
-
-
+type VersionNumber = `${number}.${number}`;
 export type TelemetryTimetable = 'DAY' | 'WEEK' | 'MONTH';
 export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
 
