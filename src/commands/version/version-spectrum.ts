@@ -2,6 +2,8 @@
 import { HttpClient } from '@/http-client';
 import { SpectrumThreads, Thread } from './types/spectrum-thread.type';
 
+export type SpectrumEnvironment = 'live' | 'ptu' | 'etf';
+
 export type SpectrumVersion = SpectrumVersionPtu | {
   name: string | undefined;
   environment: 'live' | 'etf' | undefined;
@@ -96,7 +98,7 @@ export class Spectrum
     return version;
   }
 
-  private getEnvironment(thread: Thread): 'live' | 'ptu' | 'etf' | undefined
+  private getEnvironment(thread: Thread): SpectrumEnvironment | undefined
   {
     // check if the thread is a live version
     if ((/live/i).test(thread.subject))

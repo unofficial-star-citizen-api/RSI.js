@@ -1,5 +1,7 @@
 import { HttpClient } from '@/http-client';
 
+export type RoadmapBoard = 'starcitizen' | 'squadron42';
+
 interface RSIRoadmapCard
 {
   id: number;
@@ -47,7 +49,7 @@ export class Roadmap
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async getBoardReleases(board: 'starcitizen' | 'squadron42', version?: string): Promise<RSIRoadmapRelease[] | null>
+  public async getBoardReleases(board: RoadmapBoard, version?: string): Promise<RSIRoadmapRelease[] | null>
   {
     let req;
 
