@@ -2,7 +2,7 @@ import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
 
-interface RSIShipData
+export interface RSIShipData
 {
   id?: string;
   name?: string;
@@ -11,7 +11,7 @@ interface RSIShipData
   [key: string]: unknown;
 }
 
-type RSISearchArgs = {
+export type RSISearchArgs = {
   name?: string;
   classification?: string;
   length_min?: number;
