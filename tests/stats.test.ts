@@ -44,10 +44,9 @@ describe('Stats (FundingGoals)', () =>
     const data = await fundingGoals.getCrowStats('hour');
 
     expect(data).not.toBeNull();
-    expect(data.success).toBe(1);
-    expect(data.data.fans).toBe(5000000);
-    expect(data.data.funds).toBe(750000000);
-    expect(data.data.chart).toBeDefined();
+    expect(data.fans).toBe(5000000);
+    expect(data.funds).toBe(750000000);
+    expect(data.chart).toBeDefined();
   });
 
   test('should call the correct URL with chart type parameters', async () =>

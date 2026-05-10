@@ -1,11 +1,11 @@
-export type RSIFundingGoalsData = {
+export type RSIFundingGoalsResponse = {
   readonly success: number;
   readonly code: string;
   readonly msg: string;
-  readonly data: RSIData;
+  readonly data: RSIFundingGoalsData;
 };
 
-export type RSIData = {
+export type RSIFundingGoalsData = {
   readonly chart: { [key: string]: RSIChart; };
   readonly fans: number;
   readonly funds: number;

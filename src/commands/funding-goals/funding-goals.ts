@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIFundingGoalsData } from './types';
+import { RSIFundingGoalsData, RSIFundingGoalsResponse } from './types';
 
 export type RSIFoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
 
@@ -32,11 +32,14 @@ export class FundingGoals
       funds: true,
     };
 
-    const response = await this.httpClient.post<RSIFundingGoalsData>(this.urlCrowStat, data);
+    const response = await this.httpClient.post<RSIFundingGoalsResponse>(this.urlCrowStat, data);
 
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
 
-    return response.data;
+    if (response.data.success !== 1)
+      throw new Error(`Query failed from RSI (${response.data.msg})`);
+
+    return response.data.data;
   }
 }
