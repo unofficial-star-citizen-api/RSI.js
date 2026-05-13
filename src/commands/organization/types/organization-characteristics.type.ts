@@ -3,6 +3,15 @@ export type RSIOrganizationLanguage = string;
 export type RSIOrganizationCommitment = 'casual' | 'regular' | 'hardcore';
 export type RSIOrganizationActivity = 'bounty hunting' | 'engineering' | 'exploration' | 'freelancing' | 'infiltration' | 'medical' | 'piracy' | 'resources' | 'scouting' | 'security' | 'smuggling' | 'social' | 'trading' | 'transport ';
 
+export type RSIOrganizationCharacteristics = {
+  archetype: RSIOrganizationArchetype | undefined;
+  language: RSIOrganizationLanguage | undefined;
+  commitment: RSIOrganizationCommitment | undefined;
+  isRecruiting: boolean | undefined;
+  isRoleplay: boolean | undefined;
+  membersCount: number | undefined;
+};
+
 /**
  * Organization search result
  */
@@ -12,12 +21,5 @@ export type RSIOrganizationSearchResult = {
   icon: string | undefined;
   href: string | undefined;
 
-  characteristics: {
-    archetype: RSIOrganizationArchetype | undefined;
-    language: RSIOrganizationLanguage | undefined;
-    commitment: RSIOrganizationCommitment | undefined;
-    isRecruiting: boolean | undefined;
-    isRoleplay: boolean | undefined;
-    membersCount: number | undefined;
-  };
+  characteristics: RSIOrganizationCharacteristics;
 };
