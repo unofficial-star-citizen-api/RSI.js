@@ -23,10 +23,17 @@ export class User
   }
 
 
+  private validateHandle(handle: string): string
+  {
+    if (!/^[a-zA-Z0-9_\\-]{5,60}$/.test(handle))
+      throw new Error(`Invalid user handle: "${handle}"`);
+    return encodeURIComponent(handle);
+  }
+
   public async getProfile(userHandle: string): Promise<RSIUserProfile | null>
   {
     // Format URL
-    const url = this.urlProfile.replace('{0}', userHandle);
+    const url = this.urlProfile.replace('{0}', this.validateHandle(userHandle));
 
     // Request website
     const response = await this.httpClient.get<string>(url);
@@ -69,7 +76,7 @@ export class User
   public async getOrganization(userHandle: string): Promise<RSIUserOrganization | null>
   {
     // Format URL
-    const url = this.urlAffiliation.replace('{0}', userHandle);
+    const url = this.urlAffiliation.replace('{0}', this.validateHandle(userHandle));
 
     // Request website
     const response = await this.httpClient.get<string>(url);

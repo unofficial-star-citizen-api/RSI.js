@@ -58,7 +58,7 @@ describe('Organization with HttpClientMock', () =>
         'Request failed with status code 404',
         'ERR_BAD_REQUEST',
         {
-          url: 'https://robertsspaceindustries.com/orgs/{INVALID}'
+          url: 'https://robertsspaceindustries.com/orgs/NOTFOUND'
         } as any,
         undefined,
         {
@@ -74,12 +74,12 @@ describe('Organization with HttpClientMock', () =>
       );
 
       // Set up the mock error for the organization URL
-      httpClientMock.mockError('https://robertsspaceindustries.com/orgs/{INVALID}', errorObj);
+      httpClientMock.mockError('https://robertsspaceindustries.com/orgs/NOTFOUND', errorObj);
 
       // Create the organization controller with our mock client
       const organization = new Organization(httpClientMock);
 
-      await expect(organization.get('{INVALID}')).rejects.toThrow('Organization "{INVALID}" not found');
+      await expect(organization.get('NOTFOUND')).rejects.toThrow('Organization "NOTFOUND" not found');
     });
   });
 });

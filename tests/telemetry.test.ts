@@ -77,7 +77,7 @@ describe('Telemetry', () =>
     await telemetry.community('WEEK', 'sc-alpha-3.24');
 
     expect(spy).toHaveBeenCalledWith(
-      `${TELEMETRY_BASE_URL}?&timetable=WEEK&branch=sc-alpha-3.24`
+      `${TELEMETRY_BASE_URL}?timetable=WEEK&branch=sc-alpha-3.24`
     );
   });
 

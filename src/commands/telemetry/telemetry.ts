@@ -27,9 +27,14 @@ export class Telemetry
    */
   public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetryResponse>
   {
-    const query = `?&timetable=${timetable}&branch=${version}`;
+    const VALID_TIMETABLES: TelemetryTimetable[] = ['DAY', 'WEEK', 'MONTH'];
+    if (!VALID_TIMETABLES.includes(timetable))
+      throw new Error(`Invalid timetable value: "${timetable}"`);
+    if (!/^sc-alpha-\d+\.\d+$/.test(version))
+      throw new Error(`Invalid version format: "${version}"`);
+    const params = new URLSearchParams({ timetable, branch: version });
 
-    const response = await this.httpClient.get<RSITelemetryResponse>(this.urlTelemetry + query);
+    const response = await this.httpClient.get<RSITelemetryResponse>(`${this.urlTelemetry}?${params}`);
 
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);
