@@ -7,7 +7,7 @@ import
   expect,
   test
 } from 'vitest';
-import { Organization } from '../../src/index';
+import { Organizations } from '../../src/index';
 import { HttpClientMock } from '../mocks/http-client.mock';
 
 describe('Organization with HttpClientMock', () =>
@@ -29,7 +29,7 @@ describe('Organization with HttpClientMock', () =>
       );
 
       // Create the organization controller with our mock client
-      const organization = new Organization(httpClientMock);
+      const organization = new Organizations(httpClientMock);
 
       const data = await organization.get('TEST');
 
@@ -83,7 +83,7 @@ describe('Organization with HttpClientMock', () =>
       httpClientMock.mockError('https://robertsspaceindustries.com/orgs/NOTFOUND', errorObj);
 
       // Create the organization controller with our mock client
-      const organization = new Organization(httpClientMock);
+      const organization = new Organizations(httpClientMock);
 
       await expect(organization.get('NOTFOUND')).rejects.toThrow('Organization "NOTFOUND" not found');
     });

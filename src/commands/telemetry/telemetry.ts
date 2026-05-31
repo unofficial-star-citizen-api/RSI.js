@@ -9,7 +9,7 @@ export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
  * Telemetry class for retrieving Star Citizen telemetry data
  * @see https://robertsspaceindustries.com/en/telemetry
  */
-export class Telemetry
+export class Telemetries
 {
   private readonly urlTelemetry = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
   private readonly httpClient: HttpClient;

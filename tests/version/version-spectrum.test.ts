@@ -6,7 +6,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Groups, Spectrum } from '../../src/commands/version/version-spectrum';
+import { Groups, Spectrum } from '../../src/commands/versions/version-spectrum';
 import { HttpClient } from '../../src/http-client';
 
 describe('Spectrum', () =>

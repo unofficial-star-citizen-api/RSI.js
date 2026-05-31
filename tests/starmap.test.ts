@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Starmap } from '../src/commands/starmap/starmap';
+import { Starmaps } from '../src/commands/starmaps/starmap';
 import { HttpClient } from '../src/index';
 import starmapRouteSchema from './schemas/starmap_route_search.json';
 import starmapSpeciesSchema from './schemas/starmap_species.json';
@@ -161,7 +161,7 @@ describe('Starmap', () =>
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    starmap = new Starmap(httpClient);
+    starmap = new Starmaps(httpClient);
   });
 
   afterEach(() =>

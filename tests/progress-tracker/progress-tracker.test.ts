@@ -9,7 +9,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, ProgressTracker } from '../../src/index';
+import { HttpClient, ProgressTrackers } from '../../src/index';
 import progressTrackerSchema from '../schemas/progress_tracker.json';
 import progressTrackerInfoSchema from '../schemas/progress_tracker_info.json';
 import { assertValidSchema } from '../utils/validator';
@@ -24,7 +24,7 @@ describe('Progress Tracker', () =>
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    progressTracker = new ProgressTracker(httpClient);
+    progressTracker = new ProgressTrackers(httpClient);
   });
 
   afterEach(() =>

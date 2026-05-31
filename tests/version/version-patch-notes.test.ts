@@ -8,7 +8,7 @@ import
   test,
   vi
 } from 'vitest';
-import { PatchNote } from '../../src/commands/version/version-patch-notes';
+import { PatchNote } from '../../src/commands/versions/version-patch-notes';
 import { HttpClient } from '../../src/http-client';
 
 describe('PatchNote', () =>

@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Ship } from '../src/commands/ship/ship';
+import { Ships } from '../src/commands/ships/ship';
 import { HttpClient } from '../src/index';
 
 const SEARCH_URL = 'https://robertsspaceindustries.com/api/store/getShips';
@@ -34,7 +34,7 @@ describe('Ship', () =>
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    ship = new Ship(httpClient);
+    ship = new Ships(httpClient);
   });
 
   afterEach(() =>

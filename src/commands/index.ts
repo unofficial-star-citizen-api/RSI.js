@@ -1,9 +1,10 @@
-export * from './organization';
-export * from './progress-tracker';
-export * from './roadmap';
-export * from './ship';
-export * from './starmap';
 export * from './funding-goals';
+export * from './organizations';
+export * from './progress-trackers';
+export * from './roadmaps';
+export * from './ships';
+export * from './starmaps';
 export * from './telemetry';
-export * from './user';
-export * from './version';
+export * from './users';
+export * from './versions';
+

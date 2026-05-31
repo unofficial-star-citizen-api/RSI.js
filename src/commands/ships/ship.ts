@@ -59,7 +59,7 @@ export type RSISearchArgs = {
 /**
  * Ship class for retrieving Star Citizen ship data
  */
-export class Ship
+export class Ships
 {
   private readonly urlSearchShips = 'https://robertsspaceindustries.com/api/store/getShips';
   private readonly urlShipsId = 'https://robertsspaceindustries.com/ship-matrix/index';

@@ -8,7 +8,8 @@ import { StarmapStarSystems } from './starmap-star-systems';
 import { StarmapSystems } from './starmap-systems';
 import { StarmapTunnels } from './starmap-tunnels';
 
-export class Starmap {
+export class Starmaps
+{
   public readonly search: StarmapSearch['find'];
   public readonly findAffilations: StarmapAffiliations['find'];
   public readonly findCelestialObjects: StarmapCelestialObjects['find'];
@@ -18,7 +19,8 @@ export class Starmap {
   public readonly findSystems: StarmapSystems['find'];
   public readonly findTunnels: StarmapTunnels['find'];
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient)
+  {
     const starmapSearch = new StarmapSearch(httpClient);
     this.search = starmapSearch.find.bind(starmapSearch);
 

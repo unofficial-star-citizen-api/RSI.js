@@ -11,41 +11,40 @@ npm install RSI.js
 ## Usage
 
 ```typescript
-import { User, Version, Ship } from 'RSI.js';
+import { RSI } from 'RSI.js';
+
+const rsi = new RSI();
 
 // Get user information
 const userInfo = async () => {
-  const user = new User('example_handle');
-  const result = await user.execute();
+  const result = await rsi.users.execute('example_handle');
   console.log(result);
 };
 
 // Get version information
 const versionInfo = async () => {
-  const version = new Version();
-  const result = await version.execute();
+  const result = await rsi.versions.execute();
   console.log(result);
 };
 
 // Get ship information
 const shipInfo = async () => {
-  const ship = new Ship({ name: 'Aurora' });
-  const result = await ship.execute();
+  const result = await rsi.ships.execute({ name: 'Aurora' });
   console.log(result);
 };
 ```
 
 ## Available Classes
 
-- `User`: Retrieve user information
-- `Organization`, `OrganizationMembers`: Retrieve organization information and members
-- `Ship`: Retrieve ship information
-- `Version`: Retrieve version information
-- `Stats`: Retrieve game statistics
-- `Telemetry`: Retrieve telemetry data
-- `Roadmap`: Retrieve roadmap information
-- `ProgressTracker`, `ProgressTrackerInfo`: Retrieve progress tracker information
-- `StarmapSystems`, `StarmapTunnels`, `StarmapSpecies`, `StarmapAffiliations`, `StarmapStarSystems`, `StarmapCelestialObjects`, `StarmapSearch`, `StarmapRouteSearch`: Retrieve starmap data
+- `Users`: Retrieve user information
+- `Organizations`: Retrieve organization information and members
+- `Ships`: Retrieve ship information
+- `Versions`: Retrieve version information
+- `FundingGoals`: Retrieve game statistics
+- `Telemetries`: Retrieve telemetry data
+- `Roadmaps`: Retrieve roadmap information
+- `ProgressTrackers`: Retrieve progress tracker information
+- `Starmaps`: Retrieve starmap data
 
 ## Rotating Proxy Service
 
@@ -78,14 +77,14 @@ import { SocksProxyAgent } from 'socks-proxy-agent';
 const proxyAgent = new SocksProxyAgent('socks5://localhost:5566');
 
 const rsi = new RSI({
-  httpClient: {
+  httpConfig: {
     httpAgent: proxyAgent,
     httpsAgent: proxyAgent
   }
 });
 
 // Now use the library with proxy support
-const stats = await rsi.stats.get();
+const stats = await rsi.fundingGoals.get();
 ```
 
 #### Checking proxy stats and forcing IP rotation
@@ -120,11 +119,11 @@ For browser usage, you'll need to include axios and cheerio:
 <script src="https://cdn.jsdelivr.net/npm/cheerio/lib/cheerio.min.js"></script>
 <script src="dist/index.browser.min.js"></script>
 <script>
-  const { User } = RsiScraper;
+  const { RSI } = RsiScraper;
 
   async function getUserInfo() {
-    const user = new User('example_handle');
-    const result = await user.execute();
+    const rsi = new RSI();
+    const result = await rsi.users.execute('example_handle');
     console.log(result);
   }
 

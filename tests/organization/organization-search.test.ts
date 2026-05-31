@@ -8,7 +8,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, Organization } from '../../src/index';
+import { HttpClient, Organizations } from '../../src/index';
 
 describe('Organization', () =>
 {
@@ -20,7 +20,7 @@ describe('Organization', () =>
     beforeEach(() =>
     {
       httpClient = new HttpClient();
-      organization = new Organization(httpClient);
+      organization = new Organizations(httpClient);
     });
 
     test('should return organization search results', async () =>

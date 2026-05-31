@@ -31,7 +31,7 @@ interface RSIRoadmapCategory
 /**
  * Roadmap class for retrieving Star Citizen roadmap information
  */
-export class Roadmap
+export class Roadmaps
 {
   private readonly urlRoadmapSC = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
   private readonly urlRoadmapS42 = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/2';

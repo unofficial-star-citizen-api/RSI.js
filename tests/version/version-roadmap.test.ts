@@ -6,7 +6,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Roadmap } from '../../src/commands/version/version-roadmap';
+import { Roadmap } from '../../src/commands/versions/version-roadmap';
 import { HttpClient } from '../../src/http-client';
 import mockWithLiveAndEtf from './mocks/roadmap-live-etf.json';
 import mockWithLiveAndPtu from './mocks/roadmap-live-ptu.json';

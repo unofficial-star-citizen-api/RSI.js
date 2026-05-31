@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Telemetry } from '../src/commands/telemetry/telemetry';
+import { Telemetries } from '../src/commands/telemetry/telemetry';
 import { HttpClient } from '../src/index';
 
 const TELEMETRY_BASE_URL = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
@@ -52,7 +52,7 @@ describe('Telemetry', () =>
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    telemetry = new Telemetry(httpClient);
+    telemetry = new Telemetries(httpClient);
   });
 
   afterEach(() =>

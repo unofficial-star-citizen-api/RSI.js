@@ -9,7 +9,7 @@ import
   vi
 } from 'vitest';
 import { OrganizationMembersSearchParams } from '../../src/commands/organization/organization-search-members';
-import { HttpClient, Organization } from '../../src/index';
+import { HttpClient, Organizations } from '../../src/index';
 
 export type TestMembersParams = {
   mockFile: string;
@@ -26,7 +26,7 @@ describe('Organization', () =>
     beforeEach(() =>
     {
       httpClient = new HttpClient();
-      organization = new Organization(httpClient);
+      organization = new Organizations(httpClient);
     });
 
     test('should get members', async () =>

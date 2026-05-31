@@ -1,14 +1,14 @@
 import
 {
   FundingGoals,
-  Organization,
-  ProgressTracker,
-  Roadmap,
-  Ship,
-  Starmap,
-  Telemetry,
-  User,
-  Version,
+  Organizations,
+  ProgressTrackers,
+  Roadmaps,
+  Ships,
+  Starmaps,
+  Telemetries,
+  Users,
+  Versions,
 } from './commands';
 import { HttpClient, HttpConfigOptions } from './http-client';
 
@@ -21,29 +21,29 @@ export class RSI
 {
   public readonly httpClient: HttpClient;
 
-  public readonly user: User;
-  public readonly organization: Organization;
-  public readonly progressTracker: ProgressTracker;
-  public readonly roadmap: Roadmap;
-  public readonly ships: Ship;
-  public readonly starmap: Starmap;
+  public readonly users: Users;
+  public readonly organizations: Organizations;
+  public readonly progressTrackers: ProgressTrackers;
+  public readonly roadmaps: Roadmaps;
+  public readonly ships: Ships;
+  public readonly starmaps: Starmaps;
   public readonly fundingGoals: FundingGoals;
-  public readonly telemetry: Telemetry;
-  public readonly version: Version;
+  public readonly telemetries: Telemetries;
+  public readonly versions: Versions;
 
   constructor(config: RSIConfig = {})
   {
     this.httpClient = new HttpClient(config.httpConfig);
 
-    this.user = new User(this.httpClient);
-    this.organization = new Organization(this.httpClient);
-    this.progressTracker = new ProgressTracker(this.httpClient);
-    this.roadmap = new Roadmap(this.httpClient);
-    this.ships = new Ship(this.httpClient);
-    this.starmap = new Starmap(this.httpClient);
+    this.users = new Users(this.httpClient);
+    this.organizations = new Organizations(this.httpClient);
+    this.progressTrackers = new ProgressTrackers(this.httpClient);
+    this.roadmaps = new Roadmaps(this.httpClient);
+    this.ships = new Ships(this.httpClient);
+    this.starmaps = new Starmaps(this.httpClient);
     this.fundingGoals = new FundingGoals(this.httpClient);
-    this.telemetry = new Telemetry(this.httpClient);
-    this.version = new Version(this.httpClient);
+    this.telemetries = new Telemetries(this.httpClient);
+    this.versions = new Versions(this.httpClient);
   }
 }
 

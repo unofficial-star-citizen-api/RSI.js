@@ -3,7 +3,7 @@ import { PatchNote } from './version-patch-notes';
 import { Roadmap } from './version-roadmap';
 import { Spectrum } from './version-spectrum';
 
-export class Version
+export class Versions
 {
   /**
    * Get version from the Spectrum API

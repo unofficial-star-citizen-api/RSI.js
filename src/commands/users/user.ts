@@ -11,7 +11,7 @@ import
  * User class for retrieving Star Citizen user information
  * @see https://robertsspaceindustries.com/citizens/{handle}
  */
-export class User
+export class Users
 {
   private readonly urlProfile = 'https://robertsspaceindustries.com/citizens/{0}';
   private readonly urlAffiliation = 'https://robertsspaceindustries.com/citizens/{0}/organizations';

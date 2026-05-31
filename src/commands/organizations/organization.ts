@@ -3,7 +3,7 @@ import { get as getFunction } from './organization-get';
 import { search as searchFunction } from './organization-search';
 import { searchMembers as searchMembersFunction } from './organization-search-members';
 
-export class Organization
+export class Organizations
 {
   public readonly get: ReturnType<typeof getFunction>;
   public readonly search: ReturnType<typeof searchFunction>;

@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { Roadmap } from '../src/commands/roadmap/roadmap';
+import { Roadmaps } from '../src/commands/roadmaps/roadmap';
 import { HttpClient } from '../src/index';
 
 const SC_URL = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
@@ -69,7 +69,7 @@ describe('Roadmap', () =>
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    roadmap = new Roadmap(httpClient);
+    roadmap = new Roadmaps(httpClient);
   });
 
   afterEach(() =>

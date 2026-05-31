@@ -8,7 +8,7 @@ import
   test,
   vi
 } from 'vitest';
-import { User } from '../../src/commands/user/user';
+import { Users } from '../../src/commands/users/user';
 import { HttpClient } from '../../src/http-client';
 
 describe('User', () =>
@@ -21,7 +21,7 @@ describe('User', () =>
     beforeEach(() =>
     {
       httpClient = new HttpClient();
-      user = new User(httpClient);
+      user = new Users(httpClient);
     });
 
     // Tests with mock HTML files

@@ -9,15 +9,15 @@ import
 import
 {
   FundingGoals,
-  Organization,
-  ProgressTracker,
-  Roadmap,
+  Organizations,
+  ProgressTrackers,
+  Roadmaps,
   RSI,
-  Ship,
-  Starmap,
-  Telemetry,
-  User,
-  Version
+  Ships,
+  Starmaps,
+  Telemetries,
+  Users,
+  Versions
 } from '../src';
 
 describe('RSI', () =>
@@ -82,15 +82,15 @@ describe('RSI', () =>
 
     test('should initialize all public properties', () =>
     {
-      expect(rsi.user).toBeInstanceOf(User);
-      expect(rsi.organization).toBeInstanceOf(Organization);
-      expect(rsi.progressTracker).toBeInstanceOf(ProgressTracker);
-      expect(rsi.roadmap).toBeInstanceOf(Roadmap);
-      expect(rsi.ships).toBeInstanceOf(Ship);
-      expect(rsi.starmap).toBeInstanceOf(Starmap);
+      expect(rsi.users).toBeInstanceOf(Users);
+      expect(rsi.organizations).toBeInstanceOf(Organizations);
+      expect(rsi.progressTrackers).toBeInstanceOf(ProgressTrackers);
+      expect(rsi.roadmaps).toBeInstanceOf(Roadmaps);
+      expect(rsi.ships).toBeInstanceOf(Ships);
+      expect(rsi.starmaps).toBeInstanceOf(Starmaps);
       expect(rsi.fundingGoals).toBeInstanceOf(FundingGoals);
-      expect(rsi.telemetry).toBeInstanceOf(Telemetry);
-      expect(rsi.version).toBeInstanceOf(Version);
+      expect(rsi.telemetries).toBeInstanceOf(Telemetries);
+      expect(rsi.versions).toBeInstanceOf(Versions);
     });
   });
 
