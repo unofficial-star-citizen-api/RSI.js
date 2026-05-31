@@ -1,6 +1,10 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
+import
+{
+  ShipClassification, ShipSize, ShipStatus
+} from './types';
 
 export interface RSIShipData
 {
@@ -11,18 +15,44 @@ export interface RSIShipData
   [key: string]: unknown;
 }
 
+// Re-export types for external use
+export type {
+  ShipClassification, ShipSize, ShipStatus
+} from './types';
+
+/**
+ * Advanced search parameters for ship queries
+ */
 export type RSISearchArgs = {
+  /** Search by ship name */
   name?: string;
-  classification?: string;
+  /** Filter by ship classification (combat, transport, exploration, etc.) */
+  classification?: ShipClassification;
+  /** Minimum ship length in meters */
   length_min?: number;
+  /** Maximum ship length in meters */
   length_max?: number;
+  /** Minimum crew capacity */
   crew_min?: number;
+  /** Maximum crew capacity */
   crew_max?: number;
+  /** Minimum price in UEC (United Earth Credits) */
   price_min?: number;
+  /** Maximum price in UEC (United Earth Credits) */
   price_max?: number;
+  /** Minimum ship mass in kilograms */
   mass_min?: number;
+  /** Maximum ship mass in kilograms */
   mass_max?: number;
+  /** Production status of the ship */
+  status?: ShipStatus;
+  /** Filter ships available for purchase only */
+  sale?: boolean;
+  /** Ship size category */
+  size?: ShipSize;
+  /** Maximum page number to retrieve (for pagination) */
   page_max?: number;
+  /** Current page number (for pagination) */
   page?: number;
 };
 
@@ -60,6 +90,9 @@ export class Ship
     const price_max = HttpHelper.convertVal(searchArgs.price_max);
     const mass_min = HttpHelper.convertVal(searchArgs.mass_min);
     const mass_max = HttpHelper.convertVal(searchArgs.mass_max);
+    const status = HttpHelper.convertVal(searchArgs.status);
+    const size = HttpHelper.convertVal(searchArgs.size);
+    const sale = searchArgs.sale !== undefined ? searchArgs.sale : null;
 
     let page: number | string = HttpHelper.convertVal(searchArgs.page);
     if (/^\d+?$/.test(page))
@@ -79,7 +112,7 @@ export class Ship
       page_max = 1;
     }
 
-    const data = {
+    const data: Record<string, unknown> = {
       classification: classification,
       itemType: 'ships',
       length: [length_min, length_max].join(','),
@@ -93,6 +126,20 @@ export class Ship
       storefront: 'pledge',
       type: '',
     };
+
+    // Add optional filters if provided
+    if (status)
+    {
+      data.status = status;
+    }
+    if (size)
+    {
+      data.size = size;
+    }
+    if (sale !== null)
+    {
+      data.sale = sale;
+    }
 
     const req = await this.httpClient.post<{
       success: number;
