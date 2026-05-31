@@ -12,6 +12,12 @@
       "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "node build.mjs && tsc -p tsconfig.declarations.json",
     "build:watch": "node build.mjs --watch",

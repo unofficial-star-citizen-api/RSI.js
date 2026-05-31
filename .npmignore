@@ -1,4 +1,29 @@
-compose.yaml
+# Source files
+src/
+
+# Test files
+*.test.ts
+*.test.js
+coverage/
+
+# Configuration files
+tsconfig*.json
+vite*.config.ts
+jest.config.js
+build.mjs
+eslint.config.mjs
+
+# Development files
 .github/
 .copilot/
+docker-compose.yml
 Dockerfile
+compose.yaml
+
+# Documentation
+TODO.md
+
+# Node modules and logs
+node_modules/
+*.log
+*.tgz
