@@ -39,6 +39,34 @@
         "reveal": "always",
         "panel": "shared"
       }
+    },
+    {
+      "label": "Test",
+      "type": "npm",
+      "script": "test",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test (Watch)",
+      "type": "npm",
+      "script": "test:watch",
+      "isBackground": true,
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     }
   ]
 }
