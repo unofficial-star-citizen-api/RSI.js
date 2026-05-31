@@ -1,3 +1,10 @@
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test
+} from 'vitest';
 import { Version } from '../../src/commands/version/version';
 import { PatchNote } from '../../src/commands/version/version-patch-notes';
 import { Roadmap } from '../../src/commands/version/version-roadmap';

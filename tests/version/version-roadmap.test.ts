@@ -1,3 +1,11 @@
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Roadmap } from '../../src/commands/version/version-roadmap';
 import { HttpClient } from '../../src/http-client';
 import mockWithLiveAndEtf from './mocks/roadmap-live-etf.json';
@@ -20,13 +28,13 @@ describe('Roadmap', () =>
     beforeEach(() =>
     {
       // Reset mock before each test
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     test('should extract versions from roadmap description', async () =>
     {
       // Mock the HTTP client get method
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
 
       const versions = await roadmap.getVersions();
 
@@ -41,7 +49,7 @@ describe('Roadmap', () =>
     test('should extract Live version when present', async () =>
     {
       // Mock the HTTP client get method for ETF version
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLive } as any);
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLive } as any);
 
       const versions = await roadmap.getVersions();
 
@@ -53,7 +61,7 @@ describe('Roadmap', () =>
     test('should extract PTU version when present', async () =>
     {
       // Mock the HTTP client get method for ETF version
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
 
       const versions = await roadmap.getVersions();
 
@@ -65,7 +73,7 @@ describe('Roadmap', () =>
     test('should extract ETF version when present', async () =>
     {
       // Mock the HTTP client get method for ETF version
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndEtf } as any);
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndEtf } as any);
 
       const versions = await roadmap.getVersions();
 
@@ -76,7 +84,7 @@ describe('Roadmap', () =>
 
     test('should handle API error', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValueOnce({
+      vi.spyOn(httpClient, 'get').mockResolvedValueOnce({
         status: 200,
         data: { success: 0, msg: 'API Error' }
       } as any);
@@ -86,8 +94,8 @@ describe('Roadmap', () =>
 
     test('should get live version directly', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLive } as any);
-      const spy = jest.spyOn(roadmap, 'getVersions');
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLive } as any);
+      const spy = vi.spyOn(roadmap, 'getVersions');
 
       const liveVersion = await roadmap.getLiveVersion();
 
@@ -97,8 +105,8 @@ describe('Roadmap', () =>
 
     test('should get PTU version directly', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
-      const spy = jest.spyOn(roadmap, 'getVersions');
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndPtu } as any);
+      const spy = vi.spyOn(roadmap, 'getVersions');
 
       const ptuVersion = await roadmap.getPTUVersion();
 
@@ -108,8 +116,8 @@ describe('Roadmap', () =>
 
     test('should get ETF version directly', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndEtf } as any);
-      const spy = jest.spyOn(roadmap, 'getVersions');
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: mockWithLiveAndEtf } as any);
+      const spy = vi.spyOn(roadmap, 'getVersions');
 
       const etfVersion = await roadmap.getETFVersion();
 

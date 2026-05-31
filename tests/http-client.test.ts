@@ -1,10 +1,19 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { HttpClient } from '../src/index';
 
 describe('HttpClient', () =>
 {
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('Configuration', () =>
@@ -96,7 +105,7 @@ describe('HttpClient', () =>
     test('should make a GET request and return response', async () =>
     {
       const mockResponse = { status: 200, data: { result: 'ok' } };
-      jest.spyOn(client, 'get').mockResolvedValue(mockResponse as any);
+      vi.spyOn(client, 'get').mockResolvedValue(mockResponse as any);
 
       const response = await client.get('https://robertsspaceindustries.com/api/test');
       expect(response.status).toBe(200);
@@ -106,7 +115,7 @@ describe('HttpClient', () =>
     test('should make a POST request and return response', async () =>
     {
       const mockResponse = { status: 200, data: { success: 1 } };
-      jest.spyOn(client, 'post').mockResolvedValue(mockResponse as any);
+      vi.spyOn(client, 'post').mockResolvedValue(mockResponse as any);
 
       const response = await client.post('https://robertsspaceindustries.com/api/test', { key: 'value' });
       expect(response.status).toBe(200);
@@ -115,14 +124,14 @@ describe('HttpClient', () =>
 
     test('should propagate network errors', async () =>
     {
-      jest.spyOn(client, 'get').mockRejectedValue(new Error('Network error'));
+      vi.spyOn(client, 'get').mockRejectedValue(new Error('Network error'));
 
       await expect(client.get('https://robertsspaceindustries.com')).rejects.toThrow('Network error');
     });
 
     test('should propagate non-200 status without throwing', async () =>
     {
-      jest.spyOn(client, 'get').mockResolvedValue({ status: 404, data: null } as any);
+      vi.spyOn(client, 'get').mockResolvedValue({ status: 404, data: null } as any);
 
       const response = await client.get('https://robertsspaceindustries.com/nonexistent');
       expect(response.status).toBe(404);

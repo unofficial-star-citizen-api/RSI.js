@@ -1,3 +1,12 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Ship } from '../src/commands/ship/ship';
 import { HttpClient } from '../src/index';
 
@@ -30,14 +39,14 @@ describe('Ship', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('search', () =>
   {
     test('should return ships matching the search query', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockImplementation((url: string) =>
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
       {
         if (url === SEARCH_URL)
         {
@@ -56,7 +65,7 @@ describe('Ship', () =>
         return Promise.reject(new Error(`Unexpected POST to ${url}`));
       });
 
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: '<html><body><span class="final-price" data-value="9500">$95</span></body></html>'
       } as any);
@@ -71,7 +80,7 @@ describe('Ship', () =>
 
     test('should return empty array when search finds no ships', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { html: '', rowcount: 0 } }
       } as any);
@@ -83,7 +92,7 @@ describe('Ship', () =>
 
     test('should return empty array when API reports failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 0, data: { html: '', rowcount: 0 } }
       } as any);
@@ -95,7 +104,7 @@ describe('Ship', () =>
 
     test('should return empty array on 404 response', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 404,
         data: null
       } as any);
@@ -107,7 +116,7 @@ describe('Ship', () =>
 
     test('should skip ship when ship-matrix returns no data', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockImplementation((url: string) =>
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
       {
         if (url === SEARCH_URL)
         {
@@ -130,7 +139,7 @@ describe('Ship', () =>
 
     test('should use price 0 when ship page has no price element', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockImplementation((url: string) =>
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
       {
         if (url === SEARCH_URL)
         {
@@ -145,7 +154,7 @@ describe('Ship', () =>
         } as any);
       });
 
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: '<html><body>No price here</body></html>'
       } as any);

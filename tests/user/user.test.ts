@@ -1,5 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { User } from '../../src/commands/user/user';
 import { HttpClient } from '../../src/http-client';
 
@@ -23,7 +31,7 @@ describe('User', () =>
     ])('should parse user profile data from HTML mock for %s', async (handle, mockFile, expectedId) =>
     {
       // Mock the HTTP client get method to return our mock HTML
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks', mockFile),
@@ -44,7 +52,7 @@ describe('User', () =>
     test('should handle 404 not found response for getUserProfile', async () =>
     {
       // Mock a 404 response
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 404,
         data: '<html><body>Not found</body></html>'
       } as any);
@@ -60,7 +68,7 @@ describe('User', () =>
     test('should handle non-200/404 response for getUserProfile', async () =>
     {
       // Mock a 500 error response
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 500,
         data: 'Server Error'
       } as any);
@@ -77,7 +85,7 @@ describe('User', () =>
     test('should extract profile locations correctly', async () =>
     {
       // Mock the HTTP client get method to return our mock HTML
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks', 'profile.html'),
@@ -100,7 +108,7 @@ describe('User', () =>
     test('should extract profile fluency correctly', async () =>
     {
       // Mock the HTTP client get method to return our mock HTML
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks', 'profile.html'),
@@ -120,7 +128,7 @@ describe('User', () =>
     test('should extract main organization data correctly', async () =>
     {
       // Mock the HTTP client get method to return our mock HTML
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks', 'organizations-multiple.html'),
@@ -158,7 +166,7 @@ describe('User', () =>
     test('should extract user affiliations correctly', async () =>
     {
       // Mock the HTTP client get method to return our mock HTML
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks', 'organizations-multiple.html'),
@@ -208,7 +216,7 @@ describe('User', () =>
         </div>
       `;
 
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: mockHtml
       } as any);
@@ -226,7 +234,7 @@ describe('User', () =>
     test('should handle 404 not found response for getAffiliations', async () =>
     {
       // Mock a 404 response
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 404,
         data: '<html><body>Not found</body></html>'
       } as any);
@@ -242,7 +250,7 @@ describe('User', () =>
     test('should handle non-200/404 response for getAffiliations', async () =>
     {
       // Mock a 500 error response
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 500,
         data: 'Server Error'
       } as any);

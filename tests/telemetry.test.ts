@@ -1,3 +1,12 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Telemetry } from '../src/commands/telemetry/telemetry';
 import { HttpClient } from '../src/index';
 
@@ -48,12 +57,12 @@ describe('Telemetry', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('should return telemetry data for MONTH timetable', async () =>
   {
-    jest.spyOn(httpClient, 'get').mockResolvedValue({
+    vi.spyOn(httpClient, 'get').mockResolvedValue({
       status: 200,
       data: MOCK_TELEMETRY_RESPONSE
     } as any);
@@ -69,7 +78,7 @@ describe('Telemetry', () =>
 
   test('should call the correct URL with timetable and version', async () =>
   {
-    const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+    const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
       status: 200,
       data: MOCK_TELEMETRY_RESPONSE
     } as any);
@@ -85,7 +94,7 @@ describe('Telemetry', () =>
     'should accept timetable type %s',
     async (timetable) =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: MOCK_TELEMETRY_RESPONSE
       } as any);
@@ -97,7 +106,7 @@ describe('Telemetry', () =>
 
   test('should throw on non-200 response', async () =>
   {
-    jest.spyOn(httpClient, 'get').mockResolvedValue({
+    vi.spyOn(httpClient, 'get').mockResolvedValue({
       status: 503,
       data: null
     } as any);

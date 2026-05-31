@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "types": [
+      "node",
+      "vitest/globals"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "strictPropertyInitialization": false,
+    "declaration": false,
+    "declarationDir": null,
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*"
+  ]
+}

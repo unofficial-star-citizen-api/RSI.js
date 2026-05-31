@@ -1,5 +1,14 @@
 import fs from 'fs';
 import path from 'path';
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { HttpClient, ProgressTracker } from '../../src/index';
 import progressTrackerSchema from '../schemas/progress_tracker.json';
 import progressTrackerInfoSchema from '../schemas/progress_tracker_info.json';
@@ -20,14 +29,14 @@ describe('Progress Tracker', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('getTeamsInRange', () =>
   {
     test('should return teams in range data', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(
           fs.readFileSync(
@@ -48,7 +57,7 @@ describe('Progress Tracker', () =>
 
     test('should call the GraphQL endpoint', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(
           fs.readFileSync(
@@ -68,7 +77,7 @@ describe('Progress Tracker', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { data: null }
       } as any);
@@ -80,7 +89,7 @@ describe('Progress Tracker', () =>
 
     test('should return null on non-200 response', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 500,
         data: null
       } as any);
@@ -92,7 +101,7 @@ describe('Progress Tracker', () =>
 
     test('should accept custom date range', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(
           fs.readFileSync(
@@ -134,7 +143,7 @@ describe('Progress Tracker', () =>
 
     test('should return deliverables with discipline info', async () =>
     {
-      jest.spyOn(httpClient, 'post')
+      vi.spyOn(httpClient, 'post')
         .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
         .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
 
@@ -150,7 +159,7 @@ describe('Progress Tracker', () =>
 
     test('should return null on API failure for deliverables', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { data: null }
       } as any);
@@ -162,7 +171,7 @@ describe('Progress Tracker', () =>
 
     test('should return null on non-200 response', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 500,
         data: null
       } as any);
@@ -174,7 +183,7 @@ describe('Progress Tracker', () =>
 
     test('should call GraphQL with deliverables operationName', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post')
+      const spy = vi.spyOn(httpClient, 'post')
         .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
         .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
 

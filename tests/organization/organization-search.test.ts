@@ -1,5 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { HttpClient, Organization } from '../../src/index';
 
 describe('Organization', () =>
@@ -17,7 +25,7 @@ describe('Organization', () =>
 
     test('should return organization search results', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(fs.readFileSync(
           path.join(__dirname, 'mocks', 'organization-search.json'),

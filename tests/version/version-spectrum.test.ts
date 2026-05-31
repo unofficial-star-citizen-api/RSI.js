@@ -1,3 +1,11 @@
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Groups, Spectrum } from '../../src/commands/version/version-spectrum';
 import { HttpClient } from '../../src/http-client';
 
@@ -103,7 +111,7 @@ describe('Spectrum', () =>
     beforeEach(() =>
     {
       // Mock the HTTP client post method
-      jest.spyOn(httpClient, 'post').mockResolvedValue(mockThreadsResponse as any);
+      vi.spyOn(httpClient, 'post').mockResolvedValue(mockThreadsResponse as any);
     });
 
     test('should fetch and parse all versions', async () =>
@@ -146,7 +154,7 @@ describe('Spectrum', () =>
 
     test('should handle API error', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValueOnce({
+      vi.spyOn(httpClient, 'post').mockResolvedValueOnce({
         data: { success: 0, msg: 'API Error' }
       } as any);
 

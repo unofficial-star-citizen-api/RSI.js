@@ -1,3 +1,12 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { FundingGoals } from '../src/commands/funding-goals/funding-goals';
 import { HttpClient } from '../src/index';
 
@@ -31,12 +40,12 @@ describe('Stats (FundingGoals)', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('should return crowdfunding stats with correct shape', async () =>
   {
-    jest.spyOn(httpClient, 'post').mockResolvedValue({
+    vi.spyOn(httpClient, 'post').mockResolvedValue({
       status: 200,
       data: MOCK_STATS_RESPONSE
     } as any);
@@ -51,7 +60,7 @@ describe('Stats (FundingGoals)', () =>
 
   test('should call the correct URL with chart type parameters', async () =>
   {
-    const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+    const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
       status: 200,
       data: MOCK_STATS_RESPONSE
     } as any);
@@ -68,7 +77,7 @@ describe('Stats (FundingGoals)', () =>
     'should accept chart type %s',
     async (chart) =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: MOCK_STATS_RESPONSE
       } as any);
@@ -80,7 +89,7 @@ describe('Stats (FundingGoals)', () =>
 
   test('should include all required request parameters', async () =>
   {
-    const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+    const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
       status: 200,
       data: MOCK_STATS_RESPONSE
     } as any);
@@ -100,7 +109,7 @@ describe('Stats (FundingGoals)', () =>
 
   test('should throw on non-200 response', async () =>
   {
-    jest.spyOn(httpClient, 'post').mockResolvedValue({
+    vi.spyOn(httpClient, 'post').mockResolvedValue({
       status: 500,
       data: null
     } as any);

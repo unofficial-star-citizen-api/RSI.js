@@ -1,6 +1,12 @@
 import { AxiosError } from 'axios';
 import fs from 'fs';
 import path from 'path';
+import
+{
+  describe,
+  expect,
+  test
+} from 'vitest';
 import { Organization } from '../../src/index';
 import { HttpClientMock } from '../mocks/http-client.mock';
 

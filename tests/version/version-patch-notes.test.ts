@@ -1,8 +1,15 @@
 import fs from 'fs';
 import path from 'path';
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { PatchNote } from '../../src/commands/version/version-patch-notes';
 import { HttpClient } from '../../src/http-client';
-
 
 describe('PatchNote', () =>
 {
@@ -20,7 +27,7 @@ describe('PatchNote', () =>
     beforeEach(() =>
     {
       // Mock the HTTP client get method to return our HTML
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: fs.readFileSync(
           path.join(__dirname, 'mocks/patch-notes.html'),
@@ -85,7 +92,7 @@ describe('PatchNote', () =>
 
     test('should handle empty HTML response', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         data: '<div id="channel"></div>'
       } as any);
 
@@ -100,7 +107,7 @@ describe('PatchNote', () =>
 
     test('should handle malformed HTML response', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         data: '<div>Malformed HTML</div>'
       } as any);
 

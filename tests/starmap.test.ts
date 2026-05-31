@@ -1,3 +1,12 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Starmap } from '../src/commands/starmap/starmap';
 import { HttpClient } from '../src/index';
 import starmapRouteSchema from './schemas/starmap_route_search.json';
@@ -157,14 +166,14 @@ describe('Starmap', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('findSystems', () =>
   {
     test('should return systems matching the name', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -178,7 +187,7 @@ describe('Starmap', () =>
 
     test('should return null when system not found', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -189,7 +198,7 @@ describe('Starmap', () =>
 
     test('should return all systems when no name filter provided', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -200,7 +209,7 @@ describe('Starmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
@@ -211,7 +220,7 @@ describe('Starmap', () =>
 
     test('should call bootup URL', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -225,7 +234,7 @@ describe('Starmap', () =>
   {
     test('should return search results', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -255,7 +264,7 @@ describe('Starmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
@@ -266,7 +275,7 @@ describe('Starmap', () =>
 
     test('should call the find URL with the query', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { systems: { resultset: [] }, objects: { resultset: [] } } }
       } as any);
@@ -281,7 +290,7 @@ describe('Starmap', () =>
   {
     test('should return celestial object data', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { resultset: MOCK_CELESTIAL_OBJECT } }
       } as any);
@@ -294,7 +303,7 @@ describe('Starmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
@@ -308,7 +317,7 @@ describe('Starmap', () =>
   {
     test('should return star system detail', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { resultset: MOCK_STAR_SYSTEM_DETAIL } }
       } as any);
@@ -321,7 +330,7 @@ describe('Starmap', () =>
 
     test('should return null on non-200 response', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 404, data: null
       } as any);
 
@@ -335,7 +344,7 @@ describe('Starmap', () =>
   {
     test('should return tunnels matching the id', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -348,7 +357,7 @@ describe('Starmap', () =>
 
     test('should return null when tunnel not found', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -362,7 +371,7 @@ describe('Starmap', () =>
   {
     test('should return all species', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
@@ -376,7 +385,7 @@ describe('Starmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
@@ -390,7 +399,7 @@ describe('Starmap', () =>
   {
     test('should return route search results', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -411,7 +420,7 @@ describe('Starmap', () =>
 
     test('should call the routes URL with correct parameters', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { shortest: MOCK_ROUTE, leastjumps: MOCK_ROUTE } }
       } as any);
@@ -427,7 +436,7 @@ describe('Starmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'post').mockResolvedValue({
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 

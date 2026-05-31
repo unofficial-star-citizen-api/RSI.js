@@ -1,5 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import
+{
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { OrganizationMembersSearchParams } from '../../src/commands/organization/organization-search-members';
 import { HttpClient, Organization } from '../../src/index';
 
@@ -23,7 +31,7 @@ describe('Organization', () =>
 
     test('should get members', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(fs.readFileSync(
           path.join(__dirname, 'mocks', 'organization-members-TEST.json'),
@@ -49,7 +57,7 @@ describe('Organization', () =>
 
     test('should get members of role index 1', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'post').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: JSON.parse(fs.readFileSync(
           path.join(__dirname, 'mocks', 'organization-members-TEST-founder.json'),

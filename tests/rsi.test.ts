@@ -1,5 +1,13 @@
 import
 {
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
+import
+{
   FundingGoals,
   Organization,
   ProgressTracker,
@@ -105,7 +113,7 @@ describe('RSI', () =>
       const httpClient = customRsi.httpClient;
 
       // Create spy on the private shouldUseProxy method
-      const shouldUseProxySpy = jest.spyOn(
+      const shouldUseProxySpy = vi.spyOn(
         httpClient as never,
         'shouldUseProxy'
       );

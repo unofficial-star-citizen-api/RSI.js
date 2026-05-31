@@ -1,3 +1,12 @@
+import
+{
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi
+} from 'vitest';
 import { Roadmap } from '../src/commands/roadmap/roadmap';
 import { HttpClient } from '../src/index';
 
@@ -65,14 +74,14 @@ describe('Roadmap', () =>
 
   afterEach(() =>
   {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('getBoardReleases (Star Citizen)', () =>
   {
     test('should return Star Citizen roadmap releases', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -97,7 +106,7 @@ describe('Roadmap', () =>
       const release312 = {
         ...MOCK_RELEASE, id: '2', name: '3.12', description: '3.12 release'
       };
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -117,7 +126,7 @@ describe('Roadmap', () =>
 
     test('should return null on API failure', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: { success: 0 }
       } as any);
@@ -129,7 +138,7 @@ describe('Roadmap', () =>
 
     test('should return null on non-200 HTTP status', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 500,
         data: null
       } as any);
@@ -141,7 +150,7 @@ describe('Roadmap', () =>
 
     test('should merge category names into cards', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -163,7 +172,7 @@ describe('Roadmap', () =>
   {
     test('should return Squadron 42 roadmap releases', async () =>
     {
-      jest.spyOn(httpClient, 'get').mockResolvedValue({
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: {
           success: 1,
@@ -186,7 +195,7 @@ describe('Roadmap', () =>
   {
     test('should call SC board URL for starcitizen', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { releases: [], categories: [] } }
       } as any);
@@ -198,7 +207,7 @@ describe('Roadmap', () =>
 
     test('should call S42 board URL for squadron42', async () =>
     {
-      const spy = jest.spyOn(httpClient, 'get').mockResolvedValue({
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
         status: 200,
         data: { success: 1, data: { releases: [], categories: [] } }
       } as any);
