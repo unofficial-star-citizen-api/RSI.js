@@ -82,7 +82,6 @@ jobs:
       with:
         name: package-artifacts
         path: |
-          dist/
           package.tgz
         retention-days: 7
 
