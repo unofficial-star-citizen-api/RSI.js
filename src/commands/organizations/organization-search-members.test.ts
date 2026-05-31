@@ -8,8 +8,8 @@ import
   test,
   vi
 } from 'vitest';
-import { OrganizationMembersSearchParams } from '../../src/commands/organization/organization-search-members';
-import { HttpClient, Organizations } from '../../src/index';
+import { HttpClient, Organizations } from '../../index';
+import { OrganizationMembersSearchParams } from './organization-search-members';
 
 export type TestMembersParams = {
   mockFile: string;

@@ -3,7 +3,7 @@ import
   AxiosError, AxiosInstance,
   AxiosResponse
 } from 'axios';
-import { HttpClient, HttpConfigOptions } from '../../src/http-client';
+import { HttpClient, HttpConfigOptions } from '../http-client';
 
 type MockResponseMap = Map<string, {
   response?: AxiosResponse<any>;

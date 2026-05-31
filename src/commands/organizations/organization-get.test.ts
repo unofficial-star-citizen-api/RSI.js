@@ -7,8 +7,8 @@ import
   expect,
   test
 } from 'vitest';
-import { Organizations } from '../../src/index';
-import { HttpClientMock } from '../mocks/http-client.mock';
+import { Organizations } from '../../index';
+import { HttpClientMock } from '../../mocks/http-client.mock';
 
 describe('Organization with HttpClientMock', () =>
 {

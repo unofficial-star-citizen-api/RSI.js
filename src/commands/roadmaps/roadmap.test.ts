@@ -7,8 +7,8 @@ import
   test,
   vi
 } from 'vitest';
-import { Roadmaps } from '../src/commands/roadmaps/roadmap';
-import { HttpClient } from '../src/index';
+import { HttpClient } from '../../index';
+import { Roadmaps } from './roadmap';
 
 const SC_URL = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
 const S42_URL = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/2';
@@ -64,7 +64,7 @@ const MOCK_RELEASE = {
 describe('Roadmap', () =>
 {
   let httpClient: HttpClient;
-  let roadmap: Roadmap;
+  let roadmap: Roadmaps;
 
   beforeEach(() =>
   {

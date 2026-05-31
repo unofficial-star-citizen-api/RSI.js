@@ -7,8 +7,8 @@ import
   test,
   vi
 } from 'vitest';
-import { FundingGoals } from '../src/commands/funding-goals/funding-goals';
-import { HttpClient } from '../src/index';
+import { HttpClient } from '../../index';
+import { FundingGoals } from './funding-goals';
 
 const STATS_URL = 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats';
 

@@ -9,10 +9,10 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, ProgressTrackers } from '../../src/index';
-import progressTrackerSchema from '../schemas/progress_tracker.json';
-import progressTrackerInfoSchema from '../schemas/progress_tracker_info.json';
-import { assertValidSchema } from '../utils/validator';
+import { HttpClient, ProgressTrackers } from '../../index';
+import progressTrackerSchema from '../../schemas/progress_tracker.json';
+import progressTrackerInfoSchema from '../../schemas/progress_tracker_info.json';
+import { assertValidSchema } from '../../utils/validator';
 
 const GRAPHQL_URL = 'https://robertsspaceindustries.com/graphql';
 
@@ -196,4 +196,3 @@ describe('Progress Tracker', () =>
     });
   });
 });
-

@@ -8,7 +8,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, Organizations } from '../../src/index';
+import { HttpClient, Organizations } from '../../index';
 
 describe('Organization', () =>
 {

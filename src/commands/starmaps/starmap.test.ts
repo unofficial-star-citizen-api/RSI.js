@@ -7,11 +7,11 @@ import
   test,
   vi
 } from 'vitest';
-import { Starmaps } from '../src/commands/starmaps/starmap';
-import { HttpClient } from '../src/index';
-import starmapRouteSchema from './schemas/starmap_route_search.json';
-import starmapSpeciesSchema from './schemas/starmap_species.json';
-import { assertValidSchema } from './utils/validator';
+import { HttpClient } from '../../index';
+import starmapRouteSchema from '../../schemas/starmap_route_search.json';
+import starmapSpeciesSchema from '../../schemas/starmap_species.json';
+import { assertValidSchema } from '../../utils/validator';
+import { Starmaps } from './starmap';
 
 const BOOTUP_URL = 'https://robertsspaceindustries.com/api/starmap/bootup';
 const FIND_URL = 'https://robertsspaceindustries.com/api/starmap/find';
@@ -446,4 +446,3 @@ describe('Starmap', () =>
     });
   });
 });
-

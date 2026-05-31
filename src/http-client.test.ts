@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from '../src/index';
+import { HttpClient } from './index';
 
 describe('HttpClient', () =>
 {
@@ -202,4 +202,3 @@ describe('HttpClient', () =>
     });
   });
 });
-

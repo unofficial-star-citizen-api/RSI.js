@@ -7,8 +7,8 @@ import
   test,
   vi
 } from 'vitest';
-import { Ships } from '../src/commands/ships/ship';
-import { HttpClient } from '../src/index';
+import { HttpClient } from '../../index';
+import { Ships } from './ship';
 
 const SEARCH_URL = 'https://robertsspaceindustries.com/api/store/getShips';
 const MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix/index';
@@ -166,4 +166,3 @@ describe('Ship', () =>
     });
   });
 });
-

@@ -6,11 +6,11 @@ import
   test,
   vi
 } from 'vitest';
-import { Roadmap } from '../../src/commands/versions/version-roadmap';
-import { HttpClient } from '../../src/http-client';
+import { HttpClient } from '../../http-client';
 import mockWithLiveAndEtf from './mocks/roadmap-live-etf.json';
 import mockWithLiveAndPtu from './mocks/roadmap-live-ptu.json';
 import mockWithLive from './mocks/roadmap-live.json';
+import { Roadmap } from './version-roadmap';
 
 describe('Roadmap', () =>
 {

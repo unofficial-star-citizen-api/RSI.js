@@ -5,11 +5,11 @@ import
   expect,
   test
 } from 'vitest';
-import { Versions } from '../../src/commands/versions/version';
-import { PatchNote } from '../../src/commands/versions/version-patch-notes';
-import { Roadmap } from '../../src/commands/versions/version-roadmap';
-import { Spectrum } from '../../src/commands/versions/version-spectrum';
-import { HttpClient } from '../../src/http-client';
+import { HttpClient } from '../../http-client';
+import { Versions } from './version';
+import { PatchNote } from './version-patch-notes';
+import { Roadmap } from './version-roadmap';
+import { Spectrum } from './version-spectrum';
 
 describe('Version', () =>
 {

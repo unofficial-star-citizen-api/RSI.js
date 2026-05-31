@@ -18,7 +18,7 @@ import
   Telemetries,
   Users,
   Versions
-} from '../src';
+} from '.';
 
 describe('RSI', () =>
 {

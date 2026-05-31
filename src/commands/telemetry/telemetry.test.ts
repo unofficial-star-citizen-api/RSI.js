@@ -7,8 +7,8 @@ import
   test,
   vi
 } from 'vitest';
-import { Telemetries } from '../src/commands/telemetry/telemetry';
-import { HttpClient } from '../src/index';
+import { HttpClient } from '../../index';
+import { Telemetries } from './telemetry';
 
 const TELEMETRY_BASE_URL = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
 
@@ -116,4 +116,3 @@ describe('Telemetry', () =>
     );
   });
 });
-

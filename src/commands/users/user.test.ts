@@ -8,8 +8,8 @@ import
   test,
   vi
 } from 'vitest';
-import { Users } from '../../src/commands/users/user';
-import { HttpClient } from '../../src/http-client';
+import { HttpClient } from '../../http-client';
+import { Users } from './user';
 
 describe('User', () =>
 {
