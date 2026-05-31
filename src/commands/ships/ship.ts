@@ -15,11 +15,6 @@ export interface RSIShipData
   [key: string]: unknown;
 }
 
-// Re-export types for external use
-export type {
-  ShipClassification, ShipSize, ShipStatus
-} from './types';
-
 /**
  * Advanced search parameters for ship queries
  */
