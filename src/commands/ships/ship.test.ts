@@ -26,15 +26,15 @@ const MOCK_SHIP = {
 
 const SEARCH_HTML = '<div data-ship-id="56"></div>';
 
-describe('Ship', () =>
+describe('Ships', () =>
 {
   let httpClient: HttpClient;
-  let ship: Ship;
+  let ships: Ships;
 
   beforeEach(() =>
   {
     httpClient = new HttpClient();
-    ship = new Ships(httpClient);
+    ships = new Ships(httpClient);
   });
 
   afterEach(() =>
@@ -70,7 +70,7 @@ describe('Ship', () =>
         data: '<html><body><span class="final-price" data-value="9500">$95</span></body></html>'
       } as any);
 
-      const data = await ship.search({ name: 'Cutlass Black' });
+      const data = await ships.search({ name: 'Cutlass Black' });
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
@@ -85,7 +85,7 @@ describe('Ship', () =>
         data: { success: 1, data: { html: '', rowcount: 0 } }
       } as any);
 
-      const data = await ship.search({ name: 'NonExistentShip' });
+      const data = await ships.search({ name: 'NonExistentShip' });
 
       expect(data).toEqual([]);
     });
@@ -97,7 +97,7 @@ describe('Ship', () =>
         data: { success: 0, data: { html: '', rowcount: 0 } }
       } as any);
 
-      const data = await ship.search({ name: 'TestShip' });
+      const data = await ships.search({ name: 'TestShip' });
 
       expect(data).toEqual([]);
     });
@@ -109,7 +109,7 @@ describe('Ship', () =>
         data: null
       } as any);
 
-      const data = await ship.search({ name: 'TestShip' });
+      const data = await ships.search({ name: 'TestShip' });
 
       expect(data).toEqual([]);
     });
@@ -132,7 +132,7 @@ describe('Ship', () =>
         } as any);
       });
 
-      const data = await ship.search({ name: 'Cutlass Black' });
+      const data = await ships.search({ name: 'Cutlass Black' });
 
       expect(data).toEqual([]);
     });
@@ -159,7 +159,7 @@ describe('Ship', () =>
         data: '<html><body>No price here</body></html>'
       } as any);
 
-      const data = await ship.search({ name: 'Cutlass Black' });
+      const data = await ships.search({ name: 'Cutlass Black' });
 
       expect(data).toHaveLength(1);
       expect(data[0].price).toBe(0);
