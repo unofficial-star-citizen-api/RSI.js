@@ -2,10 +2,10 @@ export type RSIRoadmap = {
   readonly success: number;
   readonly code: string;
   readonly msg: string;
-  readonly data: RSIData;
+  readonly data: RSIRoadmapData;
 };
 
-export type RSIData = {
+export type RSIRoadmapData = {
   readonly config: RSIConfig;
   readonly canEdit: boolean;
   readonly who: null;
