@@ -6,7 +6,7 @@ export type RSIRoadmap = {
 };
 
 export type RSIRoadmapData = {
-  readonly config: RSIConfig;
+  readonly config: RSIRoadmapConfig;
   readonly canEdit: boolean;
   readonly who: null;
   readonly boards: RSIBoard[];
@@ -41,7 +41,7 @@ export type RSIUrls = {
   readonly source: string;
 };
 
-export type RSIConfig = {
+export type RSIRoadmapConfig = {
   readonly events_url: string;
   readonly home_url: string;
   readonly ga_tracking_id: string;
