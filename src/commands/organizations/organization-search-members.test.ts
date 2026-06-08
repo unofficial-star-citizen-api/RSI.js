@@ -16,12 +16,12 @@ export type TestMembersParams = {
   params: OrganizationMembersSearchParams;
 };
 
-describe('Organization', () =>
+describe('Organizations', () =>
 {
   describe('searchMembers', () =>
   {
     let httpClient: HttpClient;
-    let organization: Organization;
+    let organization: Organizations;
 
     beforeEach(() =>
     {

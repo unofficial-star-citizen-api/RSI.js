@@ -15,12 +15,12 @@ describe('Organization', () =>
   describe('search', () =>
   {
     let httpClient: HttpClient;
-    let organization: Organization;
+    let organizations: Organizations;
 
     beforeEach(() =>
     {
       httpClient = new HttpClient();
-      organization = new Organizations(httpClient);
+      organizations = new Organizations(httpClient);
     });
 
     test('should return organization search results', async () =>
@@ -33,21 +33,21 @@ describe('Organization', () =>
         ))
       } as any);
 
-      const organizations = await organization.search();
+      const results = await organizations.search();
 
-      expect(organizations).not.toBeNull();
-      expect(organizations).toHaveLength(32);
+      expect(results).not.toBeNull();
+      expect(results).toHaveLength(32);
 
-      expect(organizations[0].sid).toBe('ITCL');
-      expect(organizations[0].name).toBe('Inter-Tide Coalition');
-      expect(organizations[0].icon).toBe('https://robertsspaceindustries.com/media/q6tmp9xcwu4esr/avatar/ITCL-Logo.png');
-      expect(organizations[0].href).toBe('https://robertsspaceindustries.com/orgs/ITCL');
-      expect(organizations[0].characteristics.archetype).toBe('Syndicate');
-      expect(organizations[0].characteristics.commitment).toBe('Hardcore');
-      expect(organizations[0].characteristics.isRecruiting).toBe(true);
-      expect(organizations[0].characteristics.isRoleplay).toBe(true);
-      expect(organizations[0].characteristics.language).toBe('English');
-      expect(organizations[0].characteristics.membersCount).toBe(17);
+      expect(results[0].sid).toBe('ITCL');
+      expect(results[0].name).toBe('Inter-Tide Coalition');
+      expect(results[0].icon).toBe('https://robertsspaceindustries.com/media/q6tmp9xcwu4esr/avatar/ITCL-Logo.png');
+      expect(results[0].href).toBe('https://robertsspaceindustries.com/orgs/ITCL');
+      expect(results[0].characteristics.archetype).toBe('Syndicate');
+      expect(results[0].characteristics.commitment).toBe('Hardcore');
+      expect(results[0].characteristics.isRecruiting).toBe(true);
+      expect(results[0].characteristics.isRoleplay).toBe(true);
+      expect(results[0].characteristics.language).toBe('English');
+      expect(results[0].characteristics.membersCount).toBe(17);
 
       spy.mockRestore();
     });
