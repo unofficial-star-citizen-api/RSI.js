@@ -1,14 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapSearchResult } from './interfaces';
-
-export interface RSIStarMapSearchResult
-{
-  success: number;
-  data?: {
-    systems: { resultset: Array<Record<string, unknown>>; };
-    objects: { resultset: Array<Record<string, unknown>>; };
-  };
-}
+import { RSIStarMapSearchResult, RSIStarMapSearchResultObjectsResultset, RSIStarMapSearchResultStarSystemElement } from './interfaces/system.interface';
 
 /**
  * StarmapSearch class for searching Star Citizen starmap
@@ -23,7 +14,7 @@ export class StarmapSearch
     this.httpClient = httpClient;
   }
 
-  public async search(searchPattern: string): Promise<RSIStarmapSearchResult | null>
+  public async search(searchPattern: string): Promise<{ systems: RSIStarMapSearchResultStarSystemElement[], objects: RSIStarMapSearchResultObjectsResultset[]; } | null>
   {
     const data = { query: searchPattern };
 
