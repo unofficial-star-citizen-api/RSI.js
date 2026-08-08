@@ -1,4 +1,7 @@
+export * from './celestial-object.interface';
 export * from './route.interface';
+export * from './star-system.interface';
+export * from './system.interface';
 
 export enum RSIStarmapRouteShipSize
 {
