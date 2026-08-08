@@ -388,7 +388,7 @@ describe('Starmap', () =>
         }
       } as any);
 
-      const data = await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
+      const data = await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', StarmapRouteShipSize.Medium);
 
       expect(data).not.toBeNull();
       expect(data!.shortest).toBeDefined();
@@ -403,7 +403,7 @@ describe('Starmap', () =>
         data: { success: 1, data: { shortest: MOCK_ROUTE, leastjumps: MOCK_ROUTE } }
       } as any);
 
-      await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
+      await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', StarmapRouteShipSize.Medium);
 
       expect(spy).toHaveBeenCalledWith(ROUTES_URL, {
         departure: 'STANTON.LZS.LORVILLE',
