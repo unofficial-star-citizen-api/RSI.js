@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from '../../index';
+import { HttpClient, StarmapRouteShipSize } from '../../index';
 import starmapRouteSchema from '../../schemas/starmap_route_search.json';
 import starmapSpeciesSchema from '../../schemas/starmap_species.json';
 import { assertValidSchema } from '../../utils/validator';
@@ -169,7 +169,7 @@ describe('Starmap', () =>
     vi.restoreAllMocks();
   });
 
-  describe('findSystems', () =>
+  describe('getSystems', () =>
   {
     test('should return systems matching the name', async () =>
     {
@@ -177,23 +177,12 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.getSystems('pyro');
+      const data = await starmap.getSystems();
 
       expect(data).not.toBeNull();
-      expect(data).toHaveLength(1);
+      expect(data).toHaveLength(2);
       expect(data![0].name).toBe('Pyro');
       expect(data![0].code).toBe('PYRO');
-    });
-
-    test('should return null when system not found', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200, data: MOCK_BOOTUP_RESPONSE
-      } as any);
-
-      const data = await starmap.getSystems('nonexistent');
-
-      expect(data).toBeNull();
     });
 
     test('should return all systems when no name filter provided', async () =>
@@ -213,7 +202,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getSystems('pyro');
+      const data = await starmap.getSystems();
 
       expect(data).toBeNull();
     });
@@ -224,7 +213,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      await starmap.getSystems('pyro');
+      await starmap.getSystems();
 
       expect(spy).toHaveBeenCalledWith(BOOTUP_URL);
     });
@@ -356,33 +345,6 @@ describe('Starmap', () =>
     });
   });
 
-  describe('findTunnelById', () =>
-  {
-    test('should return tunnels matching the id', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200, data: MOCK_BOOTUP_RESPONSE
-      } as any);
-
-      const data = await starmap.searchTunnelById(1188);
-
-      expect(data).not.toBeNull();
-      expect(data).toHaveLength(1);
-      expect(data![0].id).toBe(1188);
-    });
-
-    test('should return null when tunnel not found', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200, data: MOCK_BOOTUP_RESPONSE
-      } as any);
-
-      const data = await starmap.searchTunnelById(9999);
-
-      expect(data).toBeNull();
-    });
-  });
-
   describe('findSpecies', () =>
   {
     test('should return all species', async () =>
@@ -456,7 +418,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findRoute('A', 'B', 'M');
+      const data = await starmap.findRoute('A', 'B', StarmapRouteShipSize.Medium);
 
       expect(data).toBeNull();
     });
