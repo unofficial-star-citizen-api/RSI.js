@@ -1,5 +1,10 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarMapSearchResult, RSIStarMapSearchResultObjectsResultset, RSIStarMapSearchResultStarSystemElement } from './interfaces/system.interface';
+import
+{
+  RSIStarMapSearchResult,
+  RSIStarMapSearchResultObjectsResultset,
+  RSIStarMapSearchResultStarSystemElement
+} from './interfaces/system.interface';
 
 /**
  * StarmapSearch class for searching Star Citizen starmap
