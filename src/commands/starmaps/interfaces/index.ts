@@ -11,6 +11,7 @@ export interface RSIStarmapCelestialObject
   [key: string]: unknown;
 }
 
+
 export enum RSIStarmapRouteShipSize
 {
   Small = 'S',
@@ -18,23 +19,11 @@ export enum RSIStarmapRouteShipSize
   Large = 'L'
 }
 
-
 export interface RSIStarmapStarSystemDetail
 {
   [key: string]: unknown;
 }
-
-export interface RSIStarmapStarSystem
-{
-  id: string;
-  name: string;
-  code: string;
-  [key: string]: unknown;
-}
-
-
-
-
+/** @internal */
 export interface RSIStarMapObject
 {
   success: number;
@@ -43,6 +32,7 @@ export interface RSIStarMapObject
   data: RSIStarMapObjectData;
 }
 
+/** @internal */
 export interface RSIStarMapObjectData
 {
   config: RSIStarMapObjectConfig;
@@ -52,6 +42,7 @@ export interface RSIStarMapObjectData
   affiliations: RSIStarMapObjectAffiliations;
 }
 
+/** @internal */
 export interface RSIStarMapObjectAffiliations
 {
   rowcount: number;
@@ -111,6 +102,7 @@ export enum RSIStarMapObjectName
   XiAn = "Xi'an",
 }
 
+/** @internal */
 export interface RSIStarMapObjectConfig
 {
   nearPlane: number;
@@ -193,6 +185,7 @@ export interface RSIStarMapObjectStars
   colorC2: string;
 }
 
+/** @internal */
 export interface RSIStarMapObjectSystems
 {
   rowcount: number;
@@ -254,6 +247,7 @@ export enum RSIStarMapObjectResultsetType
   SingleStar = "SINGLE_STAR",
 }
 
+/** @internal */
 export interface RSIStarMapObjectTunnels
 {
   rowcount: number;
