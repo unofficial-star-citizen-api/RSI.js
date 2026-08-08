@@ -12,6 +12,7 @@ export interface RSIStarMapSearchResultData
   objects: RSIStarMapSearchResultObjects;
 }
 
+/** @internal */
 export interface RSIStarMapSearchResultObjects
 {
   rowcount: number;
@@ -25,6 +26,7 @@ export interface RSIStarMapSearchResultObjects
   estimatedrows: boolean;
 }
 
+/** @internal */
 export interface RSIStarMapSearchResultObjectsResultset
 {
   id: number;
@@ -73,6 +75,7 @@ export enum RSIStarMapSearchResultStatus
   P = 'P',
 }
 
+/** @internal */
 export interface RSIStarMapSearchResultSystems
 {
   rowcount: number;
