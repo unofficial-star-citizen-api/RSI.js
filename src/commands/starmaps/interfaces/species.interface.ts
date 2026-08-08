@@ -1,4 +1,4 @@
-export interface RSISpeciesInterface
+export interface RSIStarmapSpecies
 {
   name: string;
   code: string;

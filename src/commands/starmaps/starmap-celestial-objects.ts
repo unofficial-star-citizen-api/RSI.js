@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSICelestialObjectInterface } from './interfaces/celestial-object.interface';
+import { RSIStarmapCelestialObject } from './interfaces/celestial-object.interface';
 
 /**
  * StarmapCelestialObjects class for retrieving Star Citizen celestial objects
@@ -14,11 +14,11 @@ export class StarmapCelestialObjects
     this.httpClient = httpClient;
   }
 
-  async getByCode(objectCode: string): Promise<RSICelestialObjectInterface | null>
+  async getByCode(objectCode: string): Promise<RSIStarmapCelestialObject | null>
   {
     const req = await this.httpClient.post<{
       success: number;
-      data?: { resultset: RSICelestialObjectInterface; };
+      data?: { resultset: RSIStarmapCelestialObject; };
     }>(this.urlCelestial.replace('{0}', objectCode));
 
     if (req === null || req.status !== 200)

@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSITunnelInterface } from './interfaces/tunnel.interface';
+import { RSIStarmapTunnel } from './interfaces/tunnel.interface';
 
 /**
  * StarmapTunnels class for retrieving Star Citizen starmap tunnels
@@ -14,9 +14,9 @@ export class StarmapTunnels
     this.httpClient = httpClient;
   }
 
-  public async getAll(): Promise<RSITunnelInterface[] | null>
+  public async getAll(): Promise<RSIStarmapTunnel[] | null>
   {
-    const tunnels = await StarMapHelper.getStarmapData<RSITunnelInterface>(this.httpClient, 'tunnels');
+    const tunnels = await StarMapHelper.getStarmapData<RSIStarmapTunnel>(this.httpClient, 'tunnels');
     if (tunnels === null)
     {
       return null;

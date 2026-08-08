@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIRouteResultInterface } from './interfaces/route-result.interface';
+import { RSIStarmapRoute } from './interfaces/route-result.interface';
 import { RSIStarmapRouteShipSize } from './interfaces/starmap-route-ship-size.interface';
 
 /**
@@ -15,7 +15,7 @@ export class StarmapRoute
     this.httpClient = httpClient;
   }
 
-  async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIRouteResultInterface | null>
+  async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIStarmapRoute | null>
   {
     const data = {
       departure: from,

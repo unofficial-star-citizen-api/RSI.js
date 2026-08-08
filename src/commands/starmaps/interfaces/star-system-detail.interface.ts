@@ -1,4 +1,4 @@
-export interface RSIStarSystemDetailInterface
+export interface RSIStarmapStarSystemDetail
 {
   [key: string]: unknown;
 }

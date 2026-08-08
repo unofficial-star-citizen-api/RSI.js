@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSIStarSystemInterface } from './interfaces/star-system.interface';
+import { RSIStarmapStarSystem } from './interfaces/star-system.interface';
 
 /**
  * StarmapSystems class for retrieving Star Citizen starmap systems
@@ -14,9 +14,9 @@ export class StarmapSystems
     this.httpClient = httpClient;
   }
 
-  public async getAll(): Promise<RSIStarSystemInterface[] | null>
+  public async getAll(): Promise<RSIStarmapStarSystem[] | null>
   {
-    const systems = await StarMapHelper.getStarmapData<RSIStarSystemInterface>(this.httpClient, 'systems');
+    const systems = await StarMapHelper.getStarmapData<RSIStarmapStarSystem>(this.httpClient, 'systems');
     if (systems === null)
     {
       return null;

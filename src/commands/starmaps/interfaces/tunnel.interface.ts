@@ -1,4 +1,4 @@
-export interface RSITunnelInterface
+export interface RSIStarmapTunnel
 {
   id: number;
   [key: string]: unknown;

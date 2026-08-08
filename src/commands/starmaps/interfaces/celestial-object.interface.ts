@@ -1,4 +1,4 @@
-export interface RSICelestialObjectInterface
+export interface RSIStarmapCelestialObject
 {
   [key: string]: unknown;
 }

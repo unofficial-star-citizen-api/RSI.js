@@ -1,4 +1,4 @@
-export interface RSIAffiliationInterface
+export interface RSIStarmapAffiliation
 {
   name: string;
   code: string;

@@ -1,4 +1,4 @@
-export interface RSIStarSystemInterface
+export interface RSIStarmapStarSystem
 {
   id: string;
   name: string;
