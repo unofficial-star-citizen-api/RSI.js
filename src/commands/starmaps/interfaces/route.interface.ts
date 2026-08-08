@@ -1,20 +1,20 @@
 export interface RSIStarmapRoute
 {
-  shortest: RSIRouteResultShortest;
-  leastjumps: RSIRouteResultLeastJumps;
+  shortest: RSIStarmapRouteShortest;
+  leastjumps: RSIStarmapRouteLeastJumps;
 }
 
-export interface RSIRouteResultShortest
+export interface RSIStarmapRouteShortest
 {
   name: string;
   label: string;
   first_jump: string;
   flight_distance: number;
   jumps: number;
-  segments: RSIRouteResultSegment[];
+  segments: RSIStarmapRouteSegment[];
 }
 
-export interface RSIRouteResultSegment
+export interface RSIStarmapRouteSegment
 {
   id: any;
   name: string;
@@ -29,12 +29,12 @@ export interface RSIRouteResultSegment
   is_destination: any;
 }
 
-export interface RSIRouteResultLeastJumps
+export interface RSIStarmapRouteLeastJumps
 {
   name: string;
   label: string;
   first_jump: string;
   flight_distance: number;
   jumps: number;
-  segments: RSIRouteResultSegment[];
+  segments: RSIStarmapRouteSegment[];
 }
