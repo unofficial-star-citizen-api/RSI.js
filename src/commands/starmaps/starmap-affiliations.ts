@@ -14,7 +14,7 @@ export class StarmapAffiliations
     this.httpClient = httpClient;
   }
 
-  public async find(name?: string): Promise<RSIAffiliationInterface[] | null>
+  public async getAll(name?: string): Promise<RSIAffiliationInterface[] | null>
   {
     const affiliations = await StarMapHelper.getStarmapData<RSIAffiliationInterface>(this.httpClient, 'affiliations');
     if (affiliations === null)

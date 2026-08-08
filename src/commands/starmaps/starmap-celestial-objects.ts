@@ -14,12 +14,12 @@ export class StarmapCelestialObjects
     this.httpClient = httpClient;
   }
 
-  async find(code: string): Promise<RSICelestialObjectInterface | null>
+  async getByCode(objectCode: string): Promise<RSICelestialObjectInterface | null>
   {
     const req = await this.httpClient.post<{
       success: number;
       data?: { resultset: RSICelestialObjectInterface; };
-    }>(this.urlCelestial.replace('{0}', code));
+    }>(this.urlCelestial.replace('{0}', objectCode));
 
     if (req === null || req.status !== 200)
     {

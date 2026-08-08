@@ -1,6 +1,15 @@
 import { HttpClient } from '@/http-client';
 import { RSISearchResultInterface } from './interfaces/search-result.interface';
 
+export interface StarMapSearchResultInterface
+{
+  success: number;
+  data?: {
+    systems: { resultset: Array<Record<string, unknown>>; };
+    objects: { resultset: Array<Record<string, unknown>>; };
+  };
+}
+
 /**
  * StarmapSearch class for searching Star Citizen starmap
  */
@@ -14,17 +23,11 @@ export class StarmapSearch
     this.httpClient = httpClient;
   }
 
-  public async find(searchPattern: string): Promise<RSISearchResultInterface | null>
+  public async search(searchPattern: string): Promise<RSISearchResultInterface | null>
   {
     const data = { query: searchPattern };
 
-    const req = await this.httpClient.post<{
-      success: number;
-      data?: {
-        systems: { resultset: Array<Record<string, unknown>>; };
-        objects: { resultset: Array<Record<string, unknown>>; };
-      };
-    }>(this.urlFind, data);
+    const req = await this.httpClient.post<StarMapSearchResultInterface>(this.urlFind, data);
 
     if (req === null || req.status !== 200)
     {

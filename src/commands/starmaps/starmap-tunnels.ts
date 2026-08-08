@@ -14,7 +14,7 @@ export class StarmapTunnels
     this.httpClient = httpClient;
   }
 
-  public async find(tunnelId?: string): Promise<RSITunnelInterface[] | null>
+  public async getAll(): Promise<RSITunnelInterface[] | null>
   {
     const tunnels = await StarMapHelper.getStarmapData<RSITunnelInterface>(this.httpClient, 'tunnels');
     if (tunnels === null)
@@ -22,13 +22,6 @@ export class StarmapTunnels
       return null;
     }
 
-    if (tunnelId === undefined)
-    {
-      return tunnels;
-    }
-
-    const res = tunnels.filter(s => String(s.id).toLowerCase() === String(tunnelId).toLowerCase());
-
-    return res.length > 0 ? res : null;
+    return tunnels;
   }
 }

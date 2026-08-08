@@ -14,7 +14,7 @@ export class StarmapStarSystems
     this.httpClient = httpClient;
   }
 
-  async find(code: string): Promise<RSIStarSystemDetailInterface | null>
+  async getByCode(code: string): Promise<RSIStarSystemDetailInterface | null>
   {
     const req = await this.httpClient.post<{
       success: number;

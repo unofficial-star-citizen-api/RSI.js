@@ -21,9 +21,9 @@ _Last reviewed: 2026-05-08_
 ## Known Issues / TODOs
 
 1. **Stale ProgressTracker date range** — default `2020-01-01` to `2022-12-31` is outdated; should be a rolling window or configurable default.
-2. **Typo in public API** — `starmap.findAffilations()` should be `findAffiliations()` (missing 'i').
+2. **Typo in public API** — `starmap.findAffiliations()` should be `findAffiliations()` (missing 'i').
 3. **Missing test** — `User.getOrganization` has no dedicated test; only `getProfile` is covered.
-4. **Starmap implementation discrepancy** — `findSystems`, `findTunnels`, `findSpecies`, `findAffilations` all funnel through `POST /api/starmap/bootup` + client-side filtering. `rsi-endpoints.md` documents individual per-resource endpoints that may actually exist and be more efficient.
+4. **Starmap implementation discrepancy** — `findSystems`, `findTunnels`, `findSpecies`, `findAffiliations` all funnel through `POST /api/starmap/bootup` + client-side filtering. `rsi-endpoints.md` documents individual per-resource endpoints that may actually exist and be more efficient.
 5. **Fragile integration tests** — several test files (`stats.test.ts`, `roadmap.test.ts`, `ship.test.ts`, `starmap.test.ts`, `telemetry.test.ts`, `progress-tracker.test.ts`) hit the live RSI API. These will break if RSI changes their responses. Ideally these should be mocked.
 
 ## Test Coverage Summary
