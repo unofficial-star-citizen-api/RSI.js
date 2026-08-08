@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapStarSystemDetail } from './interfaces';
+import { RSIStarMapStarSystem, RSIStarMapStarSystemResultset } from './interfaces/star-system.interface';
 
 /**
  * StarmapStarSystems class for retrieving Star Citizen starmap star systems
@@ -14,12 +14,9 @@ export class StarmapStarSystems
     this.httpClient = httpClient;
   }
 
-  async getByCode(code: string): Promise<RSIStarmapStarSystemDetail | null>
+  async getByCode(code: string): Promise<RSIStarMapStarSystemResultset | null>
   {
-    const req = await this.httpClient.post<{
-      success: number;
-      data?: { resultset: RSIStarmapStarSystemDetail; };
-    }>(this.urlStarSystem.replace('{0}', code));
+    const req = await this.httpClient.post<RSIStarMapStarSystem>(this.urlStarSystem.replace('{0}', code));
 
     if (req === null || req.status !== 200)
     {
@@ -34,6 +31,6 @@ export class StarmapStarSystems
       return null;
     }
 
-    return resp.data.resultset;
+    return resp.data.resultset.at(0) ?? null;
   }
 }

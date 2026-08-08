@@ -1,22 +1,10 @@
 export * from './route.interface';
 
-export interface RSIStarmapAffiliation
-{
-  name: string;
-  code: string;
-  [key: string]: unknown;
-}
-
 export enum RSIStarmapRouteShipSize
 {
   Small = 'S',
   Medium = 'M',
   Large = 'L'
-}
-
-export interface RSIStarmapStarSystemDetail
-{
-  [key: string]: unknown;
 }
 
 /** @internal */
