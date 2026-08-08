@@ -1,4 +1,4 @@
-export enum StarmapRouteShipSize
+export enum RSIStarmapRouteShipSize
 {
   Small = 'S',
   Medium = 'M',
