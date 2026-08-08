@@ -16,12 +16,6 @@ export enum RSIStarmapRouteShipSize
   Large = 'L'
 }
 
-export interface RSIStarmapRoute
-{
-  shortest: Array<Record<string, unknown>>;
-  leastjumps: Array<Record<string, unknown>>;
-}
-
 export interface RSIStarmapSearchResult
 {
   systems: Array<Record<string, unknown>>;

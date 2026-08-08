@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapRoute, RSIStarmapRouteShipSize } from './interfaces';
+import { RSIStarmapRouteShipSize } from './interfaces';
+import { RSIRouteResult } from './interfaces/route.interface';
 
 /**
  * StarmapRouteSearch class for searching routes in Star Citizen starmap
@@ -14,7 +15,7 @@ export class StarmapRoute
     this.httpClient = httpClient;
   }
 
-  async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIStarmapRoute | null>
+  async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIRouteResult | null>
   {
     const data = {
       departure: from,
@@ -24,10 +25,7 @@ export class StarmapRoute
 
     const req = await this.httpClient.post<{
       success: number;
-      data?: {
-        shortest: Array<Record<string, unknown>>;
-        leastjumps: Array<Record<string, unknown>>;
-      };
+      data?: RSIRouteResult;
     }>(this.urlFind, data);
 
     if (req === null || req.status !== 200)
