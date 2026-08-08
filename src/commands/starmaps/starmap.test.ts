@@ -113,7 +113,7 @@ const MOCK_CELESTIAL_OBJECT = {
   subtype: { id: '3', name: 'Gas Giant' }
 };
 
-const MOCK_STAR_SYSTEM_DETAIL = {
+const MOCK_STAR_SYSTEM_DETAIL = [{
   id: '2',
   code: 'STANTON',
   name: 'Stanton',
@@ -128,7 +128,7 @@ const MOCK_STAR_SYSTEM_DETAIL = {
   aggregated_population: 3,
   aggregated_size: '2',
   celestial_objects: []
-};
+}];
 
 const MOCK_ROUTE = {
   name: 'Lorville to Area 18',
