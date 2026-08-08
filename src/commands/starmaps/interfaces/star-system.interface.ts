@@ -53,25 +53,25 @@ export interface RSIStarMapStarSystemAffiliation
   code: RSIStarMapStarSystemCode;
   color: RSIStarMapStarSystemColorEnum;
   name: RSIStarMapStarSystemName;
-  "membership.id": number;
+  'membership.id': number;
 }
 
 export enum RSIStarMapStarSystemCode
 {
-  UNC = "UNC",
-  Uee = "uee",
+  UNC = 'UNC',
+  Uee = 'uee',
 }
 
 export enum RSIStarMapStarSystemColorEnum
 {
-  F6851F = "#f6851f",
-  The48Bbd4 = "#48bbd4",
+  F6851F = '#f6851f',
+  The48Bbd4 = '#48bbd4',
 }
 
 export enum RSIStarMapStarSystemName
 {
-  Uee = "UEE",
-  Unclaimed = "Unclaimed",
+  Uee = 'UEE',
+  Unclaimed = 'Unclaimed',
 }
 
 export interface RSIStarMapStarSystemCelestialObject
@@ -112,12 +112,12 @@ export interface RSIStarMapStarSystemCelestialObject
 
 export enum RSIStarMapStarSystemAppearance
 {
-  Custom = "CUSTOM",
-  Default = "DEFAULT",
-  PlanetBlue = "PLANET_BLUE",
-  PlanetBrown = "PLANET_BROWN",
-  PlanetGas = "PLANET_GAS",
-  PlanetGreen = "PLANET_GREEN",
+  Custom = 'CUSTOM',
+  Default = 'DEFAULT',
+  PlanetBlue = 'PLANET_BLUE',
+  PlanetBrown = 'PLANET_BROWN',
+  PlanetGas = 'PLANET_GAS',
+  PlanetGreen = 'PLANET_GREEN',
 }
 
 export interface RSIStarMapStarSystemModel
@@ -184,13 +184,13 @@ export interface RSIStarMapStarSystemSubtype
 
 export enum RSIStarMapStarSystemType
 {
-  AsteroidBelt = "ASTEROID_BELT",
-  AsteroidField = "ASTEROID_FIELD",
-  Jumppoint = "JUMPPOINT",
-  Manmade = "MANMADE",
-  Planet = "PLANET",
-  Satellite = "SATELLITE",
-  Star = "STAR",
+  AsteroidBelt = 'ASTEROID_BELT',
+  AsteroidField = 'ASTEROID_FIELD',
+  Jumppoint = 'JUMPPOINT',
+  Manmade = 'MANMADE',
+  Planet = 'PLANET',
+  Satellite = 'SATELLITE',
+  Star = 'STAR',
 }
 
 export interface RSIStarMapStarSystemThumbnail

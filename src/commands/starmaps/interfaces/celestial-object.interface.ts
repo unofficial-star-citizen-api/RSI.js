@@ -96,7 +96,7 @@ export interface RSIStarmapCelestialObjectAffiliation
   code: string;
   color: string;
   name: string;
-  "membership.id": number;
+  'membership.id': number;
 }
 
 export interface RSIStarmapCelestialObjectMedia
@@ -122,8 +122,8 @@ export interface RSIStarmapCelestialObjectMedia
   source_url: string;
   source_stream: RSIStarmapCelestialObjectSourceStream;
   images: RSIStarmapCelestialObjectImages;
-  "membership.id": number;
-  "membership.slot": string;
+  'membership.id': number;
+  'membership.slot': string;
 }
 
 export interface RSIStarmapCelestialObjectDerivedData
@@ -141,13 +141,13 @@ export interface RSIStarmapCelestialObjectSize
 
 export enum RSIStarmapCelestialObjectDelete
 {
-  The11 = "1--1",
+  The11 = '1--1',
 }
 
 export enum RSIStarmapCelestialObjectMode
 {
-  Resize = "resize",
-  ResizeCrop = "resize-crop",
+  Resize = 'resize',
+  ResizeCrop = 'resize-crop',
 }
 
 export interface RSIStarmapCelestialObjectImages

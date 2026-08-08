@@ -46,44 +46,44 @@ export interface RSIStarMapObjectAffiliationElement
   code: RSIStarMapObjectCode;
   color?: RSIStarMapObjectColor;
   name: RSIStarMapObjectName;
-  "membership.id"?: number;
+  'membership.id'?: number;
 }
 
 export enum RSIStarMapObjectCode
 {
-  Banu = "BANU",
-  Dev = "DEV",
-  Human = "HUMAN",
-  Krthak = "KRTHAK",
-  Tevarin = "TEVARIN",
-  UNC = "UNC",
-  Uee = "uee",
-  Vncl = "VNCL",
-  Xian = "XIAN",
+  Banu = 'BANU',
+  Dev = 'DEV',
+  Human = 'HUMAN',
+  Krthak = 'KRTHAK',
+  Tevarin = 'TEVARIN',
+  UNC = 'UNC',
+  Uee = 'uee',
+  Vncl = 'VNCL',
+  Xian = 'XIAN',
 }
 
 export enum RSIStarMapObjectColor
 {
-  Bd002D = "#bd002d",
-  Ca922D = "#ca922d",
-  F6851F = "#f6851f",
-  Ffce17 = "#ffce17",
-  The48Bbd4 = "#48bbd4",
-  The52C231 = "#52c231",
+  Bd002D = '#bd002d',
+  Ca922D = '#ca922d',
+  F6851F = '#f6851f',
+  Ffce17 = '#ffce17',
+  The48Bbd4 = '#48bbd4',
+  The52C231 = '#52c231',
 }
 
 export enum RSIStarMapObjectName
 {
-  Banu = "Banu",
-  Developing = "Developing",
-  Human = "Human",
-  KrThak = "Kr'Thak",
-  NameXiAn = "Xi'An",
-  Tevarin = "Tevarin",
-  Uee = "UEE",
-  Unclaimed = "Unclaimed",
-  Vanduul = "Vanduul",
-  XiAn = "Xi'an",
+  Banu = 'Banu',
+  Developing = 'Developing',
+  Human = 'Human',
+  KrThak = 'Kr\'Thak',
+  NameXiAn = 'Xi\'An',
+  Tevarin = 'Tevarin',
+  Uee = 'UEE',
+  Unclaimed = 'Unclaimed',
+  Vanduul = 'Vanduul',
+  XiAn = 'Xi\'an',
 }
 
 /** @internal */
@@ -206,9 +206,9 @@ export interface RSIStarMapObjectSystemsResultset
 
 export enum RSIStarMapObjectStatus
 {
-  M = "M",
-  N = "N",
-  P = "P",
+  M = 'M',
+  N = 'N',
+  P = 'P',
 }
 
 export interface RSIStarMapObjectThumbnail
@@ -227,8 +227,8 @@ export interface RSIStarMapObjectImagesClass
 
 export enum RSIStarMapObjectResultsetType
 {
-  Binary = "BINARY",
-  SingleStar = "SINGLE_STAR",
+  Binary = 'BINARY',
+  SingleStar = 'SINGLE_STAR',
 }
 
 /** @internal */
@@ -259,7 +259,7 @@ export interface RSIStarMapObjectTunnelsResultset
 
 export enum RSIStarMapObjectDirection
 {
-  B = "B",
+  B = 'B',
 }
 
 export interface RSIStarMapObjectEntry
@@ -278,12 +278,12 @@ export interface RSIStarMapObjectEntry
 
 export enum RSIStarMapObjectEntryType
 {
-  Jumppoint = "JUMPPOINT",
+  Jumppoint = 'JUMPPOINT',
 }
 
 export enum RSIStarMapObjectSize
 {
-  L = "L",
-  M = "M",
-  S = "S",
+  L = 'L',
+  M = 'M',
+  S = 'S',
 }

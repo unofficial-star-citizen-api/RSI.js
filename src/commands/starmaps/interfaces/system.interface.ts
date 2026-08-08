@@ -47,30 +47,30 @@ export interface RSIStarMapSearchResultStarSystemElement
 
 export enum RSIStarMapSearchResultCode
 {
-  Magnus = "MAGNUS",
-  Nyx = "NYX",
-  Pyro = "PYRO",
-  Stanton = "STANTON",
-  Terra = "TERRA",
+  Magnus = 'MAGNUS',
+  Nyx = 'NYX',
+  Pyro = 'PYRO',
+  Stanton = 'STANTON',
+  Terra = 'TERRA',
 }
 
 export enum RSIStarMapSearchResultName
 {
-  Magnus = "Magnus",
-  Nyx = "Nyx",
-  Pyro = "Pyro",
-  Stanton = "Stanton",
-  Terra = "Terra",
+  Magnus = 'Magnus',
+  Nyx = 'Nyx',
+  Pyro = 'Pyro',
+  Stanton = 'Stanton',
+  Terra = 'Terra',
 }
 
 export enum RSIStarMapSearchResultType
 {
-  SingleStar = "SINGLE_STAR",
+  SingleStar = 'SINGLE_STAR',
 }
 
 export enum RSIStarMapSearchResultStatus
 {
-  P = "P",
+  P = 'P',
 }
 
 export interface RSIStarMapSearchResultSystems
