@@ -6,11 +6,6 @@ export interface RSIStarmapAffiliation
   code: string;
   [key: string]: unknown;
 }
-export interface RSIStarmapCelestialObject
-{
-  [key: string]: unknown;
-}
-
 
 export enum RSIStarmapRouteShipSize
 {
@@ -23,6 +18,7 @@ export interface RSIStarmapStarSystemDetail
 {
   [key: string]: unknown;
 }
+
 /** @internal */
 export interface RSIStarMapObject
 {
