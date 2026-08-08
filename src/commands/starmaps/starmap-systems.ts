@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSIStarmapStarSystem } from './interfaces/star-system.interface';
+import { RSIStarmapStarSystem } from './interfaces';
 
 /**
  * StarmapSystems class for retrieving Star Citizen starmap systems

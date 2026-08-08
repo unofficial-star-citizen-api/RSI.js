@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapCelestialObject } from './interfaces/celestial-object.interface';
+import { RSIStarmapCelestialObject } from './interfaces';
 
 /**
  * StarmapCelestialObjects class for retrieving Star Citizen celestial objects

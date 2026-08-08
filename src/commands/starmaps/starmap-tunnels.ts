@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSIStarmapTunnel } from './interfaces/tunnel.interface';
+import { RSIStarmapTunnel } from './interfaces';
 
 /**
  * StarmapTunnels class for retrieving Star Citizen starmap tunnels

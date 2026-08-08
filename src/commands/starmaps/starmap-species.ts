@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSIStarmapSpecies } from './interfaces/species.interface';
+import { RSIStarmapSpecies } from './interfaces';
 
 /**
  * StarmapSpecies class for retrieving Star Citizen starmap species

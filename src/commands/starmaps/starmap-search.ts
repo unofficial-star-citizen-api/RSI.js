@@ -1,7 +1,7 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapSearchResult } from './interfaces/search-result.interface';
+import { RSIStarmapSearchResult } from './interfaces';
 
-export interface StarMapSearchResultInterface
+export interface RSIStarMapSearchResult
 {
   success: number;
   data?: {
@@ -27,7 +27,7 @@ export class StarmapSearch
   {
     const data = { query: searchPattern };
 
-    const req = await this.httpClient.post<StarMapSearchResultInterface>(this.urlFind, data);
+    const req = await this.httpClient.post<RSIStarMapSearchResult>(this.urlFind, data);
 
     if (req === null || req.status !== 200)
     {

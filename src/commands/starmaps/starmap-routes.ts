@@ -1,6 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarmapRoute } from './interfaces/route-result.interface';
-import { RSIStarmapRouteShipSize } from './interfaces/starmap-route-ship-size.interface';
+import { RSIStarmapRoute, RSIStarmapRouteShipSize } from './interfaces';
 
 /**
  * StarmapRouteSearch class for searching routes in Star Citizen starmap

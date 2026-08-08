@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { StarMapHelper } from './helpers/starmap.helper';
-import { RSIStarmapAffiliation } from './interfaces/affiliation.interface';
+import { RSIStarmapAffiliation } from './interfaces';
 
 /**
  * StarmapAffiliations class for retrieving Star Citizen starmap affiliations
