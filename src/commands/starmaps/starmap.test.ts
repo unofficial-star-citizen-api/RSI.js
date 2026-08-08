@@ -156,7 +156,7 @@ const MOCK_ROUTE = {
 describe('Starmap', () =>
 {
   let httpClient: HttpClient;
-  let starmap: Starmap;
+  let starmap: Starmaps;
 
   beforeEach(() =>
   {
