@@ -34,10 +34,10 @@ export interface RSIStarMapSearchResultObjectsResultset
   star_system_id: number;
   status: RSIStarMapSearchResultStatus;
   type: string;
-  star_system: RSIStarMapSearchResultStarSystemElement;
+  star_system: RSIStarMapSearchResultStarSystemRuleset;
 }
 
-export interface RSIStarMapSearchResultStarSystemElement
+export interface RSIStarMapSearchResultStarSystemRuleset
 {
   id: number;
   code: RSIStarMapSearchResultCode;
@@ -78,7 +78,7 @@ export interface RSIStarMapSearchResultSystems
   rowcount: number;
   pagecount: null;
   startrow: number;
-  resultset: RSIStarMapSearchResultStarSystemElement[];
+  resultset: RSIStarMapSearchResultStarSystemRuleset[];
   totalrows: number;
   pagesize: number;
   page: number;

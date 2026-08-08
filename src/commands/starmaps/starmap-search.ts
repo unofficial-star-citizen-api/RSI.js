@@ -3,7 +3,7 @@ import
 {
   RSIStarMapSearchResult,
   RSIStarMapSearchResultObjectsResultset,
-  RSIStarMapSearchResultStarSystemElement
+  RSIStarMapSearchResultStarSystemRuleset
 } from './interfaces/system.interface';
 
 /**
@@ -19,7 +19,7 @@ export class StarmapSearch
     this.httpClient = httpClient;
   }
 
-  public async search(searchPattern: string): Promise<{ systems: RSIStarMapSearchResultStarSystemElement[], objects: RSIStarMapSearchResultObjectsResultset[]; } | null>
+  public async search(searchPattern: string): Promise<{ systems: RSIStarMapSearchResultStarSystemRuleset[], objects: RSIStarMapSearchResultObjectsResultset[]; } | null>
   {
     const data = { query: searchPattern };
 
