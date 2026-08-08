@@ -14,6 +14,29 @@ export class StarmapCelestialObjects
     this.httpClient = httpClient;
   }
 
+  async getAll(): Promise<RSIStarmapCelestialObject[] | null>
+  {
+    const req = await this.httpClient.post<{
+      success: number;
+      data?: { resultset: RSIStarmapCelestialObject[]; };
+    }>(this.urlCelestial.replace('{0}', ''));
+
+    if (req === null || req.status !== 200)
+    {
+      return null;
+    }
+
+    const resp = req.data;
+
+    // Check response
+    if (resp.success !== 1 || !resp.data)
+    {
+      return null;
+    }
+
+    return resp.data.resultset;
+  }
+
   async getByCode(objectCode: string): Promise<RSIStarmapCelestialObject | null>
   {
     const req = await this.httpClient.post<{

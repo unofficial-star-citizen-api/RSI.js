@@ -13,6 +13,7 @@ export class Starmaps
   public readonly search: StarmapSearch['search'];
   public readonly findRoutes: StarmapRoute['findRoutes'];
 
+  public readonly getAllCelestialObject: StarmapCelestialObjects['getAll'];
   public readonly getCelestialObjectByCode: StarmapCelestialObjects['getByCode'];
   public readonly getStarSystemByCode: StarmapStarSystems['getByCode'];
 
@@ -30,6 +31,7 @@ export class Starmaps
     this.findRoutes = starmapRoute.findRoutes.bind(starmapRoute);
 
     const starmapCelestialObjects = new StarmapCelestialObjects(httpClient);
+    this.getAllCelestialObject = starmapCelestialObjects.getAll.bind(starmapCelestialObjects);
     this.getCelestialObjectByCode = starmapCelestialObjects.getByCode.bind(starmapCelestialObjects);
 
     const starmapStarSystems = new StarmapStarSystems(httpClient);

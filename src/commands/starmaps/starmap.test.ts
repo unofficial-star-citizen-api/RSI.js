@@ -275,7 +275,35 @@ describe('Starmap', () =>
     });
   });
 
-  describe('findCelestialObjects', () =>
+  describe('getAllCelestialObject', () =>
+  {
+    test('should return all celestial objects', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { success: 1, data: { resultset: [MOCK_CELESTIAL_OBJECT] } }
+      } as any);
+
+      const data = await starmap.getAllCelestialObject();
+
+      expect(data).not.toBeNull();
+      expect(data).toHaveLength(1);
+      expect((data as any)[0].code).toBe('TOHIL.PLANETS.TOHILIII');
+    });
+
+    test('should return null on API failure', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200, data: { success: 0 }
+      } as any);
+
+      const data = await starmap.getAllCelestialObject();
+
+      expect(data).toBeNull();
+    });
+  });
+
+  describe('getCelestialObjectByCode', () =>
   {
     test('should return celestial object data', async () =>
     {
@@ -302,7 +330,7 @@ describe('Starmap', () =>
     });
   });
 
-  describe('findStarSystems', () =>
+  describe('getStarSystemByCode', () =>
   {
     test('should return star system detail', async () =>
     {
@@ -329,7 +357,7 @@ describe('Starmap', () =>
     });
   });
 
-  describe('getAllTunnels', () =>
+  describe('getTunnels', () =>
   {
     test('should return all tunnels', async () =>
     {
@@ -345,7 +373,7 @@ describe('Starmap', () =>
     });
   });
 
-  describe('findSpecies', () =>
+  describe('getSpecies', () =>
   {
     test('should return all species', async () =>
     {
