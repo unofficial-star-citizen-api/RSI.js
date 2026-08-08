@@ -11,7 +11,7 @@ import { StarmapTunnels } from './starmap-tunnels';
 export class Starmaps
 {
   public readonly search: StarmapSearch['search'];
-  public readonly findRoute: StarmapRoute['findRoute'];
+  public readonly findRoutes: StarmapRoute['findRoutes'];
 
   public readonly getCelestialObjectByCode: StarmapCelestialObjects['getByCode'];
   public readonly getStarSystemByCode: StarmapStarSystems['getByCode'];
@@ -27,7 +27,7 @@ export class Starmaps
     this.search = starmapSearch.search.bind(starmapSearch);
 
     const starmapRoute = new StarmapRoute(httpClient);
-    this.findRoute = starmapRoute.findRoute.bind(starmapRoute);
+    this.findRoutes = starmapRoute.findRoutes.bind(starmapRoute);
 
     const starmapCelestialObjects = new StarmapCelestialObjects(httpClient);
     this.getCelestialObjectByCode = starmapCelestialObjects.getByCode.bind(starmapCelestialObjects);

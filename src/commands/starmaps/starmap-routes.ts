@@ -15,7 +15,7 @@ export class StarmapRoute
     this.httpClient = httpClient;
   }
 
-  async findRoute(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIRouteResultInterface | null>
+  async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIRouteResultInterface | null>
   {
     const data = {
       departure: from,
