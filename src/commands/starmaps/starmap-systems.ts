@@ -14,7 +14,7 @@ export class StarmapSystems
     this.httpClient = httpClient;
   }
 
-  public async find(name?: string): Promise<RSIStarSystemInterface[] | null>
+  public async getAll(): Promise<RSIStarSystemInterface[] | null>
   {
     const systems = await StarMapHelper.getStarmapData<RSIStarSystemInterface>(this.httpClient, 'systems');
     if (systems === null)
@@ -22,13 +22,6 @@ export class StarmapSystems
       return null;
     }
 
-    if (name === undefined)
-    {
-      return systems;
-    }
-
-    const res = systems.filter(s => String(s.name).toLowerCase() === String(name).toLowerCase());
-
-    return res.length > 0 ? res : null;
+    return systems;
   }
 }

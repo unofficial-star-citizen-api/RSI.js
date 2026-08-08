@@ -1,5 +1,5 @@
 export interface RSITunnelInterface
 {
-  id: string;
+  id: number;
   [key: string]: unknown;
 }

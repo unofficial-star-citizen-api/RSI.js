@@ -14,7 +14,7 @@ export class StarmapSpecies
     this.httpClient = httpClient;
   }
 
-  public async find(name?: string): Promise<RSISpeciesInterface[] | null>
+  public async getAll(): Promise<RSISpeciesInterface[] | null>
   {
     const species = await StarMapHelper.getStarmapData<RSISpeciesInterface>(this.httpClient, 'species');
     if (species === null)
@@ -22,16 +22,6 @@ export class StarmapSpecies
       return null;
     }
 
-    if (name === undefined)
-    {
-      return species;
-    }
-
-    const res = species.filter(s =>
-      String(s.name).toLowerCase() === String(name).toLowerCase() ||
-      String(s.code).toLowerCase() === String(name).toLowerCase()
-    );
-
-    return res.length > 0 ? res : null;
+    return species;
   }
 }

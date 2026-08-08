@@ -52,13 +52,13 @@ const MOCK_STANTON_SYSTEM = {
 };
 
 const MOCK_TUNNEL = {
-  id: '1188',
+  id: 1188,
   direction: 'BIDIRECTIONAL',
-  entry_id: '100',
-  exit_id: '200',
+  entry_id: 100,
+  exit_id: 200,
   size: 'M',
   entry: {
-    id: '100', code: 'STANTON.JUMPPOINTS.STANTONPYRO',
+    id: 100, code: 'STANTON.JUMPPOINTS.STANTONPYRO',
     designation: 'Pyro Jump Point',
     distance: '1000', latitude: '0.5', longitude: '0.5',
     star_system_id: '2', status: 'P', type: 'JUMPPOINT',
@@ -67,7 +67,7 @@ const MOCK_TUNNEL = {
     }
   },
   exit: {
-    id: '200', code: 'PYRO.JUMPPOINTS.PYROSTANTON',
+    id: 200, code: 'PYRO.JUMPPOINTS.PYROSTANTON',
     designation: 'Stanton Jump Point',
     distance: '2000', latitude: '1.0', longitude: '1.0',
     star_system_id: '1', status: 'P', type: 'JUMPPOINT',
@@ -177,7 +177,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findSystems('pyro');
+      const data = await starmap.getSystems('pyro');
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
@@ -191,7 +191,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findSystems('nonexistent');
+      const data = await starmap.getSystems('nonexistent');
 
       expect(data).toBeNull();
     });
@@ -202,7 +202,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findSystems();
+      const data = await starmap.getSystems();
 
       expect(data).toHaveLength(2);
     });
@@ -213,7 +213,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findSystems('pyro');
+      const data = await starmap.getSystems('pyro');
 
       expect(data).toBeNull();
     });
@@ -224,7 +224,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      await starmap.findSystems('pyro');
+      await starmap.getSystems('pyro');
 
       expect(spy).toHaveBeenCalledWith(BOOTUP_URL);
     });
@@ -295,7 +295,7 @@ describe('Starmap', () =>
         data: { success: 1, data: { resultset: MOCK_CELESTIAL_OBJECT } }
       } as any);
 
-      const data = await starmap.findCelestialObjects('TOHIL.PLANETS.TOHILIII');
+      const data = await starmap.getCelestialObjectByCode('TOHIL.PLANETS.TOHILIII');
 
       expect(data).not.toBeNull();
       expect((data as any).code).toBe('TOHIL.PLANETS.TOHILIII');
@@ -307,7 +307,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findCelestialObjects('INVALID');
+      const data = await starmap.getCelestialObjectByCode('INVALID');
 
       expect(data).toBeNull();
     });
@@ -322,7 +322,7 @@ describe('Starmap', () =>
         data: { success: 1, data: { resultset: MOCK_STAR_SYSTEM_DETAIL } }
       } as any);
 
-      const data = await starmap.findStarSystems('STANTON');
+      const data = await starmap.getStarSystemByCode('STANTON');
 
       expect(data).not.toBeNull();
       expect((data as any).code).toBe('STANTON');
@@ -334,13 +334,29 @@ describe('Starmap', () =>
         status: 404, data: null
       } as any);
 
-      const data = await starmap.findStarSystems('INVALID');
+      const data = await starmap.getStarSystemByCode('INVALID');
 
       expect(data).toBeNull();
     });
   });
 
-  describe('findTunnels', () =>
+  describe('getAllTunnels', () =>
+  {
+    test('should return all tunnels', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200, data: MOCK_BOOTUP_RESPONSE
+      } as any);
+
+      const data = await starmap.getTunnels();
+
+      expect(data).not.toBeNull();
+      expect(data).toHaveLength(1);
+      expect(data![0].id).toBe(1188);
+    });
+  });
+
+  describe('findTunnelById', () =>
   {
     test('should return tunnels matching the id', async () =>
     {
@@ -348,11 +364,11 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findTunnels('1188');
+      const data = await starmap.searchTunnelById(1188);
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
-      expect(data![0].id).toBe('1188');
+      expect(data![0].id).toBe(1188);
     });
 
     test('should return null when tunnel not found', async () =>
@@ -361,7 +377,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findTunnels('9999');
+      const data = await starmap.searchTunnelById(9999);
 
       expect(data).toBeNull();
     });
@@ -375,7 +391,7 @@ describe('Starmap', () =>
         status: 200, data: MOCK_BOOTUP_RESPONSE
       } as any);
 
-      const data = await starmap.findSpecies();
+      const data = await starmap.getSpecies();
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
@@ -389,7 +405,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findSpecies();
+      const data = await starmap.getSpecies();
 
       expect(data).toBeNull();
     });
@@ -410,7 +426,7 @@ describe('Starmap', () =>
         }
       } as any);
 
-      const data = await starmap.findRoutes('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
+      const data = await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
 
       expect(data).not.toBeNull();
       expect(data!.shortest).toBeDefined();
@@ -425,7 +441,7 @@ describe('Starmap', () =>
         data: { success: 1, data: { shortest: MOCK_ROUTE, leastjumps: MOCK_ROUTE } }
       } as any);
 
-      await starmap.findRoutes('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
+      await starmap.findRoute('STANTON.LZS.LORVILLE', 'STANTON.LZS.AREA18', 'M');
 
       expect(spy).toHaveBeenCalledWith(ROUTES_URL, {
         departure: 'STANTON.LZS.LORVILLE',
@@ -440,7 +456,7 @@ describe('Starmap', () =>
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findRoutes('A', 'B', 'M');
+      const data = await starmap.findRoute('A', 'B', 'M');
 
       expect(data).toBeNull();
     });
