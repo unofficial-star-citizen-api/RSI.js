@@ -1,3 +1,5 @@
+export * from './route.interface';
+
 export interface RSIStarmapAffiliation
 {
   name: string;

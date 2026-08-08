@@ -1,4 +1,4 @@
-export interface RSIRouteResult
+export interface RSIStarmapRoute
 {
   shortest: RSIRouteResultShortest;
   leastjumps: RSIRouteResultLeastJumps;
