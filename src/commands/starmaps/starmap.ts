@@ -17,9 +17,9 @@ export class Starmaps
   public readonly getCelestialObjectByCode: StarmapCelestialObjects['getByCode'];
   public readonly getStarSystemByCode: StarmapStarSystems['getByCode'];
 
+  public readonly getSystems: StarmapSystems['getAll'];
   public readonly getAffiliations: StarmapAffiliations['getAll'];
   public readonly getSpecies: StarmapSpecies['getAll'];
-  public readonly getSystems: StarmapSystems['getAll'];
   public readonly getTunnels: StarmapTunnels['getAll'];
 
   constructor(httpClient: HttpClient)
