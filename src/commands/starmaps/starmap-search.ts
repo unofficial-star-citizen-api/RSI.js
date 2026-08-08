@@ -1,9 +1,8 @@
 import { HttpClient } from '@/http-client';
 import
 {
-  RSIStarMapSearchResult,
-  RSIStarMapSearchResultObjectsResultset,
-  RSIStarMapSearchResultStarSystemRuleset
+  RSIStarMapSearchResponse,
+  RSIStarMapSearchResult
 } from './interfaces/system.interface';
 
 /**
@@ -19,7 +18,7 @@ export class StarmapSearch
     this.httpClient = httpClient;
   }
 
-  public async search(searchPattern: string): Promise<{ systems: RSIStarMapSearchResultStarSystemRuleset[], objects: RSIStarMapSearchResultObjectsResultset[]; } | null>
+  public async search(searchPattern: string): Promise<RSIStarMapSearchResponse | null>
   {
     const data = { query: searchPattern };
 

@@ -1,3 +1,10 @@
+export interface RSIStarMapSearchResponse
+{
+  systems: RSIStarMapSearchResultStarSystemRuleset[];
+  objects: RSIStarMapSearchResultObjectsResultset[];
+}
+
+/** @internal */
 export interface RSIStarMapSearchResult
 {
   success: number;
@@ -6,6 +13,7 @@ export interface RSIStarMapSearchResult
   data: RSIStarMapSearchResultData;
 }
 
+/** @internal */
 export interface RSIStarMapSearchResultData
 {
   systems: RSIStarMapSearchResultSystems;
