@@ -34,7 +34,7 @@ export interface RSIStarmapCelestialObjectResultset
   distance: number;
   fairchanceact: boolean | null;
   habitable: boolean | null;
-  info_url: null;
+  info_url: null | string;
   latitude: number;
   longitude: number;
   name: null | string;
@@ -66,9 +66,9 @@ export interface RSIStarmapCelestialObjectChild
   description: null | string;
   designation: string;
   distance: number | null;
-  fairchanceact: null;
+  fairchanceact: boolean | null;
   habitable: boolean | null;
-  info_url: null;
+  info_url: null | string;
   latitude: number | null;
   longitude: number | null;
   name: null | string;
