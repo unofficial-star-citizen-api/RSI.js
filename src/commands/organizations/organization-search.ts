@@ -2,11 +2,11 @@ import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import
 {
-  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearch, RSIOrganizationSearchResult, RSIResponse
+  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearch, RSIResponse
 } from './types';
 import { RSIGetOrgsParams } from './types/organization-get.request.types';
 
-type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearch>;
+type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearch[]>;
 
 /**
  * Get organization search results
@@ -19,7 +19,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 {
   const urlGetOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
 
-  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearch>
+  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearch[]>
   {
     const response = await httpClient.post<RSIResponse>(urlGetOrgs, params);
     if (response.status !== 200)
@@ -34,7 +34,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 
     const $ = load(response.data.data.html);
 
-    const organizations: RSIOrganizationSearchResult[] = [];
+    const organizations: RSIOrganizationSearch[] = [];
     for (const orgElement of $('.org-cell ').toArray())
     {
       organizations.push({
@@ -53,9 +53,6 @@ export function search(httpClient: HttpClient): ReturnFunction
       });
     }
 
-    return {
-      params: params,
-      results: organizations
-    };
+    return organizations;
   };
 }

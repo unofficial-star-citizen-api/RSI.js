@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { RSIOrganizationMemberData, RSIOrganizationSearchMembers } from './types/organization-members.types';
+import { RSIOrganizationSearchMembers } from './types/organization-members.types';
 import { RSIResponse } from './types/rsi-response';
 
 export type OrganizationMembersSearchParams = {
@@ -41,13 +41,13 @@ export type OrganizationMembersSearchParams = {
 };
 
 
-type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationSearchMembers>;
+type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationSearchMembers[]>;
 
 export function searchMembers(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
 
-  return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationSearchMembers>
+  return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationSearchMembers[]>
   {
     const payload = {
       sid: params.sid,
@@ -74,7 +74,7 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
     const $ = load(response.data.data.html);
     const handles = new Set<string>(); // To track unique handles
 
-    const users: RSIOrganizationMemberData[] = [];
+    const users: RSIOrganizationSearchMembers[] = [];
     for (const memberElement of $('.member-item').toArray())
     {
       // Skip members with restrictions (redacted or hidden class)
@@ -97,9 +97,6 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
       });
     }
 
-    return {
-      params,
-      result: users,
-    };
+    return users;
   };
 }

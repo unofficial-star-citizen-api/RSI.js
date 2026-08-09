@@ -38,7 +38,6 @@ export class StarmapSearch
     }
 
     return {
-      query: searchPattern,
       systems: resp.data.systems.resultset,
       objects: resp.data.objects.resultset
     };

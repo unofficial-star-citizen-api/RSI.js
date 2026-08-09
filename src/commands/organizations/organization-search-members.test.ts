@@ -39,7 +39,7 @@ describe('Organizations', () =>
         ))
       } as never);
 
-      const { result: members } = await organization.searchMembers({ sid: 'TEST' });
+      const members = await organization.searchMembers({ sid: 'TEST' });
 
       expect(members).toBeDefined();
       expect(members.length).toBe(27);
@@ -65,7 +65,7 @@ describe('Organizations', () =>
         ))
       } as never);
 
-      const { result: members } = await organization.searchMembers({ sid: 'TEST', roleIndex: 1 });
+      const members = await organization.searchMembers({ sid: 'TEST', roleIndex: 1 });
 
       expect(members).toBeDefined();
       expect(members.length).toBe(2);
