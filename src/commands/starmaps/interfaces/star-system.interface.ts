@@ -50,35 +50,17 @@ export interface RSIStarMapStarSystemResultset
 export interface RSIStarMapStarSystemAffiliation
 {
   id: number;
-  code: RSIStarMapStarSystemCode;
-  color: RSIStarMapStarSystemColorEnum;
-  name: RSIStarMapStarSystemName;
+  code: string;
+  color: string;
+  name: string;
   'membership.id': number;
-}
-
-export enum RSIStarMapStarSystemCode
-{
-  UNC = 'UNC',
-  Uee = 'uee',
-}
-
-export enum RSIStarMapStarSystemColorEnum
-{
-  F6851F = '#f6851f',
-  The48Bbd4 = '#48bbd4',
-}
-
-export enum RSIStarMapStarSystemName
-{
-  Uee = 'UEE',
-  Unclaimed = 'Unclaimed',
 }
 
 export interface RSIStarMapStarSystemCelestialObject
 {
   id: number;
   age: number | null;
-  appearance: RSIStarMapStarSystemAppearance | null;
+  appearance: string | null;
   axial_tilt: number | null;
   code: string;
   description: null | string;
@@ -108,16 +90,6 @@ export interface RSIStarMapStarSystemCelestialObject
   texture?: RSIStarMapStarSystemThumbnail;
   thumbnail?: RSIStarMapStarSystemThumbnail;
   model?: RSIStarMapStarSystemModel;
-}
-
-export enum RSIStarMapStarSystemAppearance
-{
-  Custom = 'CUSTOM',
-  Default = 'DEFAULT',
-  PlanetBlue = 'PLANET_BLUE',
-  PlanetBrown = 'PLANET_BROWN',
-  PlanetGas = 'PLANET_GAS',
-  PlanetGreen = 'PLANET_GREEN',
 }
 
 export interface RSIStarMapStarSystemModel

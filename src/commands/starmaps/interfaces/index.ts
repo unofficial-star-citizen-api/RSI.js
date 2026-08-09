@@ -159,7 +159,7 @@ export interface RSIStarMapObjectSystemsResultset
   position_x: number;
   position_y: number;
   position_z: number;
-  status: RSIStarMapObjectStatus;
+  status: string;
   time_modified: string;
   type: string;
   affiliation: RSIStarMapObjectAffiliationElement[];
@@ -168,13 +168,6 @@ export interface RSIStarMapObjectSystemsResultset
   aggregated_economy: number;
   aggregated_danger: number;
   thumbnail?: RSIStarMapObjectThumbnail;
-}
-
-export enum RSIStarMapObjectStatus
-{
-  M = 'M',
-  N = 'N',
-  P = 'P',
 }
 
 export interface RSIStarMapObjectThumbnail
@@ -208,18 +201,13 @@ export interface RSIStarMapObjectTunnels
 export interface RSIStarMapObjectTunnelsResultset
 {
   id: number;
-  direction: RSIStarMapObjectDirection;
+  direction: string;
   entry_id: number;
   exit_id: number;
   name: null | string;
   size: RSIStarMapObjectSize;
   entry: RSIStarMapObjectEntry;
   exit: RSIStarMapObjectEntry;
-}
-
-export enum RSIStarMapObjectDirection
-{
-  B = 'B',
 }
 
 export interface RSIStarMapObjectEntry
@@ -232,7 +220,7 @@ export interface RSIStarMapObjectEntry
   longitude: number;
   name: null;
   star_system_id: number;
-  status: RSIStarMapObjectStatus;
+  status: string;
   type: string;
 }
 
