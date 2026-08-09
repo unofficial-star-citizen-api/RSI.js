@@ -81,12 +81,17 @@ const MOCK_SPECIES = {
   id: '1', code: 'UEE', name: 'UEE'
 };
 
+const MOCK_AFFILIATIONS = {
+  id: '1', code: 'UEE', name: 'UEE'
+};
+
 const MOCK_BOOTUP_RESPONSE = {
   success: 1,
   data: {
     systems: { resultset: [MOCK_SYSTEM, MOCK_STANTON_SYSTEM] },
     tunnels: { resultset: [MOCK_TUNNEL] },
-    species: { resultset: [MOCK_SPECIES] }
+    species: { resultset: [MOCK_SPECIES] },
+    affiliations: { resultset: [MOCK_AFFILIATIONS] },
   }
 };
 
@@ -216,6 +221,34 @@ describe('Starmap', () =>
       await starmap.getSystems();
 
       expect(spy).toHaveBeenCalledWith(BOOTUP_URL);
+    });
+  });
+
+  describe('getAffiliations', () =>
+  {
+    test('should return all affiliations', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { success: 1, data: MOCK_BOOTUP_RESPONSE }
+      } as any);
+
+      const data = await starmap.getAffiliations();
+
+      expect(data).not.toBeNull();
+      expect(data).toHaveLength(1);
+      expect((data as any)[0].code).toBe('UEE');
+    });
+
+    test('should return null on API failure', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200, data: { success: 0 }
+      } as any);
+
+      const data = await starmap.getAffiliations();
+
+      expect(data).toBeNull();
     });
   });
 
