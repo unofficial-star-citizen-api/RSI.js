@@ -34,7 +34,6 @@ export interface RSIStarMapSearchResultObjects
   estimatedrows: boolean;
 }
 
-/** @internal */
 export interface RSIStarMapSearchResultObjectsResultset
 {
   id: number;
