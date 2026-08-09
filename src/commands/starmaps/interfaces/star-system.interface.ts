@@ -11,7 +11,7 @@ export interface RSIStarMapStarSystem
 export interface RSIStarMapStarSystemData
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapStarSystemResultset[];
   totalrows: number;
@@ -29,7 +29,7 @@ export interface RSIStarMapStarSystemResultset
   frost_line: number;
   habitable_zone_inner: number;
   habitable_zone_outer: number;
-  info_url: null;
+  info_url: null | string;
   name: string;
   position_x: number;
   position_y: number;
@@ -68,7 +68,7 @@ export interface RSIStarMapStarSystemCelestialObject
   distance: number | null;
   fairchanceact: boolean | null;
   habitable: boolean | null;
-  info_url: null;
+  info_url: null | string;
   latitude: number | null;
   longitude: number | null;
   name: null | string;

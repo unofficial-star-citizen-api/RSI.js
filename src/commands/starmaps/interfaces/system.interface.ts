@@ -24,7 +24,7 @@ export interface RSIStarMapSearchResultData
 export interface RSIStarMapSearchResultObjects
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapSearchResultObjectsResultset[];
   totalrows: number;
@@ -58,7 +58,7 @@ export interface RSIStarMapSearchResultStarSystemRuleset
 export interface RSIStarMapSearchResultSystems
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapSearchResultStarSystemRuleset[];
   totalrows: number;

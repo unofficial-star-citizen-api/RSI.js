@@ -12,7 +12,7 @@ export interface RSIStarmapCelestialObject
 export interface RSIStarmapCelestialObjectData
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarmapCelestialObjectResultset[];
   totalrows: number;
@@ -102,17 +102,17 @@ export interface RSIStarmapCelestialObjectAffiliation
 export interface RSIStarmapCelestialObjectMedia
 {
   id: number;
-  cover_data: null;
+  cover_data: null | string;
   depot: string;
   depot_status: string;
   derived_data: RSIStarmapCelestialObjectDerivedData;
-  distant_id: null;
-  distant_source: null;
-  publish_end: null;
-  publish_start: null;
+  distant_id: null | string;
+  distant_source: null | string;
+  publish_end: null | string;
+  publish_start: null | string;
   purpose: string;
   slug: string;
-  source_duration: null;
+  source_duration: null | number;
   source_extension: string;
   source_name: string;
   status: string;

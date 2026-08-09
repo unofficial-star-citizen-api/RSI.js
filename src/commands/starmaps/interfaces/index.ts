@@ -33,7 +33,7 @@ export interface RSIStarMapObjectData
 export interface RSIStarMapObjectAffiliations
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapObjectAffiliationElement[];
   totalrows: number;
@@ -139,7 +139,7 @@ export interface RSIStarMapObjectStars
 export interface RSIStarMapObjectSystems
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapObjectSystemsResultset[];
   totalrows: number;
@@ -188,7 +188,7 @@ export interface RSIStarMapObjectImagesClass
 export interface RSIStarMapObjectTunnels
 {
   rowcount: number;
-  pagecount: null;
+  pagecount: null | number;
   startrow: number;
   resultset: RSIStarMapObjectTunnelsResultset[];
   totalrows: number;
@@ -218,7 +218,7 @@ export interface RSIStarMapObjectEntry
   distance: number;
   latitude: number | null;
   longitude: number;
-  name: null;
+  name: null | string;
   star_system_id: number;
   status: string;
   type: string;
