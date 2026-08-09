@@ -42,7 +42,7 @@ export interface RSIStarMapSearchResultObjectsResultset
   designation: string;
   name: null | string;
   star_system_id: number;
-  status: RSIStarMapSearchResultStatus;
+  status: string;
   type: string;
   star_system: RSIStarMapSearchResultStarSystemRuleset;
 }
@@ -50,37 +50,9 @@ export interface RSIStarMapSearchResultObjectsResultset
 export interface RSIStarMapSearchResultStarSystemRuleset
 {
   id: number;
-  code: RSIStarMapSearchResultCode;
-  name: RSIStarMapSearchResultName;
-  type: RSIStarMapSearchResultType;
-}
-
-export enum RSIStarMapSearchResultCode
-{
-  Magnus = 'MAGNUS',
-  Nyx = 'NYX',
-  Pyro = 'PYRO',
-  Stanton = 'STANTON',
-  Terra = 'TERRA',
-}
-
-export enum RSIStarMapSearchResultName
-{
-  Magnus = 'Magnus',
-  Nyx = 'Nyx',
-  Pyro = 'Pyro',
-  Stanton = 'Stanton',
-  Terra = 'Terra',
-}
-
-export enum RSIStarMapSearchResultType
-{
-  SingleStar = 'SINGLE_STAR',
-}
-
-export enum RSIStarMapSearchResultStatus
-{
-  P = 'P',
+  code: string;
+  name: string;
+  type: string;
 }
 
 /** @internal */
