@@ -83,7 +83,7 @@ export interface RSIStarMapStarSystemCelestialObject
   size: number | null;
   subtype_id: number | null;
   time_modified: string;
-  type: RSIStarMapStarSystemType;
+  type: string;
   subtype: RSIStarMapStarSystemSubtype | null;
   affiliation: RSIStarMapStarSystemAffiliation[];
   population: unknown[];
@@ -151,18 +151,7 @@ export interface RSIStarMapStarSystemSubtype
 {
   id: number;
   name: string;
-  type: RSIStarMapStarSystemType;
-}
-
-export enum RSIStarMapStarSystemType
-{
-  AsteroidBelt = 'ASTEROID_BELT',
-  AsteroidField = 'ASTEROID_FIELD',
-  Jumppoint = 'JUMPPOINT',
-  Manmade = 'MANMADE',
-  Planet = 'PLANET',
-  Satellite = 'SATELLITE',
-  Star = 'STAR',
+  type: string;
 }
 
 export interface RSIStarMapStarSystemThumbnail
