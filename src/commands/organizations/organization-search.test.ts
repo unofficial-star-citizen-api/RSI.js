@@ -33,7 +33,7 @@ describe('Organization', () =>
         ))
       } as any);
 
-      const results = await organizations.search();
+      const { results } = await organizations.search();
 
       expect(results).not.toBeNull();
       expect(results).toHaveLength(32);

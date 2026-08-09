@@ -28,5 +28,5 @@ export type RSIOrganizationSearchResult = {
 
 export type RSIOrganizationSearch = {
   params: RSIGetOrgsParams | undefined;
-  result: RSIOrganizationSearchResult[];
+  results: RSIOrganizationSearchResult[];
 };

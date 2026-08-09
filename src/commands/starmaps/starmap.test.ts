@@ -252,6 +252,7 @@ describe('Starmap', () =>
       const data = await starmap.search('Stanton');
 
       expect(data).not.toBeNull();
+      expect(data!.query).toBe('Stanton');
       expect(data!.systems).toHaveLength(1);
       expect(data!.objects).toHaveLength(1);
     });

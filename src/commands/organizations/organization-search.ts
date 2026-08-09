@@ -55,7 +55,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 
     return {
       params: params,
-      result: organizations
+      results: organizations
     };
   };
 }
