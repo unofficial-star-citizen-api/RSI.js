@@ -7,7 +7,7 @@ export default defineConfig({
     environment: 'node',
     root: '.',
     include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+    exclude: ['node_modules', 'dist', '.idea', '.git', '.github', '.copilot', '.squad', '.vscode', '.cache'],
     testTimeout: 30000,
     hookTimeout: 30000,
     coverage: {
