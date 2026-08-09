@@ -16,7 +16,7 @@ export interface RSIStarmapRouteShortest
 
 export interface RSIStarmapRouteSegment
 {
-  id: any;
+  id: number | string;
   name: string;
   type: string;
   system_id: number;
@@ -25,8 +25,8 @@ export interface RSIStarmapRouteSegment
   object_code?: string;
   segment_type: string;
   segment_distance?: number;
-  is_departure: any;
-  is_destination: any;
+  is_departure: 1 | false;
+  is_destination: 1 | false;
 }
 
 export interface RSIStarmapRouteLeastJumps
