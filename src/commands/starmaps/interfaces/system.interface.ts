@@ -1,5 +1,6 @@
 export interface RSIStarMapSearchResponse
 {
+  query: string;
   systems: RSIStarMapSearchResultStarSystemRuleset[];
   objects: RSIStarMapSearchResultObjectsResultset[];
 }

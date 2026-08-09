@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { RSIOrganizationMemberData } from './types/organization-members.types';
+import { RSIOrganizationMemberData, RSIOrganizationSearchMembers } from './types/organization-members.types';
 import { RSIResponse } from './types/rsi-response';
 
 export type OrganizationMembersSearchParams = {
@@ -41,13 +41,13 @@ export type OrganizationMembersSearchParams = {
 };
 
 
-type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMemberData[]>;
+type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationSearchMembers>;
 
 export function searchMembers(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
 
-  return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationMemberData[]>
+  return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationSearchMembers>
   {
     const payload = {
       sid: params.sid,
@@ -97,6 +97,9 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
       });
     }
 
-    return users;
+    return {
+      params,
+      result: users,
+    };
   };
 }

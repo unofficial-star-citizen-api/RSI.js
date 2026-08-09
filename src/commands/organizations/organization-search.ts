@@ -2,11 +2,11 @@ import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import
 {
-  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearchResult, RSIResponse
+  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearch, RSIOrganizationSearchResult, RSIResponse
 } from './types';
 import { RSIGetOrgsParams } from './types/organization-get.request.types';
 
-type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearchResult[]>;
+type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearch>;
 
 /**
  * Get organization search results
@@ -19,7 +19,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 {
   const urlGetOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
 
-  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearchResult[]>
+  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearch>
   {
     const response = await httpClient.post<RSIResponse>(urlGetOrgs, params);
     if (response.status !== 200)
@@ -53,6 +53,9 @@ export function search(httpClient: HttpClient): ReturnFunction
       });
     }
 
-    return organizations;
+    return {
+      params: params,
+      result: organizations
+    };
   };
 }

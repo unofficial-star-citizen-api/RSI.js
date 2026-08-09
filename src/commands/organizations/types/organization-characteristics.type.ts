@@ -1,3 +1,5 @@
+import { RSIGetOrgsParams } from './organization-get.request.types';
+
 export type RSIOrganizationArchetype = 'organization' | 'corporation' | 'pmc' | 'faith' | 'syndicate' | 'club ';
 export type RSIOrganizationLanguage = string;
 export type RSIOrganizationCommitment = 'casual' | 'regular' | 'hardcore';
@@ -22,4 +24,9 @@ export type RSIOrganizationSearchResult = {
   href: string | undefined;
 
   characteristics: RSIOrganizationCharacteristics;
+};
+
+export type RSIOrganizationSearch = {
+  params: RSIGetOrgsParams | undefined;
+  result: RSIOrganizationSearchResult[];
 };
