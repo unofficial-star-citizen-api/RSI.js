@@ -224,34 +224,6 @@ describe('Starmap', () =>
     });
   });
 
-  describe('getAffiliations', () =>
-  {
-    test('should return all affiliations', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200,
-        data: { success: 1, data: MOCK_BOOTUP_RESPONSE }
-      } as any);
-
-      const data = await starmap.getAffiliations();
-
-      expect(data).not.toBeNull();
-      expect(data).toHaveLength(1);
-      expect((data as any)[0].code).toBe('UEE');
-    });
-
-    test('should return null on API failure', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200, data: { success: 0 }
-      } as any);
-
-      const data = await starmap.getAffiliations();
-
-      expect(data).toBeNull();
-    });
-  });
-
   describe('search', () =>
   {
     test('should return search results', async () =>
@@ -305,6 +277,34 @@ describe('Starmap', () =>
       await starmap.search('Stanton');
 
       expect(spy).toHaveBeenCalledWith(FIND_URL, { query: 'Stanton' });
+    });
+  });
+
+  describe('getAffiliations', () =>
+  {
+    test('should return all affiliations', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: MOCK_BOOTUP_RESPONSE
+      } as any);
+
+      const data = await starmap.getAffiliations();
+
+      expect(data).not.toBeNull();
+      expect(data).toHaveLength(1);
+      expect((data as any)[0].code).toBe('UEE');
+    });
+
+    test('should return null on API failure', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200, data: { success: 0 }
+      } as any);
+
+      const data = await starmap.getAffiliations();
+
+      expect(data).toBeNull();
     });
   });
 
