@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', 'dist/', '.squad/**'],
+    ignores: ['**/dist/**', 'dist/', '.squad/**', '*.test.ts'],
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
