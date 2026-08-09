@@ -46,47 +46,10 @@ export interface RSIStarMapObjectAffiliations
 export interface RSIStarMapObjectAffiliationElement
 {
   id: number;
-  code: RSIStarMapObjectCode;
-  color?: RSIStarMapObjectColor;
-  name: RSIStarMapObjectName;
+  code: string;
+  color?: string;
+  name: string;
   'membership.id'?: number;
-}
-
-export enum RSIStarMapObjectCode
-{
-  Banu = 'BANU',
-  Dev = 'DEV',
-  Human = 'HUMAN',
-  Krthak = 'KRTHAK',
-  Tevarin = 'TEVARIN',
-  UNC = 'UNC',
-  Uee = 'uee',
-  Vncl = 'VNCL',
-  Xian = 'XIAN',
-}
-
-export enum RSIStarMapObjectColor
-{
-  Bd002D = '#bd002d',
-  Ca922D = '#ca922d',
-  F6851F = '#f6851f',
-  Ffce17 = '#ffce17',
-  The48Bbd4 = '#48bbd4',
-  The52C231 = '#52c231',
-}
-
-export enum RSIStarMapObjectName
-{
-  Banu = 'Banu',
-  Developing = 'Developing',
-  Human = 'Human',
-  KrThak = 'Kr\'Thak',
-  NameXiAn = 'Xi\'An',
-  Tevarin = 'Tevarin',
-  Uee = 'UEE',
-  Unclaimed = 'Unclaimed',
-  Vanduul = 'Vanduul',
-  XiAn = 'Xi\'an',
 }
 
 /** @internal */
@@ -198,7 +161,7 @@ export interface RSIStarMapObjectSystemsResultset
   position_z: number;
   status: RSIStarMapObjectStatus;
   time_modified: string;
-  type: RSIStarMapObjectResultsetType;
+  type: string;
   affiliation: RSIStarMapObjectAffiliationElement[];
   aggregated_size: string;
   aggregated_population: number;
@@ -226,12 +189,6 @@ export interface RSIStarMapObjectImagesClass
   post: string;
   product_thumb_large: string;
   subscribers_vault_thumbnail: string;
-}
-
-export enum RSIStarMapObjectResultsetType
-{
-  Binary = 'BINARY',
-  SingleStar = 'SINGLE_STAR',
 }
 
 /** @internal */
@@ -276,12 +233,7 @@ export interface RSIStarMapObjectEntry
   name: null;
   star_system_id: number;
   status: RSIStarMapObjectStatus;
-  type: RSIStarMapObjectEntryType;
-}
-
-export enum RSIStarMapObjectEntryType
-{
-  Jumppoint = 'JUMPPOINT',
+  type: string;
 }
 
 export enum RSIStarMapObjectSize
