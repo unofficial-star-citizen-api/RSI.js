@@ -38,7 +38,7 @@ export interface RSIStarmapCelestialObjectResultset
   latitude: number;
   longitude: number;
   name: null | string;
-  orbit_period: null;
+  orbit_period: number | null;
   parent_id: number | null;
   sensor_danger: string;
   sensor_economy: string;
