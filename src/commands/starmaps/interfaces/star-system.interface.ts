@@ -83,13 +83,23 @@ export interface RSIStarMapStarSystemCelestialObject
   size: number | null;
   subtype_id: number | null;
   time_modified: string;
-  type: string;
+  type: RSIStarMapStarSystemType;
   subtype: RSIStarMapStarSystemSubtype | null;
   affiliation: RSIStarMapStarSystemAffiliation[];
   population: unknown[];
   texture?: RSIStarMapStarSystemThumbnail;
   thumbnail?: RSIStarMapStarSystemThumbnail;
   model?: RSIStarMapStarSystemModel;
+}
+
+export enum RSIStarMapStarSystemAppearance
+{
+  Custom = 'CUSTOM',
+  Default = 'DEFAULT',
+  PlanetBlue = 'PLANET_BLUE',
+  PlanetBrown = 'PLANET_BROWN',
+  PlanetGas = 'PLANET_GAS',
+  PlanetGreen = 'PLANET_GREEN',
 }
 
 export interface RSIStarMapStarSystemModel
@@ -151,7 +161,18 @@ export interface RSIStarMapStarSystemSubtype
 {
   id: number;
   name: string;
-  type: string;
+  type: RSIStarMapStarSystemType;
+}
+
+export enum RSIStarMapStarSystemType
+{
+  AsteroidBelt = 'ASTEROID_BELT',
+  AsteroidField = 'ASTEROID_FIELD',
+  Jumppoint = 'JUMPPOINT',
+  Manmade = 'MANMADE',
+  Planet = 'PLANET',
+  Satellite = 'SATELLITE',
+  Star = 'STAR',
 }
 
 export interface RSIStarMapStarSystemThumbnail
