@@ -21,7 +21,7 @@ export function handleError(error: AxiosError): void
 
 function validateSid(sid: string): string
 {
-  if (!/^[a-zA-Z0-9_\\-]{3,10}$/.test(sid))
+  if (!/^[a-zA-Z0-9_\\-]{1,10}$/.test(sid))
     throw new Error(`Invalid organization SID: "${sid}"`);
   return encodeURIComponent(sid);
 }
