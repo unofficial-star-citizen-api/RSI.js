@@ -207,7 +207,7 @@ export class HttpClient
    */
   public async post<T>(
     url: string,
-    data?: Record<string, unknown>,
+    data?: unknown,
     headers?: Record<string, string>
   ): Promise<AxiosResponse<T>>
   {

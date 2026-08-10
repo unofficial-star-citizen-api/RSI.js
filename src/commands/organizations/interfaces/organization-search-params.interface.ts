@@ -1,19 +1,17 @@
-/** @internal */
-export type RSIOrganizationGetRequest =
-  {
-    activity?: RSIActivities[];
-    commitment?: RSICommitment[];
-    languages?: RSILanguage[];
-    model?: RSIArchetype[];
-    page?: number;
-    recruiting?: RSIBoolean[];
-    roleplay?: RSIBoolean[];
-    search?: string;
-    size?: RSISize[];
-    sort?: RSIOrganizationGetSort;
-  };
+export interface RSIOrganizationSearchParams
+{
+  activity?: RSIActivities[];
+  commitment?: RSICommitment[];
+  languages?: RSILanguage[];
+  model?: RSIArchetype[];
+  page?: number;
+  recruiting?: RSIBoolean[];
+  roleplay?: RSIBoolean[];
+  search?: string;
+  size?: RSISize[];
+  sort?: RSIOrganizationGetSort;
+};
 
-/** @internal */
 export enum RSIOrganizationGetSort
 {
   SizeAsc = 'size_asc',
@@ -26,14 +24,12 @@ export enum RSIOrganizationGetSort
   ActiveDesc = 'active_desc'
 }
 
-/** @internal */
 export enum RSIBoolean
 {
   Yes = '0',
   No = '1',
 }
 
-/** @internal */
 export enum RSICommitment
 {
   Casual = 'CA',
@@ -41,7 +37,6 @@ export enum RSICommitment
   Hardcore = 'HA',
 }
 
-/** @internal */
 export enum RSISize
 {
   Small = 'small',
@@ -49,7 +44,6 @@ export enum RSISize
   Large = 'large',
 }
 
-/** @internal */
 export enum RSIArchetype
 {
   Organization = 'generic',
@@ -60,7 +54,6 @@ export enum RSIArchetype
   Club = 'club',
 }
 
-/** @internal */
 export enum RSIActivities
 {
   Transport = '1',
@@ -79,7 +72,6 @@ export enum RSIActivities
   Medical = '14'
 }
 
-/** @internal */
 export enum RSILanguage
 {
   All = '',
