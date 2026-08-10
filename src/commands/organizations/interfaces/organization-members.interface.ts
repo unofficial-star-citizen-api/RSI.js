@@ -1,4 +1,5 @@
-export type RSIOrganizationMember = {
+export interface RSIOrganizationMember
+{
   handle: string | undefined;
   display: string | undefined;
   url: string | undefined;
@@ -6,4 +7,4 @@ export type RSIOrganizationMember = {
   roles: string[] | undefined;
   rank: string | undefined;
   stars: number | undefined;
-};
+}
