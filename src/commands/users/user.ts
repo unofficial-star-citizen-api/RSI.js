@@ -1,6 +1,12 @@
 import { HttpClient } from '@/http-client';
 import { CheerioAPI, load } from 'cheerio';
-import { RSIAffiliationOrganization, RSIMainOrganization, RSIUserOrganization, RSIUserProfile } from './interfaces';
+import
+{
+  RSIAffiliationOrganization,
+  RSIMainOrganization,
+  RSIUserOrganization,
+  RSIUserProfile
+} from './interfaces';
 
 /**
  * User class for retrieving Star Citizen user information
