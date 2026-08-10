@@ -1,7 +1,7 @@
 /**
  * Represents the detailed information of an organization
  */
-export interface RSIOrganizationGet
+export interface RSIOrganization
 {
   // Basic identification
   sid: string;
@@ -16,28 +16,28 @@ export interface RSIOrganizationGet
   membersCount: number | undefined;
 
   // Organization focus areas
-  focus: RSIOrganizationFocus;
+  focus: RSIOrganizationFocusArea;
 
   // Descriptive content
-  headline: RSIOrganizationGetFormattedContent;
-  history: RSIOrganizationGetFormattedContent;
-  manifesto: RSIOrganizationGetFormattedContent;
-  charter: RSIOrganizationGetFormattedContent;
+  headline: RSIOrganizationFormattedContent;
+  history: RSIOrganizationFormattedContent;
+  manifesto: RSIOrganizationFormattedContent;
+  charter: RSIOrganizationFormattedContent;
 }
 
 /**
  * Represents the focus areas of an organization, including primary and secondary focuses
  */
-export interface RSIOrganizationFocus
+export interface RSIOrganizationFocusArea
 {
-  primary: RSIOrganizationGetFocus;
-  secondary: RSIOrganizationGetFocus;
+  primary: RSIOrganizationFocus;
+  secondary: RSIOrganizationFocus;
 }
 
 /**
  * Represents a focus area with an image and name
  */
-export interface RSIOrganizationGetFocus
+export interface RSIOrganizationFocus
 {
   image: string | undefined;
   name: string | undefined;
@@ -46,7 +46,7 @@ export interface RSIOrganizationGetFocus
 /**
  * Represents content that has both HTML and plaintext versions
  */
-export interface RSIOrganizationGetFormattedContent
+export interface RSIOrganizationFormattedContent
 {
   html: string | undefined;
   plaintext: string | undefined;
