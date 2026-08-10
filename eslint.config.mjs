@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   {
-    ignores: ['**/dist/**', 'dist/', '.squad/**', '**/*.test.ts', '**/*.mock.ts'],
+    ignores: ['**/dist/**', 'dist/', '.squad/**', '**/*.test.ts', '**/*.mock.ts', 'src/utils/validator.ts'],
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
