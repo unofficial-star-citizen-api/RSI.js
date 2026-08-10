@@ -1,3 +1,3 @@
-export * from './interfaces/user-organization.interface';
+export * from './interfaces';
 export * from './user';
 
