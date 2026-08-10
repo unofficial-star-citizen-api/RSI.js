@@ -1,4 +1,4 @@
-export type RSIOrganizationSearchMember = {
+export type RSIOrganizationMember = {
   handle: string | undefined;
   display: string | undefined;
   url: string | undefined;

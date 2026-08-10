@@ -2,11 +2,12 @@ import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import
 {
-  RSIOrganizationArchetype, RSIOrganizationCommitment, RSIOrganizationSearch, RSIResponse
-} from './types';
-import { RSIGetOrgsParams } from './types/organization-get.request.types';
+  RSIOrganizationCharacteristicsArchetype, RSIOrganizationCharacteristicsCommitment,
+  RSIOrganizationSearch, RSIResponse
+} from './interfaces';
+import { RSIOrganizationGetRequest } from './types';
 
-type ReturnFunction = (params?: RSIGetOrgsParams) => Promise<RSIOrganizationSearch[]>;
+type ReturnFunction = (params?: RSIOrganizationGetRequest) => Promise<RSIOrganizationSearch[]>;
 
 /**
  * Get organization search results
@@ -19,7 +20,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 {
   const urlGetOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
 
-  return async function (params?: RSIGetOrgsParams): Promise<RSIOrganizationSearch[]>
+  return async function (params?: RSIOrganizationGetRequest): Promise<RSIOrganizationSearch[]>
   {
     const response = await httpClient.post<RSIResponse>(urlGetOrgs, params);
     if (response.status !== 200)
@@ -43,8 +44,8 @@ export function search(httpClient: HttpClient): ReturnFunction
         icon: HttpClient.toAbsoluteUrl($(orgElement).find('.thumb img').attr('src')),
         href: HttpClient.toAbsoluteUrl($(orgElement).find('a').attr('href')),
         characteristics: {
-          archetype: $(orgElement).find('.label:contains("Archetype")').next().text().trim() as RSIOrganizationArchetype,
-          commitment: $(orgElement).find('.label:contains("Commitment")').next().text().trim() as RSIOrganizationCommitment,
+          archetype: $(orgElement).find('.label:contains("Archetype")').next().text().trim() as RSIOrganizationCharacteristicsArchetype,
+          commitment: $(orgElement).find('.label:contains("Commitment")').next().text().trim() as RSIOrganizationCharacteristicsCommitment,
           language: $(orgElement).find('.label:contains("Lang")').next().text().trim(),
           isRecruiting: $(orgElement).find('.label:contains("Recruiting")').next().text().trim().toLowerCase() === 'yes',
           isRoleplay: $(orgElement).find('.label:contains("Role play")').next().text().trim().toLowerCase() === 'yes',

@@ -1,3 +1,4 @@
+/** @internal */
 export type RSIResponse = {
   readonly success: number;
   readonly code: string;
@@ -5,6 +6,7 @@ export type RSIResponse = {
   readonly data: RSIData;
 };
 
+/** @internal */
 export type RSIData = {
   readonly totalrows: number;
   readonly html: string;

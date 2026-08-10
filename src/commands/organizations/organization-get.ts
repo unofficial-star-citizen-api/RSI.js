@@ -1,9 +1,9 @@
 import { HttpClient } from '@/http-client';
 import { AxiosError } from 'axios';
 import { load } from 'cheerio';
-import { RSIOrganizationDetail } from './types';
+import { RSIOrganizationGet } from './interfaces';
 
-type ReturnFunction = (sid: string) => Promise<RSIOrganizationDetail>;
+type ReturnFunction = (sid: string) => Promise<RSIOrganizationGet>;
 
 export function handleError(error: AxiosError): void
 {
@@ -30,7 +30,7 @@ export function get(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
 
-  return async function (sid: string): Promise<RSIOrganizationDetail>
+  return async function (sid: string): Promise<RSIOrganizationGet>
   {
     const url = urlOrganization.replace('{0}', validateSid(sid));
     const response = await httpClient.get<string>(url).catch(handleError);
