@@ -1,2 +1,3 @@
-export * from './types';
+export * from './interfaces/user-organization.interface';
 export * from './user';
+
