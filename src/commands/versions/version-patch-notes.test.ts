@@ -46,7 +46,7 @@ describe('PatchNote', () =>
         version: '4.0.2',
         link: '/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402',
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
-        comments: 0,
+        commentCount: 0,
         time_ago: '1 week ago'
       });
 
@@ -55,7 +55,7 @@ describe('PatchNote', () =>
         version: '4.0.1',
         link: '/comm-link/Patch-Notes/20418-Star-Citizen-Alpha-401',
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
-        comments: 0,
+        commentCount: 0,
         time_ago: '2 months ago'
       });
     });
@@ -69,7 +69,7 @@ describe('PatchNote', () =>
         version: '4.0.2',
         link: '/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402',
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
-        comments: 0,
+        commentCount: 0,
         time_ago: '1 week ago'
       });
     });

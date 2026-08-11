@@ -4,6 +4,6 @@ export interface RSIPatchNote
   version: string | undefined;
   link: string | undefined;
   image: string | undefined;
-  comments: number | undefined;
+  commentCount: number | undefined;
   time_ago: string | undefined;
 }

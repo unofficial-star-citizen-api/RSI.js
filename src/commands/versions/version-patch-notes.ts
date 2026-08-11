@@ -23,7 +23,7 @@ export class PatchNote
       version: $(element).text().match(/((\d\.?)+)/)?.at(1)?.trim(),
       link: $(element).attr('href')?.trim(),
       image: $(element).find('.background').attr('style')?.match(/url\(["'](.*?)["']/)?.at(1)?.trim(),
-      comments: Number($(element).find('.text.comments').text() ?? 0),
+      commentCount: Number($(element).find('.text.comments').text() ?? 0),
       time_ago: $(element).find('.text .time_ago .value').text()?.trim(),
     }));
   }
