@@ -45,5 +45,5 @@ export interface RSITelemetryLoadTimes
   readonly max: number;
   readonly min: number;
   readonly percent: number;
-  readonly percentiles: { [key: string]: unknown; };
+  readonly percentiles: { [key: string]: number; };
 }
