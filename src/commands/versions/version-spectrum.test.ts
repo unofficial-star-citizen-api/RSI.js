@@ -7,7 +7,8 @@ import
   vi
 } from 'vitest';
 import { HttpClient } from '../../http-client';
-import { Groups, Spectrum } from './version-spectrum';
+import { RSISpectrumGroups } from './interfaces';
+import { Spectrum } from './version-spectrum';
 
 describe('Spectrum', () =>
 {
@@ -51,21 +52,21 @@ describe('Spectrum', () =>
         thread: { subject: '[Wave 1 PTU] Star Citizen Alpha 3.22.0 PTU.123456 Patch Notes' },
         expectedEnv: 'ptu',
         expectedVer: '3.22.0',
-        expectedGroup: Groups.GROUP_1
+        expectedGroup: RSISpectrumGroups.GROUP_1
       },
       {
         description: 'should detect Wave 2 PTU',
         thread: { subject: '[Wave 2 PTU] Star Citizen Alpha 3.22.0 PTU.123456 Patch Notes' },
         expectedEnv: 'ptu',
         expectedVer: '3.22.0',
-        expectedGroup: Groups.GROUP_2
+        expectedGroup: RSISpectrumGroups.GROUP_2
       },
       {
         description: 'should detect All Waves PTU',
         thread: { subject: '[ALL WAVES PTU] Star Citizen Alpha 3.22.0 PTU.123456 Patch Notes' },
         expectedEnv: 'ptu',
         expectedVer: '3.22.0',
-        expectedGroup: Groups.ALL
+        expectedGroup: RSISpectrumGroups.ALL
       }
     ];
 
@@ -122,7 +123,7 @@ describe('Spectrum', () =>
       expect(versions[0].environment).toBe('live');
       expect(versions[0].name).toBe('3.22.0');
       expect(versions[1].environment).toBe('ptu');
-      expect((versions[1] as any).group).toBe(Groups.GROUP_1);
+      expect((versions[1] as any).group).toBe(RSISpectrumGroups.GROUP_1);
       expect(versions[2].environment).toBe('etf');
     });
 
@@ -141,7 +142,7 @@ describe('Spectrum', () =>
 
       expect(ptuVersions).toHaveLength(1);
       expect(ptuVersions[0].environment).toBe('ptu');
-      expect((ptuVersions[0] as any).group).toBe(Groups.GROUP_1);
+      expect((ptuVersions[0] as any).group).toBe(RSISpectrumGroups.GROUP_1);
     });
 
     test('should filter ETF versions', async () =>

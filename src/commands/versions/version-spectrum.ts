@@ -3,7 +3,6 @@ import { HttpClient } from '@/http-client';
 import { RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion } from './interfaces';
 import { SpectrumThreads, Thread } from './types/spectrum-thread.type';
 
-
 export class Spectrum
 {
   private readonly urlSpectrumPatchNotes = 'https://robertsspaceindustries.com/api/spectrum/forum/channel/threads';
