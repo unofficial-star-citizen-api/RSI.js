@@ -2,7 +2,7 @@ import { HttpClient } from '@/http-client';
 import
 {
   RoadmapBoard,
-  RSIRoadmapRelease,
+  RSIRoadmap,
   RSIRoadmapResponse
 } from './interfaces';
 
@@ -27,20 +27,19 @@ export class Roadmaps
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async getBoardReleases(board: RoadmapBoard, version?: string): Promise<RSIRoadmapRelease[] | null>
+  public async getBoardReleases(board: RoadmapBoard): Promise<RSIRoadmap | null>
   {
     let request;
 
-    if (board === 'starcitizen')
+    switch (board)
     {
+    case RoadmapBoard.StarCitizen:
       request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapSC);
-    }
-    else if (board === 'squadron42')
-    {
+      break;
+    case RoadmapBoard.Squadron42:
       request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapS42);
-    }
-    else
-    {
+      break;
+    default:
       throw new Error(`Invalid board: ${board}`);
     }
 
@@ -55,35 +54,6 @@ export class Roadmaps
       throw new Error(`Invalid response from roadmap API for board: ${board}`);
     }
 
-
-    const categories: Record<number, string> = {};
-    for (const category of response.data.categories)
-    {
-      categories[category.id] = category.name;
-    }
-
-    const releases = response.data.releases;
-    for (const release of releases)
-    {
-      for (const card of release.cards)
-      {
-        card.category_name = categories[card.category_id];
-      }
-    }
-
-    if (version === undefined)
-    {
-      return releases;
-    }
-
-    for (const release of releases)
-    {
-      if (release.name === version)
-      {
-        return [release];
-      }
-    }
-
-    return [];
+    return response.data;
   }
 }

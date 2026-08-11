@@ -23,11 +23,13 @@
   "jest.runMode": "on-demand",
   "cSpell.words": [
     "EPTU",
-    "Evocati",
+    "evocati",
     "resultset",
     "starcitizen",
     "starmap",
-    "Starmaps"
+    "starmaps",
+    "whitebox",
+    "greybox"
   ],
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
