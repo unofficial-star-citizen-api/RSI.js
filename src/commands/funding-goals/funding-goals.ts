@@ -1,5 +1,8 @@
 import { HttpClient } from '@/http-client';
-import { RSIFundingGoals, RSIFundingGoalsResponse, RSIFundingGoalsTimePeriod } from './interfaces';
+import
+{
+  RSIFundingGoals, RSIFundingGoalsResponse, RSIFundingGoalsTimePeriod
+} from './interfaces';
 
 
 /**
