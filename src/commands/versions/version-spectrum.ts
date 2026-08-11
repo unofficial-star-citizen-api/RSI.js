@@ -1,33 +1,8 @@
 // External modules
 import { HttpClient } from '@/http-client';
+import { RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion } from './interfaces';
 import { SpectrumThreads, Thread } from './types/spectrum-thread.type';
 
-export type SpectrumEnvironment = 'live' | 'ptu' | 'etf';
-
-export type SpectrumVersion = SpectrumVersionPtu | {
-  name: string | undefined;
-  environment: 'live' | 'etf' | undefined;
-};
-
-export type SpectrumVersionPtu = {
-  name: string | undefined;
-  environment: 'ptu';
-  group: Groups | undefined;
-};
-
-/**
- * PTU Waves
- * @enum {number} Waves
- * @see https://support.robertsspaceindustries.com/hc/en-us/articles/115013195927-Public-Test-Universe-PTU-FAQ#h_01H9N5R5CT0W3RAF9VMRJSPKT5
- */
-export enum Groups
-{
-  GROUP_1 = 1,
-  GROUP_2 = 2,
-  GROUP_3 = 3,
-  GROUP_4 = 4,
-  ALL = 5,
-}
 
 export class Spectrum
 {
@@ -41,7 +16,7 @@ export class Spectrum
     this.httpClient = httpClient;
   }
 
-  public async get(): Promise<SpectrumVersion[]>
+  public async get(): Promise<RSISpectrumVersion[]>
   {
     const payload = {
       channel_id: '190048',
@@ -60,30 +35,30 @@ export class Spectrum
     {
       const name = this.getVersionFromSubject(thread);
       const channel = this.getEnvironment(thread);
-      if (channel === 'live' || channel === 'etf')
+      if (channel === RSISpectrumEnvironment.Live || channel === RSISpectrumEnvironment.ETF)
       {
         return { name, environment: channel };
       }
 
       return {
         name,
-        environment: 'ptu',
+        environment: RSISpectrumEnvironment.PTU,
         group: this.getGroup(thread)
       };
     });
   }
 
-  public async getLive(): Promise<SpectrumVersion[]>
+  public async getLive(): Promise<RSISpectrumVersion[]>
   {
     return this.get().then(versions => versions.filter(version => version.environment === 'live'));
   }
 
-  public async getPtu(): Promise<SpectrumVersion[]>
+  public async getPtu(): Promise<RSISpectrumVersion[]>
   {
     return this.get().then(versions => versions.filter(version => version.environment === 'ptu'));
   }
 
-  public async getEtf(): Promise<SpectrumVersion[]>
+  public async getEtf(): Promise<RSISpectrumVersion[]>
   {
     return this.get().then(versions => versions.filter(version => version.environment === 'etf'));
   }
@@ -98,27 +73,27 @@ export class Spectrum
     return version;
   }
 
-  private getEnvironment(thread: Thread): SpectrumEnvironment | undefined
+  private getEnvironment(thread: Thread): RSISpectrumEnvironment | undefined
   {
     // check if the thread is a live version
     if ((/live/i).test(thread.subject))
-      return 'live';
+      return RSISpectrumEnvironment.Live;
 
     // check if the thread is a ptu version
     if (/(evocati|etf|eptu)/i.test(thread.subject))
-      return 'etf';
+      return RSISpectrumEnvironment.ETF;
 
     // check if the thread is a ptu
     if (/(ptu)/i.test(thread.subject))
-      return 'ptu';
+      return RSISpectrumEnvironment.PTU;
 
     return undefined;
   }
 
-  private getGroup(thread: Thread): Groups | undefined
+  private getGroup(thread: Thread): RSISpectrumGroups | undefined
   {
     if (/^\[all waves ptu/i.test(thread.subject))
-      return Groups.ALL;
+      return RSISpectrumGroups.ALL;
 
     const matches = new RegExp(/\[wave\s+(\d+)\s+\w+\]/i).exec(thread.subject);
     if (matches == null)
