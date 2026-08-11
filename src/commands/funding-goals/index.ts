@@ -1,2 +1,3 @@
 export * from './funding-goals';
-export * from './types';
+export * from './interfaces';
+

@@ -1,7 +1,6 @@
 import { HttpClient } from '@/http-client';
-import { RSIFundingGoalsData, RSIFundingGoalsResponse } from './types';
+import { RSIFundingGoals, RSIFundingGoalsResponse, RSIFundingGoalsTimePeriod } from './interfaces';
 
-export type RSIFoundingGoalChart = 'hour' | 'day' | 'week' | 'month';
 
 /**
  * Stats class for retrieving Star Citizen game stats
@@ -22,7 +21,7 @@ export class FundingGoals
    * @param chart - Chart type
    * @returns Associative array of stats
    */
-  public async getCrowStats(chart: RSIFoundingGoalChart): Promise<RSIFundingGoalsData>
+  public async getCrowStats(chart: RSIFundingGoalsTimePeriod): Promise<RSIFundingGoals>
   {
     const data = {
       alpha_slots: true,
