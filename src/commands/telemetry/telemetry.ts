@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSITelemetryResponse } from './types';
+import { RSITelemetry, RSITelemetryResponse } from './types';
 
 type VersionNumber = `${number}.${number}`;
 export type TelemetryTimetable = 'DAY' | 'WEEK' | 'MONTH';
@@ -25,7 +25,7 @@ export class Telemetries
    * @param version The Star Citizen version to retrieve data for
    * @returns TelemetryInfo
    */
-  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetryResponse>
+  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetry | null>
   {
     const VALID_TIMETABLES: TelemetryTimetable[] = ['DAY', 'WEEK', 'MONTH'];
     if (!VALID_TIMETABLES.includes(timetable))
@@ -39,6 +39,6 @@ export class Telemetries
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);
 
-    return response.data;
+    return response.data.data ?? null;
   }
 }
