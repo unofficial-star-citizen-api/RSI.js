@@ -1,3 +1,13 @@
+/** @internal */
+export interface RSIRoadmapResponse
+{
+  success: number;
+  data?: {
+    releases: RSIRoadmapRelease[];
+    categories: RSIRoadmapCategory[];
+  };
+}
+
 export enum RoadmapBoard
 {
   StarCitizen = 'starcitizen',

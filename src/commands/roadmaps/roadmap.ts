@@ -1,6 +1,9 @@
 import { HttpClient } from '@/http-client';
-import {
-  RoadmapBoard, RSIRoadmapCategory, RSIRoadmapRelease 
+import
+{
+  RoadmapBoard,
+  RSIRoadmapRelease,
+  RSIRoadmapResponse
 } from './interfaces';
 
 /**
@@ -26,81 +29,61 @@ export class Roadmaps
    */
   public async getBoardReleases(board: RoadmapBoard, version?: string): Promise<RSIRoadmapRelease[] | null>
   {
-    let req;
+    let request;
 
     if (board === 'starcitizen')
     {
-      req = await this.httpClient.get<{
-        success: number;
-        data?: {
-          releases: RSIRoadmapRelease[];
-          categories: RSIRoadmapCategory[];
-        };
-      }>(this.urlRoadmapSC);
-    } else if (board === 'squadron42')
+      request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapSC);
+    }
+    else if (board === 'squadron42')
     {
-      req = await this.httpClient.get<{
-        success: number;
-        data?: {
-          releases: RSIRoadmapRelease[];
-          categories: RSIRoadmapCategory[];
-        };
-      }>(this.urlRoadmapS42);
-    } else
+      request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapS42);
+    }
+    else
     {
-      return null;
+      throw new Error(`Invalid board: ${board}`);
     }
 
-    if (req === null || req.status !== 200)
+    if (request === null || request.status !== 200)
     {
-      return null;
+      throw new Error(`Failed to retrieve roadmap data for board: ${board}`);
     }
 
-    try
+    const response = request.data;
+    if (response.success !== 1 || !response.data || !response.data.releases)
     {
-      const resp = req.data;
-
-      // Check response
-      if (resp.success !== 1 || !resp.data || !resp.data.releases)
-      {
-        return null;
-      }
-
-      const releases = resp.data.releases;
-      const categories = resp.data.categories;
-
-      const cats: Record<number, string> = {};
-      for (const c of categories)
-      {
-        cats[c.id] = c.name;
-      }
-
-      for (const r of releases)
-      {
-        for (const c of r.cards)
-        {
-          c.category_name = cats[c.category_id];
-        }
-      }
-
-      if (version === undefined)
-      {
-        return releases;
-      }
-
-      for (const r of releases)
-      {
-        if (r.name === version)
-        {
-          return [r];
-        }
-      }
-
-      return [];
-    } catch (e)
-    {
-      console.error(e);
-      return null;
+      throw new Error(`Invalid response from roadmap API for board: ${board}`);
     }
+
+
+    const categories: Record<number, string> = {};
+    for (const category of response.data.categories)
+    {
+      categories[category.id] = category.name;
+    }
+
+    const releases = response.data.releases;
+    for (const release of releases)
+    {
+      for (const card of release.cards)
+      {
+        card.category_name = categories[card.category_id];
+      }
+    }
+
+    if (version === undefined)
+    {
+      return releases;
+    }
+
+    for (const release of releases)
+    {
+      if (release.name === version)
+      {
+        return [release];
+      }
+    }
+
+    return [];
   }
 }
