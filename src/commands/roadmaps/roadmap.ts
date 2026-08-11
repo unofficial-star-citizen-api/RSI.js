@@ -1,32 +1,7 @@
 import { HttpClient } from '@/http-client';
-
-export type RoadmapBoard = 'starcitizen' | 'squadron42';
-
-interface RSIRoadmapCard
-{
-  id: number;
-  name: string;
-  description: string;
-  category_id: number;
-  category_name?: string;
-  [key: string]: unknown;
-}
-
-interface RSIRoadmapRelease
-{
-  id: number;
-  name: string;
-  description: string;
-  cards: RSIRoadmapCard[];
-  [key: string]: unknown;
-}
-
-interface RSIRoadmapCategory
-{
-  id: number;
-  name: string;
-  [key: string]: unknown;
-}
+import {
+  RoadmapBoard, RSIRoadmapCategory, RSIRoadmapRelease 
+} from './interfaces';
 
 /**
  * Roadmap class for retrieving Star Citizen roadmap information
