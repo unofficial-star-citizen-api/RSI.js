@@ -47,7 +47,7 @@ const MOCK_TELEMETRY_RESPONSE = {
 describe('Telemetry', () =>
 {
   let httpClient: HttpClient;
-  let telemetry: Telemetry;
+  let telemetry: Telemetries;
 
   beforeEach(() =>
   {
@@ -70,10 +70,9 @@ describe('Telemetry', () =>
     const data = await telemetry.community('MONTH', 'sc-alpha-4.0');
 
     expect(data).not.toBeNull();
-    expect(data.success).toBe(1);
-    expect(data.data).toBeDefined();
-    expect(data.data!.current.doc_count).toBe(125000);
-    expect(data.data!.current.stability_score).toBe(92.5);
+    expect(data).toBeDefined();
+    expect(data!.current.doc_count).toBe(125000);
+    expect(data!.current.stability_score).toBe(92.5);
   });
 
   test('should call the correct URL with timetable and version', async () =>
