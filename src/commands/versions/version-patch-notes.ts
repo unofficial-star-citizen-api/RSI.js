@@ -1,6 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { RSIPatchNoteModel } from './types/patch-note.type';
+import { RSIPatchNoteModel } from './interfaces/patch-note.interface';
 
 export class PatchNote
 {

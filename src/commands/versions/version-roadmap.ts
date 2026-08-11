@@ -1,6 +1,6 @@
 
 import { HttpClient } from '@/http-client';
-import { RSIRoadmap } from './types';
+import { RSIRoadmap } from './interfaces/roadmap.interface';
 
 export type RoadmapVersions = {
   live: string | null | undefined;
