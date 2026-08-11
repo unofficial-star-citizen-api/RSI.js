@@ -1,20 +1,27 @@
-export interface RSIRoadmap
+/** @internal */
+export interface RSIVersionRoadmap
 {
   readonly success: number;
   readonly code: string;
   readonly msg: string;
-  readonly data: RSIRoadmapData;
+  readonly data: RSIVersionRoadmapData;
 }
 
-export interface RSIRoadmapData
+export type RoadmapVersions = {
+  live: string | null | undefined;
+  ptu: string | null | undefined;
+  etf: string | null | undefined;
+};
+
+export interface RSIVersionRoadmapData
 {
-  readonly config: RSIRoadmapConfig;
+  readonly config: RSIVersionRoadmapConfig;
   readonly canEdit: boolean;
   readonly who: null;
-  readonly boards: RSIRoadmapBoard[];
+  readonly boards: RSIVersionRoadmapBoard[];
 }
 
-export interface RSIRoadmapBoard
+export interface RSIVersionRoadmapBoard
 {
   readonly id: number;
   readonly url_slug: string;
@@ -22,8 +29,8 @@ export interface RSIRoadmapBoard
   readonly description: string;
   readonly body: string;
   readonly order: number;
-  readonly thumbnail: RSIRoadmapThumbnail;
-  readonly background: RSIRoadmapThumbnail | null;
+  readonly thumbnail: RSIVersionRoadmapThumbnail;
+  readonly background: RSIVersionRoadmapThumbnail | null;
   readonly importer_id: string;
   readonly info_heading: string;
   readonly notification_title: string;
@@ -32,13 +39,13 @@ export interface RSIRoadmapBoard
   readonly last_updated: number;
 }
 
-export interface RSIRoadmapThumbnail
+export interface RSIVersionRoadmapThumbnail
 {
   readonly id: number;
-  readonly urls: RSIRoadmapUrls;
+  readonly urls: RSIVersionRoadmapUrls;
 }
 
-export interface RSIRoadmapUrls
+export interface RSIVersionRoadmapUrls
 {
   readonly square: string;
   readonly rect: string;
@@ -46,7 +53,7 @@ export interface RSIRoadmapUrls
   readonly source: string;
 }
 
-export interface RSIRoadmapConfig
+export interface RSIVersionRoadmapConfig
 {
   readonly events_url: string;
   readonly home_url: string;

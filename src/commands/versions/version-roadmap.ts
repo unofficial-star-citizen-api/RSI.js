@@ -1,12 +1,6 @@
 
 import { HttpClient } from '@/http-client';
-import { RSIRoadmap } from './interfaces/roadmap.interface';
-
-export type RoadmapVersions = {
-  live: string | null | undefined;
-  ptu: string | null | undefined;
-  etf: string | null | undefined;
-};
+import { RoadmapVersions, RSIVersionRoadmap } from './interfaces/roadmap.interface';
 
 export class Roadmap
 {
@@ -25,7 +19,7 @@ export class Roadmap
 
   public async getVersions(): Promise<RoadmapVersions>
   {
-    const response = await this.httpClient.get<RSIRoadmap>(this.url);
+    const response = await this.httpClient.get<RSIVersionRoadmap>(this.url);
     if (response.status !== 200)
       throw new Error(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`);
 
