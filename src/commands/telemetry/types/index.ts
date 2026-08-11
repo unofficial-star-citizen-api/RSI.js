@@ -1,15 +1,24 @@
 /** @internal */
 export type RSITelemetryResponse = {
-  success: number;
-  code: number;
-  data?: RSITelemetry | null;
-  msg: string;
+  readonly success: number;
+  readonly code: number;
+  readonly data?: RSITelemetry | null;
+  readonly msg: string;
 };
+
+export enum TelemetryTimetable
+{
+  Day = 'DAY',
+  Week = 'WEEK',
+  Month = 'MONTH'
+}
+
+type VersionNumber = `${number}.${number}`;
+export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
 
 export type RSITelemetry = {
   readonly current: RSITelemetryCurrent;
-  readonly past: unknown;
-  [property: string]: unknown;
+  readonly past: RSITelemetryCurrent;
 };
 
 export type RSITelemetryCurrent = {
@@ -20,12 +29,10 @@ export type RSITelemetryCurrent = {
   readonly load_times_ssd: RSITelemetryLoadTimesSSD;
   readonly popular_resolutions: Array<number[]>;
   readonly stability_score: number;
-  [property: string]: unknown;
 };
 
 export type RSITelemetryLatencyAvg = {
   readonly value: number;
-  [property: string]: unknown;
 };
 
 export type RSITelemetryLoadTimesHDD = {
@@ -34,7 +41,6 @@ export type RSITelemetryLoadTimesHDD = {
   readonly avg: unknown;
   readonly max: unknown;
   readonly min: unknown;
-  [property: string]: unknown;
 };
 
 export type RSITelemetryLoadTimesSSD = {
@@ -43,5 +49,4 @@ export type RSITelemetryLoadTimesSSD = {
   readonly min: number;
   readonly percent: number;
   readonly percentiles: { [key: string]: unknown; };
-  [property: string]: unknown;
 };

@@ -1,9 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSITelemetry, RSITelemetryResponse } from './types';
-
-type VersionNumber = `${number}.${number}`;
-export type TelemetryTimetable = 'DAY' | 'WEEK' | 'MONTH';
-export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
+import { RSITelemetry, RSITelemetryResponse, TelemetryTimetable, TelemetryVersion } from './types';
 
 /**
  * Telemetry class for retrieving Star Citizen telemetry data
@@ -27,11 +23,13 @@ export class Telemetries
    */
   public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetry | null>
   {
-    const VALID_TIMETABLES: TelemetryTimetable[] = ['DAY', 'WEEK', 'MONTH'];
+    const VALID_TIMETABLES = Object.values(TelemetryTimetable);
     if (!VALID_TIMETABLES.includes(timetable))
       throw new Error(`Invalid timetable value: "${timetable}"`);
+
     if (!/^sc-alpha-\d+\.\d+$/.test(version))
       throw new Error(`Invalid version format: "${version}"`);
+
     const params = new URLSearchParams({ timetable, branch: version });
 
     const response = await this.httpClient.get<RSITelemetryResponse>(`${this.urlTelemetry}?${params}`);
