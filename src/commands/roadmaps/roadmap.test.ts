@@ -8,7 +8,7 @@ import
   vi
 } from 'vitest';
 import { HttpClient } from '../../index';
-import { RoadmapBoard } from './interfaces';
+import { RSIRoadmapBoard } from './interfaces';
 import { Roadmaps } from './roadmap';
 
 const SC_URL = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
@@ -92,7 +92,7 @@ describe('Roadmap', () =>
         }
       } as any);
 
-      const data = await roadmap.getBoardReleases(RoadmapBoard.StarCitizen);
+      const data = await roadmap.getBoardReleases(RSIRoadmapBoard.StarCitizen);
 
       expect(data).not.toBeNull();
       expect(Array.isArray(data!.releases)).toBe(true);
@@ -108,7 +108,7 @@ describe('Roadmap', () =>
         data: { success: 0 }
       } as any);
 
-      await expect(roadmap.getBoardReleases(RoadmapBoard.StarCitizen)).rejects.toThrow('Invalid response from roadmap API for board: starcitizen');
+      await expect(roadmap.getBoardReleases(RSIRoadmapBoard.StarCitizen)).rejects.toThrow('Invalid response from roadmap API for board: starcitizen');
     });
 
     test('should throw an error on non-200 HTTP status', async () =>
@@ -118,7 +118,7 @@ describe('Roadmap', () =>
         data: null
       } as any);
 
-      await expect(roadmap.getBoardReleases(RoadmapBoard.StarCitizen)).rejects.toThrow('Failed to retrieve roadmap data for board: starcitizen');
+      await expect(roadmap.getBoardReleases(RSIRoadmapBoard.StarCitizen)).rejects.toThrow('Failed to retrieve roadmap data for board: starcitizen');
     });
 
     test('should merge category names into cards', async () =>
@@ -134,7 +134,7 @@ describe('Roadmap', () =>
         }
       } as any);
 
-      const data = await roadmap.getBoardReleases(RoadmapBoard.StarCitizen);
+      const data = await roadmap.getBoardReleases(RSIRoadmapBoard.StarCitizen);
 
       expect(data).not.toBeNull();
       expect(data!.releases[0].cards[0].category_id).toBe(2);
@@ -156,7 +156,7 @@ describe('Roadmap', () =>
         }
       } as any);
 
-      const data = await roadmap.getBoardReleases(RoadmapBoard.Squadron42);
+      const data = await roadmap.getBoardReleases(RSIRoadmapBoard.Squadron42);
 
       expect(data).not.toBeNull();
       expect(Array.isArray(data!.releases)).toBe(true);
@@ -173,7 +173,7 @@ describe('Roadmap', () =>
         data: { success: 1, data: { releases: [], categories: [] } }
       } as any);
 
-      await roadmap.getBoardReleases(RoadmapBoard.StarCitizen);
+      await roadmap.getBoardReleases(RSIRoadmapBoard.StarCitizen);
 
       expect(spy).toHaveBeenCalledWith(SC_URL);
     });
@@ -185,7 +185,7 @@ describe('Roadmap', () =>
         data: { success: 1, data: { releases: [], categories: [] } }
       } as any);
 
-      await roadmap.getBoardReleases(RoadmapBoard.Squadron42);
+      await roadmap.getBoardReleases(RSIRoadmapBoard.Squadron42);
 
       expect(spy).toHaveBeenCalledWith(S42_URL);
     });

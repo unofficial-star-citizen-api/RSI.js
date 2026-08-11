@@ -1,8 +1,8 @@
 import { HttpClient } from '@/http-client';
 import
 {
-  RoadmapBoard,
   RSIRoadmap,
+  RSIRoadmapBoard,
   RSIRoadmapResponse
 } from './interfaces';
 
@@ -27,16 +27,16 @@ export class Roadmaps
   /**
    * Execute the command to retrieve roadmap information
    */
-  public async getBoardReleases(board: RoadmapBoard): Promise<RSIRoadmap | null>
+  public async getBoardReleases(board: RSIRoadmapBoard): Promise<RSIRoadmap | null>
   {
     let request;
 
     switch (board)
     {
-    case RoadmapBoard.StarCitizen:
+    case RSIRoadmapBoard.StarCitizen:
       request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapSC);
       break;
-    case RoadmapBoard.Squadron42:
+    case RSIRoadmapBoard.Squadron42:
       request = await this.httpClient.get<RSIRoadmapResponse>(this.urlRoadmapS42);
       break;
     default:

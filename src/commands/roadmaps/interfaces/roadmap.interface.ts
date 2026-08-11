@@ -7,7 +7,7 @@ export interface RSIRoadmapResponse
   data: RSIRoadmap;
 }
 
-export enum RoadmapBoard
+export enum RSIRoadmapBoard
 {
   StarCitizen = 'starcitizen',
   Squadron42 = 'squadron42'
