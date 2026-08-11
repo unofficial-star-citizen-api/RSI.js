@@ -1,4 +1,4 @@
-export interface RSIPatchNoteModel
+export interface RSIPatchNote
 {
   title: string | undefined;
   version: string | undefined;
