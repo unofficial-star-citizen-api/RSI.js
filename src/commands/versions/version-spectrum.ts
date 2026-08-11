@@ -1,6 +1,9 @@
 // External modules
 import { HttpClient } from '@/http-client';
-import { RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion } from './interfaces';
+import
+{
+  RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion
+} from './interfaces';
 import { SpectrumThreads, Thread } from './types/spectrum-thread.type';
 
 export class Spectrum
