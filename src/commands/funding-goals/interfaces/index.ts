@@ -12,7 +12,7 @@ export interface RSIFundingGoals
   readonly chart: { [key: string]: RSIFundingGoalsChart; };
   readonly fans: number;
   readonly funds: number;
-  readonly fleet: null;
+  readonly fleet: number | null;
   readonly alpha_slots_left: number;
 };
 
