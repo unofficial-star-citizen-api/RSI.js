@@ -1,7 +1,8 @@
 import { HttpClient } from '@/http-client';
-import {
-  RSITelemetry, RSITelemetryResponse, TelemetryTimetable, TelemetryVersion 
-} from './types';
+import
+{
+  RSITelemetry, RSITelemetryResponse, TelemetryTimetable, TelemetryVersion
+} from './interfaces';
 
 /**
  * Telemetry class for retrieving Star Citizen telemetry data

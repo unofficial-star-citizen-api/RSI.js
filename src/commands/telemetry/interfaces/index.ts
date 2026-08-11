@@ -1,10 +1,11 @@
 /** @internal */
-export type RSITelemetryResponse = {
+export interface RSITelemetryResponse
+{
   readonly success: number;
   readonly code: number;
   readonly data?: RSITelemetry | null;
   readonly msg: string;
-};
+}
 
 export enum TelemetryTimetable
 {
@@ -16,37 +17,33 @@ export enum TelemetryTimetable
 type VersionNumber = `${number}.${number}`;
 export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
 
-export type RSITelemetry = {
+export interface RSITelemetry
+{
   readonly current: RSITelemetryCurrent;
   readonly past: RSITelemetryCurrent;
-};
+}
 
-export type RSITelemetryCurrent = {
+export interface RSITelemetryCurrent
+{
   readonly doc_count: number;
   readonly last_updated_at: number;
   readonly latency_avg: RSITelemetryLatencyAvg;
-  readonly load_times_hdd: RSITelemetryLoadTimesHDD;
-  readonly load_times_ssd: RSITelemetryLoadTimesSSD;
+  readonly load_times_hdd: RSITelemetryLoadTimes;
+  readonly load_times_ssd: RSITelemetryLoadTimes;
   readonly popular_resolutions: Array<number[]>;
   readonly stability_score: number;
-};
+}
 
-export type RSITelemetryLatencyAvg = {
+export interface RSITelemetryLatencyAvg
+{
   readonly value: number;
-};
+}
 
-export type RSITelemetryLoadTimesHDD = {
-  readonly percent: number;
-  readonly percentiles: { [key: string]: unknown; };
-  readonly avg: unknown;
-  readonly max: unknown;
-  readonly min: unknown;
-};
-
-export type RSITelemetryLoadTimesSSD = {
+export interface RSITelemetryLoadTimes
+{
   readonly avg: number;
   readonly max: number;
   readonly min: number;
   readonly percent: number;
   readonly percentiles: { [key: string]: unknown; };
-};
+}
