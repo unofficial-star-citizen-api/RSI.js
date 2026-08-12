@@ -1,0 +1,2 @@
+- Ships: use https://robertsspaceindustries.com/graphql instead of old endpoint
+- create Error class for typed errors
