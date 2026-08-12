@@ -78,7 +78,7 @@ describe('Ships', () =>
       expect(data[0].price).toBe(95);
     });
 
-    test('should return empty array when search finds no ships', async () =>
+    test('should return empty array when search finds no ships (success=1, empty HTML)', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
@@ -121,7 +121,7 @@ describe('Ships', () =>
             data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
           } as any);
         }
-        // ship-matrix returns empty
+        // ship-matrix returns empty array -> getShipAsync throws
         return Promise.resolve({
           status: 200,
           data: { success: 1, data: [] }
