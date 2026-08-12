@@ -1,55 +1,7 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
-import
-{
-  ShipClassification, ShipSize, ShipStatus
-} from './types';
-
-export interface RSIShipData
-{
-  id?: string;
-  name?: string;
-  url?: string;
-  price?: number;
-  [key: string]: unknown;
-}
-
-/**
- * Advanced search parameters for ship queries
- */
-export type RSISearchArgs = {
-  /** Search by ship name */
-  name?: string;
-  /** Filter by ship classification (combat, transport, exploration, etc.) */
-  classification?: ShipClassification;
-  /** Minimum ship length in meters */
-  length_min?: number;
-  /** Maximum ship length in meters */
-  length_max?: number;
-  /** Minimum crew capacity */
-  crew_min?: number;
-  /** Maximum crew capacity */
-  crew_max?: number;
-  /** Minimum price in UEC (United Earth Credits) */
-  price_min?: number;
-  /** Maximum price in UEC (United Earth Credits) */
-  price_max?: number;
-  /** Minimum ship mass in kilograms */
-  mass_min?: number;
-  /** Maximum ship mass in kilograms */
-  mass_max?: number;
-  /** Production status of the ship */
-  status?: ShipStatus;
-  /** Filter ships available for purchase only */
-  sale?: boolean;
-  /** Ship size category */
-  size?: ShipSize;
-  /** Maximum page number to retrieve (for pagination) */
-  page_max?: number;
-  /** Current page number (for pagination) */
-  page?: number;
-};
+import { RSIShipSearch, RSIShipSearchParams } from './interfaces';
 
 /**
  * Ship class for retrieving Star Citizen ship data
@@ -73,23 +25,23 @@ export class Ships
    * Get all ships using advanced search through pages
    * @returns Ships data
    */
-  public async search(searchArgs: RSISearchArgs): Promise<RSIShipData[]>
+  public async search(searchArgs: RSIShipSearchParams): Promise<RSIShipSearch[]>
   {
-    const name = HttpHelper.convertVal(searchArgs.name);
-    const classification = HttpHelper.convertVal(searchArgs.classification);
-    const length_min = HttpHelper.convertVal(searchArgs.length_min);
-    const length_max = HttpHelper.convertVal(searchArgs.length_max);
-    const crew_min = HttpHelper.convertVal(searchArgs.crew_min);
-    const crew_max = HttpHelper.convertVal(searchArgs.crew_max);
-    const price_min = HttpHelper.convertVal(searchArgs.price_min);
-    const price_max = HttpHelper.convertVal(searchArgs.price_max);
-    const mass_min = HttpHelper.convertVal(searchArgs.mass_min);
-    const mass_max = HttpHelper.convertVal(searchArgs.mass_max);
-    const status = HttpHelper.convertVal(searchArgs.status);
-    const size = HttpHelper.convertVal(searchArgs.size);
+    const name = HttpHelper.stringifyValue(searchArgs.name);
+    const classification = HttpHelper.stringifyValue(searchArgs.classification);
+    const length_min = HttpHelper.stringifyValue(searchArgs.length_min);
+    const length_max = HttpHelper.stringifyValue(searchArgs.length_max);
+    const crew_min = HttpHelper.stringifyValue(searchArgs.crew_min);
+    const crew_max = HttpHelper.stringifyValue(searchArgs.crew_max);
+    const price_min = HttpHelper.stringifyValue(searchArgs.price_min);
+    const price_max = HttpHelper.stringifyValue(searchArgs.price_max);
+    const mass_min = HttpHelper.stringifyValue(searchArgs.mass_min);
+    const mass_max = HttpHelper.stringifyValue(searchArgs.mass_max);
+    const status = HttpHelper.stringifyValue(searchArgs.status);
+    const size = HttpHelper.stringifyValue(searchArgs.size);
     const sale = searchArgs.sale !== undefined ? searchArgs.sale : null;
 
-    let page: number | string = HttpHelper.convertVal(searchArgs.page);
+    let page: number | string = HttpHelper.stringifyValue(searchArgs.page);
     if (/^\d+?$/.test(page))
     {
       page = parseInt(page);
@@ -98,7 +50,7 @@ export class Ships
       page = 1;
     }
 
-    let page_max: number | string = HttpHelper.convertVal(searchArgs.page_max);
+    let page_max: number | string = HttpHelper.stringifyValue(searchArgs.page_max);
     if (/^\d+?$/.test(page_max))
     {
       page_max = parseInt(page_max);
@@ -146,13 +98,15 @@ export class Ships
 
     if (req === null)
     {
-      return [];
-    } else if (req.status === 404)
+      throw new Error('Failed to retrieve ship data. Request returned null.');
+    }
+    else if (req.status === 404)
     {
-      return [];
-    } else if (req.status !== 200)
+      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
+    }
+    else if (req.status !== 200)
     {
-      return [];
+      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
     }
 
     const resp = req.data;
@@ -160,10 +114,10 @@ export class Ships
     // Get html contents
     if (resp.success !== 1)
     {
-      return [];
+      throw new Error('Failed to retrieve ship data. Response indicates failure.');
     }
 
-    const ships: RSIShipData[] = [];
+    const ships: RSIShipSearch[] = [];
     const $ = load(resp.data.html);
     const shipIds: string[] = [];
 
@@ -183,7 +137,7 @@ export class Ships
 
     for (const result of shipResults.filter(Boolean))
     {
-      const [respShip, reqPage] = result as [RSIShipData, { data: string; }];
+      const [respShip, reqPage] = result as [RSIShipSearch, { data: string; }];
 
       const pageContent = load(reqPage.data);
 
@@ -222,24 +176,24 @@ export class Ships
    * @param shipId - The ship ID
    * @returns Ship data and page response
    */
-  private async getShipAsync(shipId: string): Promise<[RSIShipData, { data: string; }] | null>
+  private async getShipAsync(shipId: string): Promise<[RSIShipSearch, { data: string; }] | null>
   {
     const respShip = await this.getShipById(shipId);
     if (!respShip)
     {
-      return null;
+      throw new Error(`Ship with ID ${shipId} not found or no data available.`);
     }
 
     if (!respShip.url)
     {
-      return null;
+      throw new Error(`Ship with ID ${shipId} does not have a valid URL for further details.`);
     }
 
     const reqPage = await this.httpClient.get<string>(HttpClient.host + respShip.url);
 
     if (reqPage === null || reqPage.status !== 200)
     {
-      return null;
+      throw new Error(`Failed to retrieve ship page for ID ${shipId}. Status code: ${reqPage?.status}`);
     }
 
     return [respShip, reqPage];
@@ -251,7 +205,7 @@ export class Ships
    * @param getPrice - If the price needs to be retrieved
    * @returns The ship data
    */
-  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<RSIShipData | null>
+  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<RSIShipSearch | null>
   {
     const parameters: Record<string, string> = {};
     if (shipId !== undefined)
@@ -261,28 +215,30 @@ export class Ships
 
     const req = await this.httpClient.post<{
       success: number;
-      data?: RSIShipData[];
+      data?: RSIShipSearch[];
     }>(this.urlShipsId, parameters);
 
     if (req === null)
     {
-      return null;
-    } else if (req.status === 404)
+      throw new Error('Failed to retrieve ship data. Request returned null.');
+    }
+    else if (req.status === 404)
     {
-      return {};
-    } else if (req.status !== 200)
+      throw new Error(`Ship with ID ${shipId} not found.`);
+    }
+    else if (req.status !== 200)
     {
-      return null;
+      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
     }
 
     const respShip = req.data;
 
     if (respShip.success !== 1 || !respShip.data || respShip.data.length === 0)
     {
-      return null;
+      throw new Error(`Ship with ID ${shipId} not found or no data available.`);
     }
 
-    const res: RSIShipData | RSIShipData[] = shipId === undefined ? respShip.data : respShip.data[0];
+    const res: RSIShipSearch | RSIShipSearch[] = shipId === undefined ? respShip.data : respShip.data[0];
 
     if (getPrice)
     {
