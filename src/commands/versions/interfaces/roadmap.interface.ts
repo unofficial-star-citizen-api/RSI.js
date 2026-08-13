@@ -1,10 +1,10 @@
 /** @internal */
-export interface RSIVersionRoadmap
+export interface RSIVersionRoadmapResponse
 {
   readonly success: number;
   readonly code: string;
   readonly msg: string;
-  readonly data: RSIVersionRoadmapData;
+  readonly data: RSIVersionRoadmap;
 }
 
 export type RoadmapVersions = {
@@ -13,7 +13,7 @@ export type RoadmapVersions = {
   etf: string | null | undefined;
 };
 
-export interface RSIVersionRoadmapData
+export interface RSIVersionRoadmap
 {
   readonly config: RSIVersionRoadmapConfig;
   readonly canEdit: boolean;
