@@ -90,31 +90,27 @@ describe('Ships', () =>
       expect(data).toEqual([]);
     });
 
-    test('should return empty array when API reports failure', async () =>
+    test('should throw error when API reports failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { success: 0, data: { html: '', rowcount: 0 } }
       } as any);
 
-      const data = await ships.search({ name: 'TestShip' });
-
-      expect(data).toEqual([]);
+      await expect(ships.search({ name: 'TestShip' })).rejects.toThrow('Failed to retrieve ship data. Response indicates failure.');
     });
 
-    test('should return empty array on 404 response', async () =>
+    test('should throw error on 404 response', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 404,
         data: null
       } as any);
 
-      const data = await ships.search({ name: 'TestShip' });
-
-      expect(data).toEqual([]);
+      await expect(ships.search({ name: 'TestShip' })).rejects.toThrow('Failed to retrieve ship data. Status code: 404');
     });
 
-    test('should skip ship when ship-matrix returns no data', async () =>
+    test('should throw error when ship-matrix returns no data', async () =>
     {
       vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
       {
@@ -132,9 +128,7 @@ describe('Ships', () =>
         } as any);
       });
 
-      const data = await ships.search({ name: 'Cutlass Black' });
-
-      expect(data).toEqual([]);
+      await expect(ships.search({ name: 'Cutlass Black' })).rejects.toThrow('Ship with ID 56 not found or no data available.');
     });
 
     test('should use price 0 when ship page has no price element', async () =>
