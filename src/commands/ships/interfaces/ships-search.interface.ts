@@ -206,7 +206,12 @@ export enum RSIShipMediaDepotStatus
 
 export interface RSIShipMediaDerivedData
 {
-  readonly sizes: { [key: string]: RSIShipSizeValue; };
+  readonly sizes: RSIShipMediaDerivedDataSize;
+}
+
+export interface RSIShipMediaDerivedDataSize
+{
+  readonly [key: string]: RSIShipSizeValue;
 }
 
 export interface RSIShipSizeValue
