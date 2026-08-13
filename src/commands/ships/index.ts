@@ -1,3 +1,3 @@
 export * from './interfaces';
-export * from './ship';
+export * from './ships';
 

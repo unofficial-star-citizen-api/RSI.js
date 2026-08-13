@@ -8,7 +8,7 @@ import
   vi
 } from 'vitest';
 import { HttpClient } from '../../index';
-import { Ships } from './ship';
+import { Ships } from './ships';
 
 const SEARCH_URL = 'https://robertsspaceindustries.com/api/store/getShips';
 const MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix/index';
