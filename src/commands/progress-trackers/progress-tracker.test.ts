@@ -163,16 +163,14 @@ describe('Progress Tracker', () =>
       await expect(progressTracker.getTeamDeliverableInfo('g42qg07ipfday')).rejects.toThrow();
     });
 
-    test('should return null on non-200 response', async () =>
+    test('should throw on non-200 response', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 500,
         data: null
       } as any);
 
-      const data = await progressTracker.getTeamDeliverableInfo('g42qg07ipfday');
-
-      expect(data).toBeNull();
+      await expect(progressTracker.getTeamDeliverableInfo('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should call GraphQL with deliverables operationName', async () =>
