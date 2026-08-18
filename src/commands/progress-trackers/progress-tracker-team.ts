@@ -45,7 +45,7 @@ export class ProgressTrackerTeam
   /**
    * Get teams from the progress tracker
    */
-  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSITeam[] | null>
+  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSITeam[]>
   {
     const data = {
       operationName: 'teams',
@@ -129,7 +129,7 @@ export class ProgressTrackerTeam
 
     if (req === null || req.status !== 200)
     {
-      return null;
+      throw new Error(`Failed to retrieve progress tracker teams. Status code: ${req?.status}`);
     }
 
     try
@@ -137,14 +137,14 @@ export class ProgressTrackerTeam
       const resp = req.data;
       if (!resp.data)
       {
-        return null;
+        throw new Error('Failed to retrieve progress tracker teams. API returned no data.');
       }
 
       return resp.data.progressTracker.teams.metaData;
     } catch (e)
     {
       console.error(e);
-      return null;
+      throw e instanceof Error ? e : new Error(`Unexpected error: ${e}`);
     }
   }
 }

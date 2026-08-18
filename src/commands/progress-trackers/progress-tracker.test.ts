@@ -19,7 +19,7 @@ const GRAPHQL_URL = 'https://robertsspaceindustries.com/graphql';
 describe('Progress Tracker', () =>
 {
   let httpClient: HttpClient;
-  let progressTracker: ProgressTracker;
+  let progressTracker: ProgressTrackers;
 
   beforeEach(() =>
   {
@@ -75,28 +75,24 @@ describe('Progress Tracker', () =>
       );
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure (no data)', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { data: null }
       } as any);
 
-      const data = await progressTracker.getTeamsInRange();
-
-      expect(data).toBeNull();
+      await expect(progressTracker.getTeamsInRange()).rejects.toThrow();
     });
 
-    test('should return null on non-200 response', async () =>
+    test('should throw on non-200 response', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 500,
         data: null
       } as any);
 
-      const data = await progressTracker.getTeamsInRange();
-
-      expect(data).toBeNull();
+      await expect(progressTracker.getTeamsInRange()).rejects.toThrow();
     });
 
     test('should accept custom date range', async () =>
@@ -157,16 +153,14 @@ describe('Progress Tracker', () =>
       assertValidSchema(data, progressTrackerInfoSchema);
     });
 
-    test('should return null on API failure for deliverables', async () =>
+    test('should throw on API failure for deliverables', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200,
         data: { data: null }
       } as any);
 
-      const data = await progressTracker.getTeamDeliverableInfo('g42qg07ipfday');
-
-      expect(data).toBeNull();
+      await expect(progressTracker.getTeamDeliverableInfo('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should return null on non-200 response', async () =>

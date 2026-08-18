@@ -91,7 +91,7 @@ export class ProgressTrackerDeliverable
     const deliverables = await this.getDeliverables(teamSlug, dateMin, dateMax);
     if (deliverables === null)
     {
-      return null;
+      throw new Error(`Failed to retrieve deliverables for team ${teamSlug}`);
     }
 
     const disciplinesSlugs: string[] = deliverables.map(deliv => deliv.slug);
@@ -99,7 +99,7 @@ export class ProgressTrackerDeliverable
 
     if (disciplines)
     {
-      for (let i = 0;i < deliverables.length;i++)
+      for (let i = 0; i < deliverables.length; i++)
       {
         deliverables[i].disciplines = disciplines[i];
       }
