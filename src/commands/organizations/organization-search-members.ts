@@ -62,7 +62,7 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
     const response = await httpClient.post<RSIResponse>(urlOrganizationMembers, payload);
     if (response.status !== 200)
     {
-      throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
+      throw new Error(`HTTP request failed while retrieving organization members data, status code: ${response.status}`);
     }
 
     if (response.data.success !== 1)

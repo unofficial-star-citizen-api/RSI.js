@@ -15,7 +15,7 @@ export function handleError(error: AxiosError): void
   }
   else if (error.response?.status !== 200)
   {
-    throw new AxiosError(`HTTP request failed while retrieving stats data, status code: ${error.response?.status}`, 'HTTP_ERROR');
+    throw new AxiosError(`HTTP request failed while retrieving organization data for "${sid}", status code: ${error.response?.status}`, error.code, error.config, error.request, error.response);
   }
 }
 
