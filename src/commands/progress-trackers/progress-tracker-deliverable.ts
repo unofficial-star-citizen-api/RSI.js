@@ -139,24 +139,13 @@ export class ProgressTrackerDeliverable
     const req = await this.httpClient.post<RSIProgressTrackerDeliverableResponse>(this.urlProgressTracker, data);
 
     if (req === null || req.status !== 200)
-    {
-      return null;
-    }
+      throw new Error(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
 
-    try
-    {
-      const resp = req.data;
-      if (!resp.data)
-      {
-        return null;
-      }
+    const resp = req.data;
+    if (!resp.data)
+      throw new Error(`Deliverables data retrieval failed with data: ${resp.data}`);
 
-      return resp.data.progressTracker.deliverables.metaData;
-    } catch (e)
-    {
-      console.error(e);
-      return null;
-    }
+    return resp.data.progressTracker.deliverables.metaData;
   }
 
   /**

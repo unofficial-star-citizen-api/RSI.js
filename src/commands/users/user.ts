@@ -38,10 +38,10 @@ export class Users
     // Request website
     const response = await this.httpClient.get<string>(url);
     if (response.status === 404)
-      return null;
+      throw new Error(`User profile not found for handle: "${userHandle}"`);
 
     if (response.status !== 200)
-      return null;
+      throw new Error(`Failed to retrieve user profile data from ${url}`);
 
     // Get HTML contents
     const $ = load(response.data);
@@ -81,10 +81,10 @@ export class Users
     // Request website
     const response = await this.httpClient.get<string>(url);
     if (response.status === 404)
-      return null;
+      throw new Error(`User organization not found for handle: "${userHandle}"`);
 
     if (response.status !== 200)
-      return null;
+      throw new Error(`Failed to retrieve user organization data from ${url}`);
 
     // Get HTML contents
     const $ = load(response.data);
