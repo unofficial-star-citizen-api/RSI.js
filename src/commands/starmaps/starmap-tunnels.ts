@@ -17,11 +17,6 @@ export class StarmapTunnels
   public async getAll(): Promise<RSIStarMapObjectTunnel[] | null>
   {
     const tunnels = await StarMapHelper.getStarmapData(this.httpClient, 'tunnels');
-    if (tunnels === null)
-    {
-      return null;
-    }
-
     return tunnels;
   }
 }

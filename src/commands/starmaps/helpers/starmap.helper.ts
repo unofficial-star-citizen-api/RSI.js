@@ -12,16 +12,12 @@ export class StarMapHelper
     const req = await httpClient.post<RSIStarMapObject>(url);
 
     if (req === null || req.status !== 200)
-    {
-      return null;
-    }
+      throw new Error(`Failed to retrieve starmap data from ${url}`);
 
     const resp = req.data;
 
     if (resp.success !== 1 || !resp.data)
-    {
-      return null;
-    }
+      throw new Error(`Starmap data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return resp.data[field]?.resultset ?? null;
   }

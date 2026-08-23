@@ -29,17 +29,13 @@ export class StarmapRoute
     }>(this.urlFind, data);
 
     if (req === null || req.status !== 200)
-    {
-      return null;
-    }
+      throw new Error(`Failed to retrieve starmap route data from ${this.urlFind}`);
 
     const resp = req.data;
 
     // Check response
     if (resp.success !== 1 || !resp.data)
-    {
-      return null;
-    }
+      throw new Error(`Starmap route data retrieval failed with success: ${resp.success}, data: ${resp.data}`);
 
     return {
       shortest: resp.data.shortest,

@@ -17,11 +17,6 @@ export class StarmapSpecies
   public async getAll(): Promise<RSIStarMapObjectSpecies[] | null>
   {
     const species = await StarMapHelper.getStarmapData(this.httpClient, 'species');
-    if (species === null)
-    {
-      return null;
-    }
-
     return species;
   }
 }

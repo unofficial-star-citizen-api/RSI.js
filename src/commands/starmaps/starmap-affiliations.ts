@@ -18,9 +18,7 @@ export class StarmapAffiliations
   {
     const affiliations = await StarMapHelper.getStarmapData(this.httpClient, 'affiliations');
     if (affiliations === null)
-    {
-      return null;
-    }
+      throw new Error('Failed to retrieve starmap affiliations data');
 
     if (name === undefined)
     {

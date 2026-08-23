@@ -23,19 +23,14 @@ export class StarmapSearch
     const data = { query: searchPattern };
 
     const req = await this.httpClient.post<RSIStarMapSearchResult>(this.urlFind, data);
-
     if (req === null || req.status !== 200)
-    {
-      return null;
-    }
+      throw new Error(`Failed to retrieve starmap search data from ${this.urlFind}`);
 
     const resp = req.data;
 
     // Check response
     if (resp.success !== 1 || !resp.data)
-    {
-      return null;
-    }
+      throw new Error(`Starmap search data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return {
       systems: resp.data.systems.resultset,

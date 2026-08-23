@@ -17,19 +17,12 @@ export class StarmapStarSystems
   async getByCode(code: string): Promise<RSIStarMapStarSystem | null>
   {
     const req = await this.httpClient.post<RSIStarMapStarSystem>(this.urlStarSystem.replace('{0}', code));
-
     if (req === null || req.status !== 200)
-    {
-      return null;
-    }
+      throw new Error(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`);
 
     const resp = req.data;
-
-    // Check response
     if (resp.success !== 1 || !resp.data)
-    {
-      return null;
-    }
+      throw new Error(`Star system data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return resp.data.resultset.at(0) ?? null;
   }
