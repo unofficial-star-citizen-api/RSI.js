@@ -24,7 +24,7 @@ export interface RSIStarMapObjectData
 {
   config: RSIStarMapObjectConfig;
   systems: RSIStarMapObjectSystems;
-  tunnels: RSIStarMapObjectTunnels;
+  tunnels: RSIStarMapObjectTunnel;
   species: RSIStarMapObjectAffiliations;
   affiliations: RSIStarMapObjectAffiliations;
 }
@@ -35,7 +35,7 @@ export interface RSIStarMapObjectAffiliations
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapObjectAffiliationElement[];
+  resultset: RSIStarMapObjectAffiliation[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -43,7 +43,7 @@ export interface RSIStarMapObjectAffiliations
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapObjectAffiliationElement
+export interface RSIStarMapObjectAffiliation
 {
   id: number;
   code: string;
@@ -141,7 +141,7 @@ export interface RSIStarMapObjectSystems
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapObjectSystemsResultset[];
+  resultset: RSIStarMapObjectSystem[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -149,7 +149,7 @@ export interface RSIStarMapObjectSystems
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapObjectSystemsResultset
+export interface RSIStarMapObjectSystem
 {
   id: number;
   code: string;
@@ -162,7 +162,7 @@ export interface RSIStarMapObjectSystemsResultset
   status: string;
   time_modified: string;
   type: string;
-  affiliation: RSIStarMapObjectAffiliationElement[];
+  affiliation: RSIStarMapObjectAffiliation[];
   aggregated_size: string;
   aggregated_population: number;
   aggregated_economy: number;
@@ -185,12 +185,12 @@ export interface RSIStarMapObjectImagesClass
 }
 
 /** @internal */
-export interface RSIStarMapObjectTunnels
+export interface RSIStarMapObjectTunnel
 {
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapObjectTunnelsResultset[];
+  resultset: RSIStarMapObjectTunnel[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -198,7 +198,7 @@ export interface RSIStarMapObjectTunnels
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapObjectTunnelsResultset
+export interface RSIStarMapObjectTunnel
 {
   id: number;
   direction: string;

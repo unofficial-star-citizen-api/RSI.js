@@ -14,7 +14,7 @@ export interface RSIStarmapCelestialObjectData
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarmapCelestialObjectResultset[];
+  resultset: RSIStarmapCelestialObject[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -22,7 +22,7 @@ export interface RSIStarmapCelestialObjectData
   estimatedrows: boolean;
 }
 
-export interface RSIStarmapCelestialObjectResultset
+export interface RSIStarmapCelestialObject
 {
   id: number;
   age: number | null;
