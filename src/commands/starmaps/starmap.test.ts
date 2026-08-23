@@ -201,15 +201,13 @@ describe('Starmap', () =>
       expect(data).toHaveLength(2);
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getSystems();
-
-      expect(data).toBeNull();
+      await expect(starmap.getSystems()).rejects.toThrowError('Starmap data retrieval failed with code: undefined, message: undefined');
     });
 
     test('should call bootup URL', async () =>
@@ -256,15 +254,13 @@ describe('Starmap', () =>
       expect(data!.objects).toHaveLength(1);
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.search('Stanton');
-
-      expect(data).toBeNull();
+      await expect(starmap.search('Stanton')).rejects.toThrowError('Starmap search data retrieval failed with code: undefined, message: undefined');
     });
 
     test('should call the find URL with the query', async () =>
@@ -296,15 +292,13 @@ describe('Starmap', () =>
       expect((data as any)[0].code).toBe('UEE');
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getAffiliations();
-
-      expect(data).toBeNull();
+      await expect(starmap.getAffiliations()).rejects.toThrowError('Starmap data retrieval failed with code: undefined, message: undefined');
     });
   });
 
@@ -324,15 +318,13 @@ describe('Starmap', () =>
       expect((data as any)[0].code).toBe('TOHIL.PLANETS.TOHILIII');
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getAllCelestialObject();
-
-      expect(data).toBeNull();
+      await expect(starmap.getAllCelestialObject()).rejects.toThrowError('Celestial objects data retrieval failed with code: undefined, message: undefined');
     });
   });
 
@@ -351,15 +343,13 @@ describe('Starmap', () =>
       expect((data as any).code).toBe('TOHIL.PLANETS.TOHILIII');
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getCelestialObjectByCode('INVALID');
-
-      expect(data).toBeNull();
+      await expect(starmap.getCelestialObjectByCode('INVALID')).rejects.toThrowError('Celestial object data retrieval failed with success: 0, data: undefined');
     });
   });
 
@@ -378,15 +368,13 @@ describe('Starmap', () =>
       expect((data as any).code).toBe('STANTON');
     });
 
-    test('should return null on non-200 response', async () =>
+    test('should throw on non-200 response', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 404, data: null
       } as any);
 
-      const data = await starmap.getStarSystemByCode('INVALID');
-
-      expect(data).toBeNull();
+      await expect(starmap.getStarSystemByCode('INVALID')).rejects.toThrowError('Failed to retrieve star system data from https://robertsspaceindustries.com/api/starmap/star-systems/INVALID');
     });
   });
 
@@ -422,15 +410,13 @@ describe('Starmap', () =>
       assertValidSchema(data, starmapSpeciesSchema);
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.getSpecies();
-
-      expect(data).toBeNull();
+      await expect(starmap.getSpecies()).rejects.toThrowError('Starmap data retrieval failed with code: undefined, message: undefined');
     });
   });
 
@@ -473,15 +459,13 @@ describe('Starmap', () =>
       });
     });
 
-    test('should return null on API failure', async () =>
+    test('should throw on API failure', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValue({
         status: 200, data: { success: 0 }
       } as any);
 
-      const data = await starmap.findRoutes('A', 'B', RSIStarmapRouteShipSize.Medium);
-
-      expect(data).toBeNull();
+      await expect(starmap.findRoutes('A', 'B', RSIStarmapRouteShipSize.Medium)).rejects.toThrowError('Starmap route data retrieval failed with success: 0, data: undefined');
     });
   });
 });

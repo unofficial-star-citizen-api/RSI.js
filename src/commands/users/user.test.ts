@@ -49,7 +49,7 @@ describe('User', () =>
       spy.mockRestore();
     });
 
-    test('should handle 404 not found response for getUserProfile', async () =>
+    test('should throw error on not found response for getUserProfile', async () =>
     {
       // Mock a 404 response
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
@@ -57,15 +57,13 @@ describe('User', () =>
         data: '<html><body>Not found</body></html>'
       } as any);
 
-      const data = await user.getProfile('NonExistentUser');
-
-      expect(data).toBeNull();
+      await expect(user.getProfile('NonExistentUser')).rejects.toThrowError(`User profile not found for handle: "NonExistentUser"`);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();
     });
 
-    test('should handle non-200/404 response for getUserProfile', async () =>
+    test('should throw error on non-200/404 response for getUserProfile', async () =>
     {
       // Mock a 500 error response
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
@@ -73,10 +71,7 @@ describe('User', () =>
         data: 'Server Error'
       } as any);
 
-      const data = await user.getProfile('SomeUser');
-
-      // Should return null
-      expect(data).toBeNull();
+      await expect(user.getProfile('SomeUser')).rejects.toThrowError(`Failed to retrieve user profile data from https://robertsspaceindustries.com/citizens/SomeUser`);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();
@@ -231,7 +226,7 @@ describe('User', () =>
       spy.mockRestore();
     });
 
-    test('should handle 404 not found response for getAffiliations', async () =>
+    test('should throw error on 404 not found response for getAffiliations', async () =>
     {
       // Mock a 404 response
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
@@ -239,15 +234,13 @@ describe('User', () =>
         data: '<html><body>Not found</body></html>'
       } as any);
 
-      const data = await user.getOrganization('NonExistentUser');
-
-      expect(data).toBeNull();
+      await expect(user.getOrganization('NonExistentUser')).rejects.toThrowError(`User organization not found for handle: "NonExistentUser"`);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();
     });
 
-    test('should handle non-200/404 response for getAffiliations', async () =>
+    test('should throw error on non-200/404 response for getAffiliations', async () =>
     {
       // Mock a 500 error response
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
@@ -255,10 +248,7 @@ describe('User', () =>
         data: 'Server Error'
       } as any);
 
-      const data = await user.getOrganization('SomeUser');
-
-      // Should return null
-      expect(data).toBeNull();
+      await expect(user.getOrganization('SomeUser')).rejects.toThrowError(`Failed to retrieve user organization data from https://robertsspaceindustries.com/citizens/SomeUser`);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();
