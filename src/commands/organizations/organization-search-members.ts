@@ -1,44 +1,8 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
-import { RSIOrganizationMember } from './interfaces/organization-members.interface';
+import { OrganizationMembersSearchParams, RSIOrganizationMember } from './interfaces/organization-members.interface';
 import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
-export type OrganizationMembersSearchParams = {
-  /**
-   * Organization SID
-   */
-  sid: string;
-
-  /**
-   * Search query
-   */
-  search?: string;
-
-  /**
-   * Member rank index starting at 1
-   */
-  rankIndex?: string;
-
-  /**
-   * Member role index starting at 1
-   */
-  roleIndex?: number;
-
-  /**
-   * Is main organization
-   */
-  isMainOrg?: boolean;
-
-  /**
-   * Page number
-   */
-  page?: number;
-
-  /**
-   * Page size
-   */
-  pageSize?: number;
-};
 
 
 type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMember[]>;
