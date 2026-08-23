@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIStarMapStarSystem, RSIStarMapStarSystemResultset } from './interfaces/star-system.interface';
+import { RSIStarMapStarSystem } from './interfaces/star-system.interface';
 
 /**
  * StarmapStarSystems class for retrieving Star Citizen starmap star systems
@@ -14,7 +14,7 @@ export class StarmapStarSystems
     this.httpClient = httpClient;
   }
 
-  async getByCode(code: string): Promise<RSIStarMapStarSystemResultset | null>
+  async getByCode(code: string): Promise<RSIStarMapStarSystem | null>
   {
     const req = await this.httpClient.post<RSIStarMapStarSystem>(this.urlStarSystem.replace('{0}', code));
 

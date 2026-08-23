@@ -1,7 +1,7 @@
 export interface RSIStarMapSearchResponse
 {
-  systems: RSIStarMapSearchResultStarSystemRuleset[];
-  objects: RSIStarMapSearchResultObjectsResultset[];
+  systems: RSIStarMapSearchResultStarSystem[];
+  objects: RSIStarMapSearchResultObject[];
 }
 
 /** @internal */
@@ -26,7 +26,7 @@ export interface RSIStarMapSearchResultObjects
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapSearchResultObjectsResultset[];
+  resultset: RSIStarMapSearchResultObject[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -34,7 +34,7 @@ export interface RSIStarMapSearchResultObjects
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapSearchResultObjectsResultset
+export interface RSIStarMapSearchResultObject
 {
   id: number;
   code: string;
@@ -43,10 +43,10 @@ export interface RSIStarMapSearchResultObjectsResultset
   star_system_id: number;
   status: string;
   type: string;
-  star_system: RSIStarMapSearchResultStarSystemRuleset;
+  star_system: RSIStarMapSearchResultStarSystem;
 }
 
-export interface RSIStarMapSearchResultStarSystemRuleset
+export interface RSIStarMapSearchResultStarSystem
 {
   id: number;
   code: string;
@@ -60,7 +60,7 @@ export interface RSIStarMapSearchResultSystems
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapSearchResultStarSystemRuleset[];
+  resultset: RSIStarMapSearchResultStarSystem[];
   totalrows: number;
   pagesize: number;
   page: number;

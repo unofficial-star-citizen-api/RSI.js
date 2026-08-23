@@ -13,7 +13,7 @@ export interface RSIStarMapStarSystemData
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapStarSystemResultset[];
+  resultset: RSIStarMapStarSystem[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -21,7 +21,7 @@ export interface RSIStarMapStarSystemData
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapStarSystemResultset
+export interface RSIStarMapStarSystem
 {
   id: number;
   code: string;
@@ -34,7 +34,7 @@ export interface RSIStarMapStarSystemResultset
   position_x: number;
   position_y: number;
   position_z: number;
-  shader_data: RSIStarMapStarSystemResultsetShaderData;
+  shader_data: RSIStarMapStarSystemShaderData;
   status: string;
   time_modified: string;
   type: string;
@@ -168,7 +168,7 @@ export interface RSIStarMapStarSystemImages
   subscribers_vault_thumbnail: string;
 }
 
-export interface RSIStarMapStarSystemResultsetShaderData
+export interface RSIStarMapStarSystemShaderData
 {
   lightColor: string;
   starfield: RSIStarMapStarSystemStarfield;

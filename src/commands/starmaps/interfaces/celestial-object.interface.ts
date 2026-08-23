@@ -43,7 +43,7 @@ export interface RSIStarmapCelestialObject
   sensor_danger: string;
   sensor_economy: string;
   sensor_population: string;
-  shader_data: RSIStarmapCelestialObjectResultsetShaderData | null;
+  shader_data: RSIStarmapCelestialObjectShaderData | null;
   show_label: boolean | null;
   show_orbitlines: boolean | null;
   size: number;
@@ -223,7 +223,7 @@ export interface RSIStarmapCelestialObjectSubtype
   type: string;
 }
 
-export interface RSIStarmapCelestialObjectResultsetShaderData
+export interface RSIStarmapCelestialObjectShaderData
 {
   orbitalMin: number;
   orbitalMax: number;
