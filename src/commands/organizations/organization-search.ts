@@ -29,7 +29,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 
     if (response.data.success !== 1)
     {
-      throw new Error(`Failed to retrieve organization members: ${response.data.msg}`);
+      throw new Error(`Failed to retrieve organization: ${response.data.msg}`);
     }
 
     const $ = load(response.data.data.html);
