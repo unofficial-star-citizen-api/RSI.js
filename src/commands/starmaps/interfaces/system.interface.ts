@@ -1,9 +1,3 @@
-export interface RSIStarMapSearchResponse
-{
-  systems: RSIStarMapSearchResultStarSystem[];
-  objects: RSIStarMapSearchResultObject[];
-}
-
 /** @internal */
 export interface RSIStarMapSearchResult
 {
@@ -16,7 +10,7 @@ export interface RSIStarMapSearchResult
 /** @internal */
 export interface RSIStarMapSearchResultData
 {
-  systems: RSIStarMapSearchResultSystems;
+  systems: RSIStarMapSearchSystems;
   objects: RSIStarMapSearchResultObjects;
 }
 
@@ -26,7 +20,7 @@ export interface RSIStarMapSearchResultObjects
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapSearchResultObject[];
+  resultset: RSIStarMapSearchObject[];
   totalrows: number;
   pagesize: number;
   page: number;
@@ -34,7 +28,13 @@ export interface RSIStarMapSearchResultObjects
   estimatedrows: boolean;
 }
 
-export interface RSIStarMapSearchResultObject
+export interface RSIStarMapSearch
+{
+  systems: RSIStarMapSearchStarSystem[];
+  objects: RSIStarMapSearchObject[];
+}
+
+export interface RSIStarMapSearchObject
 {
   id: number;
   code: string;
@@ -43,10 +43,10 @@ export interface RSIStarMapSearchResultObject
   star_system_id: number;
   status: string;
   type: string;
-  star_system: RSIStarMapSearchResultStarSystem;
+  star_system: RSIStarMapSearchStarSystem;
 }
 
-export interface RSIStarMapSearchResultStarSystem
+export interface RSIStarMapSearchStarSystem
 {
   id: number;
   code: string;
@@ -55,12 +55,12 @@ export interface RSIStarMapSearchResultStarSystem
 }
 
 /** @internal */
-export interface RSIStarMapSearchResultSystems
+export interface RSIStarMapSearchSystems
 {
   rowcount: number;
   pagecount: null | number;
   startrow: number;
-  resultset: RSIStarMapSearchResultStarSystem[];
+  resultset: RSIStarMapSearchStarSystem[];
   totalrows: number;
   pagesize: number;
   page: number;
