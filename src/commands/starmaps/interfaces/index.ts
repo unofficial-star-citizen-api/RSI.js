@@ -52,6 +52,15 @@ export interface RSIStarMapObjectAffiliation
   'membership.id'?: number;
 }
 
+export interface RSIStarMapObjectSpecies
+{
+  id: number;
+  code: string;
+  color?: string;
+  name: string;
+  'membership.id'?: number;
+}
+
 /** @internal */
 export interface RSIStarMapObjectConfig
 {

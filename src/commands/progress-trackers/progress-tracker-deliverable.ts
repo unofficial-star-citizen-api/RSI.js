@@ -28,7 +28,7 @@ export class ProgressTrackerDeliverable
   /**
    * Execute the command to retrieve detailed progress tracker information
    */
-  public async getTeamDeliverableInfo(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
+  public async getTeamDeliverableInfo(teamSlug: string, dateMin: string = '2020-01-01', dateMax: string = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
   {
     const deliverables = await this.getDeliverables(teamSlug, dateMin, dateMax);
     if (deliverables === null)
