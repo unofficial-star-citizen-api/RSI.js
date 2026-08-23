@@ -26,7 +26,6 @@ export interface RSIProgressTrackerDeliverableTimeAllocation
   endDate: string;
   uuid: string;
   partialTime: boolean;
-  __typename: string;
 }
 
 export interface RSIProgressTrackerDeliverableCard
@@ -38,23 +37,19 @@ export interface RSIProgressTrackerDeliverableCard
   release: {
     id: number;
     title: string;
-    __typename: string;
   };
   board: {
     id: number;
     title: string;
-    __typename: string;
   };
   updateDate: string;
   thumbnail: string;
-  __typename: string;
 }
 
 export interface RSIProgressTrackerDeliverableProject
 {
   title: string;
   logo: string;
-  __typename: string;
 }
 
 export interface RSIProgressTrackerDeliverable
@@ -71,7 +66,6 @@ export interface RSIProgressTrackerDeliverable
   totalCount: number;
   card: RSIProgressTrackerDeliverableCard;
   projects: RSIProgressTrackerDeliverableProject[];
-  __typename: string;
   disciplines?: RSIProgressTrackerDeliverableDiscipline;
 }
 
@@ -82,5 +76,4 @@ export interface RSIProgressTrackerDeliverableDiscipline
   uuid: string;
   numberOfMembers: number;
   timeAllocations: RSIProgressTrackerDeliverableTimeAllocation[];
-  __typename: string;
 }

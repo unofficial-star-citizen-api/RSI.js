@@ -88,17 +88,12 @@ export class ProgressTrackerDeliverable
                 ...Deliverable
                 card {
                   ...Card
-                  __typename
                 }
                 projects {
                   ...Project
-                  __typename
                 }
-                __typename
               }
-              __typename
             }
-            __typename
           }
         }
         fragment Deliverable on Deliverable {
@@ -112,7 +107,6 @@ export class ProgressTrackerDeliverable
           numberOfTeams
           updateDate
           totalCount
-          __typename
         }
         fragment Card on Card {
           id
@@ -122,21 +116,17 @@ export class ProgressTrackerDeliverable
           release {
             id
             title
-            __typename
           }
           board {
             id
             title
-            __typename
           }
           updateDate
           thumbnail
-          __typename
         }
         fragment Project on Project {
           title
           logo
-          __typename
         }
       `,
       variables: {
@@ -188,11 +178,8 @@ export class ProgressTrackerDeliverable
                 ...Discipline
                 timeAllocations {
                   ...TimeAllocation
-                  __typename
                 }
-                __typename
               }
-              __typename
             }
           }
           fragment Discipline on Discipline {
@@ -200,14 +187,12 @@ export class ProgressTrackerDeliverable
             color
             uuid
             numberOfMembers
-            __typename
           }
           fragment TimeAllocation on TimeAllocation {
             startDate
             endDate
             uuid
             partialTime
-            __typename
           }
         `,
         variables: {
