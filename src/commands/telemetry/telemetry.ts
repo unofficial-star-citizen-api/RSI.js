@@ -1,7 +1,7 @@
 import { HttpClient } from '@/http-client';
 import
 {
-  RSITelemetry, RSITelemetryResponse, TelemetryTimetable, TelemetryVersion
+  RSITelemetry, RSITelemetryResponse, RSITelemetryTimetable, RSITelemetryVersion
 } from './interfaces';
 
 /**
@@ -24,9 +24,9 @@ export class Telemetries
    * @param version The Star Citizen version to retrieve data for
    * @returns TelemetryInfo
    */
-  public async community(timetable: TelemetryTimetable, version: TelemetryVersion): Promise<RSITelemetry | null>
+  public async community(timetable: RSITelemetryTimetable, version: RSITelemetryVersion): Promise<RSITelemetry | null>
   {
-    const VALID_TIMETABLES = Object.values(TelemetryTimetable);
+    const VALID_TIMETABLES = Object.values(RSITelemetryTimetable);
     if (!VALID_TIMETABLES.includes(timetable))
       throw new Error(`Invalid timetable value: "${timetable}"`);
 

@@ -7,7 +7,7 @@ export interface RSITelemetryResponse
   readonly msg: string;
 }
 
-export enum TelemetryTimetable
+export enum RSITelemetryTimetable
 {
   Day = 'DAY',
   Week = 'WEEK',
@@ -15,7 +15,7 @@ export enum TelemetryTimetable
 }
 
 type VersionNumber = `${number}.${number}`;
-export type TelemetryVersion = `sc-alpha-${VersionNumber}`;
+export type RSITelemetryVersion = `sc-alpha-${VersionNumber}`;
 
 export interface RSITelemetry
 {

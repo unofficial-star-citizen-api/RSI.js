@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, TelemetryTimetable } from '../../index';
+import { HttpClient, RSITelemetryTimetable } from '../../index';
 import { Telemetries } from './telemetry';
 
 const TELEMETRY_BASE_URL = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
@@ -67,7 +67,7 @@ describe('Telemetry', () =>
       data: MOCK_TELEMETRY_RESPONSE
     } as any);
 
-    const data = await telemetry.community(TelemetryTimetable.Month, 'sc-alpha-4.0');
+    const data = await telemetry.community(RSITelemetryTimetable.Month, 'sc-alpha-4.0');
 
     expect(data).not.toBeNull();
     expect(data).toBeDefined();
@@ -82,14 +82,14 @@ describe('Telemetry', () =>
       data: MOCK_TELEMETRY_RESPONSE
     } as any);
 
-    await telemetry.community(TelemetryTimetable.Week, 'sc-alpha-3.24');
+    await telemetry.community(RSITelemetryTimetable.Week, 'sc-alpha-3.24');
 
     expect(spy).toHaveBeenCalledWith(
       `${TELEMETRY_BASE_URL}?timetable=WEEK&branch=sc-alpha-3.24`
     );
   });
 
-  test.each([TelemetryTimetable.Day, TelemetryTimetable.Week, TelemetryTimetable.Month] as const)(
+  test.each([RSITelemetryTimetable.Day, RSITelemetryTimetable.Week, RSITelemetryTimetable.Month] as const)(
     'should accept timetable type %s',
     async (timetable) =>
     {
@@ -110,7 +110,7 @@ describe('Telemetry', () =>
       data: null
     } as any);
 
-    await expect(telemetry.community(TelemetryTimetable.Day, 'sc-alpha-4.0')).rejects.toThrow(
+    await expect(telemetry.community(RSITelemetryTimetable.Day, 'sc-alpha-4.0')).rejects.toThrow(
       'HTTP request failed while retrieving telemetry data, status code: 503'
     );
   });
