@@ -1,69 +1,11 @@
 import { HttpClient } from '@/http-client';
-
-interface RSITimeAllocation
+import
 {
-  startDate: string;
-  endDate: string;
-  uuid: string;
-  partialTime: boolean;
-  __typename: string;
-}
-
-interface RSIDeliverableCard
-{
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  release: {
-    id: number;
-    title: string;
-    __typename: string;
-  };
-  board: {
-    id: number;
-    title: string;
-    __typename: string;
-  };
-  updateDate: string;
-  thumbnail: string;
-  __typename: string;
-}
-
-interface RSIProject
-{
-  title: string;
-  logo: string;
-  __typename: string;
-}
-
-interface RSIDeliverable
-{
-  uuid: string;
-  slug: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  numberOfDisciplines: number;
-  numberOfTeams: number;
-  updateDate: string;
-  totalCount: number;
-  card: RSIDeliverableCard;
-  projects: RSIProject[];
-  __typename: string;
-  disciplines?: RSIDisciplineData;
-}
-
-interface RSIDisciplineData
-{
-  title: string;
-  color: string;
-  uuid: string;
-  numberOfMembers: number;
-  timeAllocations: RSITimeAllocation[];
-  __typename: string;
-}
+  RSIProgressTrackerDeliverable,
+  RSIProgressTrackerDeliverableDiscipline,
+  RSIProgressTrackerDeliverableDisciplinesResponse,
+  RSIProgressTrackerDeliverableResponse
+} from './interfaces';
 
 /**
  * ProgressTrackerInfo class for retrieving detailed Star Citizen progress tracker information
@@ -86,7 +28,7 @@ export class ProgressTrackerDeliverable
   /**
    * Execute the command to retrieve detailed progress tracker information
    */
-  public async getTeamDeliverableInfo(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIDeliverable[] | null>
+  public async getTeamDeliverableInfo(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
   {
     const deliverables = await this.getDeliverables(teamSlug, dateMin, dateMax);
     if (deliverables === null)
@@ -111,7 +53,7 @@ export class ProgressTrackerDeliverable
   /**
    * Get deliverables from the progress tracker
    */
-  private async getDeliverables(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIDeliverable[] | null>
+  private async getDeliverables(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
   {
     const data = {
       operationName: 'deliverables',
@@ -204,15 +146,7 @@ export class ProgressTrackerDeliverable
       }
     };
 
-    const req = await this.httpClient.post<{
-      data?: {
-        progressTracker: {
-          deliverables: {
-            metaData: RSIDeliverable[];
-          };
-        };
-      };
-    }>(this.urlProgressTracker, data);
+    const req = await this.httpClient.post<RSIProgressTrackerDeliverableResponse>(this.urlProgressTracker, data);
 
     if (req === null || req.status !== 200)
     {
@@ -238,10 +172,10 @@ export class ProgressTrackerDeliverable
   /**
    * Get disciplines from the progress tracker
    */
-  private async getDisciplines(teamSlug: string, deliverySlugs: string[], dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIDisciplineData[] | null>
+  private async getDisciplines(teamSlug: string, deliverySlugs: string[], dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverableDiscipline[] | null>
   {
     // Since we need to handle multiple queries, we'll use a different approach
-    const results: RSIDisciplineData[] = [];
+    const results: RSIProgressTrackerDeliverableDiscipline[] = [];
 
     for (const delSlug of deliverySlugs)
     {
@@ -284,13 +218,7 @@ export class ProgressTrackerDeliverable
         }
       };
 
-      const req = await this.httpClient.post<{
-        data?: {
-          progressTracker: {
-            disciplines: RSIDisciplineData[];
-          };
-        };
-      }>(this.urlProgressTracker, data);
+      const req = await this.httpClient.post<RSIProgressTrackerDeliverableDisciplinesResponse>(this.urlProgressTracker, data);
 
       if (req && req.status === 200 && req.data.data)
       {

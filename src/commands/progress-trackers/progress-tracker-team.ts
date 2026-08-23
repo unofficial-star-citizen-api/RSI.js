@@ -1,27 +1,5 @@
 import { HttpClient } from '@/http-client';
-
-interface RSITimeAllocation
-{
-  startDate: string;
-  endDate: string;
-  uuid: string;
-  partialTime: boolean;
-  __typename: string;
-}
-
-interface RSITeam
-{
-  title: string;
-  description: string;
-  uuid: string;
-  abbreviation: string;
-  startDate: string;
-  endDate: string;
-  numberOfDeliverables: number;
-  slug: string;
-  timeAllocations: RSITimeAllocation[];
-  __typename: string;
-}
+import { RSIProgressTrackerTeam, RSIProgressTrackerTeamResponse } from './interfaces';
 
 /**
  * ProgressTracker class for retrieving Star Citizen progress tracker information
@@ -45,7 +23,7 @@ export class ProgressTrackerTeam
   /**
    * Get teams from the progress tracker
    */
-  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSITeam[]>
+  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerTeam[]>
   {
     const data = {
       operationName: 'teams',
@@ -116,16 +94,7 @@ export class ProgressTrackerTeam
       }
     };
 
-    const req = await this.httpClient.post<{
-      data?: {
-        progressTracker: {
-          teams: {
-            totalCount: number;
-            metaData: RSITeam[];
-          };
-        };
-      };
-    }>(this.urlProgressTracker, data);
+    const req = await this.httpClient.post<RSIProgressTrackerTeamResponse>(this.urlProgressTracker, data);
 
     if (req === null || req.status !== 200)
     {
