@@ -1,27 +1,27 @@
 /** @internal */
-export interface SpectrumThreadResponse
+export interface RSISpectrumThreadResponse
 {
   success: number;
   code: string;
   msg: string;
-  data: SpectrumThreadData;
+  data: RSISpectrumThreadData;
 }
 
-export interface SpectrumThreadData
+export interface RSISpectrumThreadData
 {
-  threads: SpectrumThreadDataThread[];
+  threads: RSISpectrumThreadDataThread[];
   threads_count: number;
   latest: number;
   latest_timestamp: string;
 }
 
-export interface SpectrumThreadDataThread
+export interface RSISpectrumThreadDataThread
 {
   id: string;
   time_created: number;
   time_modified: number;
   channel_id: string;
-  type: SpectrumThreadDataThreadType;
+  type: RSISpectrumThreadDataThreadType;
   slug: string;
   subject: string;
   is_locked: boolean;
@@ -35,86 +35,86 @@ export interface SpectrumThreadDataThread
   annotation_plaintext: null;
   label: null;
   subscription_key: string;
-  member: SpectrumThreadDataThreadMember;
-  votes: SpectrumThreadDataThreadVotes;
+  member: RSISpectrumThreadDataThreadMember;
+  votes: RSISpectrumThreadDataThreadVotes;
   replies_count: number;
   views_count: number;
   highlight_role_id: string;
-  latest_activity: SpectrumThreadDataThreadLatestActivity;
-  aspect: SpectrumThreadDataThreadAspect;
+  latest_activity: RSISpectrumThreadDataThreadLatestActivity;
+  aspect: RSISpectrumThreadDataThreadAspect;
   first_tracked_reply?: string;
 }
 
-export enum SpectrumThreadDataThreadAspect
+export enum RSISpectrumThreadDataThreadAspect
 {
   Teaser = 'teaser',
 }
 
-export interface SpectrumThreadDataThreadLatestActivity
+export interface RSISpectrumThreadDataThreadLatestActivity
 {
   time_created: number;
-  member: SpectrumThreadDataThreadLatestActivityMember;
+  member: RSISpectrumThreadDataThreadLatestActivityMember;
   highlight_role_id: null | string;
 }
 
-export interface SpectrumThreadDataThreadLatestActivityMember
+export interface RSISpectrumThreadDataThreadLatestActivityMember
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: null | string;
   signature: string;
-  meta: SpectrumThreadMeta;
+  meta: RSISpectrumThreadMeta;
   isGM: boolean;
   spoken_languages: string[];
   roles: { [key: string]: string[]; };
 }
 
-export interface SpectrumThreadMeta
+export interface RSISpectrumThreadMeta
 {
-  badges: SpectrumThreadDataThreadLatestActivityMemberMetaBadge[];
+  badges: RSISpectrumThreadDataThreadLatestActivityMemberMetaBadge[];
 }
 
-export interface SpectrumThreadDataThreadLatestActivityMemberMetaBadge
+export interface RSISpectrumThreadDataThreadLatestActivityMemberMetaBadge
 {
   name: string;
   icon: string;
   url?: string;
 }
 
-export interface SpectrumThreadDataThreadMember
+export interface RSISpectrumThreadDataThreadMember
 {
   id: string;
   displayname: string;
   nickname: string;
   avatar: string;
   signature: string;
-  meta: SpectrumThreadMeta;
+  meta: RSISpectrumThreadMeta;
   isGM: boolean;
   spoken_languages: string[];
-  presence: SpectrumThreadDataThreadMemberPresence;
+  presence: RSISpectrumThreadDataThreadMemberPresence;
   roles: { [key: string]: string[]; };
 }
 
-export interface SpectrumThreadDataThreadMemberPresence
+export interface RSISpectrumThreadDataThreadMemberPresence
 {
-  status: SpectrumThreadDataThreadMemberPresenceStatus;
+  status: RSISpectrumThreadDataThreadMemberPresenceStatus;
   info: null;
   since: number;
 }
 
-export enum SpectrumThreadDataThreadMemberPresenceStatus
+export enum RSISpectrumThreadDataThreadMemberPresenceStatus
 {
   Offline = 'offline',
   Online = 'online',
 }
 
-export enum SpectrumThreadDataThreadType
+export enum RSISpectrumThreadDataThreadType
 {
   Discussion = 'discussion',
 }
 
-export interface SpectrumThreadDataThreadVotes
+export interface RSISpectrumThreadDataThreadVotes
 {
   count: number;
   voted: number;

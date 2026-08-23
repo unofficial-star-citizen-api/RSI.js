@@ -3,7 +3,8 @@ import { load } from 'cheerio';
 import
 {
   RSIOrganizationCharacteristicsArchetype, RSIOrganizationCharacteristicsCommitment,
-  RSIOrganizationSearch, RSIOrganizationSearchParams, RSIResponse
+  RSIOrganizationResponse,
+  RSIOrganizationSearch, RSIOrganizationSearchParams
 } from './interfaces';
 
 type ReturnFunction = (params?: RSIOrganizationSearchParams) => Promise<RSIOrganizationSearch[]>;
@@ -21,7 +22,7 @@ export function search(httpClient: HttpClient): ReturnFunction
 
   return async function (params?: RSIOrganizationSearchParams): Promise<RSIOrganizationSearch[]>
   {
-    const response = await httpClient.post<RSIResponse>(urlGetOrgs, params);
+    const response = await httpClient.post<RSIOrganizationResponse>(urlGetOrgs, params);
     if (response.status !== 200)
     {
       throw new Error(`HTTP request failed while retrieving organization data, status code: ${response.status}`);

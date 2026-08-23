@@ -4,7 +4,7 @@ import
 {
   RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion
 } from './interfaces';
-import { SpectrumThreadDataThread, SpectrumThreadResponse } from './interfaces/spectrum-thread.interface';
+import { RSISpectrumThreadDataThread, RSISpectrumThreadResponse } from './interfaces/spectrum-thread.interface';
 
 export class Spectrum
 {
@@ -27,7 +27,7 @@ export class Spectrum
       label_id: null
     };
 
-    const response = await this.httpClient.post<SpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
+    const response = await this.httpClient.post<RSISpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
     if (response.data.success != 1)
       throw new Error(`Query failed from RSI (${response.data.msg})`);
 
@@ -65,7 +65,7 @@ export class Spectrum
     return this.get().then(versions => versions.filter(version => version.environment === 'etf'));
   }
 
-  private getVersionFromSubject(thread: SpectrumThreadDataThread): string | undefined
+  private getVersionFromSubject(thread: RSISpectrumThreadDataThread): string | undefined
   {
     const matches = this.regexVersion.exec(thread.subject);
     if (!matches)
@@ -75,7 +75,7 @@ export class Spectrum
     return version;
   }
 
-  private getEnvironment(thread: SpectrumThreadDataThread): RSISpectrumEnvironment | undefined
+  private getEnvironment(thread: RSISpectrumThreadDataThread): RSISpectrumEnvironment | undefined
   {
     // check if the thread is a live version
     if ((/live/i).test(thread.subject))
@@ -92,7 +92,7 @@ export class Spectrum
     return undefined;
   }
 
-  private getGroup(thread: SpectrumThreadDataThread): RSISpectrumGroups | undefined
+  private getGroup(thread: RSISpectrumThreadDataThread): RSISpectrumGroups | undefined
   {
     if (/^\[all waves ptu/i.test(thread.subject))
       return RSISpectrumGroups.ALL;

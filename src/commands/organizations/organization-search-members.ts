@@ -1,7 +1,7 @@
 import { HttpClient } from '@/http-client';
 import { load } from 'cheerio';
 import { RSIOrganizationMember } from './interfaces/organization-members.interface';
-import { RSIResponse } from './interfaces/rsi-response.interface';
+import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
 export type OrganizationMembersSearchParams = {
   /**
@@ -59,7 +59,7 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
       pageSize: params.pageSize,
     };
 
-    const response = await httpClient.post<RSIResponse>(urlOrganizationMembers, payload);
+    const response = await httpClient.post<RSIOrganizationResponse>(urlOrganizationMembers, payload);
     if (response.status !== 200)
     {
       throw new Error(`HTTP request failed while retrieving organization members data, status code: ${response.status}`);
