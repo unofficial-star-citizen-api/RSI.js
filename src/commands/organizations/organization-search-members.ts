@@ -18,7 +18,7 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
       search: params.search,
       rank: params.rankIndex,
       role: params.roleIndex,
-      isMainOrg: params.isMainOrg,
+      isMainOrg: params.isMainOrg ? 0 : 1,
       page: params.page,
       pageSize: params.pageSize,
     };
