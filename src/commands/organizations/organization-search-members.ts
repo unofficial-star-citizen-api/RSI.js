@@ -14,7 +14,7 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
   return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationMember[]>
   {
     const payload = {
-      sid: params.sid,
+      symbol: params.sid,
       search: params.search,
       rank: params.rankIndex,
       role: params.roleIndex,
