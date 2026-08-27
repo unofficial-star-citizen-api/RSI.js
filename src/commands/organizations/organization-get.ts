@@ -19,20 +19,13 @@ export function handleError(error: AxiosError): void
   }
 }
 
-function validateSid(sid: string): string
-{
-  if (!/^[a-zA-Z0-9_\\-]{1,10}$/.test(sid))
-    throw new Error(`Invalid organization SID: "${sid}"`);
-  return encodeURIComponent(sid);
-}
-
 export function get(httpClient: HttpClient): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
 
   return async function (sid: string): Promise<RSIOrganization>
   {
-    const url = urlOrganization.replace('{0}', validateSid(sid));
+    const url = urlOrganization.replace('{0}', sid);
     const response = await httpClient.get<string>(url).catch(handleError);
     if (!response)
     {
