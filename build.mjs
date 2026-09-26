@@ -1,6 +1,21 @@
 import * as esbuild from 'esbuild';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 const isWatch = process.argv.includes('--watch');
+
+const moduleEntryPoints = [];
+const collectEntryPoints = (directory) => {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      collectEntryPoints(path);
+    } else if (entry.isFile() && path.endsWith('.ts') && !path.endsWith('.test.ts') && path !== 'src/index.ts') {
+      moduleEntryPoints.push(path);
+    }
+  }
+};
+collectEntryPoints('src');
 
 const sharedNode = {
   entryPoints: ['src/index.ts'],
@@ -38,6 +53,16 @@ if (isWatch) {
     }),
     esbuild.build({
       ...sharedBrowser, format: 'iife', minify: true, outfile: 'dist/index.browser.min.js'
+    }),
+    esbuild.build({
+      entryPoints: moduleEntryPoints,
+      bundle: false,
+      format: 'cjs',
+      platform: 'node',
+      outbase: 'src',
+      outdir: 'dist',
+      packages: 'external',
+      sourcemap: true,
     }),
   ]);
   console.log('Build complete');

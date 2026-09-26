@@ -3,8 +3,6 @@ import { load } from 'cheerio';
 import { OrganizationMembersSearchParams, RSIOrganizationMember } from './interfaces/organization-members.interface';
 import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
-
-
 type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMember[]>;
 
 export function searchMembers(httpClient: HttpClient): ReturnFunction
