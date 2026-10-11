@@ -62,7 +62,7 @@ export class Users
       enlisted: (isNaN(enlistedDate.getTime()) ? undefined : enlistedDate.toISOString()),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
-      website: $('.label:contains("Enlisted")').next().attr('href'),
+      website: $('.label:contains("Website")').next().attr('href'),
       bio: {
         text: $('.label:contains("Bio")').next().text().trim(),
         html: $('.label:contains("Bio")').next().html()?.trim() ?? undefined

@@ -255,6 +255,32 @@ describe('User', () =>
       spy.mockRestore();
     });
 
+    test('should handle valid website', async () =>
+    {
+      const mockHtml = `
+        <div class="profile-content overview-content clearfix">
+          <div class="info">
+            <p class="entry">
+              <span class="label">Website</span>
+              <a href="https://example.com" class="value">https://example.com</a>
+            </p>
+          </div>
+        </div>
+      `;
+
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: mockHtml
+      } as any);
+
+      const data = await user.getProfile('TestUser');
+
+      expect(data).not.toBeNull();
+      expect(data?.website).toBe('https://example.com');
+
+      spy.mockRestore();
+    });
+
     test('should throw error on 404 not found response for getAffiliations', async () =>
     {
       // Mock a 404 response
