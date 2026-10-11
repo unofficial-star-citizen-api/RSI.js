@@ -16,7 +16,7 @@ describe('User', () =>
   describe('with mock files', () =>
   {
     let httpClient: HttpClient;
-    let user: User;
+    let user: Users;
 
     beforeEach(() =>
     {
@@ -206,6 +206,8 @@ describe('User', () =>
             <p class="entry">
               <span class="label">Handle name</span>
               <strong class="value">TestUser</strong>
+              <span class="label">Enlisted</span>
+              <strong class="value">25 Aug 2016</strong>
             </p>
           </div>
         </div>
