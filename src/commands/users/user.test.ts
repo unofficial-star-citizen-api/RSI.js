@@ -193,7 +193,7 @@ describe('User', () =>
       spy.mockRestore();
     });
 
-    test('should handle missing location and fluency', async () =>
+    test('should handle valid enlisted date with missing location and fluency', async () =>
     {
       // Create a simple mock HTML without location or fluency
       const mockHtml = `
@@ -224,6 +224,33 @@ describe('User', () =>
       expect(data).not.toBeNull();
       expect(data?.location).toBeUndefined();
       expect(data?.fluency).toEqual([]);
+      expect(data?.enlisted).toBe(new Date('25 Aug 2016').toISOString());
+
+      spy.mockRestore();
+    });
+
+    test('should handle invalid enlisted date', async () =>
+    {
+      const mockHtml = `
+        <div class="profile-content overview-content clearfix">
+          <div class="info">
+            <p class="entry">
+              <span class="label">Enlisted</span>
+              <strong class="value">not a date</strong>
+            </p>
+          </div>
+        </div>
+      `;
+
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: mockHtml
+      } as any);
+
+      const data = await user.getProfile('TestUser');
+
+      expect(data).not.toBeNull();
+      expect(data?.enlisted).toBeUndefined();
 
       spy.mockRestore();
     });

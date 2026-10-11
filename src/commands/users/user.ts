@@ -46,6 +46,8 @@ export class Users
     // Get HTML contents
     const $ = load(response.data);
 
+    const enlistedDate = new Date($('.label:contains("Enlisted")').next().text().trim());
+
     return {
       page: {
         url,
@@ -57,7 +59,7 @@ export class Users
       badge: $('.info').first().find('p').last().find('.value').text().trim(),
       badge_image: $('.info').first().find('.entry').find('.icon').find('img').attr('src'),
       image: $('.title:contains("Profile")').next().find('.thumb').find('img').attr('src'),
-      enlisted: new Date($('.label:contains("Enlisted")').next().text().trim()).toISOString(),
+      enlisted: (isNaN(enlistedDate.getTime()) ? undefined : enlistedDate.toISOString()),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Enlisted")').next().attr('href'),
