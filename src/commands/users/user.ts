@@ -57,7 +57,7 @@ export class Users
       badge: $('.info').first().find('p').last().find('.value').text().trim(),
       badge_image: $('.info').first().find('.entry').find('.icon').find('img').attr('src'),
       image: $('.title:contains("Profile")').next().find('.thumb').find('img').attr('src'),
-      enlisted: $('.label:contains("Enlisted")').next().text().trim(),
+      enlisted: new Date($('.label:contains("Enlisted")').next().text().trim()).toISOString(),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Enlisted")').next().attr('href'),
