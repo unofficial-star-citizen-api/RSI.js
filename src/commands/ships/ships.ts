@@ -213,25 +213,25 @@ export class Ships
       parameters.id = shipId;
     }
 
-    const req = await this.httpClient.post<{
+    const request = await this.httpClient.post<{
       success: number;
       data?: RSIShipSearch[];
     }>(this.urlShipsId, parameters);
 
-    if (req === null)
+    if (request === null)
     {
       throw new Error('Failed to retrieve ship data. Request returned null.');
     }
-    else if (req.status === 404)
+    else if (request.status === 404)
     {
       throw new Error(`Ship with ID ${shipId} not found.`);
     }
-    else if (req.status !== 200)
+    else if (request.status !== 200)
     {
-      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
+      throw new Error(`Failed to retrieve ship data. Status code: ${request.status}`);
     }
 
-    const respShip = req.data;
+    const respShip = request.data;
 
     if (respShip.success !== 1 || !respShip.data || respShip.data.length === 0)
     {
