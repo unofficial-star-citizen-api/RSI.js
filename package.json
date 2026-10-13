@@ -1,6 +1,7 @@
 {
   "name": "@unofficial-star-citizen-api/rsi.js",
   "version": "0.0.0",
+  "packageManager": "pnpm@12.6.0",
   "description": "A TypeScript library for retrieving Star Citizen data from the Roberts Space Industries website",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -30,11 +31,11 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
-    "check": "npm run lint && npm run test",
-    "ci": "npm run lint && npm run test && npm run build",
-    "prepare": "npm run build"
+    "lint": "pnpm exec eslint .",
+    "lint:fix": "pnpm exec eslint . --fix",
+    "check": "pnpm run lint && pnpm run test",
+    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "prepare": "pnpm run build"
   },
   "keywords": [
     "star-citizen",

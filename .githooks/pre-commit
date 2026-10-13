@@ -6,7 +6,7 @@ if [ "$branch" != "main" ]; then
     exit 0
 fi
 
-npm run lint:fix
+pnpm run lint:fix
 if [ $? -ne 0 ]; then
     exit 1
 fi
@@ -14,7 +14,7 @@ fi
 # add all modified files to the staging area
 git add -u
 
-# npm run test:coverage
+# pnpm run test:coverage
 # if [ $? -ne 0 ]; then
 #     exit 1
 # fi
