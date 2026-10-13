@@ -46,6 +46,9 @@ export function get(httpClient: HttpClient): ReturnFunction
       logo: HttpClient.toAbsoluteUrl(heading.find('.logo img').attr('src')),
       banner: HttpClient.toAbsoluteUrl(heading.find('.banner img').attr('src')),
       membersCount: parseInt(heading.find('.logo .count').text().replace(/\D/g, '')),
+      archetype: heading.find('.tags.clearfix .model').text().trim(),
+      commitment: heading.find('.tags.clearfix .commitment').text().trim(),
+
       focus: {
         primary: {
           image: HttpClient.toAbsoluteUrl(heading.find('.primary.tooltip-wrap img').attr('src')),

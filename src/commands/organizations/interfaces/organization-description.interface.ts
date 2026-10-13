@@ -15,6 +15,12 @@ export interface RSIOrganization
   // Membership information
   membersCount: number | undefined;
 
+  // Archetype of the organization
+  archetype: string | undefined;
+
+  // Commitment level of the organization
+  commitment: string | undefined;
+
   // Organization focus areas
   focus: RSIOrganizationFocusArea;
 
