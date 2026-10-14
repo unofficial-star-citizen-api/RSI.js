@@ -21,7 +21,7 @@ export interface RSIUserProfilePage
 
 export interface RSIUserProfileBadge
 {
-  name: string;
+  name: string | undefined;
   image: string | undefined;
 }
 
