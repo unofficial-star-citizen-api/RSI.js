@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "caveman/SKILL.md",
       "computedHash": "c9bc6c69829953233bb175d1e3951a7bc53ebbf573bddcaadc3299ca8154bbb2"
+    },
+    "changelog-automation": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/documentation-generation/skills/changelog-automation/SKILL.md",
+      "computedHash": "d636f9b3b0f05e1c554d3badaa18a9d044d806e3aeac9533d2af5a9753f1b901"
     }
   }
 }
