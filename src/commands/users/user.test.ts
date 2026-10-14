@@ -215,9 +215,9 @@ describe('User', () =>
       expect(data?.handle).toEqual('Dymerz');
       expect(data?.badge).toMatchObject({
         name: 'Gold Observer',
-        image: '/media/1enn0ll36uj5wr/heap_thumb/ObserverBadge_Spectrum_Gold.png'
+        image: 'https://robertsspaceindustries.com/media/1enn0ll36uj5wr/heap_thumb/ObserverBadge_Spectrum_Gold.png'
       });
-      expect(data?.image).toEqual('/media/90dffvdr5uxonr/heap_infobox/Rsi_profile.png');
+      expect(data?.image).toEqual('https://robertsspaceindustries.com/media/90dffvdr5uxonr/heap_infobox/Rsi_profile.png');
       expect(data?.enlisted).toBeDefined();
       expect(data?.location?.country).toEqual('France');
       expect(data?.location?.region).toEqual('Paris');
