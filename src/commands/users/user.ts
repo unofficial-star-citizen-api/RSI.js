@@ -64,7 +64,7 @@ export class Users
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Website")').next().attr('href'),
       bio: {
-        text: $('.label:contains("Bio")').next().text().trim(),
+        text: $('.label:contains("Bio")').next().text().trim() ?? undefined,
         html: $('.label:contains("Bio")').next().html()?.trim() ?? undefined
       }
     };
