@@ -39,9 +39,11 @@ export function get(httpClient: HttpClient): ReturnFunction
     if (heading.length === 0)
       throw new Error(`Failed to find organization heading for ${sid}`);
 
+    const symbol = heading.find('.symbol').text().trim();
+
     return {
-      url,
-      sid,
+      url: urlOrganization.replace('{0}', symbol),
+      sid: symbol,
       name: heading.find('.inner h1').text().match(/^[^/]+/)?.[0].trim(),
       logo: HttpClient.toAbsoluteUrl(heading.find('.logo img').attr('src')),
       banner: HttpClient.toAbsoluteUrl(heading.find('.banner img').attr('src')),
