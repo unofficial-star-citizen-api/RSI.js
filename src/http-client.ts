@@ -254,6 +254,9 @@ export class HttpClient
     if (path == null)
       return undefined;
 
+    if (path.startsWith('http://') || path.startsWith('https://'))
+      return path;
+
     return new URL(path, HttpClient.host).toString();
   }
 

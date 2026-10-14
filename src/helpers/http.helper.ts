@@ -29,7 +29,7 @@ export class HttpHelper
  * @param val - The value to convert
  * @returns The string representation of the value or undefined if empty
    */
-  public static convertToStringOrUndefined(val: unknown): string | undefined
+  public static toStringOrUndefined(val: unknown): string | undefined
   {
     if (val === null || val === undefined)
     {

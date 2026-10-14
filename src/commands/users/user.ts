@@ -60,15 +60,15 @@ export class Users
       handle: $('.label:contains("Handle name")').next().text().trim(),
       badge: hasBadge ? {
         name: $('.info').first().find('p').last().find('.value').text().trim(),
-        image: $('.info').first().find('.entry').find('.icon').find('img').attr('src')
+        image: HttpClient.toAbsoluteUrl($('.info').first().find('.entry').find('.icon').find('img').attr('src'))
       } : undefined,
-      image: $('.title:contains("Profile")').next().find('.thumb').find('img').attr('src'),
+      image: HttpClient.toAbsoluteUrl($('.title:contains("Profile")').next().find('.thumb').find('img').attr('src')),
       enlisted: (isNaN(enlistedDate.getTime()) ? undefined : enlistedDate.toISOString()),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Website")').next().attr('href'),
       bio: {
-        text: HttpHelper.convertToStringOrUndefined($('.label:contains("Bio")').next().text()?.trim() ?? undefined),
+        text: HttpHelper.toStringOrUndefined($('.label:contains("Bio")').next().text()?.trim() ?? undefined),
         html: $('.label:contains("Bio")').next().html()?.trim() ?? undefined
       }
     };
@@ -103,7 +103,7 @@ export class Users
         name: $(mainOrg).find('.info .entry').first().text().trim(),
         rank: $(mainOrg).find('.label:contains("rank")').next().text().trim(),
         stars: $(mainOrg).find('.ranking span.active').length,
-        image: $(mainOrg).find('img').attr('src'),
+        image: HttpClient.toAbsoluteUrl($(mainOrg).find('img').attr('src')),
         members: Number(/\d+/.exec($(mainOrg).find('.members').text().trim())?.at(0) ?? NaN)
       },
       characteristics: {
