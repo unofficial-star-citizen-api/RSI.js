@@ -193,6 +193,44 @@ describe('User', () =>
       spy.mockRestore();
     });
 
+    test('should extract all user profile information', async () =>
+    {
+      // Mock the HTTP client get method to return our mock HTML
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: fs.readFileSync(
+          path.join(__dirname, 'mocks', 'profile.html'),
+          'utf8'
+        )
+      } as any);
+
+      const data = await user.getProfile('Dymerz');
+
+      // Assertions for full profile extraction
+      expect(data).not.toBeNull();
+      expect(data?.page.url).toEqual('https://robertsspaceindustries.com/citizens/Dymerz');
+      expect(data?.page.title).toContain('[ΩP] Dymerz | Dymerz - Protectorat (EU/QC/974/PC) | PROTECTORA (Membre)');
+      expect(data?.id).toEqual('#1461338');
+      expect(data?.display).toEqual('[ΩP] Dymerz');
+      expect(data?.handle).toEqual('Dymerz');
+      expect(data?.badge).toMatchObject({
+        name: 'Gold Observer',
+        image: '/media/1enn0ll36uj5wr/heap_thumb/ObserverBadge_Spectrum_Gold.png'
+      });
+      expect(data?.image).toEqual('/media/90dffvdr5uxonr/heap_infobox/Rsi_profile.png');
+      expect(data?.enlisted).toBeDefined();
+      expect(data?.location?.country).toEqual('France');
+      expect(data?.location?.region).toEqual('Paris');
+      expect(data?.fluency).toMatchObject([
+        'French', 'English'
+      ]);
+      expect(data?.website).toEqual('https://robertsspaceindustries.com/account/profile');
+      expect(data?.bio.text).toContain('[UEX:374723]\n');
+      expect(data?.bio.html).toContain('[UEX:374723]<br>\n');
+
+      spy.mockRestore();
+    });
+
     test('should handle valid enlisted date with missing location and fluency', async () =>
     {
       // Create a simple mock HTML without location or fluency

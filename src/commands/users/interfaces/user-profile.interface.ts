@@ -4,8 +4,7 @@ export interface RSIUserProfile
   id: string | undefined;
   display: string | undefined;
   handle: string | undefined;
-  badge: string | undefined;
-  badge_image: string | undefined;
+  badge: RSIUserProfileBadge | undefined;
   image: string | undefined;
   enlisted: string | undefined;
   location: RSIUserProfileLocation | undefined;
@@ -18,6 +17,12 @@ export interface RSIUserProfilePage
 {
   url: string | undefined;
   title: string | undefined;
+}
+
+export interface RSIUserProfileBadge
+{
+  name: string;
+  image: string | undefined;
 }
 
 export interface RSIUserProfileLocation

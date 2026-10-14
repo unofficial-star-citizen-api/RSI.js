@@ -1,3 +1,4 @@
+import { HttpHelper } from '@/helpers/http.helper';
 import { HttpClient } from '@/http-client';
 import { CheerioAPI, load } from 'cheerio';
 import
@@ -47,6 +48,7 @@ export class Users
     const $ = load(response.data);
 
     const enlistedDate = new Date($('.label:contains("Enlisted")').next().text().trim());
+    const hasBadge = $('.info').first().find('p').last().find('.value').text().trim().length > 0;
 
     return {
       page: {
@@ -56,15 +58,17 @@ export class Users
       id: $('.label:contains("UEE Citizen Record")').next().text().trim(),
       display: $('.info').first().find('p').first().find('.value').text().trim(),
       handle: $('.label:contains("Handle name")').next().text().trim(),
-      badge: $('.info').first().find('p').last().find('.value').text().trim(),
-      badge_image: $('.info').first().find('.entry').find('.icon').find('img').attr('src'),
+      badge: hasBadge ? {
+        name: $('.info').first().find('p').last().find('.value').text().trim(),
+        image: $('.info').first().find('.entry').find('.icon').find('img').attr('src')
+      } : undefined,
       image: $('.title:contains("Profile")').next().find('.thumb').find('img').attr('src'),
       enlisted: (isNaN(enlistedDate.getTime()) ? undefined : enlistedDate.toISOString()),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Website")').next().attr('href'),
       bio: {
-        text: $('.label:contains("Bio")').next().text().trim() ?? undefined,
+        text: HttpHelper.convertToStringOrUndefined($('.label:contains("Bio")').next().text()?.trim() ?? undefined),
         html: $('.label:contains("Bio")').next().html()?.trim() ?? undefined
       }
     };
