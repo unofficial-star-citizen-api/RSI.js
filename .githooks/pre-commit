@@ -6,13 +6,18 @@ if [ "$branch" != "main" ]; then
     exit 0
 fi
 
+staged_files=$(mktemp) || exit 1
+trap 'rm -f "$staged_files"' EXIT HUP INT TERM
+git diff --cached --name-only -z > "$staged_files" || exit 1
+
 pnpm run lint:fix
 if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# add all modified files to the staging area
-git add -u
+if [ -s "$staged_files" ]; then
+    git --literal-pathspecs add -u --pathspec-from-file="$staged_files" --pathspec-file-nul
+fi
 
 # pnpm run test:coverage
 # if [ $? -ne 0 ]; then
