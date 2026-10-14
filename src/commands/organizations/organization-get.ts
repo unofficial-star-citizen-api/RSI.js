@@ -42,7 +42,9 @@ export function get(httpClient: HttpClient): ReturnFunction
     const symbol = heading.find('.symbol').text().trim();
 
     return {
-      url: urlOrganization.replace('{0}', symbol),
+      meta: {
+        url: urlOrganization.replace('{0}', symbol)
+      },
       sid: symbol,
       name: heading.find('.inner h1').text().match(/^[^/]+/)?.[0].trim(),
       logo: HttpClient.toAbsoluteUrl(heading.find('.logo img').attr('src')),

@@ -1,3 +1,5 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 export interface RSIOrganizationCharacteristics
 {
   archetype: RSIOrganizationCharacteristicsArchetype | undefined;
@@ -51,7 +53,7 @@ export interface RSIOrganizationSearch
   sid: string | undefined;
   name: string | undefined;
   icon: string | undefined;
-  href: string | undefined;
+  meta: RSIResourceMeta;
 
   characteristics: RSIOrganizationCharacteristics;
 }

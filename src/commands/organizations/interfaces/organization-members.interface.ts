@@ -1,8 +1,10 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 export interface RSIOrganizationMember
 {
   handle: string | undefined;
   display: string | undefined;
-  url: string | undefined;
+  meta: RSIResourceMeta;
   image: string | undefined;
   roles: string[] | undefined;
   rank: string | undefined;

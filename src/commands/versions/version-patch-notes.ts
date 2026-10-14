@@ -18,14 +18,21 @@ export class PatchNote
 
     const $ = load(response.data);
 
-    return $('#channel a.content-block2').toArray().map((element) => ({
-      title: $(element).find('.title').text().trim(),
-      version: $(element).text().match(/((\d\.?)+)/)?.at(1)?.trim(),
-      link: $(element).attr('href')?.trim(),
-      image: $(element).find('.background').attr('style')?.match(/url\(["'](.*?)["']/)?.at(1)?.trim(),
-      commentCount: Number($(element).find('.text.comments').text() ?? 0),
-      time_ago: $(element).find('.text .time_ago .value').text()?.trim(),
-    }));
+    return $('#channel a.content-block2').toArray().map((element) =>
+    {
+      const link = $(element).attr('href')?.trim();
+
+      return {
+        title: $(element).find('.title').text().trim(),
+        version: $(element).text().match(/((\d\.?)+)/)?.at(1)?.trim(),
+        meta: {
+          url: HttpClient.toAbsoluteUrl(link)
+        },
+        image: $(element).find('.background').attr('style')?.match(/url\(["'](.*?)["']/)?.at(1)?.trim(),
+        commentCount: Number($(element).find('.text.comments').text() ?? 0),
+        time_ago: $(element).find('.text .time_ago .value').text()?.trim(),
+      };
+    });
   }
 
   public async getLatest(): Promise<RSIPatchNote | undefined>

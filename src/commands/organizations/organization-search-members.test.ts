@@ -45,7 +45,7 @@ describe('Organizations', () =>
 
       expect(members[5].display).toBe('Force');
       expect(members[5].handle).toBe('ForceProductions');
-      expect(members[5].url).toBe('https://robertsspaceindustries.com/citizens/ForceProductions');
+      expect(members[5].meta.url).toBe('https://robertsspaceindustries.com/citizens/ForceProductions');
       expect(members[5].image).toBe('https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg');
       expect(members[5].roles).toStrictEqual([]);
       expect(members[5].rank).toBe('Cadet');
@@ -71,7 +71,7 @@ describe('Organizations', () =>
 
       expect(members[0].display).toBe('Montoya');
       expect(members[0].handle).toBe('Montoya');
-      expect(members[0].url).toBe('https://robertsspaceindustries.com/citizens/Montoya');
+      expect(members[0].meta.url).toBe('https://robertsspaceindustries.com/citizens/Montoya');
       expect(members[0].image).toBe('https://robertsspaceindustries.com/media/s40k5rnvzl32ur/avatar/Forumavatar.png');
       expect(members[0].roles).toStrictEqual(['Founder', 'Officer', 'Recruitment', 'Ministry of Truth &amp;amp; Love']);
       expect(members[0].rank).toBe('Admiral');
@@ -79,7 +79,7 @@ describe('Organizations', () =>
 
       expect(members[1].display).toBe('Citizen 404');
       expect(members[1].handle).toBe('Citizen404');
-      expect(members[1].url).toBe('https://robertsspaceindustries.com/citizens/Citizen404');
+      expect(members[1].meta.url).toBe('https://robertsspaceindustries.com/citizens/Citizen404');
       expect(members[1].image).toBe('https://robertsspaceindustries.com/media/n0ntbnjkgja12r/avatar/Citizen_Yellow.png');
       expect(members[1].roles).toStrictEqual(['Founder', 'Officer', 'Recruitment', 'Ministry of Truth &amp;amp; Love']);
       expect(members[1].rank).toBe('Admiral');

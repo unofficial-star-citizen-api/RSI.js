@@ -1,3 +1,5 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 /**
  * Represents the detailed information of an organization
  */
@@ -5,7 +7,7 @@ export interface RSIOrganization
 {
   // Basic identification
   sid: string;
-  url: string;
+  meta: RSIResourceMeta;
   name: string | undefined;
 
   // Visual elements

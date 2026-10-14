@@ -46,6 +46,17 @@ const shipInfo = async () => {
 - `ProgressTrackers`: Retrieve progress tracker information
 - `Starmaps`: Retrieve starmap data
 
+## Resource metadata
+
+Parsed resource results expose a `meta` property (the exported `RSIResourceMeta` interface) for data about the resource itself, such as its public RSI page URL. More metadata can be added to this shared interface over time.
+
+```typescript
+const profile = await rsi.users.getProfile('example_handle');
+console.log(profile?.meta.url);
+```
+
+This is a breaking result-shape change: resource URLs previously exposed as top-level `url`, `href`, or `link` are now exposed as `meta.url`. Other fields, such as a user's `website`, are unchanged. This applies to parsed library results; raw upstream response fields retain their source shape.
+
 ## Rotating Proxy Service
 
 This project includes a Docker-based rotating proxy service that can help prevent IP blocking when making frequent requests to the RSI website.

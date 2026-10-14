@@ -208,8 +208,7 @@ describe('User', () =>
 
       // Assertions for full profile extraction
       expect(data).not.toBeNull();
-      expect(data?.page.url).toEqual('https://robertsspaceindustries.com/citizens/Dymerz');
-      expect(data?.page.title).toContain('[ΩP] Dymerz | Dymerz - Protectorat (EU/QC/974/PC) | PROTECTORA (Membre)');
+      expect(data?.meta.url).toEqual('https://robertsspaceindustries.com/citizens/Dymerz');
       expect(data?.id).toEqual('#1461338');
       expect(data?.display).toEqual('[ΩP] Dymerz');
       expect(data?.handle).toEqual('Dymerz');

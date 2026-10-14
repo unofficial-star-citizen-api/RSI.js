@@ -44,7 +44,7 @@ describe('PatchNote', () =>
       expect(patchNotes[0]).toMatchObject({
         title: 'Star Citizen Alpha 4.0.2',
         version: '4.0.2',
-        link: '/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402',
+        meta: { url: 'https://robertsspaceindustries.com/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402' },
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
         commentCount: 0,
         time_ago: '1 week ago'
@@ -53,7 +53,7 @@ describe('PatchNote', () =>
       expect(patchNotes[1]).toMatchObject({
         title: 'Star Citizen Alpha 4.0.1',
         version: '4.0.1',
-        link: '/comm-link/Patch-Notes/20418-Star-Citizen-Alpha-401',
+        meta: { url: 'https://robertsspaceindustries.com/comm-link/Patch-Notes/20418-Star-Citizen-Alpha-401' },
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
         commentCount: 0,
         time_ago: '2 months ago'
@@ -67,7 +67,7 @@ describe('PatchNote', () =>
       expect(latestPatchNote).toMatchObject({
         title: 'Star Citizen Alpha 4.0.2',
         version: '4.0.2',
-        link: '/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402',
+        meta: { url: 'https://robertsspaceindustries.com/comm-link/Patch-Notes/20445-Star-Citizen-Alpha-402' },
         image: expect.stringContaining('3kba4ptbh57t3/channel_item_full.jpg'),
         commentCount: 0,
         time_ago: '1 week ago'

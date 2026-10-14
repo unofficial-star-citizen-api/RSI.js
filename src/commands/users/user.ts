@@ -51,9 +51,8 @@ export class Users
     const hasBadge = $('.info').first().find('p').last().find('.value').text().trim().length > 0;
 
     return {
-      page: {
-        url,
-        title: $('title').text().trim()
+      meta: {
+        url
       },
       id: $('.label:contains("UEE Citizen Record")').next().text().trim(),
       display: $('.info').first().find('p').first().find('.value').text().trim(),
@@ -98,7 +97,9 @@ export class Users
     const mainOrg = $('.org.main');
     const organization: RSIMainOrganization = {
       info: {
-        url: HttpClient.toAbsoluteUrl($(mainOrg).find('.info .entry').first().find('a').attr('href')),
+        meta: {
+          url: HttpClient.toAbsoluteUrl($(mainOrg).find('.info .entry').first().find('a').attr('href'))
+        },
         sid: $(mainOrg).find('.label:contains("SID")').next().text().trim(),
         name: $(mainOrg).find('.info .entry').first().text().trim(),
         rank: $(mainOrg).find('.label:contains("rank")').next().text().trim(),

@@ -1,3 +1,5 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 export interface RSIShipSearch
 {
   readonly id: number;
@@ -26,7 +28,7 @@ export interface RSIShipSearch
   readonly description: null | string;
   readonly focus: string;
   readonly name: string;
-  readonly url: string;
+  readonly meta: RSIResourceMeta;
   readonly manufacturer: RSIShipManufacturer;
   readonly media: RSIShipMedia[];
   readonly 'time_modified.unfiltered': string;

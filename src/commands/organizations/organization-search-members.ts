@@ -51,7 +51,9 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
       users.push({
         handle,
         display: $(memberElement).find('.name').text().trim(),
-        url: HttpClient.toAbsoluteUrl($(memberElement).find('a').attr('href')?.trim()),
+        meta: {
+          url: HttpClient.toAbsoluteUrl($(memberElement).find('a').attr('href')?.trim())
+        },
         image: HttpClient.toAbsoluteUrl($(memberElement).find('img').attr('src')?.trim()),
         roles: $(memberElement).find('.rolelist li').map((_, role) => $(role).text()).get(),
         rank: $(memberElement).find('.rank').text(),

@@ -42,7 +42,9 @@ export function search(httpClient: HttpClient): ReturnFunction
         sid: $(orgElement).find('.symbol').text().trim(),
         name: $(orgElement).find('.name').text().trim(),
         icon: HttpClient.toAbsoluteUrl($(orgElement).find('.thumb img').attr('src')),
-        href: HttpClient.toAbsoluteUrl($(orgElement).find('a').attr('href')),
+        meta: {
+          url: HttpClient.toAbsoluteUrl($(orgElement).find('a').attr('href'))
+        },
         characteristics: {
           archetype: $(orgElement).find('.label:contains("Archetype")').next().text().trim() as RSIOrganizationCharacteristicsArchetype,
           commitment: $(orgElement).find('.label:contains("Commitment")').next().text().trim() as RSIOrganizationCharacteristicsCommitment,

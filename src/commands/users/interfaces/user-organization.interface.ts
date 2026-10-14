@@ -1,3 +1,5 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 export interface RSIUserOrganization
 {
   organization: RSIMainOrganization;
@@ -12,7 +14,7 @@ export interface RSIMainOrganization
 
 export interface RSIMainOrganizationInfo
 {
-  url: string | undefined;
+  meta: RSIResourceMeta;
   sid: string | undefined;
   name: string | undefined;
   rank: string | undefined;

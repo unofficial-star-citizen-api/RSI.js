@@ -41,7 +41,7 @@ describe('Organization', () =>
       expect(results[0].sid).toBe('ITCL');
       expect(results[0].name).toBe('Inter-Tide Coalition');
       expect(results[0].icon).toBe('https://robertsspaceindustries.com/media/q6tmp9xcwu4esr/avatar/ITCL-Logo.png');
-      expect(results[0].href).toBe('https://robertsspaceindustries.com/orgs/ITCL');
+      expect(results[0].meta.url).toBe('https://robertsspaceindustries.com/orgs/ITCL');
       expect(results[0].characteristics.archetype).toBe('Syndicate');
       expect(results[0].characteristics.commitment).toBe('Hardcore');
       expect(results[0].characteristics.isRecruiting).toBe(true);

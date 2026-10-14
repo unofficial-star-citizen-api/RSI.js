@@ -36,7 +36,7 @@ describe('Organization with HttpClientMock', () =>
       expect(data).not.toBeNull();
       expect(data?.sid).toBe('TEST');
       expect(data?.name).toBe('TEST Squadron - Best Squardon!');
-      expect(data?.url).toBe('https://robertsspaceindustries.com/orgs/TEST');
+      expect(data?.meta.url).toBe('https://robertsspaceindustries.com/orgs/TEST');
       expect(data?.logo).toBe('https://robertsspaceindustries.com/media/ihh8ge4y6eqfir/logo/TEST-Logo.png');
       expect(data?.banner).toBe('https://robertsspaceindustries.com/media/p1603c268qhkfr/banner/TEST-Banner.png');
       expect(data?.membersCount).toBe(23431);

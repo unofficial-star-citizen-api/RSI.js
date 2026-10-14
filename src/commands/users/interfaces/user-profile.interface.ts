@@ -1,6 +1,8 @@
+import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+
 export interface RSIUserProfile
 {
-  page: RSIUserProfilePage;
+  meta: RSIResourceMeta;
   id: string | undefined;
   display: string | undefined;
   handle: string | undefined;
@@ -11,12 +13,6 @@ export interface RSIUserProfile
   fluency: string[];
   website: string | undefined;
   bio: RSIUserProfileBio;
-}
-
-export interface RSIUserProfilePage
-{
-  url: string | undefined;
-  title: string | undefined;
 }
 
 export interface RSIUserProfileBadge

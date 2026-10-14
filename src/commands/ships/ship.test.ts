@@ -75,6 +75,7 @@ describe('Ships', () =>
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
       expect(data[0].name).toBe('Cutlass Black');
+      expect(data[0].meta.url).toBe('https://robertsspaceindustries.com/pledge/ships/cutlass/Cutlass-Black');
       expect(data[0].price).toBe(95);
     });
 

@@ -3,6 +3,11 @@ import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
 import { RSIShipSearch, RSIShipSearchParams } from './interfaces';
 
+type RSIShipSearchDto = Omit<RSIShipSearch, 'meta' | 'price'> & {
+  readonly url: string;
+  price?: number;
+};
+
 /**
  * Ship class for retrieving Star Citizen ship data
  */
@@ -137,7 +142,7 @@ export class Ships
 
     for (const result of shipResults.filter(Boolean))
     {
-      const [respShip, reqPage] = result as [RSIShipSearch, { data: string; }];
+      const [respShip, reqPage] = result as [RSIShipSearchDto, { data: string; }];
 
       const pageContent = load(reqPage.data);
 
@@ -155,7 +160,7 @@ export class Ships
       });
 
       respShip.price = price;
-      ships.push(respShip);
+      ships.push(this.toShipSearch(respShip));
     }
 
     if (resp.data.rowcount !== 0 && typeof page === 'number' && page < (typeof page_max === 'number' ? page_max : 1))
@@ -176,7 +181,7 @@ export class Ships
    * @param shipId - The ship ID
    * @returns Ship data and page response
    */
-  private async getShipAsync(shipId: string): Promise<[RSIShipSearch, { data: string; }] | null>
+  private async getShipAsync(shipId: string): Promise<[RSIShipSearchDto, { data: string; }] | null>
   {
     const respShip = await this.getShipById(shipId);
     if (!respShip)
@@ -189,7 +194,13 @@ export class Ships
       throw new Error(`Ship with ID ${shipId} does not have a valid URL for further details.`);
     }
 
-    const reqPage = await this.httpClient.get<string>(HttpClient.host + respShip.url);
+    const pageUrl = HttpClient.toAbsoluteUrl(respShip.url);
+    if (!pageUrl)
+    {
+      throw new Error(`Ship with ID ${shipId} does not have a valid URL for further details.`);
+    }
+
+    const reqPage = await this.httpClient.get<string>(pageUrl);
 
     if (reqPage === null || reqPage.status !== 200)
     {
@@ -205,7 +216,7 @@ export class Ships
    * @param getPrice - If the price needs to be retrieved
    * @returns The ship data
    */
-  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<RSIShipSearch | null>
+  private async getShipById(shipId?: string, getPrice: boolean = false): Promise<RSIShipSearchDto | null>
   {
     const parameters: Record<string, string> = {};
     if (shipId !== undefined)
@@ -215,7 +226,7 @@ export class Ships
 
     const request = await this.httpClient.post<{
       success: number;
-      data?: RSIShipSearch[];
+      data?: RSIShipSearchDto[];
     }>(this.urlShipsId, parameters);
 
     if (request === null)
@@ -238,13 +249,13 @@ export class Ships
       throw new Error(`Ship with ID ${shipId} not found or no data available.`);
     }
 
-    const res: RSIShipSearch | RSIShipSearch[] = shipId === undefined ? respShip.data : respShip.data[0];
+    const res: RSIShipSearchDto | RSIShipSearchDto[] = shipId === undefined ? respShip.data : respShip.data[0];
 
     if (getPrice)
     {
-      const ships = Array.isArray(res) ? res : [res];
+      const shipsToPrice = Array.isArray(res) ? res : [res];
 
-      for (const s of ships)
+      for (const s of shipsToPrice)
       {
         if (s.url)
         {
@@ -275,5 +286,21 @@ export class Ships
 
     // Convert array result to single ship when needed
     return Array.isArray(res) ? (shipId === undefined ? null : res[0]) : res;
+  }
+
+  private toShipSearch(ship: RSIShipSearchDto): RSIShipSearch
+  {
+    const {
+      url,
+      price,
+      ...data
+    } = ship;
+    return {
+      ...data,
+      meta: {
+        url: HttpClient.toAbsoluteUrl(url)
+      },
+      price: price ?? 0
+    };
   }
 }
