@@ -46,7 +46,7 @@ describe('Progress Tracker', () =>
         )
       } as any);
 
-      const data = await progressTracker.getTeamsInRange();
+      const data = await progressTracker.getTeams();
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
@@ -67,7 +67,7 @@ describe('Progress Tracker', () =>
         )
       } as any);
 
-      await progressTracker.getTeamsInRange();
+      await progressTracker.getTeams();
 
       expect(spy).toHaveBeenCalledWith(
         GRAPHQL_URL,
@@ -82,7 +82,7 @@ describe('Progress Tracker', () =>
         data: { data: null }
       } as any);
 
-      await expect(progressTracker.getTeamsInRange()).rejects.toThrow();
+      await expect(progressTracker.getTeams()).rejects.toThrow();
     });
 
     test('should throw on non-200 response', async () =>
@@ -92,7 +92,7 @@ describe('Progress Tracker', () =>
         data: null
       } as any);
 
-      await expect(progressTracker.getTeamsInRange()).rejects.toThrow();
+      await expect(progressTracker.getTeams()).rejects.toThrow();
     });
 
     test('should accept custom date range', async () =>
@@ -107,7 +107,7 @@ describe('Progress Tracker', () =>
         )
       } as any);
 
-      await progressTracker.getTeamsInRange('2023-01-01', '2023-12-31');
+      await progressTracker.getTeams('2023-01-01', '2023-12-31');
 
       expect(spy).toHaveBeenCalledWith(
         GRAPHQL_URL,
@@ -143,7 +143,7 @@ describe('Progress Tracker', () =>
         .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
         .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
 
-      const data = await progressTracker.getTeamDeliverableInfo('g42qg07ipfday');
+      const data = await progressTracker.getDeliverables('g42qg07ipfday');
 
       expect(data).not.toBeNull();
       expect(data).toHaveLength(1);
@@ -160,7 +160,7 @@ describe('Progress Tracker', () =>
         data: { data: null }
       } as any);
 
-      await expect(progressTracker.getTeamDeliverableInfo('g42qg07ipfday')).rejects.toThrow();
+      await expect(progressTracker.getDeliverables('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should throw on non-200 response', async () =>
@@ -170,7 +170,7 @@ describe('Progress Tracker', () =>
         data: null
       } as any);
 
-      await expect(progressTracker.getTeamDeliverableInfo('g42qg07ipfday')).rejects.toThrow();
+      await expect(progressTracker.getDeliverables('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should call GraphQL with deliverables operationName', async () =>
@@ -179,7 +179,7 @@ describe('Progress Tracker', () =>
         .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
         .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
 
-      await progressTracker.getTeamDeliverableInfo('g42qg07ipfday');
+      await progressTracker.getDeliverables('g42qg07ipfday');
 
       expect(spy).toHaveBeenCalledWith(
         GRAPHQL_URL,

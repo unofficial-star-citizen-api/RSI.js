@@ -4,16 +4,17 @@ import { ProgressTrackerTeam } from './progress-tracker-team';
 
 export class ProgressTrackers
 {
-  public readonly getTeamsInRange: ProgressTrackerTeam['getTeamsInRange'];
-  public readonly getTeamDeliverableInfo: ProgressTrackerDeliverable['getTeamDeliverableInfo'];
-
+  public readonly getTeams: ProgressTrackerTeam['getTeams'];
+  public readonly getTeamBySlug: ProgressTrackerTeam['getTeamBySlug'];
+  public readonly getDeliverables: ProgressTrackerDeliverable['getDeliverables'];
 
   constructor(httpClient: HttpClient)
   {
     const team = new ProgressTrackerTeam(httpClient);
-    this.getTeamsInRange = team.getTeamsInRange.bind(team);
+    this.getTeams = team.getTeams.bind(team);
+    this.getTeamBySlug = team.getTeamBySlug.bind(team);
 
     const deliverable = new ProgressTrackerDeliverable(httpClient);
-    this.getTeamDeliverableInfo = deliverable.getTeamDeliverableInfo.bind(deliverable);
+    this.getDeliverables = deliverable.getDeliverables.bind(deliverable);
   }
 }

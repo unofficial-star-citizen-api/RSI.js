@@ -21,9 +21,29 @@ export class ProgressTrackerTeam
   }
 
   /**
-   * Get teams from the progress tracker
+   * Get all teams from the progress tracker within the specified date range
+   * @param dateMin - The roadmap start date
+   * @param dateMax - The roadmap end date
+   * @returns A list of progress tracker teams within the specified date range
    */
-  public async getTeamsInRange(dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerTeam[]>
+  public async getTeams(dateMin = '2020-01-01', dateMax?: string): Promise<RSIProgressTrackerTeam[]>
+  {
+    // if dateMax is not provided, set it to the current date + 2 years
+    dateMax ??= new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0];
+
+    return this.fetchTeams(dateMin, dateMax);
+  }
+
+  /**
+   * Get a team from the progress tracker by slug
+   */
+  public async getTeamBySlug(teamSlug: string): Promise<RSIProgressTrackerTeam | undefined>
+  {
+    const teams = await this.fetchTeams('2020-01-01', '2022-12-31', teamSlug);
+    return teams.find(team => team.slug === teamSlug);
+  }
+
+  private async fetchTeams(dateMin: string, dateMax: string, teamSlug?: string): Promise<RSIProgressTrackerTeam[]>
   {
     const data = {
       operationName: 'teams',
@@ -89,6 +109,7 @@ export class ProgressTrackerTeam
       variables: {
         startDate: dateMin,
         endDate: dateMax,
+        ...(teamSlug === undefined ? {} : { teamSlug }),
         offset: this.offset,
         limit: this.limit
       }
