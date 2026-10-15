@@ -2,30 +2,31 @@
 export interface RSIProgressTrackerDeliverableResponse
 {
   data?: {
-    progressTracker: {
-      deliverables: {
+    progressTracker?: {
+      deliverables?: {
+        totalCount: number;
         metaData: RSIProgressTrackerDeliverable[];
+        __typename: 'AggregatedDeliverables';
       };
+      __typename: 'ProgressTracker';
     };
   };
-}
-
-/** @internal */
-export interface RSIProgressTrackerDeliverableDisciplinesResponse
-{
-  data?: {
-    progressTracker: {
-      disciplines: RSIProgressTrackerDeliverableDiscipline[];
+  errors?: {
+    message: string;
+    locations: [
+      {
+        line: number;
+        column: number;
+      }
+    ];
+    path: string[];
+    extensions: {
+      details: Record<string, unknown>;
     };
-  };
-}
-
-export interface RSIProgressTrackerDeliverableTimeAllocation
-{
-  startDate: string;
-  endDate: string;
-  uuid: string;
-  partialTime: boolean;
+    code: string;
+    kind: string;
+    category: string;
+  }[];
 }
 
 export interface RSIProgressTrackerDeliverableCard
@@ -37,19 +38,23 @@ export interface RSIProgressTrackerDeliverableCard
   release: {
     id: number;
     title: string;
-  };
+    __typename: 'Release';
+  } | null;
   board: {
     id: number;
     title: string;
-  };
+    __typename: 'Board';
+  } | null;
   updateDate: string;
   thumbnail: string;
+  __typename: 'Card';
 }
 
 export interface RSIProgressTrackerDeliverableProject
 {
   title: string;
   logo: string;
+  __typename: 'Project';
 }
 
 export interface RSIProgressTrackerDeliverable
@@ -63,17 +68,8 @@ export interface RSIProgressTrackerDeliverable
   numberOfDisciplines: number;
   numberOfTeams: number;
   updateDate: string;
-  totalCount: number;
-  card: RSIProgressTrackerDeliverableCard;
+  totalCount: number | null;
+  card: RSIProgressTrackerDeliverableCard | null;
   projects: RSIProgressTrackerDeliverableProject[];
-  disciplines?: RSIProgressTrackerDeliverableDiscipline;
-}
-
-export interface RSIProgressTrackerDeliverableDiscipline
-{
-  title: string;
-  color: string;
-  uuid: string;
-  numberOfMembers: number;
-  timeAllocations: RSIProgressTrackerDeliverableTimeAllocation[];
+  __typename: 'Deliverable';
 }

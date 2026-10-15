@@ -1,125 +1,163 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string"
+    },
+    "uuid": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string"
+    },
+    "endDate": {
+      "type": "string"
+    },
+    "numberOfDisciplines": {
+      "type": "integer"
+    },
+    "numberOfTeams": {
+      "type": "integer"
+    },
+    "updateDate": {
+      "type": "string"
+    },
+    "totalCount": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "card": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "release": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
             "__typename": {
-                "type": "string"
+              "type": "string"
             },
-            "description": {
-                "type": "string"
-            },
-            "disciplines": {
-                "type": "object",
-                "properties": {
-                    "__typename": {
-                        "type": "string"
-                    },
-                    "color": {
-                        "type": "string"
-                    },
-                    "numberOfMembers": {
-                        "type": "integer"
-                    },
-                    "timeAllocations": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "__typename": {
-                                    "type": "string"
-                                },
-                                "endDate": {
-                                    "type": "string"
-                                },
-                                "partialTime": {
-                                    "type": "boolean"
-                                },
-                                "startDate": {
-                                    "type": "string"
-                                },
-                                "uuid": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "__typename",
-                                "endDate",
-                                "partialTime",
-                                "startDate",
-                                "uuid"
-                            ]
-                        }
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "uuid": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "__typename",
-                    "color",
-                    "numberOfMembers",
-                    "timeAllocations",
-                    "title",
-                    "uuid"
-                ]
-            },
-            "endDate": {
-                "type": "string"
-            },
-            "numberOfDisciplines": {
-                "type": "integer"
-            },
-            "projects": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "__typename": {
-                            "type": "string"
-                        },
-                        "logo": {
-                            "type": "string"
-                        },
-                        "title": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "__typename",
-                        "logo",
-                        "title"
-                    ]
-                }
-            },
-            "slug": {
-                "type": "string"
-            },
-            "startDate": {
-                "type": "string"
+            "id": {
+              "type": "integer"
             },
             "title": {
-                "type": "string"
-            },
-            "uuid": {
-                "type": "string"
+              "type": "string"
             }
+          },
+          "required": [
+            "__typename",
+            "id",
+            "title"
+          ]
+        },
+        "board": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "__typename": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "__typename",
+            "id",
+            "title"
+          ]
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "__typename",
+        "id",
+        "title",
+        "description",
+        "category",
+        "release",
+        "board",
+        "updateDate",
+        "thumbnail"
+      ]
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          }
         },
         "required": [
-            "__typename",
-            "description",
-            "disciplines",
-            "endDate",
-            "numberOfDisciplines",
-            "projects",
-            "slug",
-            "startDate",
-            "title",
-            "uuid"
+          "__typename",
+          "title",
+          "logo"
         ]
+      }
     }
+  },
+  "required": [
+    "__typename",
+    "uuid",
+    "slug",
+    "title",
+    "description",
+    "startDate",
+    "endDate",
+    "numberOfDisciplines",
+    "numberOfTeams",
+    "updateDate",
+    "totalCount",
+    "card",
+    "projects"
+  ]
 }

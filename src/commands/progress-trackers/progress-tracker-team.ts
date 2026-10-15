@@ -8,12 +8,10 @@ export class ProgressTrackerTeam
 {
   private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly limit: number = 20;
-  private readonly offset: number = 0;
   private readonly httpClient: HttpClient;
 
   /**
-   * @param dateMin - The roadmap start date
-   * @param dateMax - The roadmap end date
+   * @param httpClient - The HTTP client instance to use for API requests
    */
   constructor(httpClient: HttpClient)
   {
@@ -22,33 +20,30 @@ export class ProgressTrackerTeam
 
   /**
    * Get all teams from the progress tracker within the specified date range
-   * @param dateMin - The roadmap start date
-   * @param dateMax - The roadmap end date
    * @returns A list of progress tracker teams within the specified date range
    */
-  public async getTeams(dateMin = '2020-01-01', dateMax?: string): Promise<RSIProgressTrackerTeam[]>
+  public async getTeams(): Promise<RSIProgressTrackerTeam[]>
   {
-    // if dateMax is not provided, set it to the current date + 2 years
-    dateMax ??= new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0];
-
-    return this.fetchTeams(dateMin, dateMax);
+    return this.fetchTeams();
   }
 
   /**
    * Get a team from the progress tracker by slug
+   * @param teamSlug - The slug identifier of the team to retrieve
+   * @returns A promise that resolves to the progress tracker team with the specified slug, or undefined if not found
    */
   public async getTeamBySlug(teamSlug: string): Promise<RSIProgressTrackerTeam | undefined>
   {
-    const teams = await this.fetchTeams('2020-01-01', '2022-12-31', teamSlug);
+    const teams = await this.fetchTeams(teamSlug);
     return teams.find(team => team.slug === teamSlug);
   }
 
-  private async fetchTeams(dateMin: string, dateMax: string, teamSlug?: string): Promise<RSIProgressTrackerTeam[]>
+  private async fetchTeams(teamSlug?: string): Promise<RSIProgressTrackerTeam[]>
   {
+    const dateMax = new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0];
     const data = {
       operationName: 'teams',
-      query: `query
-        teams(
+      query: `query teams(
           $startDate: String!,
           $endDate: String!,
           $search: String,
@@ -107,34 +102,60 @@ export class ProgressTrackerTeam
         }
       `,
       variables: {
-        startDate: dateMin,
+        startDate: '2020-01-01',
         endDate: dateMax,
         ...(teamSlug === undefined ? {} : { teamSlug }),
-        offset: this.offset,
+        offset: 0,
         limit: this.limit
       }
     };
 
-    const req = await this.httpClient.post<RSIProgressTrackerTeamResponse>(this.urlProgressTracker, data);
-
-    if (req === null || req.status !== 200)
+    const teams: RSIProgressTrackerTeam[] = [];
+    let offset = 0;
+    let totalCount: number;
+    do
     {
-      throw new Error(`Failed to retrieve progress tracker teams. Status code: ${req?.status}`);
-    }
+      const response = await this.httpClient.post<RSIProgressTrackerTeamResponse>(
+        this.urlProgressTracker,
+        { ...data, variables: { ...data.variables, offset } }
+      );
 
-    try
-    {
-      const resp = req.data;
-      if (!resp.data)
+      if (response === null || response.status !== 200)
       {
-        throw new Error('Failed to retrieve progress tracker teams. API returned no data.');
+        throw new Error(`Failed to retrieve progress tracker teams. Status code: ${response?.status}`);
       }
 
-      return resp.data.progressTracker.teams.metaData;
-    } catch (e)
-    {
-      console.error(e);
-      throw e instanceof Error ? e : new Error(`Unexpected error: ${e}`);
-    }
+      try
+      {
+        const responseData = response.data;
+        if (!responseData.data)
+        {
+          throw new Error('Failed to retrieve progress tracker teams. API returned no data.');
+        }
+
+        if ('errors' in responseData.data)
+        {
+          console.error(responseData.data.errors);
+          throw new Error(`Progress tracker teams data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
+        }
+
+        if (!responseData.data.progressTracker || !responseData.data.progressTracker.teams)
+        {
+          throw new Error('Progress tracker teams data retrieval failed: API returned no teams.');
+        }
+
+        const page = responseData.data.progressTracker.teams;
+        teams.push(...page.metaData);
+        totalCount = page.totalCount;
+      } catch (e)
+      {
+        console.error(e);
+        throw e instanceof Error ? e : new Error(`Unexpected error: ${e}`);
+      }
+
+      offset += this.limit;
+    } while (offset < totalCount);
+
+    return teams;
   }
 }

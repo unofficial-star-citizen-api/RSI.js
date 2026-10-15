@@ -1,11 +1,5 @@
 import { HttpClient } from '@/http-client';
-import
-{
-  RSIProgressTrackerDeliverable,
-  RSIProgressTrackerDeliverableDiscipline,
-  RSIProgressTrackerDeliverableDisciplinesResponse,
-  RSIProgressTrackerDeliverableResponse
-} from './interfaces';
+import { RSIProgressTrackerDeliverable, RSIProgressTrackerDeliverableResponse } from './interfaces';
 
 /**
  * ProgressTrackerInfo class for retrieving detailed Star Citizen progress tracker information
@@ -13,6 +7,7 @@ import
 export class ProgressTrackerDeliverable
 {
   private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
+  private readonly limit: number = 20;
   private readonly httpClient: HttpClient;
 
   /**
@@ -26,39 +21,33 @@ export class ProgressTrackerDeliverable
   }
 
   /**
-   * Execute the command to retrieve detailed progress tracker information
+   * @returns A promise that resolves to an array of RSIProgressTrackerDeliverable objects within the specified date range
    */
-  public async getDeliverables(teamSlug: string, dateMin: string = '2020-01-01', dateMax: string = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
+  public async getDeliverables(): Promise<RSIProgressTrackerDeliverable[]>
   {
-    const deliverables = await this.fetchDeliverables(teamSlug, dateMin, dateMax);
-    if (deliverables === null)
-    {
-      throw new Error(`Failed to retrieve deliverables for team ${teamSlug}`);
-    }
+    return this.fetchDeliverables();
+  }
 
-    const disciplinesSlugs: string[] = deliverables.map(deliv => deliv.slug);
-    const disciplines = await this.getDisciplines(teamSlug, disciplinesSlugs, dateMin, dateMax);
-
-    if (disciplines)
-    {
-      for (let i = 0; i < deliverables.length; i++)
-      {
-        deliverables[i].disciplines = disciplines[i];
-      }
-    }
-
-    return deliverables;
+  /**
+   * Get deliverables filtered by team slug
+   * @param teamSlug - The slug identifier of the team to filter deliverables by
+   * @returns A promise that resolves to an array of RSIProgressTrackerDeliverable objects filtered by the specified team slug
+   */
+  public async getDeliverablesByTeamSlug(teamSlug: string): Promise<RSIProgressTrackerDeliverable | undefined>
+  {
+    const deliverables = await this.fetchDeliverables(teamSlug);
+    return deliverables.find(deliverable => deliverable.slug === teamSlug);
   }
 
   /**
    * Get deliverables from the progress tracker
    */
-  private async fetchDeliverables(teamSlug: string, dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverable[] | null>
+  private async fetchDeliverables(teamSlug?: string): Promise<RSIProgressTrackerDeliverable[]>
   {
+    const dateMax = new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0];
     const data = {
       operationName: 'deliverables',
-      query: `query
-        deliverables(
+      query: `query deliverables(
           $startDate: String!,
           $endDate: String!,
           $search: String,
@@ -88,12 +77,17 @@ export class ProgressTrackerDeliverable
                 ...Deliverable
                 card {
                   ...Card
+                  __typename
                 }
                 projects {
                   ...Project
+                  __typename
                 }
+                __typename
               }
+              __typename
             }
+            __typename
           }
         }
         fragment Deliverable on Deliverable {
@@ -107,6 +101,7 @@ export class ProgressTrackerDeliverable
           numberOfTeams
           updateDate
           totalCount
+          __typename
         }
         fragment Card on Card {
           id
@@ -116,90 +111,79 @@ export class ProgressTrackerDeliverable
           release {
             id
             title
+            __typename
           }
           board {
             id
             title
+            __typename
           }
           updateDate
           thumbnail
+          __typename
         }
         fragment Project on Project {
           title
           logo
+          __typename
         }
       `,
       variables: {
-        teamSlug,
-        startDate: dateMin,
+        ...(teamSlug ? { teamSlug } : {}),
+        startDate: '2020-01-01',
         endDate: dateMax,
+        offset: 0,
+        limit: this.limit
       }
     };
 
-    const req = await this.httpClient.post<RSIProgressTrackerDeliverableResponse>(this.urlProgressTracker, data);
+    const deliverables: RSIProgressTrackerDeliverable[] = [];
+    let offset = 0;
+    let totalCount: number;
 
-    if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
-
-    const resp = req.data;
-    if (!resp.data)
-      throw new Error(`Deliverables data retrieval failed with data: ${resp.data}`);
-
-    return resp.data.progressTracker.deliverables.metaData;
-  }
-
-  /**
-   * Get disciplines from the progress tracker
-   */
-  private async getDisciplines(teamSlug: string, deliverySlugs: string[], dateMin = '2020-01-01', dateMax = '2022-12-31'): Promise<RSIProgressTrackerDeliverableDiscipline[] | null>
-  {
-    // Since we need to handle multiple queries, we'll use a different approach
-    const results: RSIProgressTrackerDeliverableDiscipline[] = [];
-
-    for (const delSlug of deliverySlugs)
+    do
     {
-      const data = {
-        operationName: 'disciplines',
-        query: `query
-          disciplines($teamSlug: String! $deliverableSlug: String! $startDate: String! $endDate: String! ) {
-            progressTracker {
-              disciplines(teamSlug: $teamSlug deliverableSlug: $deliverableSlug startDate: $startDate endDate: $endDate ) {
-                ...Discipline
-                timeAllocations {
-                  ...TimeAllocation
-                }
-              }
-            }
-          }
-          fragment Discipline on Discipline {
-            title
-            color
-            uuid
-            numberOfMembers
-          }
-          fragment TimeAllocation on TimeAllocation {
-            startDate
-            endDate
-            uuid
-            partialTime
-          }
-        `,
-        variables: {
-          teamSlug,
-          deliverableSlug: delSlug,
-          startDate: dateMin,
-          endDate: dateMax,
-        }
-      };
+      const response = await this.httpClient.post<RSIProgressTrackerDeliverableResponse>(
+        this.urlProgressTracker,
+        { ...data, variables: { ...data.variables, offset } }
+      );
 
-      const req = await this.httpClient.post<RSIProgressTrackerDeliverableDisciplinesResponse>(this.urlProgressTracker, data);
-
-      if (req && req.status === 200 && req.data.data)
+      if (response === null || response.status !== 200)
       {
-        results.push(req.data.data.progressTracker.disciplines[0]);
+        throw new Error(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
       }
-    }
 
-    return results.length > 0 ? results : null;
+      try
+      {
+        const responseData = response.data;
+        if (!responseData.data)
+        {
+          throw new Error('Deliverables data retrieval failed: API returned no data.');
+        }
+
+        if ('errors' in responseData.data)
+        {
+          console.error(responseData.data.errors);
+          throw new Error(`Deliverables data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
+        }
+
+        if (!responseData.data.progressTracker || !responseData.data.progressTracker.deliverables)
+        {
+          throw new Error('Deliverables data retrieval failed: API returned no deliverables.');
+        }
+
+        const page = responseData.data.progressTracker.deliverables.metaData;
+        deliverables.push(...page);
+        totalCount = responseData.data.progressTracker.deliverables.totalCount;
+      }
+      catch (e)
+      {
+        console.error(e);
+        throw e instanceof Error ? e : new Error(`Unexpected error: ${e}`);
+      }
+      offset += this.limit;
+    } while (offset < totalCount);
+
+    return deliverables;
   }
 }

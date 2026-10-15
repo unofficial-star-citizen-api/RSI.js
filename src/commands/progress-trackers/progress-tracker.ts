@@ -7,6 +7,7 @@ export class ProgressTrackers
   public readonly getTeams: ProgressTrackerTeam['getTeams'];
   public readonly getTeamBySlug: ProgressTrackerTeam['getTeamBySlug'];
   public readonly getDeliverables: ProgressTrackerDeliverable['getDeliverables'];
+  public readonly getDeliverablesByTeamSlug: ProgressTrackerDeliverable['getDeliverablesByTeamSlug'];
 
   constructor(httpClient: HttpClient)
   {
@@ -16,5 +17,6 @@ export class ProgressTrackers
 
     const deliverable = new ProgressTrackerDeliverable(httpClient);
     this.getDeliverables = deliverable.getDeliverables.bind(deliverable);
+    this.getDeliverablesByTeamSlug = deliverable.getDeliverablesByTeamSlug.bind(deliverable);
   }
 }

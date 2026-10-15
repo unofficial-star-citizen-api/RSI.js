@@ -95,28 +95,37 @@ describe('Progress Tracker', () =>
       await expect(progressTracker.getTeams()).rejects.toThrow();
     });
 
-    test('should accept custom date range', async () =>
+    test('should fetch every offset and return all teams together', async () =>
     {
-      const spy = vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200,
-        data: JSON.parse(
-          fs.readFileSync(
-            path.join(__dirname, 'mocks/progress-tracker-teams.json'),
-            'utf8'
-          )
+      const firstPage = JSON.parse(
+        fs.readFileSync(
+          path.join(__dirname, 'mocks/progress-tracker-teams.json'),
+          'utf8'
         )
-      } as any);
+      );
+      firstPage.data.progressTracker.teams.totalCount = 21;
+      const secondPage = structuredClone(firstPage);
+      secondPage.data.progressTracker.teams.metaData[0].slug = 'second-team';
+      secondPage.data.progressTracker.teams.metaData[0].title = 'Second Team';
 
-      await progressTracker.getTeams('2023-01-01', '2023-12-31');
+      const spy = vi.spyOn(httpClient, 'post')
+        .mockResolvedValueOnce({ status: 200, data: firstPage } as any)
+        .mockResolvedValueOnce({ status: 200, data: secondPage } as any);
 
-      expect(spy).toHaveBeenCalledWith(
+      const teams = await progressTracker.getTeams();
+
+      expect(teams).toHaveLength(2);
+      expect(teams.map(team => team.slug)).toEqual(['g42qg07ipfday', 'second-team']);
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenNthCalledWith(
+        1,
         GRAPHQL_URL,
-        expect.objectContaining({
-          variables: expect.objectContaining({
-            startDate: '2023-01-01',
-            endDate: '2023-12-31'
-          })
-        })
+        expect.objectContaining({ variables: expect.objectContaining({ offset: 0, limit: 20 }) })
+      );
+      expect(spy).toHaveBeenNthCalledWith(
+        2,
+        GRAPHQL_URL,
+        expect.objectContaining({ variables: expect.objectContaining({ offset: 20, limit: 20 }) })
       );
     });
   });
@@ -130,26 +139,18 @@ describe('Progress Tracker', () =>
       )
     );
 
-    const disciplinesData = JSON.parse(
-      fs.readFileSync(
-        path.join(__dirname, 'mocks/progress-tracker-disciplines.json'),
-        'utf8'
-      )
-    );
-
-    test('should return deliverables with discipline info', async () =>
+    test('should return deliverables from the new response shape', async () =>
     {
-      vi.spyOn(httpClient, 'post')
-        .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
-        .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
+      const spy = vi.spyOn(httpClient, 'post')
+        .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any);
 
-      const data = await progressTracker.getDeliverables('g42qg07ipfday');
+      const data = await progressTracker.getDeliverablesByTeamSlug('core-tech-improvements');
 
-      expect(data).not.toBeNull();
-      expect(data).toHaveLength(1);
-      expect(data![0].slug).toBe('core-tech-improvements');
-      expect(data![0].disciplines).toBeDefined();
-      expect(data![0].disciplines!.title).toBe('Art');
+      expect(data).toBeDefined();
+      expect(data!.slug).toBe('core-tech-improvements');
+      expect(data!.card?.release?.title).toBe('4.0');
+      expect(data!.projects[0].title).toBe('Star Citizen');
+      expect(spy).toHaveBeenCalledTimes(1);
       assertValidSchema(data, progressTrackerInfoSchema);
     });
 
@@ -160,7 +161,7 @@ describe('Progress Tracker', () =>
         data: { data: null }
       } as any);
 
-      await expect(progressTracker.getDeliverables('g42qg07ipfday')).rejects.toThrow();
+      await expect(progressTracker.getDeliverablesByTeamSlug('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should throw on non-200 response', async () =>
@@ -170,16 +171,15 @@ describe('Progress Tracker', () =>
         data: null
       } as any);
 
-      await expect(progressTracker.getDeliverables('g42qg07ipfday')).rejects.toThrow();
+      await expect(progressTracker.getDeliverablesByTeamSlug('g42qg07ipfday')).rejects.toThrow();
     });
 
     test('should call GraphQL with deliverables operationName', async () =>
     {
       const spy = vi.spyOn(httpClient, 'post')
-        .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any)
-        .mockResolvedValueOnce({ status: 200, data: disciplinesData } as any);
+        .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any);
 
-      await progressTracker.getDeliverables('g42qg07ipfday');
+      await progressTracker.getDeliverablesByTeamSlug('g42qg07ipfday');
 
       expect(spy).toHaveBeenCalledWith(
         GRAPHQL_URL,
