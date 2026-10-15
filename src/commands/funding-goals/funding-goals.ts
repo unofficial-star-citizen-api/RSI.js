@@ -20,11 +20,11 @@ export class FundingGoals
   }
 
   /**
-   * Get all Crow stats
-   * @param chart - Chart type
-   * @returns Associative array of stats
+   * Get crowdfunding stats
+   * @param chart - Chart type, e.g., 'hour', 'day', 'week', 'month'
+   * @returns Crowdfunding stats
    */
-  public async getCrowStats(chart: RSIFundingGoalsTimePeriod): Promise<RSIFundingGoals>
+  public async getCrowdfundingStats(chart: RSIFundingGoalsTimePeriod): Promise<RSIFundingGoals>
   {
     const data = {
       alpha_slots: true,

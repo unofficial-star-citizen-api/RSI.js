@@ -50,7 +50,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    const data = await fundingGoals.getCrowStats('hour');
+    const data = await fundingGoals.getCrowdfundingStats('hour');
 
     expect(data).not.toBeNull();
     expect(data.fans).toBe(5000000);
@@ -65,7 +65,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    await fundingGoals.getCrowStats('day');
+    await fundingGoals.getCrowdfundingStats('day');
 
     expect(spy).toHaveBeenCalledWith(
       STATS_URL,
@@ -82,7 +82,7 @@ describe('Stats (FundingGoals)', () =>
         data: MOCK_STATS_RESPONSE
       } as any);
 
-      const data = await fundingGoals.getCrowStats(chart);
+      const data = await fundingGoals.getCrowdfundingStats(chart);
       expect(data).not.toBeNull();
     }
   );
@@ -94,7 +94,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    await fundingGoals.getCrowStats('hour');
+    await fundingGoals.getCrowdfundingStats('hour');
 
     expect(spy).toHaveBeenCalledWith(
       STATS_URL,
@@ -114,7 +114,7 @@ describe('Stats (FundingGoals)', () =>
       data: null
     } as any);
 
-    await expect(fundingGoals.getCrowStats('hour')).rejects.toThrow(
+    await expect(fundingGoals.getCrowdfundingStats('hour')).rejects.toThrow(
       'HTTP request failed while retrieving stats data, status code: 500'
     );
   });
