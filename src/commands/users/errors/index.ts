@@ -7,4 +7,9 @@ export class RSIUserNotFoundError extends RSIError
     super(`User not found: ${handle}`);
     this.name = 'RSIUserNotFoundError';
   }
+
+  getStatus(): number
+  {
+    return 404;
+  }
 }

@@ -5,4 +5,9 @@ export class RSIError extends Error
     super(message);
     this.name = 'RSIError';
   }
+
+  getStatus(): number
+  {
+    return 500;
+  }
 }

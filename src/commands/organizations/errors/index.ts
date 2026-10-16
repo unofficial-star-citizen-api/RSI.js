@@ -7,4 +7,9 @@ export class RSIOrganizationNotFoundError extends RSIError
     super(`Organization not found: ${sid}`);
     this.name = 'RSIOrganizationNotFoundError';
   }
+
+  getStatus(): number
+  {
+    return 404;
+  }
 }
