@@ -5,7 +5,7 @@ export interface RSIProgressTrackerTeamResponse
     progressTracker?: {
       teams?: {
         totalCount: number;
-        metaData: RSIProgressTrackerTeam[];
+        metaData: RSIProgressTrackerTeamResponseItem[];
         __typename: string;
       };
       __typename: string;
@@ -29,10 +29,23 @@ export interface RSIProgressTrackerTeamResponse
   }[];
 }
 
-export interface RSIProgressTrackerTeamAllocation
+interface RSIProgressTrackerTeamResponseItem extends Omit<RSIProgressTrackerTeam, 'startDate' | 'endDate' | 'timeAllocations'>
 {
   startDate: string;
   endDate: string;
+  timeAllocations: RSIProgressTrackerTeamAllocationResponseItem[] | null;
+}
+
+interface RSIProgressTrackerTeamAllocationResponseItem extends Omit<RSIProgressTrackerTeamAllocation, 'startDate' | 'endDate'>
+{
+  startDate: string;
+  endDate: string;
+}
+
+export interface RSIProgressTrackerTeamAllocation
+{
+  startDate: Date;
+  endDate: Date;
   uuid: string;
   partialTime: boolean;
   __typename: string;
@@ -44,8 +57,8 @@ export interface RSIProgressTrackerTeam
   description: string;
   uuid: string;
   abbreviation: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   numberOfDeliverables: number;
   slug: string;
   timeAllocations: RSIProgressTrackerTeamAllocation[] | null;

@@ -32,12 +32,11 @@ export class ProgressTrackerDeliverable
   /**
    * Get deliverables filtered by team slug
    * @param teamSlug - The slug identifier of the team to filter deliverables by
-   * @returns A promise that resolves to an array of RSIProgressTrackerDeliverable objects filtered by the specified team slug
+   * @returns A promise that resolves to the deliverables associated with the specified team slug
    */
-  public async getDeliverablesByTeamSlug(teamSlug: string): Promise<RSIProgressTrackerDeliverable | undefined>
+  public async getDeliverablesByTeamSlug(teamSlug: string): Promise<RSIProgressTrackerDeliverable[]>
   {
-    const deliverables = await this.fetchDeliverables(teamSlug);
-    return deliverables.find(deliverable => deliverable.slug === teamSlug);
+    return this.fetchDeliverables(teamSlug);
   }
 
   /**
@@ -174,7 +173,11 @@ export class ProgressTrackerDeliverable
         }
 
         const page = responseData.data.progressTracker.deliverables.metaData;
-        deliverables.push(...page);
+        deliverables.push(...page.map(deliverable => ({
+          ...deliverable,
+          startDate: new Date(deliverable.startDate),
+          endDate: new Date(deliverable.endDate)
+        })));
         totalCount = responseData.data.progressTracker.deliverables.totalCount;
       }
       catch (e)

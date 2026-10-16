@@ -5,7 +5,7 @@ export interface RSIProgressTrackerDeliverableResponse
     progressTracker?: {
       deliverables?: {
         totalCount: number;
-        metaData: RSIProgressTrackerDeliverable[];
+        metaData: RSIProgressTrackerDeliverableResponseItem[];
         __typename: string;
       };
       __typename: string;
@@ -27,6 +27,12 @@ export interface RSIProgressTrackerDeliverableResponse
     kind: string;
     category: string;
   }[];
+}
+
+interface RSIProgressTrackerDeliverableResponseItem extends Omit<RSIProgressTrackerDeliverable, 'startDate' | 'endDate'>
+{
+  startDate: string;
+  endDate: string;
 }
 
 export interface RSIProgressTrackerDeliverableCard
@@ -63,8 +69,8 @@ export interface RSIProgressTrackerDeliverable
   slug: string;
   title: string;
   description: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   numberOfDisciplines: number;
   numberOfTeams: number;
   updateDate: string;

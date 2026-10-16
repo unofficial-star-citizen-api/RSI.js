@@ -52,7 +52,11 @@ describe('Progress Tracker', () =>
       expect(data).toHaveLength(1);
       expect(data![0].slug).toBe('g42qg07ipfday');
       expect(data![0].title).toBe('Game Code (Persistent Universe)');
-      assertValidSchema(data, progressTrackerSchema);
+      expect(data![0].startDate).toBeInstanceOf(Date);
+      expect(data![0].endDate).toBeInstanceOf(Date);
+      expect(data![0].timeAllocations?.[0].startDate).toBeInstanceOf(Date);
+      expect(data![0].timeAllocations?.[0].endDate).toBeInstanceOf(Date);
+      assertValidSchema(JSON.parse(JSON.stringify(data)), progressTrackerSchema);
     });
 
     test('should call the GraphQL endpoint', async () =>
@@ -139,19 +143,41 @@ describe('Progress Tracker', () =>
       )
     );
 
-    test('should return deliverables from the new response shape', async () =>
+    test('should return all deliverables from the team-filtered response', async () =>
     {
+      const response = structuredClone(deliverablesData);
+      response.data.progressTracker.deliverables.totalCount = 2;
+      response.data.progressTracker.deliverables.metaData.push({
+        ...structuredClone(response.data.progressTracker.deliverables.metaData[0]),
+        uuid: 'deliverable-uuid-002',
+        slug: 'another-deliverable'
+      });
+
       const spy = vi.spyOn(httpClient, 'post')
-        .mockResolvedValueOnce({ status: 200, data: deliverablesData } as any);
+        .mockResolvedValueOnce({ status: 200, data: response } as any);
 
-      const data = await progressTracker.getDeliverablesByTeamSlug('core-tech-improvements');
+      const data = await progressTracker.getDeliverablesByTeamSlug('team-slug');
 
-      expect(data).toBeDefined();
-      expect(data!.slug).toBe('core-tech-improvements');
-      expect(data!.card?.release?.title).toBe('4.0');
-      expect(data!.projects[0].title).toBe('Star Citizen');
+      expect(data).toHaveLength(2);
+      expect(data.map(deliverable => deliverable.slug)).toEqual([
+        'core-tech-improvements',
+        'another-deliverable'
+      ]);
+      expect(data[0].card?.release?.title).toBe('4.0');
+      expect(data[0].projects[0].title).toBe('Star Citizen');
+      expect(data[0].startDate).toBeInstanceOf(Date);
+      expect(data[0].startDate.toISOString()).toBe('2021-01-04T00:00:00.000Z');
+      expect(data[0].endDate).toBeInstanceOf(Date);
+      expect(data[0].endDate.toISOString()).toBe('2021-06-30T00:00:00.000Z');
       expect(spy).toHaveBeenCalledTimes(1);
-      assertValidSchema(data, progressTrackerInfoSchema);
+      expect(spy).toHaveBeenCalledWith(
+        GRAPHQL_URL,
+        expect.objectContaining({ variables: expect.objectContaining({ teamSlug: 'team-slug' }) })
+      );
+      data.forEach(deliverable => assertValidSchema(
+        JSON.parse(JSON.stringify(deliverable)),
+        progressTrackerInfoSchema
+      ));
     });
 
     test('should throw on API failure for deliverables', async () =>

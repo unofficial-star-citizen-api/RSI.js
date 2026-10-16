@@ -146,7 +146,16 @@ export class ProgressTrackerTeam
         }
 
         const page = responseData.data.progressTracker.teams;
-        teams.push(...page.metaData);
+        teams.push(...page.metaData.map(team => ({
+          ...team,
+          startDate: new Date(team.startDate),
+          endDate: new Date(team.endDate),
+          timeAllocations: team.timeAllocations?.map(allocation => ({
+            ...allocation,
+            startDate: new Date(allocation.startDate),
+            endDate: new Date(allocation.endDate)
+          })) ?? null
+        })));
         totalCount = page.totalCount;
       } catch (e)
       {
