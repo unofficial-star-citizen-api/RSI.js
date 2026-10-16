@@ -1,6 +1,8 @@
 import { HttpHelper } from '@/helpers/http.helper';
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { CheerioAPI, load } from 'cheerio';
+import { RSIUserNotFoundError } from './errors';
 import
 {
   RSIAffiliationOrganization,
@@ -39,10 +41,10 @@ export class Users
     // Request website
     const response = await this.httpClient.get<string>(url);
     if (response.status === 404)
-      throw new Error(`User profile not found for handle: "${userHandle}"`);
+      throw new RSIUserNotFoundError(userHandle);
 
     if (response.status !== 200)
-      throw new Error(`Failed to retrieve user profile data from ${url}`);
+      throw new RSIError(`Failed to retrieve user profile data from ${url}`);
 
     // Get HTML contents
     const $ = load(response.data);
@@ -86,10 +88,10 @@ export class Users
     // Request website
     const response = await this.httpClient.get<string>(url);
     if (response.status === 404)
-      throw new Error(`User organization not found for handle: "${userHandle}"`);
+      throw new RSIUserNotFoundError(userHandle);
 
     if (response.status !== 200)
-      throw new Error(`Failed to retrieve user organization data from ${url}`);
+      throw new RSIError(`Failed to retrieve user organization data from ${url}`);
 
     // Get HTML contents
     const $ = load(response.data);

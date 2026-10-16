@@ -2,7 +2,7 @@
 export interface RSIOrganizationResponse
 {
   readonly success: number;
-  readonly code: string;
+  readonly code: string | 'ErrInvalidOrganization';
   readonly msg: string;
   readonly data: RSIOrganizationResponseData;
 }

@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { StarMapHelper } from './helpers/starmap.helper';
 import { RSIStarMapObjectAffiliation } from './interfaces';
 
@@ -18,7 +19,7 @@ export class StarmapAffiliations
   {
     const affiliations = await StarMapHelper.getStarmapData(this.httpClient, 'affiliations');
     if (affiliations === null)
-      throw new Error('Failed to retrieve starmap affiliations data');
+      throw new RSIError('Failed to retrieve starmap affiliations data');
 
     if (name === undefined)
     {

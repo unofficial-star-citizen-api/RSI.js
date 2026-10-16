@@ -9,6 +9,7 @@ import
   vi
 } from 'vitest';
 import { HttpClient } from '../../http-client';
+import { RSIUserNotFoundError } from './errors';
 import { Users } from './user';
 
 describe('User', () =>
@@ -57,7 +58,7 @@ describe('User', () =>
         data: '<html><body>Not found</body></html>'
       } as any);
 
-      await expect(user.getProfile('NonExistentUser')).rejects.toThrowError(`User profile not found for handle: "NonExistentUser"`);
+      await expect(user.getProfile('NonExistentUser')).rejects.toThrow(RSIUserNotFoundError);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();
@@ -326,7 +327,7 @@ describe('User', () =>
         data: '<html><body>Not found</body></html>'
       } as any);
 
-      await expect(user.getOrganization('NonExistentUser')).rejects.toThrowError(`User organization not found for handle: "NonExistentUser"`);
+      await expect(user.getOrganization('NonExistentUser')).rejects.toThrow(RSIUserNotFoundError);
 
       expect(spy).toHaveBeenCalledTimes(1);
       spy.mockRestore();

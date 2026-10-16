@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { RSIStarMapStarSystem } from './interfaces/star-system.interface';
 
 /**
@@ -18,11 +19,11 @@ export class StarmapStarSystems
   {
     const req = await this.httpClient.post<RSIStarMapStarSystem>(this.urlStarSystem.replace('{0}', code));
     if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`);
+      throw new RSIError(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`);
 
     const resp = req.data;
     if (resp.success !== 1 || !resp.data)
-      throw new Error(`Star system data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
+      throw new RSIError(`Star system data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return resp.data.resultset.at(0) ?? null;
   }

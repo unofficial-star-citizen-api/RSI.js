@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { RSIStarmapRouteShipSize } from './interfaces';
 import { RSIStarmapRoute } from './interfaces/route.interface';
 
@@ -29,13 +30,13 @@ export class StarmapRoute
     }>(this.urlFind, data);
 
     if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve starmap route data from ${this.urlFind}`);
+      throw new RSIError(`Failed to retrieve starmap route data from ${this.urlFind}`);
 
     const resp = req.data;
 
     // Check response
     if (resp.success !== 1 || !resp.data)
-      throw new Error(`Starmap route data retrieval failed with success: ${resp.success}, data: ${resp.data}`);
+      throw new RSIError(`Starmap route data retrieval failed with success: ${resp.success}, data: ${resp.data}`);
 
     return {
       shortest: resp.data.shortest,

@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import
 {
   RSIStarMapSearch,
@@ -24,13 +25,13 @@ export class StarmapSearch
 
     const req = await this.httpClient.post<RSIStarMapSearchResult>(this.urlFind, data);
     if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve starmap search data from ${this.urlFind}`);
+      throw new RSIError(`Failed to retrieve starmap search data from ${this.urlFind}`);
 
     const resp = req.data;
 
     // Check response
     if (resp.success !== 1 || !resp.data)
-      throw new Error(`Starmap search data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
+      throw new RSIError(`Starmap search data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return {
       systems: resp.data.systems.resultset,

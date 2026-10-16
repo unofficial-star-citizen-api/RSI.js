@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import
 {
   RSITelemetry, RSITelemetryResponse, RSITelemetryTimetable, RSITelemetryVersion
@@ -38,7 +39,7 @@ export class Telemetries
     const response = await this.httpClient.get<RSITelemetryResponse>(`${this.urlTelemetry}?${params}`);
 
     if (response.status !== 200)
-      throw new Error(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);
+      throw new RSIError(`HTTP request failed while retrieving telemetry data, status code: ${response.status}`);
 
     return response.data.data ?? null;
   }

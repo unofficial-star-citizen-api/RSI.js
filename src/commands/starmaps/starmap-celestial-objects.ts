@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { RSIStarmapCelestialObject } from './interfaces/celestial-object.interface';
 
 /**
@@ -18,11 +19,11 @@ export class StarmapCelestialObjects
   {
     const req = await this.httpClient.post<RSIStarmapCelestialObject>(this.urlCelestial.replace('{0}', ''));
     if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`);
+      throw new RSIError(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`);
 
     const resp = req.data;
     if (resp.success !== 1 || !resp.data)
-      throw new Error(`Celestial objects data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
+      throw new RSIError(`Celestial objects data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
     return resp.data.resultset;
   }
@@ -35,13 +36,13 @@ export class StarmapCelestialObjects
     }>(this.urlCelestial.replace('{0}', objectCode));
 
     if (req === null || req.status !== 200)
-      throw new Error(`Failed to retrieve celestial object data from ${this.urlCelestial.replace('{0}', objectCode)}`);
+      throw new RSIError(`Failed to retrieve celestial object data from ${this.urlCelestial.replace('{0}', objectCode)}`);
 
     const resp = req.data;
 
     // Check response
     if (resp.success !== 1 || !resp.data)
-      throw new Error(`Celestial object data retrieval failed with success: ${resp.success}, data: ${resp.data}`);
+      throw new RSIError(`Celestial object data retrieval failed with success: ${resp.success}, data: ${resp.data}`);
 
     return resp.data.resultset;
   }

@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import
 {
   RSIRoadmap,
@@ -45,13 +46,13 @@ export class Roadmaps
 
     if (request === null || request.status !== 200)
     {
-      throw new Error(`Failed to retrieve roadmap data for board: ${board}`);
+      throw new RSIError(`Failed to retrieve roadmap data for board: ${board}`);
     }
 
     const response = request.data;
     if (response.success !== 1 || !response.data || !response.data.releases)
     {
-      throw new Error(`Invalid response from roadmap API for board: ${board}`);
+      throw new RSIError(`Invalid response from roadmap API for board: ${board}`);
     }
 
     return response.data;

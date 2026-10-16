@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { load } from 'cheerio';
 import
 {
@@ -25,12 +26,12 @@ export function search(httpClient: HttpClient): ReturnFunction
     const response = await httpClient.post<RSIOrganizationResponse>(urlGetOrgs, params);
     if (response.status !== 200)
     {
-      throw new Error(`HTTP request failed while retrieving organization data, status code: ${response.status}`);
+      throw new RSIError(`HTTP request failed while retrieving organization data, status code: ${response.status}`);
     }
 
     if (response.data.success !== 1)
     {
-      throw new Error(`Failed to retrieve organization: ${response.data.msg}`);
+      throw new RSIError(`Failed to retrieve organization: ${response.data.msg}`);
     }
 
     const $ = load(response.data.data.html);

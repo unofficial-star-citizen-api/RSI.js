@@ -1,5 +1,6 @@
 // External modules
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import
 {
   RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion
@@ -29,7 +30,7 @@ export class Spectrum
 
     const response = await this.httpClient.post<RSISpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
     if (response.data.success != 1)
-      throw new Error(`Query failed from RSI (${response.data.msg})`);
+      throw new RSIError(`Query failed from RSI (${response.data.msg})`);
 
     const threads = response.data.data.threads;
 

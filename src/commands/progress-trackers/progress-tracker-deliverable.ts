@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { RSIProgressTrackerDeliverable, RSIProgressTrackerDeliverableResponse } from './interfaces';
 
 /**
@@ -150,7 +151,7 @@ export class ProgressTrackerDeliverable
 
       if (response === null || response.status !== 200)
       {
-        throw new Error(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
+        throw new RSIError(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
       }
 
       try
@@ -158,18 +159,18 @@ export class ProgressTrackerDeliverable
         const responseData = response.data;
         if (!responseData.data)
         {
-          throw new Error('Deliverables data retrieval failed: API returned no data.');
+          throw new RSIError('Deliverables data retrieval failed: API returned no data.');
         }
 
         if ('errors' in responseData.data)
         {
           console.error(responseData.data.errors);
-          throw new Error(`Deliverables data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
+          throw new RSIError(`Deliverables data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
         }
 
         if (!responseData.data.progressTracker || !responseData.data.progressTracker.deliverables)
         {
-          throw new Error('Deliverables data retrieval failed: API returned no deliverables.');
+          throw new RSIError('Deliverables data retrieval failed: API returned no deliverables.');
         }
 
         const page = responseData.data.progressTracker.deliverables.metaData;
@@ -179,7 +180,7 @@ export class ProgressTrackerDeliverable
       catch (e)
       {
         console.error(e);
-        throw e instanceof Error ? e : new Error(`Unexpected error: ${e}`);
+        throw e instanceof RSIError ? e : new RSIError(e instanceof Error ? e.message : `Unexpected error: ${e}`);
       }
       offset += this.limit;
     } while (offset < totalCount);

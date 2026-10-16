@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
 import { RSIShipSearch, RSIShipSearchParams } from './interfaces';
@@ -103,15 +104,15 @@ export class Ships
 
     if (req === null)
     {
-      throw new Error('Failed to retrieve ship data. Request returned null.');
+      throw new RSIError('Failed to retrieve ship data. Request returned null.');
     }
     else if (req.status === 404)
     {
-      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
+      throw new RSIError(`Failed to retrieve ship data. Status code: ${req.status}`);
     }
     else if (req.status !== 200)
     {
-      throw new Error(`Failed to retrieve ship data. Status code: ${req.status}`);
+      throw new RSIError(`Failed to retrieve ship data. Status code: ${req.status}`);
     }
 
     const resp = req.data;
@@ -119,7 +120,7 @@ export class Ships
     // Get html contents
     if (resp.success !== 1)
     {
-      throw new Error('Failed to retrieve ship data. Response indicates failure.');
+      throw new RSIError('Failed to retrieve ship data. Response indicates failure.');
     }
 
     const ships: RSIShipSearch[] = [];
@@ -186,25 +187,25 @@ export class Ships
     const respShip = await this.getShipById(shipId);
     if (!respShip)
     {
-      throw new Error(`Ship with ID ${shipId} not found or no data available.`);
+      throw new RSIError(`Ship with ID ${shipId} not found or no data available.`);
     }
 
     if (!respShip.url)
     {
-      throw new Error(`Ship with ID ${shipId} does not have a valid URL for further details.`);
+      throw new RSIError(`Ship with ID ${shipId} does not have a valid URL for further details.`);
     }
 
     const pageUrl = HttpClient.toAbsoluteUrl(respShip.url);
     if (!pageUrl)
     {
-      throw new Error(`Ship with ID ${shipId} does not have a valid URL for further details.`);
+      throw new RSIError(`Ship with ID ${shipId} does not have a valid URL for further details.`);
     }
 
     const reqPage = await this.httpClient.get<string>(pageUrl);
 
     if (reqPage === null || reqPage.status !== 200)
     {
-      throw new Error(`Failed to retrieve ship page for ID ${shipId}. Status code: ${reqPage?.status}`);
+      throw new RSIError(`Failed to retrieve ship page for ID ${shipId}. Status code: ${reqPage?.status}`);
     }
 
     return [respShip, reqPage];
@@ -231,22 +232,22 @@ export class Ships
 
     if (request === null)
     {
-      throw new Error('Failed to retrieve ship data. Request returned null.');
+      throw new RSIError('Failed to retrieve ship data. Request returned null.');
     }
     else if (request.status === 404)
     {
-      throw new Error(`Ship with ID ${shipId} not found.`);
+      throw new RSIError(`Ship with ID ${shipId} not found.`);
     }
     else if (request.status !== 200)
     {
-      throw new Error(`Failed to retrieve ship data. Status code: ${request.status}`);
+      throw new RSIError(`Failed to retrieve ship data. Status code: ${request.status}`);
     }
 
     const respShip = request.data;
 
     if (respShip.success !== 1 || !respShip.data || respShip.data.length === 0)
     {
-      throw new Error(`Ship with ID ${shipId} not found or no data available.`);
+      throw new RSIError(`Ship with ID ${shipId} not found or no data available.`);
     }
 
     const res: RSIShipSearchDto | RSIShipSearchDto[] = shipId === undefined ? respShip.data : respShip.data[0];

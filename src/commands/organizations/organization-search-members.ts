@@ -1,5 +1,7 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { load } from 'cheerio';
+import { RSIOrganizationNotFoundError } from './errors';
 import { OrganizationMembersSearchParams, RSIOrganizationMember } from './interfaces/organization-members.interface';
 import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
@@ -22,14 +24,22 @@ export function searchMembers(httpClient: HttpClient): ReturnFunction
     };
 
     const response = await httpClient.post<RSIOrganizationResponse>(urlOrganizationMembers, payload);
+    if (response.status === 404)
+    {
+      throw new RSIOrganizationNotFoundError(params.sid);
+    }
+
     if (response.status !== 200)
     {
-      throw new Error(`HTTP request failed while retrieving organization members data, status code: ${response.status}`);
+      throw new RSIError(`HTTP request failed while retrieving organization members data, status code: ${response.status}`);
     }
 
     if (response.data.success !== 1)
     {
-      throw new Error(`Failed to retrieve organization members: ${response.data.msg}`);
+      if (response.data.code === 'ErrInvalidOrganization')
+        throw new RSIOrganizationNotFoundError(params.sid);
+
+      throw new RSIError(`Failed to retrieve organization members: ${response.data.msg}`);
     }
 
     // Get HTML contents

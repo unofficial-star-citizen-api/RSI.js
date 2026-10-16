@@ -1,5 +1,6 @@
 
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap.interface';
 
 export class Roadmap
@@ -21,10 +22,10 @@ export class Roadmap
   {
     const response = await this.httpClient.get<RSIVersionRoadmapResponse>(this.url);
     if (response.status !== 200)
-      throw new Error(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`);
+      throw new RSIError(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`);
 
     if (response.data.success !== 1)
-      throw new Error(`Query failed from RSI (${response.data.msg})`);
+      throw new RSIError(`Query failed from RSI (${response.data.msg})`);
 
     const description = response.data.data.boards
       .filter(board => board.id == 1)[0].description; // id '1' is for Star Citizen board

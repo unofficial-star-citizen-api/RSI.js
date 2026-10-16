@@ -1,6 +1,8 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import { AxiosError } from 'axios';
 import { load } from 'cheerio';
+import { RSIOrganizationNotFoundError } from './errors';
 import { RSIOrganization } from './interfaces';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganization>;
@@ -29,15 +31,18 @@ export function get(httpClient: HttpClient): ReturnFunction
     const response = await httpClient.get<string>(url).catch(handleError);
     if (!response)
     {
-      throw new Error(`Failed to get response for organization ${sid}`);
+      throw new RSIError(`Failed to get response for organization ${sid}`);
     }
+
+    if (response.status === 404)
+      throw new RSIOrganizationNotFoundError(sid);
 
     // Get HTML contents
     const $ = load(response.data);
     const heading = $('.heading');
     const content = $('.content-wrapper > .content');
     if (heading.length === 0)
-      throw new Error(`Failed to find organization heading for ${sid}`);
+      throw new RSIError(`Failed to find organization heading for ${sid}`);
 
     const symbol = heading.find('.symbol').text().trim();
 

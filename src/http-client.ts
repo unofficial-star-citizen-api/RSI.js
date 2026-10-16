@@ -1,6 +1,7 @@
 import axios, {
   AxiosInstance, AxiosRequestConfig, AxiosResponse
 } from 'axios';
+import { RSIError } from './errors';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
@@ -183,7 +184,7 @@ export class HttpClient
     instance.interceptors.response.use((response) =>
     {
       if (response.data == null)
-        throw new Error('HTTP request failed, no data received');
+        throw new RSIError('HTTP request failed, no data received');
 
       return response;
     });

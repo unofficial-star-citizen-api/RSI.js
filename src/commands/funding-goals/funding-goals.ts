@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { RSIError } from '@/errors';
 import
 {
   RSIFundingGoals, RSIFundingGoalsResponse, RSIFundingGoalsTimePeriod
@@ -37,10 +38,10 @@ export class FundingGoals
     const response = await this.httpClient.post<RSIFundingGoalsResponse>(this.urlCrowStat, data);
 
     if (response.status !== 200)
-      throw new Error(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
+      throw new RSIError(`HTTP request failed while retrieving stats data, status code: ${response.status}`);
 
     if (response.data.success !== 1)
-      throw new Error(`Query failed from RSI (${response.data.msg})`);
+      throw new RSIError(`Query failed from RSI (${response.data.msg})`);
 
     return response.data.data;
   }
