@@ -1,4 +1,6 @@
-export class RSIOrganizationNotFoundError extends Error
+import { RSIError } from '@/errors';
+
+export class RSIOrganizationNotFoundError extends RSIError
 {
   constructor(sid: string)
   {

@@ -1,4 +1,6 @@
-export class RSIUserNotFoundError extends Error
+import { RSIError } from '@/errors';
+
+export class RSIUserNotFoundError extends RSIError
 {
   constructor(handle: string)
   {
