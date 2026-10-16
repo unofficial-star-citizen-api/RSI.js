@@ -6,9 +6,9 @@ export interface RSIProgressTrackerDeliverableResponse
       deliverables?: {
         totalCount: number;
         metaData: RSIProgressTrackerDeliverable[];
-        __typename: 'AggregatedDeliverables';
+        __typename: string;
       };
-      __typename: 'ProgressTracker';
+      __typename: string;
     };
   };
   errors?: {
@@ -38,23 +38,23 @@ export interface RSIProgressTrackerDeliverableCard
   release: {
     id: number;
     title: string;
-    __typename: 'Release';
+    __typename: string;
   } | null;
   board: {
     id: number;
     title: string;
-    __typename: 'Board';
+    __typename: string;
   } | null;
   updateDate: string;
   thumbnail: string;
-  __typename: 'Card';
+  __typename: string;
 }
 
 export interface RSIProgressTrackerDeliverableProject
 {
   title: string;
   logo: string;
-  __typename: 'Project';
+  __typename: string;
 }
 
 export interface RSIProgressTrackerDeliverable
@@ -71,5 +71,5 @@ export interface RSIProgressTrackerDeliverable
   totalCount: number | null;
   card: RSIProgressTrackerDeliverableCard | null;
   projects: RSIProgressTrackerDeliverableProject[];
-  __typename: 'Deliverable';
+  __typename: string;
 }
