@@ -181,7 +181,11 @@ export class ProgressTrackerDeliverable
           card: deliverable.card ? {
             ...deliverable.card,
             updateDate: new Date(deliverable.card.updateDate)
-          } : null
+          } : null,
+          projects: deliverable.projects ? deliverable.projects.map(project => ({
+            ...project,
+            logo: HttpClient.toAbsoluteUrl(project.logo)!
+          })) : []
         })));
         totalCount = responseData.data.progressTracker.deliverables.totalCount;
       }

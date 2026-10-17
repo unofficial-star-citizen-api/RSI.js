@@ -173,6 +173,7 @@ describe('Progress Tracker', () =>
       expect(data[0].updateDate.toISOString()).toBe('2021-06-01T00:00:00.000Z');
       expect(data[0].card?.updateDate).toBeInstanceOf(Date);
       expect(data[0].card?.updateDate.toISOString()).toBe('2021-06-01T00:00:00.000Z');
+      expect(data[0].projects[0].logo).toContain('https://');
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
         GRAPHQL_URL,
