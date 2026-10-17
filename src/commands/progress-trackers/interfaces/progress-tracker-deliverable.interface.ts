@@ -29,10 +29,17 @@ export interface RSIProgressTrackerDeliverableResponse
   }[];
 }
 
-interface RSIProgressTrackerDeliverableResponseItem extends Omit<RSIProgressTrackerDeliverable, 'startDate' | 'endDate'>
+interface RSIProgressTrackerDeliverableResponseItem extends Omit<RSIProgressTrackerDeliverable, 'startDate' | 'endDate' | 'updateDate' | 'card'>
 {
   startDate: string;
   endDate: string;
+  updateDate: string;
+  card: RSIProgressTrackerDeliverableCardResponseItem | null;
+}
+
+interface RSIProgressTrackerDeliverableCardResponseItem extends Omit<RSIProgressTrackerDeliverableCard, 'updateDate'>
+{
+  updateDate: string;
 }
 
 export interface RSIProgressTrackerDeliverableCard
@@ -51,7 +58,7 @@ export interface RSIProgressTrackerDeliverableCard
     title: string;
     __typename: string;
   } | null;
-  updateDate: string;
+  updateDate: Date;
   thumbnail: string;
   __typename: string;
 }
@@ -73,7 +80,7 @@ export interface RSIProgressTrackerDeliverable
   endDate: Date;
   numberOfDisciplines: number;
   numberOfTeams: number;
-  updateDate: string;
+  updateDate: Date;
   totalCount: number | null;
   card: RSIProgressTrackerDeliverableCard | null;
   projects: RSIProgressTrackerDeliverableProject[];

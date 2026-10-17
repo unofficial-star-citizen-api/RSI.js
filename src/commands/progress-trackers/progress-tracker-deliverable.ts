@@ -1,5 +1,5 @@
-import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { HttpClient } from '@/http-client';
 import { RSIProgressTrackerDeliverable, RSIProgressTrackerDeliverableResponse } from './interfaces';
 
 /**
@@ -176,7 +176,12 @@ export class ProgressTrackerDeliverable
         deliverables.push(...page.map(deliverable => ({
           ...deliverable,
           startDate: new Date(deliverable.startDate),
-          endDate: new Date(deliverable.endDate)
+          endDate: new Date(deliverable.endDate),
+          updateDate: new Date(deliverable.updateDate),
+          card: deliverable.card ? {
+            ...deliverable.card,
+            updateDate: new Date(deliverable.card.updateDate)
+          } : null
         })));
         totalCount = responseData.data.progressTracker.deliverables.totalCount;
       }
