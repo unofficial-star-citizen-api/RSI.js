@@ -48,6 +48,12 @@ describe('HttpClient', () =>
       expect(client.config.noProxy).toBe('localhost,127.0.0.1');
     });
 
+    test('should apply timeout config', () =>
+    {
+      const client = new HttpClient({ timeout: 20000 });
+      expect(client.config.timeout).toBe(20000);
+    });
+
     test('should apply multiple config options', () =>
     {
       const client = new HttpClient({

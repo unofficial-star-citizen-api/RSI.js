@@ -1,25 +1,42 @@
 import axios, {
   AxiosInstance, AxiosRequestConfig, AxiosResponse
 } from 'axios';
-import { RSIError } from './errors';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import packageJSON from '../package.json';
+import { RSIError } from './errors';
 
 /**
  * Configuration options for the RSI Scraper
  */
 export interface HttpConfigOptions
 {
-  /** HTTP proxy to use for requests */
+  /**
+   * HTTP proxy to use for requests
+   */
   httpProxy?: string;
-  /** HTTPS proxy to use for requests */
+
+  /**
+   * HTTPS proxy to use for requests
+   */
   httpsProxy?: string;
-  /** User agent string */
-  userAgent?: string;
-  /** No proxy list */
+
+  /**
+   * No proxy list
+   */
   noProxy?: string;
+
+  /**
+   * User agent string
+   */
+  userAgent?: string;
+
+  /**
+   * Request timeout in milliseconds
+   * @default 15000
+   */
+  timeout?: number;
 }
 
 /**
@@ -66,7 +83,7 @@ export class HttpClient
   {
     // Use createConfig to automatically apply environment variable settings
     this.config = this.createConfig(config);
-    this.axiosInstance = this.configureAxios();
+    this.axiosInstance = this.configureAxios(config?.timeout);
   }
 
   /**
@@ -112,7 +129,7 @@ export class HttpClient
   /**
    * Configure axios instance with default settings and proxy
    */
-  private configureAxios(): AxiosInstance
+  private configureAxios(timeout?: number): AxiosInstance
   {
     const version = packageJSON.version ?? 'DEVELOPMENT';
     const userAgent = this.config.userAgent ?? `StarCitizen REST API/${version} (starcitizen-api.com)`;
@@ -124,7 +141,7 @@ export class HttpClient
         'Cache-Control': 'no-cache',
         'Cookie': 'Rsi-Token='
       },
-      timeout: 5000
+      timeout: timeout ?? 15_000
     };
 
     // Create axios instance
@@ -274,6 +291,7 @@ export class HttpClient
       envConfig.httpsProxy = process.env.HTTPS_PROXY;
       envConfig.noProxy = process.env.NO_PROXY;
       envConfig.userAgent = process.env.USER_AGENT;
+      envConfig.timeout = process.env.HTTP_TIMEOUT ? parseInt(process.env.HTTP_TIMEOUT, 10) : undefined;
     }
 
     return envConfig;
