@@ -7,7 +7,8 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from '../../index';
+import { HttpClient, RSI } from '../../index';
+import { Logger } from '../../logger';
 import { Ships } from './ships';
 
 const SEARCH_URL = 'https://robertsspaceindustries.com/api/store/getShips';
@@ -33,6 +34,7 @@ describe('Ships', () =>
 
   beforeEach(() =>
   {
+    Logger.enabled = false;
     httpClient = new HttpClient();
     ships = new Ships(httpClient);
   });
@@ -40,6 +42,7 @@ describe('Ships', () =>
   afterEach(() =>
   {
     vi.restoreAllMocks();
+    Logger.enabled = false;
   });
 
   describe('search', () =>
@@ -47,7 +50,7 @@ describe('Ships', () =>
     test('should log ship search and detail commands when enabled', async () =>
     {
       const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => undefined);
-      httpClient = new HttpClient({ logging: true });
+      httpClient = new RSI({ logging: true }).httpClient;
       ships = new Ships(httpClient);
 
       vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>

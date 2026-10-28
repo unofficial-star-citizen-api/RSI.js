@@ -9,7 +9,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from './index';
+import { HttpClient, RSI } from './index';
 import { Logger } from './logger';
 
 describe('HttpClient', () =>
@@ -17,6 +17,7 @@ describe('HttpClient', () =>
   afterEach(() =>
   {
     vi.restoreAllMocks();
+    Logger.enabled = false;
   });
 
   describe('Configuration', () =>
@@ -132,7 +133,7 @@ describe('HttpClient', () =>
     test('should log HTTP requests and responses when enabled', async () =>
     {
       const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => undefined);
-      const client = new HttpClient({ logging: true, httpProxy: '', httpsProxy: '' });
+      const client = new RSI({ logging: true }).httpClient;
       setAdapter(client, successfulAdapter);
 
       await client.get('https://example.com/api');
@@ -148,20 +149,11 @@ describe('HttpClient', () =>
       });
     });
 
-    test('should apply the logging setting globally', () =>
-    {
-      new HttpClient({ logging: true });
-      expect(Logger.enabled).toBe(true);
-
-      new HttpClient({ logging: false });
-      expect(Logger.enabled).toBe(false);
-    });
-
     test('should log HTTP failures when enabled and preserve the error', async () =>
     {
       vi.spyOn(console, 'info').mockImplementation(() => undefined);
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-      const client = new HttpClient({ logging: true, httpProxy: '', httpsProxy: '' });
+      const client = new RSI({ logging: true }).httpClient;
       const error = new Error('Network error');
       setAdapter(client, async () =>
       {

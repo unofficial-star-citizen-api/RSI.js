@@ -1,5 +1,6 @@
 import
 {
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -19,6 +20,7 @@ import
   Users,
   Versions
 } from '.';
+import { Logger } from './logger';
 
 describe('RSI', () =>
 {
@@ -27,6 +29,11 @@ describe('RSI', () =>
   beforeEach(() =>
   {
     rsi = new RSI();
+  });
+
+  afterEach(() =>
+  {
+    Logger.enabled = false;
   });
 
   describe('Constructor', () =>
@@ -66,8 +73,8 @@ describe('RSI', () =>
 
     test('should apply logging config option', () =>
     {
-      const customRsi = new RSI({ httpConfig: { logging: true } });
-      expect(customRsi.httpClient.config.logging).toBe(true);
+      new RSI({ logging: true });
+      expect(Logger.enabled).toBe(true);
     });
 
     test('should apply multiple config options at once', () =>
