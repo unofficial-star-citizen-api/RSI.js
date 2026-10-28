@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { RSIStarmapCelestialObject } from './interfaces/celestial-object.interface';
 
 /**
@@ -9,6 +10,7 @@ export class StarmapCelestialObjects
 {
   private readonly urlCelestial = 'https://robertsspaceindustries.com/api/starmap/celestial-objects/{0}';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(StarmapCelestialObjects.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -17,6 +19,8 @@ export class StarmapCelestialObjects
 
   async getAll(): Promise<RSIStarmapCelestialObject[] | null>
   {
+    this.logger.info('Fetching starmap celestial objects');
+
     const req = await this.httpClient.post<RSIStarmapCelestialObject>(this.urlCelestial.replace('{0}', ''));
     if (req === null || req.status !== 200)
       throw new RSIError(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`);
@@ -30,6 +34,8 @@ export class StarmapCelestialObjects
 
   async getByCode(objectCode: string): Promise<RSIStarmapCelestialObject | null>
   {
+    this.logger.info('Fetching starmap celestial object', { objectCode });
+
     const req = await this.httpClient.post<{
       success: number;
       data?: { resultset: RSIStarmapCelestialObject; };

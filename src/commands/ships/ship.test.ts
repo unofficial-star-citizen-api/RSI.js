@@ -44,6 +44,41 @@ describe('Ships', () =>
 
   describe('search', () =>
   {
+    test('should log ship search and detail commands when enabled', async () =>
+    {
+      const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => undefined);
+      httpClient = new HttpClient({ logging: true });
+      ships = new Ships(httpClient);
+
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
+      {
+        if (url === SEARCH_URL)
+        {
+          return Promise.resolve({
+            status: 200,
+            data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
+          } as any);
+        }
+        return Promise.resolve({
+          status: 200,
+          data: { success: 1, data: [MOCK_SHIP] }
+        } as any);
+      });
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: '<html><body></body></html>'
+      } as any);
+
+      await ships.search({ name: 'Cutlass Black' });
+
+      expect(infoSpy).toHaveBeenCalledWith('[Ships] Searching ships', {
+        name: 'Cutlass Black',
+        page: undefined,
+        pageMax: undefined
+      });
+      expect(infoSpy).toHaveBeenCalledWith('[Ships] Fetching ship details', { shipId: '56' });
+    });
+
     test('should return ships matching the search query', async () =>
     {
       vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { AxiosError } from 'axios';
 import { load } from 'cheerio';
 import { RSIOrganizationNotFoundError } from './errors';
@@ -21,12 +22,15 @@ export function handleError(error: AxiosError): void
   }
 }
 
-export function get(httpClient: HttpClient): ReturnFunction
+export function get(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
+  const logger = createLogger(loggerName);
 
   return async function (sid: string): Promise<RSIOrganization>
   {
+    logger.info('Fetching organization details', { sid });
+
     const url = urlOrganization.replace('{0}', sid);
     const response = await httpClient.get<string>(url).catch(handleError);
     if (!response)

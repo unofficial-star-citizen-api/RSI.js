@@ -6,6 +6,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import packageJSON from '../package.json';
 import { RSIError } from './errors';
+import { createLogger, Logger } from './logger';
 
 /**
  * Configuration options for the RSI Scraper
@@ -72,17 +73,20 @@ export interface HttpConfigOptions
  * - HTTPS_PROXY/https_proxy: Proxy for HTTPS requests
  * - NO_PROXY/no_proxy: Comma-separated list of domains to bypass proxy
  * - USER_AGENT: Custom user agent string
+ * - LOGGING: Enable HTTP lifecycle and proxy logging (true/false)
  */
 export class HttpClient
 {
   public static readonly host = 'https://robertsspaceindustries.com';
   private readonly axiosInstance: AxiosInstance;
+  private readonly logger: Logger;
   public readonly config: HttpConfigOptions;
 
   constructor(config?: Partial<HttpConfigOptions>)
   {
     // Use createConfig to automatically apply environment variable settings
     this.config = this.createConfig(config);
+    this.logger = createLogger(HttpClient.name);
     this.axiosInstance = this.configureAxios(config?.timeout);
   }
 
@@ -120,7 +124,10 @@ export class HttpClient
     } catch (error)
     {
       // If URL parsing fails, default to using proxy
-      console.warn(`Failed to parse URL for proxy check: ${url}`, error);
+      this.logger.warn(
+        `Failed to parse URL for proxy check: ${url}`,
+        error instanceof Error ? error.message : String(error)
+      );
     }
 
     return true; // Use proxy by default
@@ -154,6 +161,11 @@ export class HttpClient
       {
         return config;
       }
+
+      this.logger.info('HTTP request', {
+        method: config.method?.toUpperCase() ?? 'GET',
+        url: config.url
+      });
 
       // Determine whether to use proxy for this request
       const useProxy = this.shouldUseProxy(config.url);
@@ -190,7 +202,10 @@ export class HttpClient
           }
         } catch (error)
         {
-          console.error('Error creating proxy agent:', error);
+          this.logger.error(
+            'Error creating proxy agent',
+            error instanceof Error ? error.message : String(error)
+          );
         }
       }
 
@@ -200,10 +215,27 @@ export class HttpClient
     // Add a response interceptor to handle errors
     instance.interceptors.response.use((response) =>
     {
+      this.logger.info('HTTP response', {
+        method: response.config.method?.toUpperCase() ?? 'GET',
+        url: response.config.url,
+        status: response.status
+      });
+
       if (response.data == null)
-        throw new RSIError('HTTP request failed, no data received');
+      {
+        const error = new RSIError('HTTP request failed, no data received');
+        this.logger.error(error.message);
+        throw error;
+      }
 
       return response;
+    }, (error: unknown) =>
+    {
+      this.logger.error(
+        'HTTP request failed',
+        error instanceof Error ? error.message : String(error)
+      );
+      return Promise.reject(error);
     });
 
     return instance;

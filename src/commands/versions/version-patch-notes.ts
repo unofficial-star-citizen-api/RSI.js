@@ -1,4 +1,5 @@
 import { HttpClient } from '@/http-client';
+import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { RSIPatchNote } from './interfaces/patch-note.interface';
 
@@ -6,6 +7,7 @@ export class PatchNote
 {
   private readonly url = 'https://robertsspaceindustries.com/patch-notes';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(PatchNote.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -13,6 +15,24 @@ export class PatchNote
   }
 
   public async getAll(): Promise<RSIPatchNote[]>
+  {
+    this.logger.info('Fetching patch notes');
+    return this.fetchAll();
+  }
+
+  public async getLatest(): Promise<RSIPatchNote | undefined>
+  {
+    this.logger.info('Fetching the latest patch note');
+    return (await this.fetchAll()).at(0);
+  }
+
+  public async find(version: string): Promise<RSIPatchNote | undefined>
+  {
+    this.logger.info('Searching patch notes by version', { version });
+    return (await this.fetchAll()).find(patchNote => patchNote.version?.includes(version));
+  }
+
+  private async fetchAll(): Promise<RSIPatchNote[]>
   {
     const response = await this.httpClient.get<string>(this.url);
 
@@ -33,16 +53,5 @@ export class PatchNote
         time_ago: $(element).find('.text .time_ago .value').text()?.trim(),
       };
     });
-  }
-
-  public async getLatest(): Promise<RSIPatchNote | undefined>
-  {
-    return this.getAll()
-      .then(patchNotes => patchNotes.at(0));
-  }
-
-  public async find(version: string): Promise<RSIPatchNote | undefined>
-  {
-    return this.getAll().then(patchNotes => patchNotes.find(patchNote => patchNote.version?.includes(version)));
   }
 }

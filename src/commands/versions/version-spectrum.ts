@@ -1,6 +1,7 @@
 // External modules
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import
 {
   RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion
@@ -13,6 +14,7 @@ export class Spectrum
 
   private readonly regexVersion = /(\d(\.\d+)+)\s?(\d+)?\s?(\w+)/;
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Spectrum.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -20,6 +22,30 @@ export class Spectrum
   }
 
   public async get(): Promise<RSISpectrumVersion[]>
+  {
+    this.logger.info('Fetching Spectrum patch notes');
+    return this.fetchVersions();
+  }
+
+  public async getLive(): Promise<RSISpectrumVersion[]>
+  {
+    this.logger.info('Fetching live Spectrum versions');
+    return (await this.fetchVersions()).filter(version => version.environment === 'live');
+  }
+
+  public async getPtu(): Promise<RSISpectrumVersion[]>
+  {
+    this.logger.info('Fetching PTU Spectrum versions');
+    return (await this.fetchVersions()).filter(version => version.environment === 'ptu');
+  }
+
+  public async getEtf(): Promise<RSISpectrumVersion[]>
+  {
+    this.logger.info('Fetching ETF Spectrum versions');
+    return (await this.fetchVersions()).filter(version => version.environment === 'etf');
+  }
+
+  private async fetchVersions(): Promise<RSISpectrumVersion[]>
   {
     const payload = {
       channel_id: '190048',
@@ -49,21 +75,6 @@ export class Spectrum
         group: this.getGroup(thread)
       };
     });
-  }
-
-  public async getLive(): Promise<RSISpectrumVersion[]>
-  {
-    return this.get().then(versions => versions.filter(version => version.environment === 'live'));
-  }
-
-  public async getPtu(): Promise<RSISpectrumVersion[]>
-  {
-    return this.get().then(versions => versions.filter(version => version.environment === 'ptu'));
-  }
-
-  public async getEtf(): Promise<RSISpectrumVersion[]>
-  {
-    return this.get().then(versions => versions.filter(version => version.environment === 'etf'));
   }
 
   private getVersionFromSubject(thread: RSISpectrumThreadDataThread): string | undefined

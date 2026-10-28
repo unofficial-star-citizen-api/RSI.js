@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
 import { RSIShipSearch, RSIShipSearchParams } from './interfaces';
@@ -17,6 +18,7 @@ export class Ships
   private readonly urlSearchShips = 'https://robertsspaceindustries.com/api/store/getShips';
   private readonly urlShipsId = 'https://robertsspaceindustries.com/ship-matrix/index';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Ships.name);
 
   /**
    * Get ships
@@ -33,6 +35,12 @@ export class Ships
    */
   public async search(searchArgs: RSIShipSearchParams): Promise<RSIShipSearch[]>
   {
+    this.logger.info('Searching ships', {
+      name: searchArgs.name,
+      page: searchArgs.page,
+      pageMax: searchArgs.page_max
+    });
+
     const name = HttpHelper.stringifyValue(searchArgs.name);
     const classification = HttpHelper.stringifyValue(searchArgs.classification);
     const length_min = HttpHelper.stringifyValue(searchArgs.length_min);
@@ -184,6 +192,8 @@ export class Ships
    */
   private async getShipAsync(shipId: string): Promise<[RSIShipSearchDto, { data: string; }] | null>
   {
+    this.logger.info('Fetching ship details', { shipId });
+
     const respShip = await this.getShipById(shipId);
     if (!respShip)
     {

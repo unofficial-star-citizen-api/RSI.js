@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import
 {
   RSIFundingGoals, RSIFundingGoalsResponse, RSIFundingGoalsTimePeriod
@@ -14,6 +15,7 @@ export class FundingGoals
 {
   private readonly urlCrowStat = 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(FundingGoals.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -27,6 +29,8 @@ export class FundingGoals
    */
   public async getCrowdfundingStats(chart: RSIFundingGoalsTimePeriod): Promise<RSIFundingGoals>
   {
+    this.logger.info('Fetching crowdfunding statistics', { chart });
+
     const data = {
       alpha_slots: true,
       chart: chart,

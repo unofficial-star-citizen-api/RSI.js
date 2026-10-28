@@ -1,6 +1,7 @@
 import { HttpHelper } from '@/helpers/http.helper';
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { CheerioAPI, load } from 'cheerio';
 import { RSIUserNotFoundError } from './errors';
 import
@@ -20,6 +21,7 @@ export class Users
   private readonly urlProfile = 'https://robertsspaceindustries.com/citizens/{0}';
   private readonly urlAffiliation = 'https://robertsspaceindustries.com/citizens/{0}/organizations';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Users.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -35,6 +37,8 @@ export class Users
 
   public async getProfile(userHandle: string): Promise<RSIUserProfile | null>
   {
+    this.logger.info('Fetching user profile', { userHandle });
+
     // Format URL
     const url = this.urlProfile.replace('{0}', this.encodeHandle(userHandle));
 
@@ -82,6 +86,8 @@ export class Users
    */
   public async getOrganization(userHandle: string): Promise<RSIUserOrganization | null>
   {
+    this.logger.info('Fetching user organizations', { userHandle });
+
     // Format URL
     const url = this.urlAffiliation.replace('{0}', this.encodeHandle(userHandle));
 

@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { RSIProgressTrackerTeam, RSIProgressTrackerTeamResponse } from './interfaces';
 
 /**
@@ -10,6 +11,7 @@ export class ProgressTrackerTeam
   private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly limit: number = 20;
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(ProgressTrackerTeam.name);
 
   /**
    * @param httpClient - The HTTP client instance to use for API requests
@@ -25,6 +27,7 @@ export class ProgressTrackerTeam
    */
   public async getTeams(): Promise<RSIProgressTrackerTeam[]>
   {
+    this.logger.info('Fetching progress tracker teams');
     return this.fetchTeams();
   }
 
@@ -35,6 +38,7 @@ export class ProgressTrackerTeam
    */
   public async getTeamBySlug(teamSlug: string): Promise<RSIProgressTrackerTeam | undefined>
   {
+    this.logger.info('Fetching progress tracker team', { teamSlug });
     const teams = await this.fetchTeams(teamSlug);
     return teams.find(team => team.slug === teamSlug);
   }
@@ -136,7 +140,6 @@ export class ProgressTrackerTeam
 
         if ('errors' in responseData.data)
         {
-          console.error(responseData.data.errors);
           throw new RSIError(`Progress tracker teams data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
         }
 
@@ -159,7 +162,6 @@ export class ProgressTrackerTeam
         totalCount = page.totalCount;
       } catch (e)
       {
-        console.error(e);
         throw e instanceof RSIError ? e : new RSIError(e instanceof Error ? e.message : `Unexpected error: ${e}`);
       }
 

@@ -1,3 +1,5 @@
+import type { AxiosAdapter, AxiosInstance } from 'axios';
+import { AxiosHeaders } from 'axios';
 import
 {
   afterEach,
@@ -8,6 +10,7 @@ import
   vi
 } from 'vitest';
 import { HttpClient } from './index';
+import { Logger } from './logger';
 
 describe('HttpClient', () =>
 {
@@ -96,6 +99,77 @@ describe('HttpClient', () =>
       {
         process.env.HTTPS_PROXY = originalProxy;
       }
+    });
+  });
+
+  describe('Logging', () =>
+  {
+    const setAdapter = (client: HttpClient, adapter: AxiosAdapter): void =>
+    {
+      const axiosInstance = Reflect.get(client, 'axiosInstance') as AxiosInstance;
+      axiosInstance.defaults.adapter = adapter;
+    };
+
+    const successfulAdapter: AxiosAdapter = async (config) => ({
+      data: { result: 'ok' },
+      status: 200,
+      statusText: 'OK',
+      headers: new AxiosHeaders(),
+      config
+    });
+
+    test('should not log HTTP requests or responses by default', async () =>
+    {
+      const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => undefined);
+      const client = new HttpClient({ httpProxy: '', httpsProxy: '' });
+      setAdapter(client, successfulAdapter);
+
+      await client.get('https://example.com/api');
+
+      expect(infoSpy).not.toHaveBeenCalled();
+    });
+
+    test('should log HTTP requests and responses when enabled', async () =>
+    {
+      const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => undefined);
+      const client = new HttpClient({ logging: true, httpProxy: '', httpsProxy: '' });
+      setAdapter(client, successfulAdapter);
+
+      await client.get('https://example.com/api');
+
+      expect(infoSpy).toHaveBeenNthCalledWith(1, '[HttpClient] HTTP request', {
+        method: 'GET',
+        url: 'https://example.com/api'
+      });
+      expect(infoSpy).toHaveBeenNthCalledWith(2, '[HttpClient] HTTP response', {
+        method: 'GET',
+        url: 'https://example.com/api',
+        status: 200
+      });
+    });
+
+    test('should apply the logging setting globally', () =>
+    {
+      new HttpClient({ logging: true });
+      expect(Logger.enabled).toBe(true);
+
+      new HttpClient({ logging: false });
+      expect(Logger.enabled).toBe(false);
+    });
+
+    test('should log HTTP failures when enabled and preserve the error', async () =>
+    {
+      vi.spyOn(console, 'info').mockImplementation(() => undefined);
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const client = new HttpClient({ logging: true, httpProxy: '', httpsProxy: '' });
+      const error = new Error('Network error');
+      setAdapter(client, async () =>
+      {
+        throw error;
+      });
+
+      await expect(client.get('https://example.com/api')).rejects.toBe(error);
+      expect(errorSpy).toHaveBeenCalledWith('[HttpClient] HTTP request failed', error.message);
     });
   });
 

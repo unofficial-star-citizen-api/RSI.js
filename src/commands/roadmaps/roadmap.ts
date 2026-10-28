@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import
 {
   RSIRoadmap,
@@ -15,6 +16,7 @@ export class Roadmaps
   private readonly urlRoadmapSC = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/1';
   private readonly urlRoadmapS42 = 'https://robertsspaceindustries.com/api/roadmap/v1/boards/2';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Roadmaps.name);
 
   /**
    * @param board - The roadmap board ("starcitizen" or "squadron42")
@@ -30,6 +32,8 @@ export class Roadmaps
    */
   public async getBoardReleases(board: RSIRoadmapBoard): Promise<RSIRoadmap | null>
   {
+    this.logger.info('Fetching roadmap releases', { board });
+
     let request;
 
     switch (board)

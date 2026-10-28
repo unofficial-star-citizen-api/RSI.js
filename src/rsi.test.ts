@@ -64,6 +64,12 @@ describe('RSI', () =>
       expect(customRsi.httpClient.config.noProxy).toBe(noProxy);
     });
 
+    test('should apply logging config option', () =>
+    {
+      const customRsi = new RSI({ httpConfig: { logging: true } });
+      expect(customRsi.httpClient.config.logging).toBe(true);
+    });
+
     test('should apply multiple config options at once', () =>
     {
       const config = {

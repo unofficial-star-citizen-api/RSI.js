@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import
 {
   RSITelemetry, RSITelemetryResponse, RSITelemetryTimetable, RSITelemetryVersion
@@ -13,6 +14,7 @@ export class Telemetries
 {
   private readonly urlTelemetry = 'https://robertsspaceindustries.com/api/telemetry/v2/community/';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Telemetries.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -33,6 +35,8 @@ export class Telemetries
 
     if (!/^sc-alpha-\d+\.\d+$/.test(version))
       throw new Error(`Invalid version format: "${version}"`);
+
+    this.logger.info('Fetching community telemetry', { timetable, version });
 
     const params = new URLSearchParams({ timetable, branch: version });
 

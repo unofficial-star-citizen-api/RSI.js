@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import
 {
@@ -17,12 +18,15 @@ type ReturnFunction = (params?: RSIOrganizationSearchParams) => Promise<RSIOrgan
  *
  * @see https://robertsspaceindustries.com/en/community/orgs/listing
  */
-export function search(httpClient: HttpClient): ReturnFunction
+export function search(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlGetOrgs = 'https://robertsspaceindustries.com/api/orgs/getOrgs';
+  const logger = createLogger(loggerName);
 
   return async function (params?: RSIOrganizationSearchParams): Promise<RSIOrganizationSearch[]>
   {
+    logger.info('Searching organizations');
+
     const response = await httpClient.post<RSIOrganizationResponse>(urlGetOrgs, params);
     if (response.status !== 200)
     {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import
 {
   RSIStarMapSearch,
@@ -13,6 +14,7 @@ export class StarmapSearch
 {
   private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/find';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(StarmapSearch.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -21,6 +23,8 @@ export class StarmapSearch
 
   public async search(searchPattern: string): Promise<RSIStarMapSearch | null>
   {
+    this.logger.info('Searching the starmap', { searchPattern });
+
     const data = { query: searchPattern };
 
     const req = await this.httpClient.post<RSIStarMapSearchResult>(this.urlFind, data);

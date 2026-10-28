@@ -11,10 +11,20 @@ import
   Versions,
 } from './commands';
 import { HttpClient, HttpConfigOptions } from './http-client';
+import { Logger } from './logger';
 
 export interface RSIConfig
 {
+  /**
+   * HTTP configuration options for the RSI client
+   */
   httpConfig?: Partial<HttpConfigOptions>;
+
+  /**
+   * Enable HTTP lifecycle and proxy logging
+   * @default false
+   */
+  logging?: boolean;
 }
 
 export class RSI
@@ -34,6 +44,7 @@ export class RSI
   constructor(config: RSIConfig = {})
   {
     this.httpClient = new HttpClient(config.httpConfig);
+    Logger.enabled = config.logging ?? false;
 
     this.users = new Users(this.httpClient);
     this.organizations = new Organizations(this.httpClient);

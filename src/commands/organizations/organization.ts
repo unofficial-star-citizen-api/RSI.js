@@ -11,8 +11,8 @@ export class Organizations
 
   constructor(httpClient: HttpClient)
   {
-    this.get = getFunction(httpClient);
-    this.search = searchFunction(httpClient);
-    this.searchMembers = searchMembersFunction(httpClient);
+    this.get = getFunction(httpClient, Organizations.name);
+    this.search = searchFunction(httpClient, Organizations.name);
+    this.searchMembers = searchMembersFunction(httpClient, Organizations.name);
   }
 }

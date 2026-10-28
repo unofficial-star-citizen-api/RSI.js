@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { RSIOrganizationNotFoundError } from './errors';
 import { OrganizationMembersSearchParams, RSIOrganizationMember } from './interfaces/organization-members.interface';
@@ -7,12 +8,15 @@ import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
 type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMember[]>;
 
-export function searchMembers(httpClient: HttpClient): ReturnFunction
+export function searchMembers(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
+  const logger = createLogger(loggerName);
 
   return async function (params: OrganizationMembersSearchParams): Promise<RSIOrganizationMember[]>
   {
+    logger.info('Searching organization members', { sid: params.sid });
+
     const payload = {
       symbol: params.sid,
       search: params.search,

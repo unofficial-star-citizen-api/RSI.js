@@ -1,5 +1,6 @@
 import { RSIError } from '@/errors';
 import { HttpClient } from '@/http-client';
+import { createLogger } from '@/logger';
 import { RSIProgressTrackerDeliverable, RSIProgressTrackerDeliverableResponse } from './interfaces';
 
 /**
@@ -10,6 +11,7 @@ export class ProgressTrackerDeliverable
   private readonly urlProgressTracker = 'https://robertsspaceindustries.com/graphql';
   private readonly limit: number = 20;
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(ProgressTrackerDeliverable.name);
 
   /**
    * @param slug - The slug identifier to get
@@ -26,6 +28,7 @@ export class ProgressTrackerDeliverable
    */
   public async getDeliverables(): Promise<RSIProgressTrackerDeliverable[]>
   {
+    this.logger.info('Fetching progress tracker deliverables');
     return this.fetchDeliverables();
   }
 
@@ -36,6 +39,7 @@ export class ProgressTrackerDeliverable
    */
   public async getDeliverablesByTeamSlug(teamSlug: string): Promise<RSIProgressTrackerDeliverable[]>
   {
+    this.logger.info('Fetching progress tracker deliverables by team', { teamSlug });
     return this.fetchDeliverables(teamSlug);
   }
 
@@ -163,7 +167,6 @@ export class ProgressTrackerDeliverable
 
         if ('errors' in responseData.data)
         {
-          console.error(responseData.data.errors);
           throw new RSIError(`Deliverables data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
         }
 
@@ -191,7 +194,6 @@ export class ProgressTrackerDeliverable
       }
       catch (e)
       {
-        console.error(e);
         throw e instanceof RSIError ? e : new RSIError(e instanceof Error ? e.message : `Unexpected error: ${e}`);
       }
       offset += this.limit;

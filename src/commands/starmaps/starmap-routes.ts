@@ -1,5 +1,6 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { RSIStarmapRouteShipSize } from './interfaces';
 import { RSIStarmapRoute } from './interfaces/route.interface';
 
@@ -10,6 +11,7 @@ export class StarmapRoute
 {
   private readonly urlFind = 'https://robertsspaceindustries.com/api/starmap/routes/find';
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(StarmapRoute.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -18,6 +20,12 @@ export class StarmapRoute
 
   async findRoutes(from: string, to: string, shipSize: RSIStarmapRouteShipSize): Promise<RSIStarmapRoute | null>
   {
+    this.logger.info('Finding starmap routes', {
+      from,
+      to,
+      shipSize
+    });
+
     const data = {
       departure: from,
       destination: to,

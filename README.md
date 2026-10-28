@@ -34,6 +34,28 @@ const shipInfo = async () => {
 };
 ```
 
+## Logging
+
+Logging is disabled by default. To log command activity, HTTP requests and
+responses, and proxy or request errors to the console in either Node.js or a
+browser, enable it in the `RSI` constructor:
+
+```typescript
+const rsi = new RSI({
+  httpConfig: {
+    timeout: 15000
+  },
+  logging: true
+});
+```
+
+Command logs describe the operation being performed and may include relevant
+identifiers. HTTP request logs include the method and URL; response logs
+include the status code. Request and response bodies and headers are not logged.
+The logging toggle is global: creating an `RSI` instance sets
+it for all existing instances, so the most recently created instance determines
+whether logs are enabled.
+
 ## Available Classes
 
 - `Users`: Retrieve user information

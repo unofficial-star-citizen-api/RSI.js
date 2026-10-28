@@ -1,6 +1,7 @@
 
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { createLogger } from '@/logger';
 import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap.interface';
 
 export class Roadmap
@@ -12,6 +13,7 @@ export class Roadmap
   private readonly regexETF = /PTU\s*Version\s*:\s*([^ ]*)(.*?)(ETF|(Evocati))/i;
 
   private readonly httpClient: HttpClient;
+  private readonly logger = createLogger(Roadmap.name);
 
   constructor(httpClient: HttpClient)
   {
@@ -20,6 +22,7 @@ export class Roadmap
 
   public async getVersions(): Promise<RoadmapVersions>
   {
+    this.logger.info('Fetching game version information');
     const response = await this.httpClient.get<RSIVersionRoadmapResponse>(this.url);
     if (response.status !== 200)
       throw new RSIError(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`);
