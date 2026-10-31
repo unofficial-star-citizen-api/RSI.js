@@ -170,6 +170,64 @@ describe('Ships', () =>
       await expect(ships.search({ name: 'Cutlass Black' })).rejects.toThrow('Ship with ID 56 not found or no data available.');
     });
 
+    test('should fetch pages in batches and stop after the first empty page', async () =>
+    {
+      const requestedPages: number[] = [];
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string, body?: any) =>
+      {
+        if (url === SEARCH_URL)
+        {
+          requestedPages.push(body.page);
+          const hasShips = body.page <= 7;
+          return Promise.resolve({
+            status: 200,
+            data: {
+              success: 1,
+              data: {
+                html: hasShips ? `<div data-ship-id="${body.page}"></div>` : '',
+                rowcount: hasShips ? 1 : 0
+              }
+            }
+          } as any);
+        }
+        return Promise.resolve({
+          status: 200,
+          data: { success: 1, data: [{ ...MOCK_SHIP, id: body.id }] }
+        } as any);
+      });
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: '<html><body></body></html>'
+      } as any);
+
+      const data = await ships.search({ page_max: 100 });
+
+      // Pages 1-5 then 6-10; page 8 is empty, so no further batch is requested
+      expect(requestedPages.sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      expect(data.map(s => s.id)).toEqual(['1', '2', '3', '4', '5', '6', '7']);
+    });
+
+    test('should not exceed page_max', async () =>
+    {
+      const requestedPages: number[] = [];
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string, body?: any) =>
+      {
+        if (url === SEARCH_URL)
+        {
+          requestedPages.push(body.page);
+          return Promise.resolve({
+            status: 200,
+            data: { success: 1, data: { html: '', rowcount: 10 } }
+          } as any);
+        }
+        return Promise.reject(new Error(`Unexpected POST to ${url}`));
+      });
+
+      await ships.search({ page: 2, page_max: 3 });
+
+      expect(requestedPages.sort((a, b) => a - b)).toEqual([2, 3]);
+    });
+
     test('should use price 0 when ship page has no price element', async () =>
     {
       vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>

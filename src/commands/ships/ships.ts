@@ -1,5 +1,5 @@
-import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { HttpHelper } from '../../helpers/http.helper';
@@ -19,10 +19,12 @@ export class Ships
   private readonly urlShipsId = 'https://robertsspaceindustries.com/ship-matrix/index';
   private readonly httpClient: HttpClient;
   private readonly logger = createLogger(Ships.name);
+  /** Number of search pages fetched concurrently */
+  private readonly pageBatchSize = 5;
 
   /**
    * Get ships
-   * @param kwargs - Search parameters
+   * @param httpClient - HTTP client instance for making requests
    */
   constructor(httpClient: HttpClient)
   {
@@ -31,6 +33,7 @@ export class Ships
 
   /**
    * Get all ships using advanced search through pages
+   * @param searchArgs - Search parameters for filtering ships
    * @returns Ships data
    */
   public async search(searchArgs: RSIShipSearchParams): Promise<RSIShipSearch[]>
@@ -102,6 +105,44 @@ export class Ships
       data.sale = sale;
     }
 
+    const ships: RSIShipSearch[] = [];
+    const lastPage = Math.max(page, page_max);
+
+    // Fetch pages in concurrent batches, stop as soon as a batch contains an empty page
+    for (let batchStart = page; batchStart <= lastPage; batchStart += this.pageBatchSize)
+    {
+      const batchEnd = Math.min(batchStart + this.pageBatchSize - 1, lastPage);
+      const pages = Array.from({ length: batchEnd - batchStart + 1 }, (_, i) => batchStart + i);
+
+      const results = await Promise.all(pages.map(p => this.searchPage({ ...data, page: p })));
+
+      let reachedEnd = false;
+      for (const result of results)
+      {
+        ships.push(...result.ships);
+        if (result.rowcount === 0)
+        {
+          reachedEnd = true;
+          break;
+        }
+      }
+
+      if (reachedEnd)
+      {
+        break;
+      }
+    }
+
+    return ships;
+  }
+
+  /**
+   * Fetch a single search page and resolve its ships
+   * @param data - Search payload including the page number
+   * @returns Ships of the page and the page row count
+   */
+  private async searchPage(data: Record<string, unknown>): Promise<{ ships: RSIShipSearch[]; rowcount: number; }>
+  {
     const req = await this.httpClient.post<{
       success: number;
       data: {
@@ -172,17 +213,7 @@ export class Ships
       ships.push(this.toShipSearch(respShip));
     }
 
-    if (resp.data.rowcount !== 0 && typeof page === 'number' && page < (typeof page_max === 'number' ? page_max : 1))
-    {
-      const newKwargs = { ...searchArgs, page: page + 1 };
-      const nextPageShips = await this.search(newKwargs);
-      if (nextPageShips && nextPageShips.length > 0)
-      {
-        ships.push(...nextPageShips);
-      }
-    }
-
-    return ships;
+    return { ships, rowcount: resp.data.rowcount };
   }
 
   /**
