@@ -21,6 +21,8 @@ export class Ships
   private readonly logger = createLogger(Ships.name);
   /** Number of search pages fetched concurrently */
   private readonly pageBatchSize = 5;
+  /** Maximum number of ship details fetched concurrently, bounds peak memory */
+  private readonly shipConcurrency = 5;
 
   /**
    * Get ships
@@ -105,7 +107,7 @@ export class Ships
       data.sale = sale;
     }
 
-    const ships: RSIShipSearch[] = [];
+    const shipIds: string[] = [];
     const lastPage = Math.max(page, page_max);
 
     // Fetch pages in concurrent batches, stop as soon as a batch contains an empty page
@@ -119,7 +121,7 @@ export class Ships
       let reachedEnd = false;
       for (const result of results)
       {
-        ships.push(...result.ships);
+        shipIds.push(...result.shipIds);
         if (result.rowcount === 0)
         {
           reachedEnd = true;
@@ -133,15 +135,15 @@ export class Ships
       }
     }
 
-    return ships;
+    return this.mapWithConcurrency(shipIds, this.shipConcurrency, id => this.getShipAsync(id));
   }
 
   /**
-   * Fetch a single search page and resolve its ships
+   * Fetch a single search page and extract its ship IDs
    * @param data - Search payload including the page number
-   * @returns Ships of the page and the page row count
+   * @returns Ship IDs of the page and the page row count
    */
-  private async searchPage(data: Record<string, unknown>): Promise<{ ships: RSIShipSearch[]; rowcount: number; }>
+  private async searchPage(data: Record<string, unknown>): Promise<{ shipIds: string[]; rowcount: number; }>
   {
     const req = await this.httpClient.post<{
       success: number;
@@ -172,7 +174,6 @@ export class Ships
       throw new RSIError('Failed to retrieve ship data. Response indicates failure.');
     }
 
-    const ships: RSIShipSearch[] = [];
     const $ = load(resp.data.html);
     const shipIds: string[] = [];
 
@@ -185,43 +186,15 @@ export class Ships
       }
     });
 
-    // Process all ships in parallel
-    const shipResults = await Promise.all(
-      shipIds.map(id => this.getShipAsync(id))
-    );
-
-    for (const result of shipResults.filter(Boolean))
-    {
-      const [respShip, reqPage] = result as [RSIShipSearchDto, { data: string; }];
-
-      const pageContent = load(reqPage.data);
-
-      // Get the Ship price
-      let price = 0;
-      pageContent('[data-value].final-price').each((_, element) =>
-      {
-        const priceVal = parseInt($(element).attr('data-value') || '0');
-        const p = priceVal / 100;
-
-        if (price === 0 || price > p)
-        {
-          price = p;
-        }
-      });
-
-      respShip.price = price;
-      ships.push(this.toShipSearch(respShip));
-    }
-
-    return { ships, rowcount: resp.data.rowcount };
+    return { shipIds, rowcount: resp.data.rowcount };
   }
 
   /**
-   * Get ship by its ID
+   * Get ship details and price by its ID
    * @param shipId - The ship ID
-   * @returns Ship data and page response
+   * @returns Ship data
    */
-  private async getShipAsync(shipId: string): Promise<[RSIShipSearchDto, { data: string; }] | null>
+  private async getShipAsync(shipId: string): Promise<RSIShipSearch>
   {
     this.logger.info('Fetching ship details', { shipId });
 
@@ -249,7 +222,49 @@ export class Ships
       throw new RSIError(`Failed to retrieve ship page for ID ${shipId}. Status code: ${reqPage?.status}`);
     }
 
-    return [respShip, reqPage];
+    // Parse the price right away so the page HTML can be released
+    const pageContent = load(reqPage.data);
+
+    // Get the Ship price
+    let price = 0;
+    pageContent('[data-value].final-price').each((_, element) =>
+    {
+      const priceVal = parseInt(pageContent(element).attr('data-value') || '0');
+      const p = priceVal / 100;
+
+      if (price === 0 || price > p)
+      {
+        price = p;
+      }
+    });
+
+    respShip.price = price;
+    return this.toShipSearch(respShip);
+  }
+
+  /**
+   * Map items through an async function with a bounded number of concurrent calls, preserving order
+   * @param items - Items to map
+   * @param limit - Maximum number of concurrent calls
+   * @param fn - Async mapping function
+   * @returns Mapped results in input order
+   */
+  private async mapWithConcurrency<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]>
+  {
+    const results = new Array<R>(items.length);
+    let next = 0;
+
+    const worker = async (): Promise<void> =>
+    {
+      while (next < items.length)
+      {
+        const index = next++;
+        results[index] = await fn(items[index]);
+      }
+    };
+
+    await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+    return results;
   }
 
   /**
