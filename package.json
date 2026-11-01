@@ -50,9 +50,6 @@
     "type": "git",
     "url": "git+https://github.com/unofficial-star-citizen-api/RSI.js.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "dependencies": {
     "ajv": "^8.20.0",
     "axios": "^1.20.0",
