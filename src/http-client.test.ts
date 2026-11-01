@@ -1,5 +1,5 @@
 import type { AxiosAdapter, AxiosInstance } from 'axios';
-import { AxiosHeaders } from 'axios';
+import { AxiosError, AxiosHeaders } from 'axios';
 import
 {
   afterEach,
@@ -9,6 +9,7 @@ import
   test,
   vi
 } from 'vitest';
+import { RSIError } from './errors';
 import { HttpClient, RSI } from './index';
 import { Logger } from './logger';
 
@@ -162,6 +163,42 @@ describe('HttpClient', () =>
 
       await expect(client.get('https://example.com/api')).rejects.toBe(error);
       expect(errorSpy).toHaveBeenCalledWith('[HttpClient] HTTP request failed', error.message);
+    });
+  });
+
+  describe('Status handling', () =>
+  {
+    const createClient = (status: number, data: unknown): HttpClient =>
+    {
+      const client = new HttpClient({ httpProxy: '', httpsProxy: '' });
+      const axiosInstance = Reflect.get(client, 'axiosInstance') as AxiosInstance;
+      // Mimic the real http adapter, which rejects when validateStatus returns false
+      axiosInstance.defaults.adapter = async (config) =>
+      {
+        const response = { data, status, statusText: '', headers: new AxiosHeaders(), config };
+        if (config.validateStatus && !config.validateStatus(status))
+          throw new AxiosError(`Request failed with status code ${status}`, 'ERR_BAD_RESPONSE', config, undefined, response);
+        return response;
+      };
+      return client;
+    };
+
+    test.each([404, 500])('should resolve %i responses without throwing', async (status) =>
+    {
+      const response = await createClient(status, 'error page').get('https://example.com/api');
+      expect(response.status).toBe(status);
+      expect(response.data).toBe('error page');
+    });
+
+    test('should resolve non-2xx responses with an empty body', async () =>
+    {
+      const response = await createClient(404, null).get('https://example.com/api');
+      expect(response.status).toBe(404);
+    });
+
+    test('should throw RSIError on 2xx responses with an empty body', async () =>
+    {
+      await expect(createClient(200, null).get('https://example.com/api')).rejects.toThrow(RSIError);
     });
   });
 

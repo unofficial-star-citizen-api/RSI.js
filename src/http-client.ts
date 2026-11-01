@@ -148,7 +148,9 @@ export class HttpClient
         'Cache-Control': 'no-cache',
         'Cookie': 'Rsi-Token='
       },
-      timeout: timeout ?? 15_000
+      timeout: timeout ?? 15_000,
+      // Never reject on HTTP status, commands inspect `response.status` and throw RSIError themselves
+      validateStatus: () => true
     };
 
     // Create axios instance
@@ -221,7 +223,9 @@ export class HttpClient
         status: response.status
       });
 
-      if (response.data == null)
+      // Only enforce a body on successful responses, error statuses are handled by the caller
+      const isSuccess = response.status >= 200 && response.status < 300;
+      if (isSuccess && response.data == null)
       {
         const error = new RSIError('HTTP request failed, no data received');
         this.logger.error(error.message);

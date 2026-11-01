@@ -93,6 +93,7 @@ describe('PatchNote', () =>
     test('should handle empty HTML response', async () =>
     {
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
         data: '<div id="channel"></div>'
       } as any);
 
@@ -108,6 +109,7 @@ describe('PatchNote', () =>
     test('should handle malformed HTML response', async () =>
     {
       const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
         data: '<div>Malformed HTML</div>'
       } as any);
 

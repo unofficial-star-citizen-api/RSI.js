@@ -88,6 +88,7 @@ describe('Spectrum', () =>
   describe('API Methods', () =>
   {
     const mockThreadsResponse = {
+      status: 200,
       data: {
         success: 1,
         data: {
@@ -156,6 +157,7 @@ describe('Spectrum', () =>
     test('should handle API error', async () =>
     {
       vi.spyOn(httpClient, 'post').mockResolvedValueOnce({
+        status: 200,
         data: { success: 0, msg: 'API Error' }
       } as any);
 

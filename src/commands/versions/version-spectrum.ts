@@ -55,6 +55,9 @@ export class Spectrum
     };
 
     const response = await this.httpClient.post<RSISpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
+    if (response.status !== 200)
+      throw new RSIError(`HTTP request failed while retrieving spectrum threads, status code: ${response.status}`);
+
     if (response.data.success != 1)
       throw new RSIError(`Query failed from RSI (${response.data.msg})`);
 

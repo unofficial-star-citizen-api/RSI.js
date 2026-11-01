@@ -1,3 +1,4 @@
+import { RSIError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
@@ -35,6 +36,8 @@ export class PatchNote
   private async fetchAll(): Promise<RSIPatchNote[]>
   {
     const response = await this.httpClient.get<string>(this.url);
+    if (response.status !== 200)
+      throw new RSIError(`HTTP request failed while retrieving patch notes, status code: ${response.status}`);
 
     const $ = load(response.data);
 

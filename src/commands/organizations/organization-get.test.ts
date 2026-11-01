@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import fs from 'fs';
 import path from 'path';
 import
@@ -9,6 +8,7 @@ import
 } from 'vitest';
 import { Organizations } from '../../index';
 import { HttpClientMock } from '../../mocks/http-client.mock';
+import { RSIOrganizationNotFoundError } from './errors';
 
 describe('Organization with HttpClientMock', () =>
 {
@@ -59,33 +59,18 @@ describe('Organization with HttpClientMock', () =>
       // Create our mock HttpClient
       const httpClientMock = new HttpClientMock();
 
-      // Create an error object similar to what axios would return
-      const errorObj = new AxiosError(
-        'Request failed with status code 404',
-        'ERR_BAD_REQUEST',
-        {
-          url: 'https://robertsspaceindustries.com/orgs/NOTFOUND'
-        } as any,
-        undefined,
-        {
-          status: 404,
-          statusText: 'Not Found',
-          headers: {},
-          config: {} as any,
-          data: fs.readFileSync(
-            path.join(__dirname, 'mocks', 'organization-not-found.html'),
-            'utf8'
-          )
-        } as any
+      // Axios resolves non-2xx responses, so mock a 404 response instead of an error
+      httpClientMock.mockResponse(
+        'https://robertsspaceindustries.com/orgs/NOTFOUND',
+        fs.readFileSync(path.join(__dirname, 'mocks', 'organization-not-found.html'), 'utf8'),
+        404
       );
-
-      // Set up the mock error for the organization URL
-      httpClientMock.mockError('https://robertsspaceindustries.com/orgs/NOTFOUND', errorObj);
 
       // Create the organization controller with our mock client
       const organization = new Organizations(httpClientMock);
 
-      await expect(organization.get('NOTFOUND')).rejects.toThrow('Organization "NOTFOUND" not found');
+      await expect(organization.get('NOTFOUND')).rejects.toThrow(RSIOrganizationNotFoundError);
+      await expect(organization.get('NOTFOUND')).rejects.toThrow('Organization not found: NOTFOUND');
     });
   });
 });
