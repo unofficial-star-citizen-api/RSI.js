@@ -1,15 +1,16 @@
 name: CI/CD
 
-# Release flow:
-#   push to `stage` -> bump patch version, publish to GitHub Packages, tag the commit `vX.Y.Z`
-#   push to `main`  -> publish the latest `vX.Y.Z` tag reachable from main to npm
-# Merge stage into main with a merge commit (not squash) so the tag stays in main's history.
+# Release flow (CURRENT_VERSION repository variable holds the last stable version):
+#   push to `staging` -> publish `X.Y.Z-rc.N` to GitHub Packages (dist-tag `next`), tag the commit `vX.Y.Z-rc.N`
+#   push to `main`  -> publish `X.Y.Z` from the latest rc tag reachable from main to npm (dist-tag `latest`),
+#                      tag the commit `vX.Y.Z` and set CURRENT_VERSION to `X.Y.Z`
+# Merge staging into main with a merge commit (not squash) so the rc tag stays in main's history.
 
 on:
   workflow_dispatch:
 
   push:
-    branches: [ main, stage ]
+    branches: [ main, staging ]
     paths:
       - '.github/workflows/ci-cd.yaml'
       - 'src/**'
@@ -17,7 +18,7 @@ on:
       - 'pnpm-lock.yaml'
 
   pull_request:
-    branches: [ main, stage ]
+    branches: [ main, staging ]
 
 concurrency:
   group: ci-cd-${{ github.ref }}
@@ -62,22 +63,29 @@ jobs:
       if: github.event_name != 'pull_request'
       shell: bash
       run: |
-        if [ "${{ github.ref }}" = "refs/heads/stage" ]; then
-          # Increment the patch version from the CURRENT_VERSION repository variable
+        if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+          # Next patch after the last stable release, with an incrementing rc number
           CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.0' }}"
           IFS=. read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
-          VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
-          echo "Staging version: $CURRENT_VERSION -> $VERSION"
+          NEXT="$MAJOR.$MINOR.$((PATCH + 1))"
+          LAST_RC=$(git tag -l "v$NEXT-rc.*" | sed 's/.*-rc\.//' | sort -n | tail -1)
+          VERSION="$NEXT-rc.$(( ${LAST_RC:-0} + 1 ))"
+          echo "Staging version: $VERSION (last stable: $CURRENT_VERSION)"
           echo "target=github" >> $GITHUB_OUTPUT
         elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
-          # Release the latest staged version merged into main
-          TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
+          # Release the latest rc merged into main as a stable version
+          TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*-rc.*' 2>/dev/null || true)
           if [ -z "$TAG" ]; then
-            echo "::notice::No staged release tag found in main's history, skipping npm publish"
+            echo "::notice::No staged rc tag found in main's history, skipping npm publish"
             exit 0
           fi
           VERSION="${TAG#v}"
-          echo "Releasing staged version: $VERSION"
+          VERSION="${VERSION%-rc.*}"
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
+            echo "::notice::$VERSION (from $TAG) is already released, skipping npm publish"
+            exit 0
+          fi
+          echo "Releasing $TAG as $VERSION"
           echo "target=npm" >> $GITHUB_OUTPUT
         else
           exit 0
@@ -113,9 +121,6 @@ jobs:
       contents: write
       packages: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -129,20 +134,14 @@ jobs:
           name: package-artifacts
 
       - name: Publish to GitHub Packages
-        run: npm publish package.tgz --access private --registry https://npm.pkg.github.com
+        run: npm publish package.tgz --access private --tag next --registry https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag staged release
-        run: |
-          VERSION="${{ needs.build-and-test.outputs.version }}"
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
-
-      - name: Update repository variable with GitHub CLI
-        run: gh variable set CURRENT_VERSION -b "${{ needs.build-and-test.outputs.version }}" --repo ${{ github.repository }}
+        run: gh api repos/${{ github.repository }}/git/refs -f ref="refs/tags/v${{ needs.build-and-test.outputs.version }}" -f sha="${{ github.sha }}"
         env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-npm:
     needs: build-and-test
@@ -150,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm
     permissions:
-      contents: read
+      contents: write
       id-token: write # npm trusted publishing (OIDC) + provenance
     steps:
       - name: Setup Node.js
@@ -173,4 +172,14 @@ jobs:
             echo "::notice::$NAME@$VERSION is already on npm, skipping"
             exit 0
           fi
-          npm publish package.tgz --access public --registry https://registry.npmjs.org
+          npm publish package.tgz --access public --tag latest --registry https://registry.npmjs.org
+
+      - name: Tag release
+        run: gh api repos/${{ github.repository }}/git/refs -f ref="refs/tags/v${{ needs.build-and-test.outputs.version }}" -f sha="${{ github.sha }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update repository variable with GitHub CLI
+        run: gh variable set CURRENT_VERSION -b "${{ needs.build-and-test.outputs.version }}" --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
