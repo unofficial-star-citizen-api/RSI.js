@@ -1,0 +1,66 @@
+name: ✨ Feature request
+description: Suggest new RSI data to expose, a new option, or an improvement to the API.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! The more you tell us about where the data lives on RSI, the faster it can be implemented, possibly by you. 🙂
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type of request
+      options:
+        - New data / endpoint
+        - New field on an existing result
+        - New option or filter
+        - Developer experience (typings, errors, logging, ...)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe your use case. What are you building, and what is missing today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: How would you like to call it, and what should it return?
+      render: typescript
+      placeholder: |
+        const result = await rsi.starmaps.getLandingZones('STANTON');
+        // => [{ code: 'STANTON.LZS.LORVILLE', name: 'Lorville', ... }]
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Where does the data come from?
+      description: |
+        The RSI page, JSON endpoint or GraphQL query that holds this data, if you know it (your browser's dev tools → Network tab).
+        Include the URL, HTTP method and payload when possible.
+      placeholder: |
+        POST https://robertsspaceindustries.com/api/...
+        { "param": "value" }
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you use today, or other approaches you thought about.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this has not been requested yet.
+          required: true
+        - label: I'd be willing to open a pull request to implement this.
