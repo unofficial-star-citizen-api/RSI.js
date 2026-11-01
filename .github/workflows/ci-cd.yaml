@@ -1,16 +1,16 @@
 name: CI/CD
 
 # Release flow (CURRENT_VERSION repository variable holds the last stable version):
-#   push to `stage` -> publish `X.Y.Z-rc.N` to GitHub Packages (dist-tag `next`), tag the commit `vX.Y.Z-rc.N`
+#   push to `staging` -> publish `X.Y.Z-rc.N` to GitHub Packages (dist-tag `next`), tag the commit `vX.Y.Z-rc.N`
 #   push to `main`  -> publish `X.Y.Z` from the latest rc tag reachable from main to npm (dist-tag `latest`),
 #                      tag the commit `vX.Y.Z` and set CURRENT_VERSION to `X.Y.Z`
-# Merge stage into main with a merge commit (not squash) so the rc tag stays in main's history.
+# Merge staging into main with a merge commit (not squash) so the rc tag stays in main's history.
 
 on:
   workflow_dispatch:
 
   push:
-    branches: [ main, stage ]
+    branches: [ main, staging ]
     paths:
       - '.github/workflows/ci-cd.yaml'
       - 'src/**'
@@ -18,7 +18,7 @@ on:
       - 'pnpm-lock.yaml'
 
   pull_request:
-    branches: [ main, stage ]
+    branches: [ main, staging ]
 
 concurrency:
   group: ci-cd-${{ github.ref }}
@@ -63,7 +63,7 @@ jobs:
       if: github.event_name != 'pull_request'
       shell: bash
       run: |
-        if [ "${{ github.ref }}" = "refs/heads/stage" ]; then
+        if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
           # Next patch after the last stable release, with an incrementing rc number
           CURRENT_VERSION="${{ vars.CURRENT_VERSION || '0.0.0' }}"
           IFS=. read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
