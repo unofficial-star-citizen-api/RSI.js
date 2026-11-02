@@ -6,7 +6,7 @@ export * from './system.interface';
 /**
  * Ship size for {@link Starmaps.findRoutes}. It decides which jump tunnels a route can use.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export enum RSIStarmapRouteShipSize
 {
@@ -51,7 +51,7 @@ export interface RSIStarMapObjectAffiliations
 /**
  * A political affiliation (UEE, Banu, Xi'an...), returned by {@link Starmaps.getAffiliations}.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectAffiliation
 {
@@ -65,7 +65,7 @@ export interface RSIStarMapObjectAffiliation
 /**
  * A species, returned by {@link Starmaps.getSpecies}.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectSpecies
 {
@@ -91,7 +91,7 @@ export interface RSIStarMapObjectConfig
  * Starmap renderer settings. Not returned by any method.
  * @hidden
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectLongRangeScanner
 {
@@ -127,7 +127,7 @@ export interface RSIStarMapObjectLongRangeScanner
  * Starmap renderer settings. Not returned by any method.
  * @hidden
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectRoute
 {
@@ -149,7 +149,7 @@ export interface RSIStarMapObjectRoute
  * Starmap renderer settings. Not returned by any method.
  * @hidden
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectStarfield
 {
@@ -165,7 +165,7 @@ export interface RSIStarMapObjectStarfield
  * Starmap renderer settings. Not returned by any method.
  * @hidden
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectStars
 {
@@ -200,7 +200,7 @@ export interface RSIStarMapObjectSystems
 /**
  * A star system, returned by {@link Starmaps.getSystems}. Positions are starmap coordinates.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectSystem
 {
@@ -226,7 +226,7 @@ export interface RSIStarMapObjectSystem
 /**
  * Thumbnail image of a star system.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectThumbnail
 {
@@ -238,7 +238,7 @@ export interface RSIStarMapObjectThumbnail
 /**
  * Image URLs of a thumbnail, keyed by RSI image format.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectImagesClass
 {
@@ -264,7 +264,7 @@ export interface RSIStarMapObjectTunnels
 /**
  * A jump tunnel between two jump points, returned by {@link Starmaps.getTunnels}.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectTunnel
 {
@@ -281,7 +281,7 @@ export interface RSIStarMapObjectTunnel
 /**
  * Entry or exit jump point of a tunnel.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapObjectEntry
 {
@@ -300,7 +300,7 @@ export interface RSIStarMapObjectEntry
 /**
  * Jump tunnel size: small, medium or large.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export enum RSIStarMapObjectSize
 {

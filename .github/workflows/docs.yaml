@@ -83,6 +83,7 @@ jobs:
         jq --arg base "$BASE_PATH" '.cleanJsdocTheme.basePath = $base' typedoc.json > typedoc.tmp.json && mv typedoc.tmp.json typedoc.json
         pnpm install --frozen-lockfile
         pnpm run docs
+        pnpm run docs:links
         cp -r site/. ../_site/
 
     - name: Build preview docs (staging)
@@ -101,6 +102,7 @@ jobs:
           typedoc.json > typedoc.tmp.json && mv typedoc.tmp.json typedoc.json
         pnpm install --frozen-lockfile
         pnpm run docs
+        pnpm run docs:links
         mkdir -p ../_site/staging
         cp -r site/. ../_site/staging/
 

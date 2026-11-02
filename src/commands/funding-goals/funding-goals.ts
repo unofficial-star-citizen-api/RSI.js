@@ -11,7 +11,8 @@ import
  * Crowdfunding stats: funds raised, fans, fleet size and Alpha slots.
  * Access it through {@link RSI.fundingGoals}.
  *
- * @category Funding goals
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/en/funding-goals
  */
 export class FundingGoals

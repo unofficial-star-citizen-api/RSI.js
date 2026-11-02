@@ -1,5 +1,6 @@
 ---
 title: Getting started
+slug: getting-started
 group: Guides
 order: 1
 ---
@@ -58,23 +59,23 @@ const { RSI } = require('@unofficial-star-citizen-api/rsi.js');
 
 ## Modules
 
-| Module | What it returns |
-|---|---|
-| `rsi.users` | Citizen profiles and organization affiliations |
-| `rsi.organizations` | Organization pages, directory search and member lists |
-| `rsi.ships` | Ship search with ship-matrix specs and store prices |
-| `rsi.versions` | LIVE, PTU and ETF versions, patch notes |
-| `rsi.roadmaps` | Star Citizen and Squadron 42 release roadmaps |
-| `rsi.progressTrackers` | Progress tracker teams and deliverables |
-| `rsi.starmaps` | ARK Starmap systems, celestial objects, tunnels and routes |
-| `rsi.telemetries` | Community performance telemetry |
-| `rsi.fundingGoals` | Crowdfunding stats |
+| Module | What it returns | Reference |
+|---|---|---|
+| `rsi.users` | Citizen profiles and organization affiliations | {@link Users} |
+| `rsi.organizations` | Organization pages, directory search and member lists | {@link Organizations} |
+| `rsi.ships` | Ship search with ship-matrix specs and store prices | {@link Ships} |
+| `rsi.versions` | LIVE, PTU and ETF versions, patch notes | {@link Versions} |
+| `rsi.roadmaps` | Star Citizen and Squadron 42 release roadmaps | {@link Roadmaps} |
+| `rsi.progressTrackers` | Progress tracker teams and deliverables | {@link ProgressTrackers} |
+| `rsi.starmaps` | ARK Starmap systems, celestial objects, tunnels and routes | {@link Starmaps} |
+| `rsi.telemetries` | Community performance telemetry | {@link Telemetries} |
+| `rsi.fundingGoals` | Crowdfunding stats | {@link FundingGoals} |
 
-Each module has its own page in the API reference, with every method, its parameters, the errors it throws and an example.
+Each module page lists every method, its parameters, the errors it throws and an example.
 
 ## Resource metadata
 
-Parsed resources expose a `meta` property with data about the resource itself, such as its public RSI page:
+Parsed resources expose a `meta` property ({@link RSIResourceMeta}) with data about the resource itself, such as its public RSI page:
 
 ```typescript
 const profile = await rsi.users.getProfile('Dymerz');
@@ -83,6 +84,6 @@ console.log(profile?.meta.url); // https://robertsspaceindustries.com/citizens/D
 
 ## Next steps
 
-- the **Configuration** guide: timeouts, user agent, environment variables and logging
-- the **Proxies** guide: route requests through HTTP, HTTPS or SOCKS proxies
-- the **Error handling** guide: the error classes and when they are thrown
+- the [Configuration](/configuration) guide: timeouts, user agent, environment variables and logging
+- the [Proxies](/proxies) guide: route requests through HTTP, HTTPS or SOCKS proxies
+- the [Error handling](/error-handling) guide: the error classes and when they are thrown

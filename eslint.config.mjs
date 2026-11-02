@@ -39,7 +39,7 @@ export default defineConfig(
   },
   // Node.js scripts
   {
-    files: ['*.mjs', '*.cjs'],
+    files: ['*.mjs', '*.cjs', 'scripts/**/*.mjs'],
     languageOptions: {
       globals: {
         process: 'readonly',

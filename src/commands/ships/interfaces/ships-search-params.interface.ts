@@ -1,7 +1,7 @@
 /**
  * Filters for {@link Ships.search}. Every field is optional.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipSearchParams
 {
@@ -47,7 +47,7 @@ export interface RSIShipSearchParams
 /**
  * Ship classifications available in the RSI store, for {@link RSIShipSearchParams.classification}.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipClassification
 {
@@ -64,7 +64,7 @@ export enum RSIShipClassification
 /**
  * Production status filter for {@link RSIShipSearchParams.status}.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipStatus
 {
@@ -75,7 +75,7 @@ export enum RSIShipStatus
 /**
  * Ship size filter for {@link RSIShipSearchParams.size}.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipSize
 {

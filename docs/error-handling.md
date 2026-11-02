@@ -1,5 +1,6 @@
 ---
 title: Error handling
+slug: error-handling
 group: Guides
 order: 4
 ---
@@ -10,9 +11,9 @@ Every upstream failure is an `RSIError`, or a subclass of it. `getStatus()` retu
 
 | Error | When | `getStatus()` |
 |---|---|---|
-| `RSIUserNotFoundError` | The citizen handle does not exist | `404` |
-| `RSIOrganizationNotFoundError` | The organization SID does not exist | `404` |
-| `RSIError` | RSI returned a non-2xx status, an empty body, `success !== 1`, or a page the scraper can no longer parse | `500` |
+| {@link RSIUserNotFoundError} | The citizen handle does not exist | `404` |
+| {@link RSIOrganizationNotFoundError} | The organization SID does not exist | `404` |
+| {@link RSIError} | RSI returned a non-2xx status, an empty body, `success !== 1`, or a page the scraper can no longer parse | `500` |
 | `Error` | Invalid input, such as a malformed handle, an unknown timetable, or a bad telemetry version. Thrown before any request is sent | n/a |
 
 ```typescript

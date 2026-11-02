@@ -11,7 +11,7 @@ export interface RSIVersionRoadmapResponse
  * Game versions announced on the RSI roadmap, returned by {@link VersionsRoadmap.getVersions}.
  * A channel is `null` when the roadmap does not announce it.
  *
- * @category Versions
+ * @category Types/Versions
  */
 export type RoadmapVersions = {
   /** Version on the LIVE servers, for example `4.0.1` */

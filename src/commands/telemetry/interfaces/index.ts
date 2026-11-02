@@ -10,7 +10,7 @@ export interface RSITelemetryResponse
 /**
  * Aggregation period for {@link Telemetries.community}.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export enum RSITelemetryTimetable
 {
@@ -22,14 +22,14 @@ export enum RSITelemetryTimetable
 /**
  * Game branch for {@link Telemetries.community}, for example `sc-alpha-4.0`.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export type RSITelemetryVersion = `sc-alpha-${number}.${number}`;
 
 /**
  * Community telemetry for a period, returned by {@link Telemetries.community}.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export interface RSITelemetry
 {
@@ -42,7 +42,7 @@ export interface RSITelemetry
 /**
  * Aggregated telemetry for one period.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export interface RSITelemetryCurrent
 {
@@ -65,7 +65,7 @@ export interface RSITelemetryCurrent
 /**
  * Average latency.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export interface RSITelemetryLatencyAvg
 {
@@ -76,7 +76,7 @@ export interface RSITelemetryLatencyAvg
 /**
  * Load time distribution for one drive type.
  *
- * @category Telemetry
+ * @category Types/Telemetry
  */
 export interface RSITelemetryLoadTimes
 {

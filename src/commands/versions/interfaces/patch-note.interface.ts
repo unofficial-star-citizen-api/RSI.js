@@ -3,7 +3,7 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 /**
  * A patch note from the RSI patch notes page, returned by {@link VersionsPatchNotes}.
  *
- * @category Versions
+ * @category Types/Versions
  */
 export interface RSIPatchNote
 {

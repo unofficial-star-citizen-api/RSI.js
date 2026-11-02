@@ -14,7 +14,8 @@ import {
  * Organization details, search and member lists.
  * Access it through {@link RSI.organizations}.
  *
- * @category Organizations
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/community/orgs
  */
 export class Organizations

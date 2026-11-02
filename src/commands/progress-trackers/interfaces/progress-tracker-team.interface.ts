@@ -45,7 +45,7 @@ interface RSIProgressTrackerTeamAllocationResponseItem extends Omit<RSIProgressT
 /**
  * A period during which a team is allocated to a deliverable.
  *
- * @category Progress trackers
+ * @category Types/Progress trackers
  */
 export interface RSIProgressTrackerTeamAllocation
 {
@@ -64,7 +64,7 @@ export interface RSIProgressTrackerTeamAllocation
 /**
  * A development team on the progress tracker, returned by {@link ProgressTrackers.getTeams}.
  *
- * @category Progress trackers
+ * @category Types/Progress trackers
  */
 export interface RSIProgressTrackerTeam
 {

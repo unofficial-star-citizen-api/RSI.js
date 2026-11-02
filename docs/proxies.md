@@ -1,5 +1,6 @@
 ---
 title: Proxies
+slug: proxies
 group: Guides
 order: 3
 ---
@@ -26,7 +27,7 @@ const rsi = new RSI({
 - Both accept `http://`, `https://` and `socks://` (including `socks5://`) proxy URLs. RSI.js picks the matching agent for each request.
 - `noProxy` lists hosts that bypass the proxy: exact hosts, `*.domain` and `.domain`, comma-separated.
 
-The same options can come from the `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` environment variables (see the **Configuration** guide).
+The same options can come from the `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` environment variables (see the [Configuration](/configuration) guide).
 
 ## Rotating proxy service
 

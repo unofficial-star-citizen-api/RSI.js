@@ -10,7 +10,7 @@ export interface RSIFundingGoalsResponse
 /**
  * Crowdfunding stats, returned by {@link FundingGoals.getCrowdfundingStats}.
  *
- * @category Funding goals
+ * @category Types/Funding goals
  */
 export interface RSIFundingGoals
 {
@@ -29,7 +29,7 @@ export interface RSIFundingGoals
 /**
  * One point of the funding chart.
  *
- * @category Funding goals
+ * @category Types/Funding goals
  */
 export interface RSIFundingGoalsChart
 {
@@ -42,7 +42,7 @@ export interface RSIFundingGoalsChart
 /**
  * Chart granularity for {@link FundingGoals.getCrowdfundingStats}.
  *
- * @category Funding goals
+ * @category Types/Funding goals
  */
 export enum RSIFundingGoalsTimePeriod
 {

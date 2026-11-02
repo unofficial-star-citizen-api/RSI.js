@@ -162,6 +162,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@clean-jsdoc-theme/setu@5.2.1': 191bad970a196edf154f1c7f33a6c5750585ec7376f309d74799114b45ddbd08
+  '@clean-jsdoc-theme/typedoc@5.2.1': 73a296f69810fcc04c4c66cf8e139aacf4b199205efa5a7df4d334fac231f582
+
 importers:
 
   .:
@@ -186,8 +190,8 @@ importers:
         version: 10.1.0(supports-color@7.2.0)
     devDependencies:
       '@clean-jsdoc-theme/typedoc':
-        specifier: ^5.2.1
-        version: 5.2.1(preact-render-to-string@6.8.2)(supports-color@7.2.0)(typedoc@0.28.20(typescript@6.0.3))
+        specifier: 5.2.1
+        version: 5.2.1(patch_hash=73a296f69810fcc04c4c66cf8e139aacf4b199205efa5a7df4d334fac231f582)(preact-render-to-string@6.8.2)(supports-color@7.2.0)(typedoc@0.28.20(typescript@6.0.3))
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.13.0(supports-color@7.2.0))
@@ -2204,7 +2208,7 @@ snapshots:
       preact: 10.29.8(preact-render-to-string@6.8.2)
       tailwind-merge: 3.7.0
 
-  '@clean-jsdoc-theme/setu@5.2.1(preact@10.29.8)(supports-color@7.2.0)':
+  '@clean-jsdoc-theme/setu@5.2.1(patch_hash=191bad970a196edf154f1c7f33a6c5750585ec7376f309d74799114b45ddbd08)(preact@10.29.8)(supports-color@7.2.0)':
     dependencies:
       '@clean-jsdoc-theme/bhasha': 5.2.1(preact@10.29.8)
       '@clean-jsdoc-theme/utils': 5.2.1
@@ -2223,10 +2227,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@clean-jsdoc-theme/typedoc@5.2.1(preact-render-to-string@6.8.2)(supports-color@7.2.0)(typedoc@0.28.20(typescript@6.0.3))':
+  '@clean-jsdoc-theme/typedoc@5.2.1(patch_hash=73a296f69810fcc04c4c66cf8e139aacf4b199205efa5a7df4d334fac231f582)(preact-render-to-string@6.8.2)(supports-color@7.2.0)(typedoc@0.28.20(typescript@6.0.3))':
     dependencies:
       '@clean-jsdoc-theme/dwar': 5.2.1(preact@10.29.8)(supports-color@7.2.0)
-      '@clean-jsdoc-theme/setu': 5.2.1(preact@10.29.8)(supports-color@7.2.0)
+      '@clean-jsdoc-theme/setu': 5.2.1(patch_hash=191bad970a196edf154f1c7f33a6c5750585ec7376f309d74799114b45ddbd08)(preact@10.29.8)(supports-color@7.2.0)
       '@clean-jsdoc-theme/utils': 5.2.1
       '@jsdoc/salty': 0.2.12
       hast-util-to-html: 9.0.6

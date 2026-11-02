@@ -65,12 +65,14 @@ pnpm run check
 | `pnpm run test:watch` | Runs Vitest in watch mode |
 | `pnpm run test:coverage` | Runs the tests with V8 coverage (report in `coverage/`) |
 | `pnpm run lint` / `lint:fix` | Runs ESLint, or runs it and autofixes |
-| `pnpm run check` | Lint + tests |
-| `pnpm run ci` | Lint + tests + build |
+| `pnpm run typecheck` | Type-checks the sources and the tests (Vitest does not) |
+| `pnpm run check` | Lint + type check + tests |
+| `pnpm run ci` | Lint + type check + tests + build |
 | `pnpm run docs` | Generates the documentation site in `site/` |
 | `pnpm run docs:serve` | Serves `site/` locally (the site needs HTTP, opening the files directly does not work) |
 | `pnpm run docs:watch` | Regenerates the site on change |
-| `pnpm run docs:check` | Validates the doc comments without generating the site |
+| `pnpm run docs:check` | Validates the doc comments, builds the site and checks every link |
+| `pnpm run docs:links` | Checks the links of the already-built `site/` |
 
 CI runs `pnpm run ci` and `pnpm run docs:check`.
 
@@ -117,6 +119,9 @@ your-branch ──PR──► staging ──merge commit──► main
 ```
 docs/                     # Hand-written guides, rendered in the documentation site
 typedoc.json              # Documentation site configuration (TypeDoc + clean-jsdoc-theme)
+typedoc/footer.html       # Footer of the documentation site
+patches/                  # pnpm patches applied to the documentation theme
+scripts/                  # Repository scripts (documentation link check)
 site/                     # Generated documentation site (git-ignored)
 src/
 ├── index.ts              # Public entry point, re-exports everything below
@@ -180,26 +185,25 @@ These rules keep the library's output consistent. Please follow them:
 
 We use **[Vitest](https://vitest.dev/)**. Tests live next to the code (`*.test.ts`) and **must not hit the network**, so CI stays deterministic and doesn't depend on RSI being up.
 
-The usual pattern: capture a real response as a fixture, then stub the `HttpClient` method:
+The usual pattern: capture a real response as a fixture, then stub the client's shared `HttpClient`. Every module uses `rsi.httpClient`, so tests go through `rsi.<module>` like users do:
 
 ```typescript
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, test, vi } from 'vitest';
-import { HttpClient } from '../../http-client';
-import { Users } from './user';
+import { RSI } from '../../rsi';
 
 describe('Users.getProfile', () =>
 {
   test('parses a profile page', async () =>
   {
-    const httpClient = new HttpClient();
-    vi.spyOn(httpClient, 'get').mockResolvedValue({
+    const rsi = new RSI();
+    vi.spyOn(rsi.httpClient, 'get').mockResolvedValue({
       status: 200,
       data: fs.readFileSync(path.join(__dirname, 'mocks', 'profile.html'), 'utf8'),
     } as any);
 
-    const profile = await new Users(httpClient).getProfile('Dymerz');
+    const profile = await rsi.users.getProfile('Dymerz');
 
     expect(profile?.handle).toBe('Dymerz');
   });
@@ -249,40 +253,71 @@ Every exported class, interface, enum, type alias, function and method needs a d
 - **A summary** that says what the method returns, not how it works.
 - **`@param`, `@returns`, and one `@throws` per error**, with the condition that triggers it.
 - **An `@example`** that starts from `new RSI()` and runs as-is. Take example values from the test fixtures (real handles, SIDs and codes), not made-up ones.
-- **`@category <Module>`** on every class and type, so the sidebar groups them. Use the existing names: `Users`, `Organizations`, `Ships`, `Starmaps`, `Versions`, `Roadmaps`, `Progress trackers`, `Telemetry`, `Funding goals`, `Errors`, `Configuration`, `Client`.
+- **`@category`** on every class and type: it decides the sidebar section. Use exactly one of:
+  - `Commands` for module classes (`Users`, `Ships`...)
+  - `Types/<Module>` for their results, parameters and enums, for example `Types/Users` or `Types/Progress trackers`
+  - `Errors` for error classes
+  - `Client` for `RSI`, its configuration and `HttpClient`
+
+  Symbols without a category land in an unlabelled list after the sections. The section order is set by `docGroups` in `typedoc.json`.
 - **Fields**: document the fields of result types users read directly, with units and formats (metres, USD, ISO dates). Raw upstream types that mirror RSI's JSON field by field only need a type-level comment; property comments are not enforced.
-- **Link symbols** with `{@link RSIError}` or `{@link Users.getProfile}`. Broken links fail CI.
+- **Link symbols** with `{@link RSIError}`, or `{@link Users.getProfile}` for a member (TypeDoc syntax, with a dot). Broken links fail CI.
 
 Two rules specific to this codebase:
 
 - **Methods exposed as properties.** When a module class wires a method from another file (`public readonly get: ...` in `Organizations`, `Starmaps`, `ProgressTrackers`), give the property an **explicit function type**, such as `(sid: string) => Promise<RSIOrganization>`, and put the doc comment on the property. Comments inside the factory or helper class are not shown, and `ReturnType<...>` or `Class['method']` types render as unreadable references.
-- **Hiding things.** Use `@hidden` to keep something out of the docs while still publishing its type, for example module constructors (`/** @hidden */`) and helper classes. Use `@internal` only for raw response types that should also be removed from the published `.d.ts` files (`stripInternal` is on). Don't give an `@internal` type the same name as a public one: TypeScript merges them.
+- **Module constructors.** Users never create `Users`, `Ships` and the other modules: `RSI` does. Add `@hideconstructor` to the class comment and `/** @hidden */` to the constructor, so the docs never show `new Users(...)`. Don't write examples that construct a module either: go through `new RSI()`.
+- **Hiding things.** Use `@hidden` to keep something out of the docs while still publishing its type, for example helper classes. Use `@internal` only for raw response types that should also be removed from the published `.d.ts` files (`stripInternal` is on). Don't give an `@internal` type the same name as a public one: TypeScript merges them.
 
 ### Guides
 
-Guides are Markdown files in `docs/`. The frontmatter sets the sidebar title, group and position:
+Guides are Markdown files in `docs/`. The frontmatter sets the page URL, the sidebar title, group and position:
 
 ```markdown
 ---
 title: Proxies
+slug: proxies
 group: Guides
 order: 3
 ---
 ```
 
-Don't add a `docs/index.md`: it would replace the README as the home page. To point to another guide, name it (for example "see the **Configuration** guide") instead of linking to its `.md` file, because the theme does not rewrite those links.
+- **Always set `slug`.** It fixes the page URL, so renaming or moving the file doesn't break links to it.
+- **Link to another guide with a root path**: `[Configuration](/configuration)`, using its slug. The build prefixes it with the site's base path, so the link works on both the stable site and the staging preview. Relative links (`configuration.md`, `../configuration`) are rejected by the link check.
+- **Link to the API with `{@link}`**: `{@link RSIError}` for a symbol, `{@link Users#getProfile}` for a member. In guides, members take a `#` (JSDoc syntax), not the dot used in doc comments.
+- Don't add a `docs/index.md`: it would replace the README as the home page.
 
 ### Previewing and checking
 
 ```bash
 pnpm run docs        # generate the site in site/
 pnpm run docs:serve  # serve it on http://localhost:3000
-pnpm run docs:check  # what CI runs: fails on undocumented exports and broken links
+pnpm run docs:check  # what CI runs: validates the doc comments, builds the site and checks every link
 ```
 
 The site must be served over HTTP: search and the interactive parts don't work when you open the files directly. Use `pnpm run docs:watch` while you write.
 
-When `docs:check` fails, it names the symbol and the file, for example `RSIFoo, defined in src/commands/foo/interfaces/index.ts, does not have any documentation`. Add the comment, or fix the `{@link}` it reports.
+When `docs:check` fails, it says what to fix:
+
+- A missing comment names the symbol and the file, for example `RSIFoo, defined in src/commands/foo/interfaces/index.ts, does not have any documentation`.
+- A broken link names the page and the link, for example `/proxies: broken link "/configuraton"` or `docs/proxies.md: {@link Users#getProfil} does not resolve to an API symbol`. The theme would otherwise render an unresolved guide link as plain text, and a broken page link as a 404.
+
+`pnpm run docs:links` reruns only the link check on the current `site/`.
+
+### Site configuration
+
+The site is configured in `typedoc.json` (`cleanJsdocTheme` block):
+
+- **Sidebar sections** come from `@category` (see above), ordered by `docGroups`.
+- **Footer**: `typedoc/footer.html`. The logos are embedded as data URIs (built from `docs/assets/made-by-the-community-*-160.png`) so they work under any base path; the light/dark swap follows the site theme.
+- **LLM support**: every page has a copy / open-in-Claude, ChatGPT or Perplexity button (`copyPage`), handed over with the `aiPrompt` context. The build also writes `llms.txt`, `llms-full.txt` and `sitemap.xml`, which need `siteUrl`.
+
+The theme is pinned to an exact version and patched with [`pnpm patch`](https://pnpm.io/cli/patch). The patches live in `patches/` and are applied on every install:
+
+- `@clean-jsdoc-theme/typedoc`: no Constructors section for classes whose constructor TypeDoc removed (`@hideconstructor`, `@hidden`).
+- `@clean-jsdoc-theme/setu`: group the TypeDoc API sidebar by `@category` path instead of one flat list.
+
+When you upgrade the theme, check whether these are fixed upstream. Otherwise recreate them with `pnpm patch @clean-jsdoc-theme/<package>@<version>`; pnpm fails the install if a patch no longer matches an installed version.
 
 ### Publishing
 
@@ -339,7 +374,7 @@ If a change breaks the public API, say so with a `!` after the type/scope (`feat
 Before you open a PR, please make sure that:
 
 - [ ] the PR targets the **`staging`** branch
-- [ ] `pnpm run ci` passes locally (lint, tests and build)
+- [ ] `pnpm run ci` passes locally (lint, type check, tests and build)
 - [ ] `pnpm run docs:check` passes, and public API changes are documented with an `@example`
 - [ ] new or changed behaviour is covered by tests that don't use the network
 - [ ] fixtures contain no unnecessary personal data

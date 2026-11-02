@@ -7,7 +7,7 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from '../../index';
+import { HttpClient, RSIFundingGoalsTimePeriod } from '../../index';
 import { FundingGoals } from './funding-goals';
 
 const STATS_URL = 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats';
@@ -50,7 +50,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    const data = await fundingGoals.getCrowdfundingStats('hour');
+    const data = await fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Hour);
 
     expect(data).not.toBeNull();
     expect(data.fans).toBe(5000000);
@@ -65,7 +65,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    await fundingGoals.getCrowdfundingStats('day');
+    await fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Day);
 
     expect(spy).toHaveBeenCalledWith(
       STATS_URL,
@@ -73,7 +73,7 @@ describe('Stats (FundingGoals)', () =>
     );
   });
 
-  test.each(['hour', 'day', 'week', 'month'] as const)(
+  test.each(Object.values(RSIFundingGoalsTimePeriod))(
     'should accept chart type %s',
     async (chart) =>
     {
@@ -94,7 +94,7 @@ describe('Stats (FundingGoals)', () =>
       data: MOCK_STATS_RESPONSE
     } as any);
 
-    await fundingGoals.getCrowdfundingStats('hour');
+    await fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Hour);
 
     expect(spy).toHaveBeenCalledWith(
       STATS_URL,
@@ -114,7 +114,7 @@ describe('Stats (FundingGoals)', () =>
       data: null
     } as any);
 
-    await expect(fundingGoals.getCrowdfundingStats('hour')).rejects.toThrow(
+    await expect(fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Hour)).rejects.toThrow(
       'HTTP request failed while retrieving stats data, status code: 500'
     );
   });

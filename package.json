@@ -31,14 +31,16 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "pnpm exec eslint .",
     "lint:fix": "pnpm exec eslint . --fix",
-    "check": "pnpm run lint && pnpm run test",
-    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "ci": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
     "prepare": "pnpm run build",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
-    "docs:check": "typedoc --treatValidationWarningsAsErrors --emit none",
+    "docs:check": "typedoc --treatValidationWarningsAsErrors && pnpm run docs:links",
+    "docs:links": "node scripts/check-docs-links.mjs",
     "docs:serve": "pnpm dlx serve site"
   },
   "keywords": [
@@ -64,7 +66,7 @@
     "socks-proxy-agent": "^10.1.0"
   },
   "devDependencies": {
-    "@clean-jsdoc-theme/typedoc": "^5.2.1",
+    "@clean-jsdoc-theme/typedoc": "5.2.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.5",
     "@typescript-eslint/eslint-plugin": "^8.72.0",

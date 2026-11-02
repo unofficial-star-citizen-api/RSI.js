@@ -1,5 +1,6 @@
 ---
 title: Browser usage
+slug: browser-usage
 group: Guides
 order: 5
 ---

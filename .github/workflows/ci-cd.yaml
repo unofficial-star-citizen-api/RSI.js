@@ -52,6 +52,10 @@ jobs:
     - name: Lint
       run: pnpm run lint
 
+    - name: Type check
+      # Vitest strips types, so this is what catches type errors in tests
+      run: pnpm run typecheck
+
     - name: Run tests
       run: pnpm test
 

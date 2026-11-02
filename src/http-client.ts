@@ -24,7 +24,7 @@ import { createLogger, Logger } from './logger';
  *
  * Proxy options only apply in Node.js.
  *
- * @category Configuration
+ * @category Client
  */
 export interface HttpConfigOptions
 {
@@ -68,7 +68,7 @@ export interface HttpConfigOptions
  * - Never throws on an HTTP status: callers inspect `response.status`.
  * - Logs requests and responses when logging is enabled.
  *
- * @category Configuration
+ * @category Client
  *
  * @example
  * ```typescript

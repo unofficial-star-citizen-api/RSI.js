@@ -122,34 +122,29 @@ describe('RSI', () =>
         }
       });
 
-      // Get access to the HTTP client instance
-      const httpClient = customRsi.httpClient;
-
-      // Create spy on the private shouldUseProxy method
-      const shouldUseProxySpy = vi.spyOn(
-        httpClient as never,
-        'shouldUseProxy'
-      );
+      // Expose the private shouldUseProxy method to the test
+      const httpClient = customRsi.httpClient as unknown as { shouldUseProxy(url: string): boolean };
+      const shouldUseProxySpy = vi.spyOn(httpClient, 'shouldUseProxy');
 
       // Test with URLs that should bypass proxy
 
-      expect((httpClient as any).shouldUseProxy('http://localhost/api')).toBe(false);
+      expect(httpClient.shouldUseProxy('http://localhost/api')).toBe(false);
 
-      expect((httpClient as any).shouldUseProxy('https://example.com/page')).toBe(false);
+      expect(httpClient.shouldUseProxy('https://example.com/page')).toBe(false);
 
-      expect((httpClient as any).shouldUseProxy('http://server.internal.domain/data')).toBe(false);
+      expect(httpClient.shouldUseProxy('http://server.internal.domain/data')).toBe(false);
 
-      expect((httpClient as any).shouldUseProxy('https://api.test.com/v1')).toBe(false);
+      expect(httpClient.shouldUseProxy('https://api.test.com/v1')).toBe(false);
 
       // Test with URLs that should use proxy
 
-      expect((httpClient as any).shouldUseProxy('https://google.com')).toBe(true);
+      expect(httpClient.shouldUseProxy('https://google.com')).toBe(true);
 
-      expect((httpClient as any).shouldUseProxy('http://robertsspaceindustries.com')).toBe(true);
+      expect(httpClient.shouldUseProxy('http://robertsspaceindustries.com')).toBe(true);
 
-      expect((httpClient as any).shouldUseProxy('https://other.domain.com')).toBe(true);
+      expect(httpClient.shouldUseProxy('https://other.domain.com')).toBe(true);
 
-      // Restore the spy
+      expect(shouldUseProxySpy).toHaveBeenCalledTimes(7);
       shouldUseProxySpy.mockRestore();
     });
   });

@@ -1,18 +1,62 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": [
+    "src/index.ts"
+  ],
   "tsconfig": "tsconfig.declarations.json",
   "readme": "README.md",
-  "exclude": ["**/*.test.ts", "**/mocks/**"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/mocks/**"
+  ],
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeInternal": true,
   "gitRevision": "main",
-  "plugin": ["@clean-jsdoc-theme/typedoc"],
-  "outputs": [{ "name": "clean-jsdoc-theme", "path": "site" }],
+  "plugin": [
+    "@clean-jsdoc-theme/typedoc"
+  ],
+  "outputs": [
+    {
+      "name": "clean-jsdoc-theme",
+      "path": "site"
+    }
+  ],
   "cleanJsdocTheme": {
     "siteName": "RSI.js",
-    "docs": "docs"
+    "siteUrl": "https://unofficial-star-citizen-api.github.io",
+    "docs": "docs",
+    "docGroups": [
+      "Guides",
+      "Client",
+      "Commands",
+      "Errors",
+      "Types"
+    ],
+    "footer": {
+      "file": "typedoc/footer.html"
+    },
+    "meta": [
+      {
+        "name": "description",
+        "content": "RSI.js: a typed TypeScript client for Star Citizen data published on robertsspaceindustries.com. Guides and API reference."
+      }
+    ],
+    "llmsTxt": {
+      "full": true,
+      "api": true
+    },
+    "copyPage": {
+      "enabled": true,
+      "actions": [
+        "copy",
+        "view",
+        "claude",
+        "chatgpt",
+        "perplexity"
+      ]
+    },
+    "aiPrompt": "You are helping a developer use RSI.js (npm: @unofficial-star-citizen-api/rsi.js), an unofficial TypeScript client for Star Citizen data scraped from robertsspaceindustries.com. Answer using the documentation page below. Everything goes through one client: `const rsi = new RSI()`, then modules such as rsi.users, rsi.organizations, rsi.ships or rsi.starmaps; module classes are never constructed directly. Every method is async and throws RSIError (or a subclass such as RSIUserNotFoundError) when RSI fails. The full documentation index for LLMs is at https://unofficial-star-citizen-api.github.io/RSI.js/llms.txt."
   },
   "validation": {
     "notExported": true,

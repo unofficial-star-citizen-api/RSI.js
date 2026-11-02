@@ -10,7 +10,8 @@ import { RSIPatchNote } from './interfaces/patch-note.interface';
  *
  * Every method reads the first page of patch notes.
  *
- * @category Versions
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/patch-notes
  */
 export class PatchNote

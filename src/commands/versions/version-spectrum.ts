@@ -14,7 +14,8 @@ import { RSISpectrumThreadDataThread, RSISpectrumThreadResponse } from './interf
  *
  * Every method reads the newest page of threads in the channel.
  *
- * @category Versions
+ * @category Commands
+ * @hideconstructor
  */
 export class Spectrum
 {

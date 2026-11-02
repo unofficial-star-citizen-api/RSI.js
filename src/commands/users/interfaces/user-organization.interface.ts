@@ -3,7 +3,7 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 /**
  * A citizen's organizations, returned by {@link Users.getOrganization}.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIUserOrganization
 {
@@ -16,7 +16,7 @@ export interface RSIUserOrganization
 /**
  * Main organization of a citizen.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIMainOrganization
 {
@@ -29,7 +29,7 @@ export interface RSIMainOrganization
 /**
  * Identity of a citizen's main organization and the citizen's rank in it.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIMainOrganizationInfo
 {
@@ -52,7 +52,7 @@ export interface RSIMainOrganizationInfo
 /**
  * Characteristics of a citizen's main organization.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIMainOrganizationCharacteristics
 {
@@ -77,7 +77,7 @@ export interface RSIMainOrganizationCharacteristics
 /**
  * An organization a citizen is affiliated with (other than the main one).
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIAffiliationOrganization
 {

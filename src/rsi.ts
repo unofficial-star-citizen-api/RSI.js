@@ -16,7 +16,7 @@ import { Logger } from './logger';
 /**
  * Options accepted by the {@link RSI} constructor.
  *
- * @category Configuration
+ * @category Client
  */
 export interface RSIConfig
 {

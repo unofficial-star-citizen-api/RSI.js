@@ -1,9 +1,10 @@
 import type { RSIResourceMeta } from '@/types/resource-meta.interface';
+import { RSIOrganizationCharacteristicsArchetype, RSIOrganizationCharacteristicsCommitment } from './organization-characteristics.interface';
 
 /**
  * An organization's public page, returned by {@link Organizations.get}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganization
 {
@@ -22,11 +23,11 @@ export interface RSIOrganization
   /** Number of members; `NaN` if RSI does not show it */
   membersCount: number | undefined;
 
-  /** Archetype as displayed by RSI, for example `Organization` or `Corporation` */
-  archetype: string | undefined;
+  /** Archetype, for example {@link RSIOrganizationCharacteristicsArchetype.Corporation} */
+  archetype: RSIOrganizationCharacteristicsArchetype | undefined;
 
-  /** Commitment level as displayed by RSI, for example `Regular` */
-  commitment: string | undefined;
+  /** Commitment level, for example {@link RSIOrganizationCharacteristicsCommitment.Regular} */
+  commitment: RSIOrganizationCharacteristicsCommitment | undefined;
 
   /** Primary and secondary activities */
   focus: RSIOrganizationFocusArea;
@@ -44,7 +45,7 @@ export interface RSIOrganization
 /**
  * Primary and secondary activities of an organization.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationFocusArea
 {
@@ -57,7 +58,7 @@ export interface RSIOrganizationFocusArea
 /**
  * One activity of an organization.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationFocus
 {
@@ -70,7 +71,7 @@ export interface RSIOrganizationFocus
 /**
  * Text content available both as HTML and as plain text.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationFormattedContent
 {

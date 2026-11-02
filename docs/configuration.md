@@ -1,12 +1,13 @@
 ---
 title: Configuration
+slug: configuration
 group: Guides
 order: 2
 ---
 
 # Configuration
 
-Pass options to the `RSI` constructor. Every option is optional.
+Pass options ({@link RSIConfig}) to the {@link RSI} constructor. Every option is optional.
 
 ```typescript
 import { RSI } from '@unofficial-star-citizen-api/rsi.js';

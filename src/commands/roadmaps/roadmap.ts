@@ -12,7 +12,8 @@ import
  * Release roadmaps of Star Citizen and Squadron 42.
  * Access it through {@link RSI.roadmaps}.
  *
- * @category Roadmaps
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/roadmap/release-view
  */
 export class Roadmaps

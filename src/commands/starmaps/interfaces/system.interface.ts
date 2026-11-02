@@ -31,7 +31,7 @@ export interface RSIStarMapSearchResultObjects
 /**
  * Results of {@link Starmaps.search}.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapSearch
 {
@@ -42,7 +42,7 @@ export interface RSIStarMapSearch
 /**
  * A celestial object matching a starmap search.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapSearchObject
 {
@@ -59,7 +59,7 @@ export interface RSIStarMapSearchObject
 /**
  * A star system matching a starmap search.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapSearchStarSystem
 {

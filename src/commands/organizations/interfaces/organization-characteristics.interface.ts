@@ -3,20 +3,18 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 /**
  * Characteristics of an organization in the search results.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationCharacteristics
 {
   /**
-   * Archetype as displayed by RSI, for example `Syndicate`.
-   * The value is not lowercased, so it does not equal the {@link RSIOrganizationCharacteristicsArchetype} members.
+   * Archetype, for example {@link RSIOrganizationCharacteristicsArchetype.Syndicate}
    */
   archetype: RSIOrganizationCharacteristicsArchetype | undefined;
   /** Main language, for example `English` */
   language: string | undefined;
   /**
-   * Commitment as displayed by RSI, for example `Hardcore`.
-   * The value is not lowercased, so it does not equal the {@link RSIOrganizationCharacteristicsCommitment} members.
+   * Commitment level, for example {@link RSIOrganizationCharacteristicsCommitment.Hardcore}
    */
   commitment: RSIOrganizationCharacteristicsCommitment | undefined;
   /** Whether the organization is recruiting */
@@ -30,34 +28,34 @@ export interface RSIOrganizationCharacteristics
 /**
  * Organization archetypes.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationCharacteristicsArchetype
 {
-  Organization = 'organization',
-  Corporation = 'corporation',
-  PMC = 'pmc',
-  Faith = 'faith',
-  Syndicate = 'syndicate',
-  Club = 'club'
+  Organization = 'Organization',
+  Corporation = 'Corporation',
+  PMC = 'PMC',
+  Faith = 'Faith',
+  Syndicate = 'Syndicate',
+  Club = 'Club'
 }
 
 /**
  * Organization commitment levels.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationCharacteristicsCommitment
 {
-  Casual = 'casual',
-  Regular = 'regular',
-  Hardcore = 'hardcore'
+  Casual = 'Casual',
+  Regular = 'Regular',
+  Hardcore = 'Hardcore'
 }
 
 /**
  * Organization activities (focus areas).
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationCharacteristicsActivity
 {
@@ -80,7 +78,7 @@ export enum RSIOrganizationCharacteristicsActivity
 /**
  * An organization in the results of {@link Organizations.search}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationSearch
 {
