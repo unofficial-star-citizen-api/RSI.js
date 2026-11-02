@@ -52,11 +52,19 @@ jobs:
     - name: Lint
       run: pnpm run lint
 
+    - name: Type check
+      # Vitest strips types, so this is what catches type errors in tests
+      run: pnpm run typecheck
+
     - name: Run tests
       run: pnpm test
 
     - name: Build
       run: pnpm run build
+
+    - name: Check docs
+      # Fails on undocumented public API and broken {@link} references
+      run: pnpm run docs:check
 
     - name: Resolve release version
       id: version

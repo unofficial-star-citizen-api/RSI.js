@@ -1,0 +1,33 @@
+diff --git a/dist/index.js b/dist/index.js
+index 9827548d41d09d1c06f87e4fff1b01f6661a4b8f..76bee221f93a86766faa253f6a71830f92f943b8 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -3738,9 +3738,27 @@ function assembleJsdocNav({ apiPages = [], tutorials = [], docs = [], docGroups
+ * gated on `flavor === 'typedoc'`, so the JSDoc nav is byte-identical.
+ */
+ function assembleTypedocNav({ apiPages = [], tutorials = [], docs = [], docGroups = [], home, source, menu }) {
+-	const moduleNodes = buildTypedocApiNav(apiPages);
++	// API symbols with an @category (`Types/Users`) are grouped like docs, under that path;
++	// the others keep the module hierarchy. Section order follows `docGroups`.
++	const categorized = apiPages.filter((p) => p.frontmatter.group && !TYPEDOC_CONTAINER_KINDS.has(p.frontmatter.kind)).sort((a, b) => a.frontmatter.group.localeCompare(b.frontmatter.group));
++	const moduleNodes = buildTypedocApiNav(apiPages.filter((p) => !categorized.includes(p)));
+ 	const auxEntries = [];
+ 	const docSectionOrder = [];
++	for (const p of categorized) {
++		const path = p.frontmatter.group;
++		const top = splitGroupPath(path)[0];
++		if (top && !docSectionOrder.includes(top)) docSectionOrder.push(top);
++		auxEntries.push({
++			leaf: {
++				label: p.frontmatter.title,
++				slug: p.slug
++			},
++			path,
++			explicit: true,
++			order: p.frontmatter.order,
++			sort: "alpha"
++		});
++	}
+ 	for (const d of docs) {
+ 		const path = d.group ?? "Docs";
+ 		const top = splitGroupPath(path)[0] ?? "Docs";

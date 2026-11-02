@@ -11,7 +11,12 @@ type RSIShipSearchDto = Omit<RSIShipSearch, 'meta' | 'price'> & {
 };
 
 /**
- * Ship class for retrieving Star Citizen ship data
+ * Ship search across the RSI store, with full ship-matrix specs and current store prices.
+ * Access it through {@link RSI.ships}.
+ *
+ * @category Commands
+ * @hideconstructor
+ * @see https://robertsspaceindustries.com/ship-matrix
  */
 export class Ships
 {
@@ -24,19 +29,40 @@ export class Ships
   /** Maximum number of ship details fetched concurrently, bounds peak memory */
   private readonly shipConcurrency = 5;
 
-  /**
-   * Get ships
-   * @param httpClient - HTTP client instance for making requests
-   */
+  /** @hidden */
   constructor(httpClient: HttpClient)
   {
     this.httpClient = httpClient;
   }
 
   /**
-   * Get all ships using advanced search through pages
-   * @param searchArgs - Search parameters for filtering ships
-   * @returns Ships data
+   * Search the RSI store for ships, then fetch each match's ship-matrix specs and lowest store price.
+   *
+   * Store pages from `page` to `page_max` are read in batches of 5, stopping at the first empty page.
+   * Each matched ship then costs one extra request for its price, run with a concurrency of 5.
+   * Keep `page_max` small, or use a proxy, when you scan the whole store.
+   *
+   * @param searchArgs - Filters and page range; pass `{}` to read the first store page
+   * @returns The matching ships
+   * @throws {@link RSIError} if a store page, the ship matrix or a ship page cannot be retrieved
+   *
+   * @example
+   * ```typescript
+   * import { RSI, RSIShipClassification, RSIShipSize } from '@unofficial-star-citizen-api/rsi.js';
+   *
+   * const rsi = new RSI();
+   *
+   * // Ships matching a name
+   * const cutlasses = await rsi.ships.search({ name: 'Cutlass' });
+   * console.log(cutlasses.map(ship => `${ship.name}: $${ship.price}`));
+   *
+   * // Large transport ships, walking up to 5 store pages
+   * const freighters = await rsi.ships.search({
+   *   classification: RSIShipClassification.Transport,
+   *   size: RSIShipSize.Large,
+   *   page_max: 5,
+   * });
+   * ```
    */
   public async search(searchArgs: RSIShipSearchParams): Promise<RSIShipSearch[]>
   {

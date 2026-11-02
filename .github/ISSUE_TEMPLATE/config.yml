@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Read the documentation
+    url: https://github.com/unofficial-star-citizen-api/RSI.js#readme
+    about: Usage, API reference, configuration and proxy setup.
+  - name: 🤝 Contributing guide
+    url: https://github.com/unofficial-star-citizen-api/RSI.js/blob/main/CONTRIBUTING.md
+    about: How to set up the project, write tests and open a pull request.
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/unofficial-star-citizen-api/RSI.js/security/advisories/new
+    about: Please report security issues privately, not as a public issue.

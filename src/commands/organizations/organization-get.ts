@@ -3,10 +3,16 @@ import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { RSIOrganizationNotFoundError } from './errors';
-import { RSIOrganization } from './interfaces';
+import {
+  RSIOrganization, RSIOrganizationCharacteristicsArchetype, RSIOrganizationCharacteristicsCommitment
+} from './interfaces';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganization>;
 
+/**
+ * Build the function behind {@link Organizations.get}. Use `rsi.organizations.get` instead.
+ * @hidden
+ */
 export function get(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';
@@ -42,8 +48,8 @@ export function get(httpClient: HttpClient, loggerName = 'Organizations'): Retur
       logo: HttpClient.toAbsoluteUrl(heading.find('.logo img').attr('src')),
       banner: HttpClient.toAbsoluteUrl(heading.find('.banner img').attr('src')),
       membersCount: parseInt(heading.find('.logo .count').text().replace(/\D/g, '')),
-      archetype: heading.find('.tags.clearfix .model').text().trim(),
-      commitment: heading.find('.tags.clearfix .commitment').text().trim(),
+      archetype: heading.find('.tags.clearfix .model').text().trim() as RSIOrganizationCharacteristicsArchetype,
+      commitment: heading.find('.tags.clearfix .commitment').text().trim() as RSIOrganizationCharacteristicsCommitment,
 
       focus: {
         primary: {

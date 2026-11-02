@@ -9,79 +9,96 @@ import { RSIError } from './errors';
 import { createLogger, Logger } from './logger';
 
 /**
- * Configuration options for the RSI Scraper
+ * HTTP options for the client, passed as {@link RSIConfig.httpConfig}.
+ *
+ * In Node.js, each unset option falls back to an environment variable.
+ * Values passed in code take precedence.
+ *
+ * | Variable       | Option       |
+ * |----------------|--------------|
+ * | `HTTP_PROXY`   | `httpProxy`  |
+ * | `HTTPS_PROXY`  | `httpsProxy` |
+ * | `NO_PROXY`     | `noProxy`    |
+ * | `USER_AGENT`   | `userAgent`  |
+ * | `HTTP_TIMEOUT` | `timeout`    |
+ *
+ * Proxy options only apply in Node.js.
+ *
+ * @category Client
  */
 export interface HttpConfigOptions
 {
   /**
-   * HTTP proxy to use for requests
+   * Proxy for `http://` requests, for example `http://proxy:8080` or `socks5://localhost:5566`.
    */
   httpProxy?: string;
 
   /**
-   * HTTPS proxy to use for requests
+   * Proxy for `https://` requests. Every RSI endpoint is HTTPS, so this is the one that usually matters.
+   * `http(s)://` and `socks://` proxy URLs are supported.
    */
   httpsProxy?: string;
 
   /**
-   * No proxy list
+   * Comma-separated hostnames that bypass the proxy.
+   * Supports exact hosts, `*.domain` and `.domain`, for example `localhost,*.internal`.
    */
   noProxy?: string;
 
   /**
-   * User agent string
+   * `User-Agent` header sent with every request.
+   * @default `StarCitizen REST API/<package version> (starcitizen-api.com)`
    */
   userAgent?: string;
 
   /**
-   * Request timeout in milliseconds
+   * Request timeout in milliseconds.
    * @default 15000
    */
   timeout?: number;
 }
 
 /**
- * A module to perform HTTP requests
- */
-/**
- * Http client for making requests to the Roberts Space Industries (RSI) website.
+ * HTTP client used by every module to call robertsspaceindustries.com, built on axios.
  *
- * This client handles web requests with features including:
- * - Automatic proxy configuration from environment variables
- * - Support for HTTP, HTTPS, and SOCKS proxies
- * - NO_PROXY pattern matching to bypass proxies for specific domains
- * - Configurable user agent and timeout settings
- * - Type-safe request/response handling
+ * You don't normally create one yourself: {@link RSI} creates it from {@link RSIConfig.httpConfig}
+ * and exposes it as {@link RSI.httpClient}.
+ *
+ * - Picks an HTTP, HTTPS or SOCKS proxy agent per request, honouring `noProxy`.
+ * - Never throws on an HTTP status: callers inspect `response.status`.
+ * - Logs requests and responses when logging is enabled.
+ *
+ * @category Client
  *
  * @example
  * ```typescript
- * // Create a client with default settings (reads from environment variables)
+ * import { HttpClient } from '@unofficial-star-citizen-api/rsi.js';
+ *
+ * // Default settings, completed from environment variables
  * const client = new HttpClient();
  *
- * // Or with custom configuration
- * const client = new HttpClient({
- *   httpProxy: 'http://proxy:8080',
- *   userAgent: 'MyCustomApp/1.0'
+ * // Custom settings
+ * const proxied = new HttpClient({
+ *   httpsProxy: 'socks5://localhost:5566',
+ *   userAgent: 'MyBot/1.0',
  * });
  *
- * // Make a request to RSI
- * const response = await client.get<ApiResponse>('/api/endpoint');
+ * const response = await proxied.get<string>(HttpClient.toAbsoluteUrl('/citizens/Dymerz')!);
+ * console.log(response.status);
  * ```
- *
- * Environment variables:
- * - HTTP_PROXY/http_proxy: Proxy for HTTP requests
- * - HTTPS_PROXY/https_proxy: Proxy for HTTPS requests
- * - NO_PROXY/no_proxy: Comma-separated list of domains to bypass proxy
- * - USER_AGENT: Custom user agent string
- * - LOGGING: Enable HTTP lifecycle and proxy logging (true/false)
  */
 export class HttpClient
 {
+  /** Base URL of the RSI website */
   public static readonly host = 'https://robertsspaceindustries.com';
   private readonly axiosInstance: AxiosInstance;
   private readonly logger: Logger;
+  /** Effective configuration: constructor options merged over environment variables */
   public readonly config: HttpConfigOptions;
 
+  /**
+   * @param config - HTTP options; unset fields fall back to environment variables
+   */
   constructor(config?: Partial<HttpConfigOptions>)
   {
     // Use createConfig to automatically apply environment variable settings
@@ -246,7 +263,12 @@ export class HttpClient
   }
 
   /**
-   * Send a GET request
+   * Send a GET request. Resolves for every HTTP status; check `response.status`.
+   *
+   * @typeParam T - Expected response body type
+   * @param url - Absolute URL to request
+   * @param headers - Extra headers, merged over the default ones
+   * @returns The axios response
    */
   public async get<T>(
     url: string,
@@ -257,7 +279,13 @@ export class HttpClient
   }
 
   /**
-   * Send a POST request
+   * Send a POST request. Resolves for every HTTP status; check `response.status`.
+   *
+   * @typeParam T - Expected response body type
+   * @param url - Absolute URL to request
+   * @param data - Request body, serialized by axios
+   * @param headers - Extra headers, merged over the default ones
+   * @returns The axios response
    */
   public async post<T>(
     url: string,
@@ -269,7 +297,13 @@ export class HttpClient
   }
 
   /**
-   * Send a PUT request
+   * Send a PUT request. Resolves for every HTTP status; check `response.status`.
+   *
+   * @typeParam T - Expected response body type
+   * @param url - Absolute URL to request
+   * @param data - Request body, serialized as JSON
+   * @param headers - Extra headers, merged over the default ones
+   * @returns The axios response
    */
   public async put<T>(
     url: string,
@@ -281,7 +315,12 @@ export class HttpClient
   }
 
   /**
-   * Send a DELETE request
+   * Send a DELETE request. Resolves for every HTTP status; check `response.status`.
+   *
+   * @typeParam T - Expected response body type
+   * @param url - Absolute URL to request
+   * @param headers - Extra headers, merged over the default ones
+   * @returns The axios response
    */
   public async delete<T>(
     url: string,
@@ -298,10 +337,11 @@ export class HttpClient
    * @returns The absolute URL as a string, or undefined if the path parameter is null or undefined.
    *
    * @example
-   * // Assuming HttpClient.host is "https://example.com"
-   * HttpClient.toAbsoluteUrl("/api/users");                    // Returns "https://example.com/api/users"
-   * HttpClient.toAbsoluteUrl("https://example.com/api/users"); // Returns "https://example.com/api/users"
-   * HttpClient.toAbsoluteUrl(undefined);                       // Returns undefined
+   * ```typescript
+   * HttpClient.toAbsoluteUrl('/citizens/Dymerz');        // 'https://robertsspaceindustries.com/citizens/Dymerz'
+   * HttpClient.toAbsoluteUrl('https://example.com/a');   // 'https://example.com/a' (unchanged)
+   * HttpClient.toAbsoluteUrl(undefined);                 // undefined
+   * ```
    */
   public static toAbsoluteUrl(path?: string): string | undefined
   {

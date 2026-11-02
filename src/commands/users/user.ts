@@ -13,7 +13,13 @@ import
 } from './interfaces';
 
 /**
- * User class for retrieving Star Citizen user information
+ * Citizen profiles and organization affiliations, scraped from the public citizen pages.
+ * Access it through {@link RSI.users}.
+ *
+ * Handles must match `[a-zA-Z0-9_-]{1,60}`; anything else throws an `Error` before any request is sent.
+ *
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/citizens/{handle}
  */
 export class Users
@@ -23,6 +29,7 @@ export class Users
   private readonly httpClient: HttpClient;
   private readonly logger = createLogger(Users.name);
 
+  /** @hidden */
   constructor(httpClient: HttpClient)
   {
     this.httpClient = httpClient;
@@ -30,11 +37,32 @@ export class Users
 
   private encodeHandle(handle: string): string
   {
-    if (!/^[a-zA-Z0-9_\\-]{1,60}$/.test(handle))
+    if (!/^[a-zA-Z0-9_-]{1,60}$/.test(handle))
       throw new Error(`Invalid user handle: "${handle}"`);
     return encodeURIComponent(handle);
   }
 
+  /**
+   * Get a citizen's public profile: record number, display name, handle, badge, avatar,
+   * enlisted date, location, fluency, website and bio.
+   *
+   * @param userHandle - Citizen handle, for example `Dymerz`
+   * @returns The citizen profile
+   * @throws Error if the handle is not a valid citizen handle
+   * @throws {@link RSIUserNotFoundError} if no citizen has this handle
+   * @throws {@link RSIError} if RSI answers with any other non-200 status
+   *
+   * @example
+   * ```typescript
+   * import { RSI } from '@unofficial-star-citizen-api/rsi.js';
+   *
+   * const rsi = new RSI();
+   * const profile = await rsi.users.getProfile('Dymerz');
+   *
+   * console.log(profile?.display, profile?.enlisted); // enlisted is an ISO date string
+   * console.log(profile?.meta.url);                   // https://robertsspaceindustries.com/citizens/Dymerz
+   * ```
+   */
   public async getProfile(userHandle: string): Promise<RSIUserProfile | null>
   {
     this.logger.info('Fetching user profile', { userHandle });
@@ -78,11 +106,27 @@ export class Users
       }
     };
   }
+
   /**
-   * Get user affiliations
+   * Get a citizen's main organization (with rank, stars and characteristics) and every public affiliation.
+   * Redacted (hidden) affiliations are skipped.
    *
-   * @param userHandle - The user handle
-   * @returns The user affiliations
+   * @param userHandle - Citizen handle, for example `Dymerz`
+   * @returns The main organization and the public affiliations
+   * @throws Error if the handle is not a valid citizen handle
+   * @throws {@link RSIUserNotFoundError} if no citizen has this handle
+   * @throws {@link RSIError} if RSI answers with any other non-200 status
+   *
+   * @example
+   * ```typescript
+   * import { RSI } from '@unofficial-star-citizen-api/rsi.js';
+   *
+   * const rsi = new RSI();
+   * const result = await rsi.users.getOrganization('Dymerz');
+   *
+   * console.log(result?.organization.info.name, result?.organization.info.rank);
+   * console.log(result?.affiliations.map(org => org.sid));
+   * ```
    */
   public async getOrganization(userHandle: string): Promise<RSIUserOrganization | null>
   {

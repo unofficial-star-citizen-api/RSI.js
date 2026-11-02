@@ -3,6 +3,11 @@ export * from './route.interface';
 export * from './star-system.interface';
 export * from './system.interface';
 
+/**
+ * Ship size for {@link Starmaps.findRoutes}. It decides which jump tunnels a route can use.
+ *
+ * @category Types/Starmaps
+ */
 export enum RSIStarmapRouteShipSize
 {
   Small = 'S',
@@ -24,7 +29,7 @@ export interface RSIStarMapObjectData
 {
   config: RSIStarMapObjectConfig;
   systems: RSIStarMapObjectSystems;
-  tunnels: RSIStarMapObjectTunnel;
+  tunnels: RSIStarMapObjectTunnels;
   species: RSIStarMapObjectAffiliations;
   affiliations: RSIStarMapObjectAffiliations;
 }
@@ -43,6 +48,11 @@ export interface RSIStarMapObjectAffiliations
   estimatedrows: boolean;
 }
 
+/**
+ * A political affiliation (UEE, Banu, Xi'an...), returned by {@link Starmaps.getAffiliations}.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectAffiliation
 {
   id: number;
@@ -52,6 +62,11 @@ export interface RSIStarMapObjectAffiliation
   'membership.id'?: number;
 }
 
+/**
+ * A species, returned by {@link Starmaps.getSpecies}.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectSpecies
 {
   id: number;
@@ -72,6 +87,12 @@ export interface RSIStarMapObjectConfig
   longRangeScanner: RSIStarMapObjectLongRangeScanner;
 }
 
+/**
+ * Starmap renderer settings. Not returned by any method.
+ * @hidden
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectLongRangeScanner
 {
   radius: number;
@@ -102,6 +123,12 @@ export interface RSIStarMapObjectLongRangeScanner
   glowWidth: number;
 }
 
+/**
+ * Starmap renderer settings. Not returned by any method.
+ * @hidden
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectRoute
 {
   width: number;
@@ -118,6 +145,12 @@ export interface RSIStarMapObjectRoute
   depthFactor: number;
 }
 
+/**
+ * Starmap renderer settings. Not returned by any method.
+ * @hidden
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectStarfield
 {
   radius: number;
@@ -128,6 +161,12 @@ export interface RSIStarMapObjectStarfield
   color2: string;
 }
 
+/**
+ * Starmap renderer settings. Not returned by any method.
+ * @hidden
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectStars
 {
   useStarFading: boolean;
@@ -158,6 +197,11 @@ export interface RSIStarMapObjectSystems
   estimatedrows: boolean;
 }
 
+/**
+ * A star system, returned by {@link Starmaps.getSystems}. Positions are starmap coordinates.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectSystem
 {
   id: number;
@@ -179,6 +223,11 @@ export interface RSIStarMapObjectSystem
   thumbnail?: RSIStarMapObjectThumbnail;
 }
 
+/**
+ * Thumbnail image of a star system.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectThumbnail
 {
   slug: string;
@@ -186,6 +235,11 @@ export interface RSIStarMapObjectThumbnail
   images: unknown[] | RSIStarMapObjectImagesClass;
 }
 
+/**
+ * Image URLs of a thumbnail, keyed by RSI image format.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectImagesClass
 {
   post: string;
@@ -194,7 +248,7 @@ export interface RSIStarMapObjectImagesClass
 }
 
 /** @internal */
-export interface RSIStarMapObjectTunnel
+export interface RSIStarMapObjectTunnels
 {
   rowcount: number;
   pagecount: null | number;
@@ -207,6 +261,11 @@ export interface RSIStarMapObjectTunnel
   estimatedrows: boolean;
 }
 
+/**
+ * A jump tunnel between two jump points, returned by {@link Starmaps.getTunnels}.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectTunnel
 {
   id: number;
@@ -219,6 +278,11 @@ export interface RSIStarMapObjectTunnel
   exit: RSIStarMapObjectEntry;
 }
 
+/**
+ * Entry or exit jump point of a tunnel.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapObjectEntry
 {
   id: number;
@@ -233,6 +297,11 @@ export interface RSIStarMapObjectEntry
   type: string;
 }
 
+/**
+ * Jump tunnel size: small, medium or large.
+ *
+ * @category Types/Starmaps
+ */
 export enum RSIStarMapObjectSize
 {
   L = 'L',

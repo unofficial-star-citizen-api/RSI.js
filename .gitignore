@@ -143,3 +143,6 @@ dist
 # Squad: SubSquad activation file (local to this machine)
 .squad-workstream
 .vitest
+
+# Generated documentation site (pnpm run docs)
+site/

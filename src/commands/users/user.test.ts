@@ -50,6 +50,40 @@ describe('User', () =>
       spy.mockRestore();
     });
 
+    test.each([
+      ['back\\slash'],
+      ['with space'],
+      ['dot.ted'],
+      [''],
+      ['a'.repeat(61)]
+    ])('should reject invalid handle %j before sending a request', async (handle) =>
+    {
+      const spy = vi.spyOn(httpClient, 'get');
+
+      await expect(user.getProfile(handle)).rejects.toThrowError(`Invalid user handle: "${handle}"`);
+      await expect(user.getOrganization(handle)).rejects.toThrowError(`Invalid user handle: "${handle}"`);
+
+      expect(spy).not.toHaveBeenCalled();
+      spy.mockRestore();
+    });
+
+    test.each([
+      ['Dymerz'],
+      ['under_score'],
+      ['da-sh'],
+      ['a'.repeat(60)]
+    ])('should accept valid handle %j', async (handle) =>
+    {
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 404,
+        data: ''
+      } as any);
+
+      await expect(user.getProfile(handle)).rejects.toThrow(RSIUserNotFoundError);
+
+      spy.mockRestore();
+    });
+
     test('should throw error on not found response for getUserProfile', async () =>
     {
       // Mock a 404 response

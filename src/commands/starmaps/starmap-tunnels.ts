@@ -5,6 +5,8 @@ import { createLogger } from '@/logger';
 
 /**
  * StarmapTunnels class for retrieving Star Citizen starmap tunnels
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapTunnels
 {

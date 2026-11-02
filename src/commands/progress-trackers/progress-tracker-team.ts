@@ -4,7 +4,8 @@ import { createLogger } from '@/logger';
 import { RSIProgressTrackerTeam, RSIProgressTrackerTeamResponse } from './interfaces';
 
 /**
- * ProgressTracker class for retrieving Star Citizen progress tracker information
+ * Team queries behind {@link ProgressTrackers}. Use `rsi.progressTrackers` instead.
+ * @hidden
  */
 export class ProgressTrackerTeam
 {

@@ -1,17 +1,37 @@
+/**
+ * Filters for {@link Organizations.search}. Every field is optional; array fields match any of the listed values.
+ *
+ * @category Types/Organizations
+ */
 export interface RSIOrganizationSearchParams
 {
+  /** Primary or secondary activities */
   activity?: RSIOrganizationSearchParamsActivities[];
+  /** Commitment levels */
   commitment?: RSIOrganizationSearchParamsCommitment[];
+  /** Languages */
   languages?: RSIOrganizationSearchParamsLanguage[];
+  /** Archetypes */
   model?: RSIOrganizationSearchParamsArchetype[];
+  /** Page number, starting at 1 */
   page?: number;
+  /** Whether the organization is recruiting */
   recruiting?: RSIOrganizationSearchParamsBoolean[];
+  /** Whether the organization does role play */
   roleplay?: RSIOrganizationSearchParamsBoolean[];
+  /** Free-text query on the organization name or SID */
   search?: string;
+  /** Organization sizes */
   size?: RSIOrganizationSearchParamsSize[];
+  /** Sort order of the results */
   sort?: RSIOrganizationSearchParamsSort;
 };
 
+/**
+ * Sort order for {@link RSIOrganizationSearchParams.sort}.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsSort
 {
   SizeAsc = 'size_asc',
@@ -24,12 +44,23 @@ export enum RSIOrganizationSearchParamsSort
   ActiveDesc = 'active_desc'
 }
 
+/**
+ * Yes/no filter for {@link RSIOrganizationSearchParams.recruiting} and {@link RSIOrganizationSearchParams.roleplay}.
+ * RSI encodes yes as `'0'` and no as `'1'`.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsBoolean
 {
   Yes = '0',
   No = '1',
 }
 
+/**
+ * Commitment level filter for {@link RSIOrganizationSearchParams.commitment}.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsCommitment
 {
   Casual = 'CA',
@@ -37,6 +68,11 @@ export enum RSIOrganizationSearchParamsCommitment
   Hardcore = 'HA',
 }
 
+/**
+ * Organization size filter for {@link RSIOrganizationSearchParams.size}.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsSize
 {
   Small = 'small',
@@ -44,6 +80,11 @@ export enum RSIOrganizationSearchParamsSize
   Large = 'large',
 }
 
+/**
+ * Archetype filter for {@link RSIOrganizationSearchParams.model}.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsArchetype
 {
   Organization = 'generic',
@@ -54,6 +95,11 @@ export enum RSIOrganizationSearchParamsArchetype
   Club = 'club',
 }
 
+/**
+ * Activity filter for {@link RSIOrganizationSearchParams.activity}.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsActivities
 {
   Transport = '1',
@@ -72,6 +118,12 @@ export enum RSIOrganizationSearchParamsActivities
   Medical = '14'
 }
 
+/**
+ * Language filter for {@link RSIOrganizationSearchParams.languages}, using ISO 639-1 codes.
+ * `All` disables the filter.
+ *
+ * @category Types/Organizations
+ */
 export enum RSIOrganizationSearchParamsLanguage
 {
   All = '',

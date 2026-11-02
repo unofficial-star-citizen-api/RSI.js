@@ -1,0 +1,33 @@
+name: 📚 Documentation
+description: Report missing, unclear or wrong documentation.
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where?
+      description: The file, section or link that needs work.
+      placeholder: README.md → Configuration
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is wrong or missing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
+      description: Optional. Proposed wording or example.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I'd be willing to open a pull request for this.

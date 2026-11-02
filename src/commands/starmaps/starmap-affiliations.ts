@@ -6,6 +6,8 @@ import { RSIStarMapObjectAffiliation } from './interfaces';
 
 /**
  * StarmapAffiliations class for retrieving Star Citizen starmap affiliations
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapAffiliations
 {

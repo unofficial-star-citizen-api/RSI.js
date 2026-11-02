@@ -1,0 +1,124 @@
+name: 🐛 Bug report
+description: Something is broken, returns wrong data, or stopped working after an RSI website change.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this! RSI changes its website often, so a precise report is the fastest way to a fix.
+        Please search [existing issues](https://github.com/unofficial-star-citizen-api/RSI.js/issues?q=is%3Aissue) first to avoid duplicates.
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Affected module
+      options:
+        - users
+        - organizations
+        - ships
+        - versions (roadmap / patchNote / spectrum)
+        - roadmaps
+        - progressTrackers
+        - starmaps
+        - telemetries
+        - fundingGoals
+        - HttpClient / proxy / configuration
+        - Build / packaging / typings
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: method
+    attributes:
+      label: Method called
+      description: The exact method and arguments that misbehave.
+      placeholder: "rsi.organizations.get('PROTECTORA')"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include the full error message and stack trace, or the incorrect output.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: What should the result be? If a field is wrong, what does the RSI page actually show?
+    validations:
+      required: true
+
+  - type: input
+    id: rsi-url
+    attributes:
+      label: RSI page / endpoint
+      description: The robertsspaceindustries.com URL that shows the data (helps us check whether RSI changed its markup).
+      placeholder: https://robertsspaceindustries.com/orgs/PROTECTORA
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: A short snippet that reproduces the issue.
+      render: typescript
+      value: |
+        import { RSI } from '@unofficial-star-citizen-api/rsi.js';
+
+        const rsi = new RSI({ logging: true });
+        const result = await rsi.users.getProfile('handle');
+        console.log(result);
+
+  - type: input
+    id: version
+    attributes:
+      label: RSI.js version
+      placeholder: "0.1.104"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime
+      options:
+        - Node.js (ESM)
+        - Node.js (CommonJS)
+        - Browser bundle
+        - Bun / Deno
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: runtime-version
+    attributes:
+      label: Runtime version
+      placeholder: "Node 22.11.0"
+
+  - type: dropdown
+    id: proxy
+    attributes:
+      label: Are you using a proxy?
+      options:
+        - "No"
+        - HTTP / HTTPS proxy
+        - SOCKS proxy
+        - The bundled Tor rotating proxy
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed any personal or sensitive data from this report.
+          required: true
+        - label: I'd be willing to open a pull request to fix this.

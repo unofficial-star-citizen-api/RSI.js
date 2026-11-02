@@ -12,11 +12,9 @@ import
 type ReturnFunction = (params?: RSIOrganizationSearchParams) => Promise<RSIOrganizationSearch[]>;
 
 /**
- * Get organization search results
- * @param httpClient HTTP client
- * @returns Return function to get organization search results
- *
+ * Build the function behind {@link Organizations.search}. Use `rsi.organizations.search` instead.
  * @see https://robertsspaceindustries.com/en/community/orgs/listing
+ * @hidden
  */
 export function search(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {

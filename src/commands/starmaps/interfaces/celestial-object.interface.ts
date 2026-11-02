@@ -1,6 +1,6 @@
 
 /** @internal */
-export interface RSIStarmapCelestialObject
+export interface RSIStarmapCelestialObjectResponse
 {
   success: number;
   code: string;
@@ -22,6 +22,13 @@ export interface RSIStarmapCelestialObjectData
   estimatedrows: boolean;
 }
 
+/**
+ * A celestial object (planet, moon, station, asteroid belt, jump point...), returned by {@link Starmaps.getCelestialObjectByCode} and {@link Starmaps.getAllCelestialObject}.
+ *
+ * Field names are kept as returned by the starmap API (snake_case).
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObject
 {
   id: number;
@@ -56,6 +63,11 @@ export interface RSIStarmapCelestialObject
   children: RSIStarmapCelestialObjectChild[];
 }
 
+/**
+ * A child of a celestial object, such as a moon or station.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectChild
 {
   id: number;
@@ -90,6 +102,11 @@ export interface RSIStarmapCelestialObjectChild
   media: RSIStarmapCelestialObjectMedia[];
 }
 
+/**
+ * Political affiliation of a celestial object.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectAffiliation
 {
   id: number;
@@ -99,6 +116,11 @@ export interface RSIStarmapCelestialObjectAffiliation
   'membership.id': number;
 }
 
+/**
+ * An image of a celestial object.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectMedia
 {
   id: number;
@@ -126,11 +148,21 @@ export interface RSIStarmapCelestialObjectMedia
   'membership.slot': string;
 }
 
+/**
+ * Generated variants of a media file.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectDerivedData
 {
   sizes: { [key: string]: RSIStarmapCelestialObjectSize; };
 }
 
+/**
+ * Dimensions and resize mode of a generated image.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectSize
 {
   width: number;
@@ -139,17 +171,32 @@ export interface RSIStarmapCelestialObjectSize
   delete?: RSIStarmapCelestialObjectDelete;
 }
 
+/**
+ * Raw starmap value.
+ *
+ * @category Types/Starmaps
+ */
 export enum RSIStarmapCelestialObjectDelete
 {
   The11 = '1--1',
 }
 
+/**
+ * Resize mode of a generated image.
+ *
+ * @category Types/Starmaps
+ */
 export enum RSIStarmapCelestialObjectMode
 {
   Resize = 'resize',
   ResizeCrop = 'resize-crop',
 }
 
+/**
+ * Image URLs of a media file, keyed by RSI image format.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectImages
 {
   heap_note: string;
@@ -202,11 +249,21 @@ export interface RSIStarmapCelestialObjectImages
   manufacturer_logo_xs: string;
 }
 
+/**
+ * Streaming URLs of a media source.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectSourceStream
 {
   progressive: string;
 }
 
+/**
+ * Rendering data of a child object.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectChildShaderData
 {
   orbitalMin: number;
@@ -216,6 +273,11 @@ export interface RSIStarmapCelestialObjectChildShaderData
   radius: number;
 }
 
+/**
+ * Subtype of a celestial object, for example a planet type.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectSubtype
 {
   id: number;
@@ -223,6 +285,11 @@ export interface RSIStarmapCelestialObjectSubtype
   type: string;
 }
 
+/**
+ * Rendering data of a celestial object.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectShaderData
 {
   orbitalMin: number;
@@ -233,6 +300,11 @@ export interface RSIStarmapCelestialObjectShaderData
   sun?: RSIStarmapCelestialObjectSun;
 }
 
+/**
+ * Highlight colors used by the starmap renderer.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectHighlight
 {
   color1: string;
@@ -246,6 +318,11 @@ export interface RSIStarmapCelestialObjectHighlight
   scalePeriod: number;
 }
 
+/**
+ * Star rendering data.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarmapCelestialObjectSun
 {
   color1: string;

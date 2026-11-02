@@ -1,5 +1,7 @@
 /**
- * Advanced search parameters for ship queries
+ * Filters for {@link Ships.search}. Every field is optional.
+ *
+ * @category Types/Ships
  */
 export interface RSIShipSearchParams
 {
@@ -15,9 +17,9 @@ export interface RSIShipSearchParams
   crew_min?: number;
   /** Maximum crew capacity */
   crew_max?: number;
-  /** Minimum price in UEC (United Earth Credits) */
+  /** Minimum store price in USD */
   price_min?: number;
-  /** Maximum price in UEC (United Earth Credits) */
+  /** Maximum store price in USD */
   price_max?: number;
   /** Minimum ship mass in kilograms */
   mass_min?: number;
@@ -29,14 +31,23 @@ export interface RSIShipSearchParams
   sale?: boolean;
   /** Ship size category */
   size?: RSIShipSize;
-  /** Maximum page number to retrieve (for pagination) */
+  /**
+   * Last store page to read. Pages from `page` to `page_max` are read in batches of 5,
+   * stopping at the first empty page.
+   * @default 1
+   */
   page_max?: number;
-  /** Current page number (for pagination) */
+  /**
+   * First store page to read, starting at 1
+   * @default 1
+   */
   page?: number;
 }
 
 /**
- * Ship classification types available in the RSI store
+ * Ship classifications available in the RSI store, for {@link RSIShipSearchParams.classification}.
+ *
+ * @category Types/Ships
  */
 export enum RSIShipClassification
 {
@@ -51,7 +62,9 @@ export enum RSIShipClassification
 }
 
 /**
- * Ship production status types
+ * Production status filter for {@link RSIShipSearchParams.status}.
+ *
+ * @category Types/Ships
  */
 export enum RSIShipStatus
 {
@@ -60,7 +73,9 @@ export enum RSIShipStatus
 }
 
 /**
- * Ship size categories
+ * Ship size filter for {@link RSIShipSearchParams.size}.
+ *
+ * @category Types/Ships
  */
 export enum RSIShipSize
 {

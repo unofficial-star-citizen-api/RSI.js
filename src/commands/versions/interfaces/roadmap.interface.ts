@@ -7,12 +7,25 @@ export interface RSIVersionRoadmapResponse
   readonly data: RSIVersionRoadmap;
 }
 
+/**
+ * Game versions announced on the RSI roadmap, returned by {@link VersionsRoadmap.getVersions}.
+ * A channel is `null` when the roadmap does not announce it.
+ *
+ * @category Types/Versions
+ */
 export type RoadmapVersions = {
+  /** Version on the LIVE servers, for example `4.0.1` */
   live: string | null | undefined;
+  /** Version on the PTU, for example `4.0.2`; `null` while the PTU build is in ETF/Evocati testing */
   ptu: string | null | undefined;
+  /** Version in ETF/Evocati testing, for example `4.1.0` */
   etf: string | null | undefined;
 };
 
+/**
+ * Raw roadmap API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIVersionRoadmap
 {
   readonly config: RSIVersionRoadmapConfig;
@@ -21,6 +34,10 @@ export interface RSIVersionRoadmap
   readonly boards: RSIVersionRoadmapBoard[];
 }
 
+/**
+ * Raw roadmap API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIVersionRoadmapBoard
 {
   readonly id: number;
@@ -39,12 +56,20 @@ export interface RSIVersionRoadmapBoard
   readonly last_updated: number;
 }
 
+/**
+ * Raw roadmap API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIVersionRoadmapThumbnail
 {
   readonly id: number;
   readonly urls: RSIVersionRoadmapUrls;
 }
 
+/**
+ * Raw roadmap API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIVersionRoadmapUrls
 {
   readonly square: string;
@@ -53,6 +78,10 @@ export interface RSIVersionRoadmapUrls
   readonly source: string;
 }
 
+/**
+ * Raw roadmap API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIVersionRoadmapConfig
 {
   readonly events_url: string;

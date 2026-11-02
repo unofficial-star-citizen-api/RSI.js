@@ -28,12 +28,22 @@ export interface RSIStarMapSearchResultObjects
   estimatedrows: boolean;
 }
 
+/**
+ * Results of {@link Starmaps.search}.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapSearch
 {
   systems: RSIStarMapSearchStarSystem[];
   objects: RSIStarMapSearchObject[];
 }
 
+/**
+ * A celestial object matching a starmap search.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapSearchObject
 {
   id: number;
@@ -46,6 +56,11 @@ export interface RSIStarMapSearchObject
   star_system: RSIStarMapSearchStarSystem;
 }
 
+/**
+ * A star system matching a starmap search.
+ *
+ * @category Types/Starmaps
+ */
 export interface RSIStarMapSearchStarSystem
 {
   id: number;

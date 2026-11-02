@@ -31,11 +31,17 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "pnpm exec eslint .",
     "lint:fix": "pnpm exec eslint . --fix",
-    "check": "pnpm run lint && pnpm run test",
-    "ci": "pnpm run lint && pnpm run test && pnpm run build",
-    "prepare": "pnpm run build"
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "ci": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
+    "prepare": "pnpm run build",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch",
+    "docs:check": "typedoc --treatValidationWarningsAsErrors && pnpm run docs:links",
+    "docs:links": "node scripts/check-docs-links.mjs",
+    "docs:serve": "pnpm dlx serve site"
   },
   "keywords": [
     "star-citizen",
@@ -46,6 +52,7 @@
   ],
   "author": "",
   "license": "MIT",
+  "homepage": "https://unofficial-star-citizen-api.github.io/RSI.js/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unofficial-star-citizen-api/RSI.js.git"
@@ -59,15 +66,17 @@
     "socks-proxy-agent": "^10.1.0"
   },
   "devDependencies": {
+    "@clean-jsdoc-theme/typedoc": "5.2.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.5",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.72.0",
     "@vitest/coverage-v8": "^5.0.5",
     "@vitest/ui": "^5.0.5",
-    "eslint": "^10.13.0",
     "esbuild": "^0.28.2",
+    "eslint": "^10.13.0",
     "tslib": "^2.8.1",
+    "typedoc": "~0.28.20",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.72.0",
     "vitest": "^5.0.5"
