@@ -317,7 +317,7 @@ The theme is pinned to an exact version and patched with [`pnpm patch`](https://
 - `@clean-jsdoc-theme/typedoc`: no Constructors section for classes whose constructor TypeDoc removed (`@hideconstructor`, `@hidden`).
 - `@clean-jsdoc-theme/setu`: group the TypeDoc API sidebar by `@category` path instead of one flat list.
 
-When you upgrade the theme, check whether these are fixed upstream. Otherwise recreate them with `pnpm patch @clean-jsdoc-theme/<package>@<version>`; pnpm fails the install if a patch no longer matches an installed version.
+Each patch has a write-up next to it in `patches/` (problem, cause, fix), ready to be sent upstream. When you upgrade the theme, check whether these are fixed upstream. Otherwise recreate them with `pnpm patch @clean-jsdoc-theme/<package>@<version>`; pnpm fails the install if a patch no longer matches an installed version.
 
 ### Publishing
 
