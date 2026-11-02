@@ -18,7 +18,8 @@ import
  *
  * Handles must match `[a-zA-Z0-9_-]{1,60}`; anything else throws an `Error` before any request is sent.
  *
- * @category Users
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/citizens/{handle}
  */
 export class Users
@@ -36,7 +37,7 @@ export class Users
 
   private encodeHandle(handle: string): string
   {
-    if (!/^[a-zA-Z0-9_\\-]{1,60}$/.test(handle))
+    if (!/^[a-zA-Z0-9_-]{1,60}$/.test(handle))
       throw new Error(`Invalid user handle: "${handle}"`);
     return encodeURIComponent(handle);
   }

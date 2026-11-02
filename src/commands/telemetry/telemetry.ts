@@ -10,7 +10,8 @@ import
  * Community telemetry: performance, load times and stability reported by players.
  * Access it through {@link RSI.telemetries}.
  *
- * @category Telemetry
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/en/telemetry
  */
 export class Telemetries

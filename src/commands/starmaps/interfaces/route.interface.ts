@@ -1,7 +1,7 @@
 /**
  * Routes between two locations, returned by {@link Starmaps.findRoutes}.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapRoute
 {
@@ -14,7 +14,7 @@ export interface RSIStarmapRoute
 /**
  * The route with the shortest flight distance.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapRouteShortest
 {
@@ -35,7 +35,7 @@ export interface RSIStarmapRouteShortest
 /**
  * One step of a route: departure, travel, jump or destination.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapRouteSegment
 {
@@ -66,7 +66,7 @@ export interface RSIStarmapRouteSegment
 /**
  * The route with the fewest jumps.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapRouteLeastJumps
 {

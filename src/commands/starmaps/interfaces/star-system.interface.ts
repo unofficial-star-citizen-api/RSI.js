@@ -26,7 +26,7 @@ export interface RSIStarMapStarSystemData
  *
  * Field names are kept as returned by the starmap API (snake_case).
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystem
 {
@@ -57,7 +57,7 @@ export interface RSIStarMapStarSystem
 /**
  * Political affiliation of a star system.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemAffiliation
 {
@@ -71,7 +71,7 @@ export interface RSIStarMapStarSystemAffiliation
 /**
  * A celestial object of a star system.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemCelestialObject
 {
@@ -112,7 +112,7 @@ export interface RSIStarMapStarSystemCelestialObject
 /**
  * 3D model settings of a celestial object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemModel
 {
@@ -124,7 +124,7 @@ export interface RSIStarMapStarSystemModel
 /**
  * Rendering data of a celestial object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemCelestialObjectShaderData
 {
@@ -140,7 +140,7 @@ export interface RSIStarMapStarSystemCelestialObjectShaderData
 /**
  * Highlight colors used by the starmap renderer.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemHighlight
 {
@@ -158,7 +158,7 @@ export interface RSIStarMapStarSystemHighlight
 /**
  * Star rendering data.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemSun
 {
@@ -187,7 +187,7 @@ export interface RSIStarMapStarSystemSun
 /**
  * Subtype of a celestial object, for example a planet type.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemSubtype
 {
@@ -199,7 +199,7 @@ export interface RSIStarMapStarSystemSubtype
 /**
  * Thumbnail image of a star system.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemThumbnail
 {
@@ -211,7 +211,7 @@ export interface RSIStarMapStarSystemThumbnail
 /**
  * Image URLs of a thumbnail, keyed by RSI image format.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemImages
 {
@@ -223,7 +223,7 @@ export interface RSIStarMapStarSystemImages
 /**
  * Rendering data of a star system.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemShaderData
 {
@@ -235,7 +235,7 @@ export interface RSIStarMapStarSystemShaderData
 /**
  * Planet size range used by the starmap renderer.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemPlanetsSize
 {
@@ -247,7 +247,7 @@ export interface RSIStarMapStarSystemPlanetsSize
 /**
  * Starfield settings used by the starmap renderer.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarMapStarSystemStarfield
 {

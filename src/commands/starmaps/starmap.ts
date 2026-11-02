@@ -25,7 +25,8 @@ import { StarmapTunnels } from './starmap-tunnels';
  *
  * Field names in the results are kept as returned by the starmap API (snake_case).
  *
- * @category Starmaps
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/starmap
  */
 export class Starmaps

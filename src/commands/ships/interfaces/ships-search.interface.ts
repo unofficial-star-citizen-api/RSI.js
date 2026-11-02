@@ -5,7 +5,7 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
  *
  * Field names are kept as returned by the RSI ship matrix (snake_case).
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipSearch
 {
@@ -78,7 +78,7 @@ export interface RSIShipSearch
 /**
  * Ship components grouped by component class, as returned by the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipCompiled
 {
@@ -92,7 +92,7 @@ export interface RSIShipCompiled
 /**
  * Avionics components: radars and computers.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipAvionic
 {
@@ -103,7 +103,7 @@ export interface RSIShipAvionic
 /**
  * A computer component.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipAvionicComputer
 {
@@ -121,7 +121,7 @@ export interface RSIShipAvionicComputer
 /**
  * Component classes used by the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipComponentClass
 {
@@ -134,7 +134,7 @@ export enum RSIShipComponentClass
 /**
  * A ship component (radar, power plant, cooler, shield, fuel tank, turret, missile...) as listed in the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipAvionicRadar
 {
@@ -153,7 +153,7 @@ export interface RSIShipAvionicRadar
 /**
  * Default loadout of a component slot.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipAvionicRadarLoadout
 {
@@ -165,7 +165,7 @@ export interface RSIShipAvionicRadarLoadout
 /**
  * Component types for {@link RSIShipAvionicRadar}.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipAvionicRadarRadarType
 {
@@ -181,7 +181,7 @@ export enum RSIShipAvionicRadarRadarType
 /**
  * Modular components: power plants, coolers, shield generators and life support.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipModular
 {
@@ -194,7 +194,7 @@ export interface RSIShipModular
 /**
  * A ship component (life support, quantum drive, jump module, weapon, utility item...) as listed in the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipLifeSupport
 {
@@ -213,7 +213,7 @@ export interface RSIShipLifeSupport
 /**
  * Component types for {@link RSIShipLifeSupport}.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipLifeSupportType
 {
@@ -228,7 +228,7 @@ export enum RSIShipLifeSupportType
 /**
  * Propulsion components: fuel tanks, quantum drives, jump modules and quantum fuel tanks.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipPropulsion
 {
@@ -241,7 +241,7 @@ export interface RSIShipPropulsion
 /**
  * Thrusters. The ship matrix currently returns them untyped.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipThruster
 {
@@ -252,7 +252,7 @@ export interface RSIShipThruster
 /**
  * Weapon components: weapons, turrets, missiles and utility items.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipWeapon
 {
@@ -265,7 +265,7 @@ export interface RSIShipWeapon
 /**
  * Ship manufacturer, as returned by the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipManufacturer
 {
@@ -280,7 +280,7 @@ export interface RSIShipManufacturer
 /**
  * An image of a ship or manufacturer, as returned by the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipMedia
 {
@@ -312,7 +312,7 @@ export interface RSIShipMedia
 /**
  * Storage backend of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaDepot
 {
@@ -323,7 +323,7 @@ export enum RSIShipMediaDepot
 /**
  * Storage status of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaDepotStatus
 {
@@ -333,7 +333,7 @@ export enum RSIShipMediaDepotStatus
 /**
  * Generated variants of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipMediaDerivedData
 {
@@ -343,7 +343,7 @@ export interface RSIShipMediaDerivedData
 /**
  * Generated image sizes, keyed by size name.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipMediaDerivedDataSize
 {
@@ -353,7 +353,7 @@ export interface RSIShipMediaDerivedDataSize
 /**
  * Dimensions and resize mode of a generated image.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipSizeValue
 {
@@ -366,7 +366,7 @@ export interface RSIShipSizeValue
 /**
  * Raw ship-matrix value.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipSizeValueDelete
 {
@@ -376,7 +376,7 @@ export enum RSIShipSizeValueDelete
 /**
  * Raw ship-matrix value.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipSizeValueHeightEnum
 {
@@ -387,7 +387,7 @@ export enum RSIShipSizeValueHeightEnum
 /**
  * Resize mode of a generated image.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipSizeValueMode
 {
@@ -398,7 +398,7 @@ export enum RSIShipSizeValueMode
 /**
  * Image URLs of a media file, keyed by RSI image format.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipMediaImages
 {
@@ -455,7 +455,7 @@ export interface RSIShipMediaImages
 /**
  * Slot of a media file in its gallery.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaMembershipSlot
 {
@@ -466,7 +466,7 @@ export enum RSIShipMediaMembershipSlot
 /**
  * Purpose of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaPurpose
 {
@@ -476,7 +476,7 @@ export enum RSIShipMediaPurpose
 /**
  * File extension of a media source.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaSourceExtension
 {
@@ -487,7 +487,7 @@ export enum RSIShipMediaSourceExtension
 /**
  * Streaming URLs of a media source.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export interface RSIShipMediaSourceStream
 {
@@ -497,7 +497,7 @@ export interface RSIShipMediaSourceStream
 /**
  * Publication status of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaStatus
 {
@@ -507,7 +507,7 @@ export enum RSIShipMediaStatus
 /**
  * Type of a media file.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipMediaMediaType
 {
@@ -517,7 +517,7 @@ export enum RSIShipMediaMediaType
 /**
  * Production status of a ship, as returned by the ship matrix.
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipProductionStatus
 {
@@ -527,7 +527,7 @@ export enum RSIShipProductionStatus
 /**
  * Ship size, as returned by the ship matrix (capitalization varies).
  *
- * @category Ships
+ * @category Types/Ships
  */
 export enum RSIShipSizeEnum
 {

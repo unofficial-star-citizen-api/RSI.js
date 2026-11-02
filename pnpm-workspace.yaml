@@ -1,2 +1,5 @@
 allowBuilds:
   esbuild: true
+patchedDependencies:
+  '@clean-jsdoc-theme/setu@5.2.1': patches/@clean-jsdoc-theme__setu@5.2.1.patch
+  '@clean-jsdoc-theme/typedoc@5.2.1': patches/@clean-jsdoc-theme__typedoc@5.2.1.patch

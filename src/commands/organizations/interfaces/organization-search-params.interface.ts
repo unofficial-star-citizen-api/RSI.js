@@ -1,7 +1,7 @@
 /**
  * Filters for {@link Organizations.search}. Every field is optional; array fields match any of the listed values.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationSearchParams
 {
@@ -30,7 +30,7 @@ export interface RSIOrganizationSearchParams
 /**
  * Sort order for {@link RSIOrganizationSearchParams.sort}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsSort
 {
@@ -48,7 +48,7 @@ export enum RSIOrganizationSearchParamsSort
  * Yes/no filter for {@link RSIOrganizationSearchParams.recruiting} and {@link RSIOrganizationSearchParams.roleplay}.
  * RSI encodes yes as `'0'` and no as `'1'`.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsBoolean
 {
@@ -59,7 +59,7 @@ export enum RSIOrganizationSearchParamsBoolean
 /**
  * Commitment level filter for {@link RSIOrganizationSearchParams.commitment}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsCommitment
 {
@@ -71,7 +71,7 @@ export enum RSIOrganizationSearchParamsCommitment
 /**
  * Organization size filter for {@link RSIOrganizationSearchParams.size}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsSize
 {
@@ -83,7 +83,7 @@ export enum RSIOrganizationSearchParamsSize
 /**
  * Archetype filter for {@link RSIOrganizationSearchParams.model}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsArchetype
 {
@@ -98,7 +98,7 @@ export enum RSIOrganizationSearchParamsArchetype
 /**
  * Activity filter for {@link RSIOrganizationSearchParams.activity}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsActivities
 {
@@ -122,7 +122,7 @@ export enum RSIOrganizationSearchParamsActivities
  * Language filter for {@link RSIOrganizationSearchParams.languages}, using ISO 639-1 codes.
  * `All` disables the filter.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export enum RSIOrganizationSearchParamsLanguage
 {

@@ -3,7 +3,7 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 /**
  * A citizen's public profile, returned by {@link Users.getProfile}.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIUserProfile
 {
@@ -34,7 +34,7 @@ export interface RSIUserProfile
 /**
  * Profile badge of a citizen.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIUserProfileBadge
 {
@@ -47,7 +47,7 @@ export interface RSIUserProfileBadge
 /**
  * Location declared on a citizen profile.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIUserProfileLocation
 {
@@ -60,7 +60,7 @@ export interface RSIUserProfileLocation
 /**
  * Biography of a citizen.
  *
- * @category Users
+ * @category Types/Users
  */
 export interface RSIUserProfileBio
 {

@@ -10,7 +10,7 @@ export interface RSIRoadmapResponse
 /**
  * Roadmap boards for {@link Roadmaps.getBoardReleases}.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export enum RSIRoadmapBoard
 {
@@ -23,7 +23,7 @@ export enum RSIRoadmapBoard
  *
  * Field names are kept as returned by the roadmap API (snake_case). Timestamps are Unix seconds.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmap
 {
@@ -55,7 +55,7 @@ export interface RSIRoadmap
 /**
  * An image on the roadmap.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapThumbnail
 {
@@ -66,7 +66,7 @@ export interface RSIRoadmapThumbnail
 /**
  * Image URLs, one per format.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapThumbnailUrls
 {
@@ -79,7 +79,7 @@ export interface RSIRoadmapThumbnailUrls
 /**
  * A card category, such as Characters, Locations or Gameplay.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapCategory
 {
@@ -92,7 +92,7 @@ export interface RSIRoadmapCategory
 /**
  * A Squadron 42 chapter, with its stages.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapChapter
 {
@@ -115,7 +115,7 @@ export interface RSIRoadmapChapter
 /**
  * Development status of a Squadron 42 chapter.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export enum RSIRoadmapChapterStatus
 {
@@ -127,7 +127,7 @@ export enum RSIRoadmapChapterStatus
 /**
  * A release (game version) on a roadmap board, with its cards.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapRelease
 {
@@ -155,7 +155,7 @@ export interface RSIRoadmapRelease
 /**
  * A feature card in a release.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapCard
 {
@@ -189,7 +189,7 @@ export interface RSIRoadmapCard
 /**
  * Progress tracker deliverable linked to a card.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapDeliverable
 {
@@ -200,7 +200,7 @@ export interface RSIRoadmapDeliverable
 /**
  * Status of a release or card.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export enum RSIRoadmapCardStatus
 {
@@ -213,7 +213,7 @@ export enum RSIRoadmapCardStatus
 /**
  * A development team working on a card.
  *
- * @category Roadmaps
+ * @category Types/Roadmaps
  */
 export interface RSIRoadmapTeam
 {

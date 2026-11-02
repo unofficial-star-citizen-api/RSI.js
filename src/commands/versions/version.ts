@@ -7,7 +7,8 @@ import { Spectrum } from './version-spectrum';
  * Game versions per release channel (LIVE, PTU, ETF) and patch notes, from three sources.
  * Access it through {@link RSI.versions}.
  *
- * @category Versions
+ * @category Commands
+ * @hideconstructor
  *
  * @example
  * ```typescript

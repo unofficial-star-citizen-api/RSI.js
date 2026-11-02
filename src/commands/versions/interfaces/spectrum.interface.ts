@@ -1,7 +1,7 @@
 /**
  * Release channel of a game version.
  *
- * @category Versions
+ * @category Types/Versions
  */
 export enum RSISpectrumEnvironment
 {
@@ -13,7 +13,7 @@ export enum RSISpectrumEnvironment
 /**
  * A game version announced in a Spectrum patch-note thread, returned by {@link VersionsSpectrum}.
  *
- * @category Versions
+ * @category Types/Versions
  */
 export interface RSISpectrumVersion
 {
@@ -30,7 +30,7 @@ export interface RSISpectrumVersion
 /**
  * A PTU version announced on Spectrum, with its wave.
  *
- * @category Versions
+ * @category Types/Versions
  */
 export interface RSISpectrumVersionPtu
 {
@@ -45,7 +45,7 @@ export interface RSISpectrumVersionPtu
 /**
  * PTU waves. `ALL` means the PTU is open to every backer.
  *
- * @category Versions
+ * @category Types/Versions
  * @see https://support.robertsspaceindustries.com/hc/en-us/articles/115013195927-Public-Test-Universe-PTU-FAQ#h_01H9N5R5CT0W3RAF9VMRJSPKT5
  */
 export enum RSISpectrumGroups

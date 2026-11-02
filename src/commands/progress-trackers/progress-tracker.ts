@@ -10,7 +10,8 @@ import { ProgressTrackerTeam } from './progress-tracker-team';
  * Every method walks all result pages of RSI's GraphQL API, 20 items per request,
  * and covers 2020-01-01 to two years from today.
  *
- * @category Progress trackers
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/roadmap/progress-tracker
  */
 export class ProgressTrackers

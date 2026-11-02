@@ -45,7 +45,7 @@ interface RSIProgressTrackerDeliverableCardResponseItem extends Omit<RSIProgress
 /**
  * Roadmap card linked to a deliverable.
  *
- * @category Progress trackers
+ * @category Types/Progress trackers
  */
 export interface RSIProgressTrackerDeliverableCard
 {
@@ -80,7 +80,7 @@ export interface RSIProgressTrackerDeliverableCard
 /**
  * Project a deliverable belongs to: Star Citizen or Squadron 42.
  *
- * @category Progress trackers
+ * @category Types/Progress trackers
  */
 export interface RSIProgressTrackerDeliverableProject
 {
@@ -95,7 +95,7 @@ export interface RSIProgressTrackerDeliverableProject
 /**
  * A deliverable on the progress tracker, returned by {@link ProgressTrackers.getDeliverables}.
  *
- * @category Progress trackers
+ * @category Types/Progress trackers
  */
 export interface RSIProgressTrackerDeliverable
 {

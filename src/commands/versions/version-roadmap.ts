@@ -10,7 +10,8 @@ import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap
  *
  * Every method sends one request; call {@link VersionsRoadmap.getVersions} to get all channels at once.
  *
- * @category Versions
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/roadmap
  */
 export class Roadmap

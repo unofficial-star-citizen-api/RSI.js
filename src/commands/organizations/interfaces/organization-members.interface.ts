@@ -3,7 +3,7 @@ import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 /**
  * A member of an organization, returned by {@link Organizations.searchMembers}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface RSIOrganizationMember
 {
@@ -26,7 +26,7 @@ export interface RSIOrganizationMember
 /**
  * Parameters for {@link Organizations.searchMembers}.
  *
- * @category Organizations
+ * @category Types/Organizations
  */
 export interface OrganizationMembersSearchParams
 {

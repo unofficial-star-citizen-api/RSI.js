@@ -14,7 +14,8 @@ type RSIShipSearchDto = Omit<RSIShipSearch, 'meta' | 'price'> & {
  * Ship search across the RSI store, with full ship-matrix specs and current store prices.
  * Access it through {@link RSI.ships}.
  *
- * @category Ships
+ * @category Commands
+ * @hideconstructor
  * @see https://robertsspaceindustries.com/ship-matrix
  */
 export class Ships

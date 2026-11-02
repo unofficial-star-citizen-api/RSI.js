@@ -6,7 +6,7 @@ import
   expect,
   test
 } from 'vitest';
-import { Organizations } from '../../index';
+import { Organizations, RSIOrganizationCharacteristicsArchetype, RSIOrganizationCharacteristicsCommitment } from '../../index';
 import { HttpClientMock } from '../../mocks/http-client.mock';
 import { RSIOrganizationNotFoundError } from './errors';
 
@@ -40,6 +40,8 @@ describe('Organization with HttpClientMock', () =>
       expect(data?.logo).toBe('https://robertsspaceindustries.com/media/ihh8ge4y6eqfir/logo/TEST-Logo.png');
       expect(data?.banner).toBe('https://robertsspaceindustries.com/media/p1603c268qhkfr/banner/TEST-Banner.png');
       expect(data?.membersCount).toBe(23431);
+      expect(data?.archetype).toBe(RSIOrganizationCharacteristicsArchetype.Organization);
+      expect(data?.commitment).toBe(RSIOrganizationCharacteristicsCommitment.Casual);
       expect(data?.focus.primary.image).toBe('https://robertsspaceindustries.com/media/5pcet2tbffqinr/icon/Social.png');
       expect(data?.focus.primary.name).toBe('Social');
       expect(data?.focus.secondary.image).toBe('https://robertsspaceindustries.com/media/7nk9059i8lnfmr/icon/Security.png');

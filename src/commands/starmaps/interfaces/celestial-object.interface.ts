@@ -27,7 +27,7 @@ export interface RSIStarmapCelestialObjectData
  *
  * Field names are kept as returned by the starmap API (snake_case).
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObject
 {
@@ -66,7 +66,7 @@ export interface RSIStarmapCelestialObject
 /**
  * A child of a celestial object, such as a moon or station.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectChild
 {
@@ -105,7 +105,7 @@ export interface RSIStarmapCelestialObjectChild
 /**
  * Political affiliation of a celestial object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectAffiliation
 {
@@ -119,7 +119,7 @@ export interface RSIStarmapCelestialObjectAffiliation
 /**
  * An image of a celestial object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectMedia
 {
@@ -151,7 +151,7 @@ export interface RSIStarmapCelestialObjectMedia
 /**
  * Generated variants of a media file.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectDerivedData
 {
@@ -161,7 +161,7 @@ export interface RSIStarmapCelestialObjectDerivedData
 /**
  * Dimensions and resize mode of a generated image.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectSize
 {
@@ -174,7 +174,7 @@ export interface RSIStarmapCelestialObjectSize
 /**
  * Raw starmap value.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export enum RSIStarmapCelestialObjectDelete
 {
@@ -184,7 +184,7 @@ export enum RSIStarmapCelestialObjectDelete
 /**
  * Resize mode of a generated image.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export enum RSIStarmapCelestialObjectMode
 {
@@ -195,7 +195,7 @@ export enum RSIStarmapCelestialObjectMode
 /**
  * Image URLs of a media file, keyed by RSI image format.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectImages
 {
@@ -252,7 +252,7 @@ export interface RSIStarmapCelestialObjectImages
 /**
  * Streaming URLs of a media source.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectSourceStream
 {
@@ -262,7 +262,7 @@ export interface RSIStarmapCelestialObjectSourceStream
 /**
  * Rendering data of a child object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectChildShaderData
 {
@@ -276,7 +276,7 @@ export interface RSIStarmapCelestialObjectChildShaderData
 /**
  * Subtype of a celestial object, for example a planet type.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectSubtype
 {
@@ -288,7 +288,7 @@ export interface RSIStarmapCelestialObjectSubtype
 /**
  * Rendering data of a celestial object.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectShaderData
 {
@@ -303,7 +303,7 @@ export interface RSIStarmapCelestialObjectShaderData
 /**
  * Highlight colors used by the starmap renderer.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectHighlight
 {
@@ -321,7 +321,7 @@ export interface RSIStarmapCelestialObjectHighlight
 /**
  * Star rendering data.
  *
- * @category Starmaps
+ * @category Types/Starmaps
  */
 export interface RSIStarmapCelestialObjectSun
 {
