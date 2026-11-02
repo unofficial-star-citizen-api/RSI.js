@@ -1,10 +1,12 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
-import { RSIStarMapStarSystem } from './interfaces/star-system.interface';
+import { RSIStarMapStarSystem, RSIStarMapStarSystemResponse } from './interfaces/star-system.interface';
 
 /**
  * StarmapStarSystems class for retrieving Star Citizen starmap star systems
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapStarSystems
 {
@@ -21,7 +23,7 @@ export class StarmapStarSystems
   {
     this.logger.info('Fetching starmap star system', { code });
 
-    const req = await this.httpClient.post<RSIStarMapStarSystem>(this.urlStarSystem.replace('{0}', code));
+    const req = await this.httpClient.post<RSIStarMapStarSystemResponse>(this.urlStarSystem.replace('{0}', code));
     if (req === null || req.status !== 200)
       throw new RSIError(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`);
 

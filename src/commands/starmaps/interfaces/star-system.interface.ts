@@ -1,5 +1,5 @@
 /** @internal */
-export interface RSIStarMapStarSystem
+export interface RSIStarMapStarSystemResponse
 {
   success: number;
   code: string;
@@ -21,6 +21,13 @@ export interface RSIStarMapStarSystemData
   estimatedrows: boolean;
 }
 
+/**
+ * A star system with its celestial objects, returned by {@link Starmaps.getStarSystemByCode}.
+ *
+ * Field names are kept as returned by the starmap API (snake_case).
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystem
 {
   id: number;
@@ -47,6 +54,11 @@ export interface RSIStarMapStarSystem
   thumbnail: RSIStarMapStarSystemThumbnail;
 }
 
+/**
+ * Political affiliation of a star system.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemAffiliation
 {
   id: number;
@@ -56,6 +68,11 @@ export interface RSIStarMapStarSystemAffiliation
   'membership.id': number;
 }
 
+/**
+ * A celestial object of a star system.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemCelestialObject
 {
   id: number;
@@ -92,6 +109,11 @@ export interface RSIStarMapStarSystemCelestialObject
   model?: RSIStarMapStarSystemModel;
 }
 
+/**
+ * 3D model settings of a celestial object.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemModel
 {
   slug: string;
@@ -99,6 +121,11 @@ export interface RSIStarMapStarSystemModel
   images: unknown[];
 }
 
+/**
+ * Rendering data of a celestial object.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemCelestialObjectShaderData
 {
   sun?: RSIStarMapStarSystemSun;
@@ -110,6 +137,11 @@ export interface RSIStarMapStarSystemCelestialObjectShaderData
   highlight?: RSIStarMapStarSystemHighlight;
 }
 
+/**
+ * Highlight colors used by the starmap renderer.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemHighlight
 {
   color1: string;
@@ -123,6 +155,11 @@ export interface RSIStarMapStarSystemHighlight
   scalePeriod: number;
 }
 
+/**
+ * Star rendering data.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemSun
 {
   color1: string;
@@ -147,6 +184,11 @@ export interface RSIStarMapStarSystemSun
   scalePeriod: number;
 }
 
+/**
+ * Subtype of a celestial object, for example a planet type.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemSubtype
 {
   id: number;
@@ -154,6 +196,11 @@ export interface RSIStarMapStarSystemSubtype
   type: string;
 }
 
+/**
+ * Thumbnail image of a star system.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemThumbnail
 {
   slug: string;
@@ -161,6 +208,11 @@ export interface RSIStarMapStarSystemThumbnail
   images: RSIStarMapStarSystemImages;
 }
 
+/**
+ * Image URLs of a thumbnail, keyed by RSI image format.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemImages
 {
   post: string;
@@ -168,6 +220,11 @@ export interface RSIStarMapStarSystemImages
   subscribers_vault_thumbnail: string;
 }
 
+/**
+ * Rendering data of a star system.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemShaderData
 {
   lightColor: string;
@@ -175,6 +232,11 @@ export interface RSIStarMapStarSystemShaderData
   planetsSize: RSIStarMapStarSystemPlanetsSize;
 }
 
+/**
+ * Planet size range used by the starmap renderer.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemPlanetsSize
 {
   min: number;
@@ -182,6 +244,11 @@ export interface RSIStarMapStarSystemPlanetsSize
   kFactor: number;
 }
 
+/**
+ * Starfield settings used by the starmap renderer.
+ *
+ * @category Starmaps
+ */
 export interface RSIStarMapStarSystemStarfield
 {
   radius: number;

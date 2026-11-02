@@ -9,6 +9,8 @@ import
 
 /**
  * StarmapSearch class for searching Star Citizen starmap
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapSearch
 {

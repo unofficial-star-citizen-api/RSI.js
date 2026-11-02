@@ -8,7 +8,10 @@ import
 
 
 /**
- * Stats class for retrieving Star Citizen game stats
+ * Crowdfunding stats: funds raised, fans, fleet size and Alpha slots.
+ * Access it through {@link RSI.fundingGoals}.
+ *
+ * @category Funding goals
  * @see https://robertsspaceindustries.com/en/funding-goals
  */
 export class FundingGoals
@@ -17,15 +20,30 @@ export class FundingGoals
   private readonly httpClient: HttpClient;
   private readonly logger = createLogger(FundingGoals.name);
 
+  /** @hidden */
   constructor(httpClient: HttpClient)
   {
     this.httpClient = httpClient;
   }
 
   /**
-   * Get crowdfunding stats
-   * @param chart - Chart type, e.g., 'hour', 'day', 'week', 'month'
-   * @returns Crowdfunding stats
+   * Get the crowdfunding totals and the funding chart for a period.
+   *
+   * @param chart - Chart granularity: hour, day, week or month
+   * @returns Funds, fans, fleet, Alpha slots left and the funding chart
+   * @throws {@link RSIError} if RSI answers with a non-200 status or an unsuccessful payload
+   *
+   * @example
+   * ```typescript
+   * import { RSI, RSIFundingGoalsTimePeriod } from '@unofficial-star-citizen-api/rsi.js';
+   *
+   * const rsi = new RSI();
+   * const stats = await rsi.fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Day);
+   *
+   * console.log(stats.funds, stats.fans);
+   * for (const [date, point] of Object.entries(stats.chart))
+   *   console.log(date, point.gross);
+   * ```
    */
   public async getCrowdfundingStats(chart: RSIFundingGoalsTimePeriod): Promise<RSIFundingGoals>
   {

@@ -8,6 +8,10 @@ import { RSIOrganizationResponse } from './interfaces/rsi-response.interface';
 
 type ReturnFunction = (params: OrganizationMembersSearchParams) => Promise<RSIOrganizationMember[]>;
 
+/**
+ * Build the function behind {@link Organizations.searchMembers}. Use `rsi.organizations.searchMembers` instead.
+ * @hidden
+ */
 export function searchMembers(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlOrganizationMembers = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';

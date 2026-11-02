@@ -1,10 +1,12 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
-import { RSIStarmapCelestialObject } from './interfaces/celestial-object.interface';
+import { RSIStarmapCelestialObject, RSIStarmapCelestialObjectResponse } from './interfaces/celestial-object.interface';
 
 /**
  * StarmapCelestialObjects class for retrieving Star Citizen celestial objects
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapCelestialObjects
 {
@@ -21,7 +23,7 @@ export class StarmapCelestialObjects
   {
     this.logger.info('Fetching starmap celestial objects');
 
-    const req = await this.httpClient.post<RSIStarmapCelestialObject>(this.urlCelestial.replace('{0}', ''));
+    const req = await this.httpClient.post<RSIStarmapCelestialObjectResponse>(this.urlCelestial.replace('{0}', ''));
     if (req === null || req.status !== 200)
       throw new RSIError(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`);
 

@@ -1,61 +1,81 @@
 import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 
 /**
- * Represents the detailed information of an organization
+ * An organization's public page, returned by {@link Organizations.get}.
+ *
+ * @category Organizations
  */
 export interface RSIOrganization
 {
-  // Basic identification
+  /** Spectrum identifier (SID), for example `PROTECTORA` */
   sid: string;
+  /** Resource metadata; `meta.url` is the organization page */
   meta: RSIResourceMeta;
+  /** Organization name */
   name: string | undefined;
 
-  // Visual elements
+  /** Absolute URL of the logo */
   logo: string | undefined;
+  /** Absolute URL of the banner image */
   banner: string | undefined;
 
-  // Membership information
+  /** Number of members; `NaN` if RSI does not show it */
   membersCount: number | undefined;
 
-  // Archetype of the organization
+  /** Archetype as displayed by RSI, for example `Organization` or `Corporation` */
   archetype: string | undefined;
 
-  // Commitment level of the organization
+  /** Commitment level as displayed by RSI, for example `Regular` */
   commitment: string | undefined;
 
-  // Organization focus areas
+  /** Primary and secondary activities */
   focus: RSIOrganizationFocusArea;
 
-  // Descriptive content
+  /** Short presentation shown at the top of the page */
   headline: RSIOrganizationFormattedContent;
+  /** History tab */
   history: RSIOrganizationFormattedContent;
+  /** Manifesto tab */
   manifesto: RSIOrganizationFormattedContent;
+  /** Charter tab */
   charter: RSIOrganizationFormattedContent;
 }
 
 /**
- * Represents the focus areas of an organization, including primary and secondary focuses
+ * Primary and secondary activities of an organization.
+ *
+ * @category Organizations
  */
 export interface RSIOrganizationFocusArea
 {
+  /** Primary activity */
   primary: RSIOrganizationFocus;
+  /** Secondary activity */
   secondary: RSIOrganizationFocus;
 }
 
 /**
- * Represents a focus area with an image and name
+ * One activity of an organization.
+ *
+ * @category Organizations
  */
 export interface RSIOrganizationFocus
 {
+  /** Absolute URL of the activity icon */
   image: string | undefined;
+  /** Activity name, for example `Social` or `Security` */
   name: string | undefined;
 }
 
 /**
- * Represents content that has both HTML and plaintext versions
+ * Text content available both as HTML and as plain text.
+ *
+ * @category Organizations
  */
 export interface RSIOrganizationFormattedContent
 {
+  /** Raw HTML rendered by RSI */
   html: string | undefined;
+  /** Text content without markup */
   plaintext: string | undefined;
 }

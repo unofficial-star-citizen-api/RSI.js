@@ -1,3 +1,7 @@
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContent
 {
   success: number;
@@ -6,6 +10,10 @@ export interface RSISpectrumThreadContent
   data: RSISpectrumThreadContentData;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentData
 {
   id: string;
@@ -44,6 +52,10 @@ export interface RSISpectrumThreadContentData
   replies: RSISpectrumThreadContentReply[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElement
 {
   id: number;
@@ -51,12 +63,20 @@ export interface RSISpectrumThreadContentElement
   data: RSISpectrumThreadContentElementData;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementData
 {
   blocks: RSISpectrumThreadContentElementDataBlock[];
   entityMap: RSISpectrumThreadContentElementDataEntityMap[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementDataBlock
 {
   key: string;
@@ -68,6 +88,10 @@ export interface RSISpectrumThreadContentElementDataBlock
   data: unknown[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementDataEntityRange
 {
   offset: number;
@@ -75,6 +99,10 @@ export interface RSISpectrumThreadContentElementDataEntityRange
   key: number;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementDataInlineStyleRange
 {
   offset: number;
@@ -82,6 +110,10 @@ export interface RSISpectrumThreadContentElementDataInlineStyleRange
   style: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadContentElementDataBlockType
 {
   HeaderOne = 'header-one',
@@ -90,6 +122,10 @@ export enum RSISpectrumThreadContentElementDataBlockType
   Blockquote = 'blockquote',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementDataEntityMap
 {
   type: string;
@@ -97,17 +133,29 @@ export interface RSISpectrumThreadContentElementDataEntityMap
   data: RSISpectrumThreadContentElementDataEntityMapData | string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentElementDataEntityMapData
 {
   href: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadContentElementType
 {
   Image = 'image',
   Text = 'text',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentLatestActivity
 {
   time_created: number;
@@ -115,6 +163,10 @@ export interface RSISpectrumThreadContentLatestActivity
   highlight_role_id: null;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentLatestActivityMember
 {
   id: string;
@@ -128,22 +180,38 @@ export interface RSISpectrumThreadContentLatestActivityMember
   roles?: RSISpectrumThreadContentLatestActivityMemberRoles;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentLatestActivityMemberMeta
 {
   badges: RSISpectrumThreadContentLatestActivityMemberMetaBadge[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentLatestActivityMemberMetaBadge
 {
   name: string;
   icon: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentLatestActivityMemberRoles
 {
   '1': string[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentErasedByClass
 {
   id: string;
@@ -158,11 +226,19 @@ export interface RSISpectrumThreadContentErasedByClass
   roles?: { [key: string]: string[]; };
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentErasedByClassMeta
 {
   badges: RSISpectrumThreadContentErasedByClassMetaBadge[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentErasedByClassMetaBadge
 {
   name: string;
@@ -170,6 +246,10 @@ export interface RSISpectrumThreadContentErasedByClassMetaBadge
   url?: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSIPresence
 {
   status: string;
@@ -177,12 +257,20 @@ export interface RSIPresence
   since: number;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadContentErasedByClassSignature
 {
   TypicalDutch = 'TypicalDutch',
   Empty = '',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReaction
 {
   type: string;
@@ -190,6 +278,10 @@ export interface RSISpectrumThreadContentReaction
   members: { [key: string]: string; };
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReply
 {
   id: string;
@@ -211,12 +303,20 @@ export interface RSISpectrumThreadContentReply
   replies: RSISpectrumThreadContentReplyReply[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyReference
 {
   id: string;
   label: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyContentBlock
 {
   id: number | string;
@@ -224,6 +324,10 @@ export interface RSISpectrumThreadContentReplyContentBlock
   data: RSISpectrumThreadContentReplyContentBlockData[] | RSISpectrumThreadContentElementData;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyContentBlockData
 {
   id: string;
@@ -231,6 +335,10 @@ export interface RSISpectrumThreadContentReplyContentBlockData
   data: RSISpectrumThreadContentReplyContentBlockDataData;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyContentBlockDataData
 {
   url: string;
@@ -239,6 +347,10 @@ export interface RSISpectrumThreadContentReplyContentBlockDataData
   sizes: RSISpectrumThreadContentReplyContentBlockDataDataSizes;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyContentBlockDataDataSizes
 {
   mini: RSISpectrumThreadContentReplyContentBlockDataDataSizesLarge;
@@ -248,11 +360,19 @@ export interface RSISpectrumThreadContentReplyContentBlockDataDataSizes
   large: RSISpectrumThreadContentReplyContentBlockDataDataSizesLarge;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyContentBlockDataDataSizesLarge
 {
   url: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyMember
 {
   id: string;
@@ -266,6 +386,10 @@ export interface RSISpectrumThreadContentReplyMember
   roles: { [key: string]: string[]; };
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentReplyReply
 {
   id: string;
@@ -287,6 +411,10 @@ export interface RSISpectrumThreadContentReplyReply
   replies: RSISpectrumThreadContentReplyReply[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadContentDataVotes
 {
   count: number;

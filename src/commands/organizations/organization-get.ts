@@ -7,6 +7,10 @@ import { RSIOrganization } from './interfaces';
 
 type ReturnFunction = (sid: string) => Promise<RSIOrganization>;
 
+/**
+ * Build the function behind {@link Organizations.get}. Use `rsi.organizations.get` instead.
+ * @hidden
+ */
 export function get(httpClient: HttpClient, loggerName = 'Organizations'): ReturnFunction
 {
   const urlOrganization = 'https://robertsspaceindustries.com/orgs/{0}';

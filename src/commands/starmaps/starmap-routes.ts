@@ -6,6 +6,8 @@ import { RSIStarmapRoute } from './interfaces/route.interface';
 
 /**
  * StarmapRouteSearch class for searching routes in Star Citizen starmap
+ * Use {@link Starmaps} through `rsi.starmaps` instead.
+ * @hidden
  */
 export class StarmapRoute
 {

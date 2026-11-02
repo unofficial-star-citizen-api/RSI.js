@@ -7,6 +7,10 @@ export interface RSISpectrumThreadResponse
   data: RSISpectrumThreadData;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadData
 {
   threads: RSISpectrumThreadDataThread[];
@@ -15,6 +19,10 @@ export interface RSISpectrumThreadData
   latest_timestamp: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThread
 {
   id: string;
@@ -45,11 +53,19 @@ export interface RSISpectrumThreadDataThread
   first_tracked_reply?: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadDataThreadAspect
 {
   Teaser = 'teaser',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadLatestActivity
 {
   time_created: number;
@@ -57,6 +73,10 @@ export interface RSISpectrumThreadDataThreadLatestActivity
   highlight_role_id: null | string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadLatestActivityMember
 {
   id: string;
@@ -70,11 +90,19 @@ export interface RSISpectrumThreadDataThreadLatestActivityMember
   roles: { [key: string]: string[]; };
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadMeta
 {
   badges: RSISpectrumThreadDataThreadLatestActivityMemberMetaBadge[];
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadLatestActivityMemberMetaBadge
 {
   name: string;
@@ -82,6 +110,10 @@ export interface RSISpectrumThreadDataThreadLatestActivityMemberMetaBadge
   url?: string;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadMember
 {
   id: string;
@@ -96,6 +128,10 @@ export interface RSISpectrumThreadDataThreadMember
   roles: { [key: string]: string[]; };
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadMemberPresence
 {
   status: RSISpectrumThreadDataThreadMemberPresenceStatus;
@@ -103,17 +139,29 @@ export interface RSISpectrumThreadDataThreadMemberPresence
   since: number;
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadDataThreadMemberPresenceStatus
 {
   Offline = 'offline',
   Online = 'online',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export enum RSISpectrumThreadDataThreadType
 {
   Discussion = 'discussion',
 }
 
+/**
+ * Raw Spectrum API type, not returned by any method.
+ * @hidden
+ */
 export interface RSISpectrumThreadDataThreadVotes
 {
   count: number;

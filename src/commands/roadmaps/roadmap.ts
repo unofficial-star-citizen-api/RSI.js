@@ -9,7 +9,11 @@ import
 } from './interfaces';
 
 /**
- * Roadmap class for retrieving Star Citizen roadmap information
+ * Release roadmaps of Star Citizen and Squadron 42.
+ * Access it through {@link RSI.roadmaps}.
+ *
+ * @category Roadmaps
+ * @see https://robertsspaceindustries.com/roadmap/release-view
  */
 export class Roadmaps
 {
@@ -18,17 +22,31 @@ export class Roadmaps
   private readonly httpClient: HttpClient;
   private readonly logger = createLogger(Roadmaps.name);
 
-  /**
-   * @param board - The roadmap board ("starcitizen" or "squadron42")
-   * @param version - The starcitizen version (optional)
-   */
+  /** @hidden */
   constructor(httpClient: HttpClient)
   {
     this.httpClient = httpClient;
   }
 
   /**
-   * Execute the command to retrieve roadmap information
+   * Get a roadmap board with its releases, cards and statuses.
+   *
+   * @param board - Board to read: Star Citizen or Squadron 42
+   * @returns The board and its releases
+   * @throws Error if `board` is not a {@link RSIRoadmapBoard} value
+   * @throws {@link RSIError} if RSI answers with a non-200 status or an invalid payload
+   *
+   * @example
+   * ```typescript
+   * import { RSI, RSIRoadmapBoard } from '@unofficial-star-citizen-api/rsi.js';
+   *
+   * const rsi = new RSI();
+   * const sc = await rsi.roadmaps.getBoardReleases(RSIRoadmapBoard.StarCitizen);
+   * const s42 = await rsi.roadmaps.getBoardReleases(RSIRoadmapBoard.Squadron42);
+   *
+   * for (const release of sc?.releases ?? [])
+   *   console.log(release.name, release.cards.length);
+   * ```
    */
   public async getBoardReleases(board: RSIRoadmapBoard): Promise<RSIRoadmap | null>
   {
