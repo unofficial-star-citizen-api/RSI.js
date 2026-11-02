@@ -22,6 +22,9 @@ compose.yaml
 
 # Documentation
 TODO.md
+docs/
+site/
+typedoc.json
 
 # Node modules and logs
 node_modules/

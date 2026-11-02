@@ -1,0 +1,121 @@
+name: Docs
+
+# Builds the documentation site from both branches into one GitHub Pages deployment:
+#   main    -> https://<owner>.github.io/<repo>/          (stable docs)
+#   staging -> https://<owner>.github.io/<repo>/staging/  (preview)
+# A push to either branch rebuilds both, so neither site is ever removed by the other.
+#
+# One-time setup: Settings > Pages > Source: "GitHub Actions", and allow the `staging`
+# branch in Settings > Environments > github-pages > Deployment branches.
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: [ main, staging ]
+    paths:
+      - '.github/workflows/docs.yaml'
+      - 'src/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'typedoc.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BASE_PATH: /${{ github.event.repository.name }}/
+
+    steps:
+    - name: Checkout main
+      uses: actions/checkout@v6
+      with:
+        ref: main
+        path: prod
+        fetch-depth: 0 # tags, to show the release version in the site header
+
+    - name: Checkout staging
+      uses: actions/checkout@v6
+      with:
+        ref: staging
+        path: staging
+        fetch-depth: 0
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v5
+      with:
+        package_json_file: staging/package.json
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 26.x
+        cache: 'pnpm'
+        cache-dependency-path: |
+          prod/pnpm-lock.yaml
+          staging/pnpm-lock.yaml
+
+    - name: Build stable docs (main)
+      shell: bash
+      run: |
+        mkdir -p _site
+        if [ ! -f prod/typedoc.json ]; then
+          echo "::notice::main has no typedoc.json yet, publishing a placeholder at the root"
+          echo '<!DOCTYPE html><meta charset="utf-8"><title>RSI.js</title><p>The documentation is not released yet. See the <a href="staging/">staging preview</a>.</p>' > _site/index.html
+          exit 0
+        fi
+        cd prod
+        # Same rule as ci-cd.yaml: main releases the latest rc tag in its history, without the -rc suffix
+        TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*-rc.*' 2>/dev/null || true)
+        VERSION="${TAG#v}"; VERSION="${VERSION%-rc.*}"
+        if [ -n "$VERSION" ]; then jq --arg v "$VERSION" '.version = $v' package.json > package.tmp.json && mv package.tmp.json package.json; fi
+        jq --arg base "$BASE_PATH" '.cleanJsdocTheme.basePath = $base' typedoc.json > typedoc.tmp.json && mv typedoc.tmp.json typedoc.json
+        pnpm install --frozen-lockfile
+        pnpm run docs
+        cp -r site/. ../_site/
+
+    - name: Build preview docs (staging)
+      shell: bash
+      run: |
+        if [ ! -f staging/typedoc.json ]; then
+          echo "::notice::staging has no typedoc.json, skipping the preview"
+          exit 0
+        fi
+        cd staging
+        # Latest release candidate in staging history
+        TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*-rc.*' 2>/dev/null || true)
+        if [ -n "$TAG" ]; then jq --arg v "${TAG#v}" '.version = $v' package.json > package.tmp.json && mv package.tmp.json package.json; fi
+        jq --arg base "${BASE_PATH}staging/" \
+          '.cleanJsdocTheme.basePath = $base | .cleanJsdocTheme.siteName = "RSI.js (staging preview)" | .gitRevision = "staging"' \
+          typedoc.json > typedoc.tmp.json && mv typedoc.tmp.json typedoc.json
+        pnpm install --frozen-lockfile
+        pnpm run docs
+        mkdir -p ../_site/staging
+        cp -r site/. ../_site/staging/
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v5
