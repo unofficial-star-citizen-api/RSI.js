@@ -1,0 +1,14 @@
+diff --git a/dist/index.js b/dist/index.js
+index 3e7aec9ea2bb81afab9f3f08c7993cb7452b7fc4..8ee46e5f47de468e803759b96ae22d7996de3649 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -606,6 +606,9 @@ function applyMemberRelations(reflection, doclet, resolveLink) {
+ */
+ function adaptContainer(reflection, doclet, resolveLink) {
+ 	const ctor = reflection.children?.find((c) => c.kindOf(ReflectionKind.Constructor));
++	// TypeDoc removes the constructor of a class marked @hideconstructor (or a @hidden constructor):
++	// render no Constructors section for it instead of an empty `new X()` signature.
++	if (!ctor && reflection.kindOf(ReflectionKind.Class)) doclet.hideconstructor = true;
+ 	const signature = firstSignature(ctor);
+ 	if (signature) {
+ 		const params = adaptParameters(signature, /* @__PURE__ */ new Map(), resolveLink);
