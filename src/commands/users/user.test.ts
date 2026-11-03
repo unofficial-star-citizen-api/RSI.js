@@ -193,6 +193,84 @@ describe('User', () =>
       spy.mockRestore();
     });
 
+    test('should extract a main organization with slashes in its name and no affiliation', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: fs.readFileSync(path.join(__dirname, 'mocks', 'organizations.html'), 'utf8')
+      } as any);
+
+      const data = await user.getOrganization('X');
+
+      expect(data?.organization).toEqual({
+        info: {
+          meta: { url: 'https://robertsspaceindustries.com/orgs/PROTECTORA' },
+          sid: 'PROTECTORA',
+          name: 'Protectorat (EU/QC/974/PC)',
+          rank: 'Membre',
+          stars: 0,
+          image: 'https://robertsspaceindustries.com/media/1fvt89w8g12brr/heap_infobox/PROTECTORA-Logo.png',
+          members: 1445
+        },
+        characteristics: {
+          archetype: 'Corporation',
+          primaryLanguage: 'French',
+          primaryActivity: 'Security',
+          recruiting: true,
+          sectorOfActivity: 'Infiltration',
+          roleplay: false,
+          commitment: 'Hardcore',
+          exclusive: true
+        }
+      });
+      expect(data?.affiliations).toEqual([]);
+    });
+
+    test('should return an empty main organization when it is redacted', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: fs.readFileSync(path.join(__dirname, 'mocks', 'organizations-redacted.html'), 'utf8')
+      } as any);
+
+      const data = await user.getOrganization('X');
+
+      expect(data?.organization.info).toEqual({
+        meta: { url: undefined },
+        sid: undefined,
+        name: undefined,
+        rank: undefined,
+        stars: undefined,
+        image: undefined,
+        members: undefined
+      });
+      expect(Object.values(data!.organization.characteristics).every(value => value === undefined)).toBe(true);
+
+      // Public affiliations are still returned
+      expect(data?.affiliations).toEqual([{
+        sid: 'OPPF',
+        name: 'Operation Pitchfork',
+        rank: 'Bacon Maker I',
+        stars: 0,
+        members: 5361,
+        image: 'https://robertsspaceindustries.com/media/91scp32ik2k2ur/heap_infobox/OPPF-Logo.png'
+      }]);
+    });
+
+    test('should return an empty main organization when the citizen has none', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: '<div class="profile-content"></div>'
+      } as any);
+
+      const data = await user.getOrganization('X');
+
+      expect(data?.organization.info.sid).toBeUndefined();
+      expect(data?.organization.info.meta.url).toBeUndefined();
+      expect(data?.affiliations).toEqual([]);
+    });
+
     test('should extract user affiliations correctly', async () =>
     {
       // Mock the HTTP client get method to return our mock HTML
@@ -296,9 +374,77 @@ describe('User', () =>
       expect(data).not.toBeNull();
       expect(data?.location).toBeUndefined();
       expect(data?.fluency).toEqual([]);
-      expect(data?.enlisted).toBe(new Date('25 Aug 2016').toISOString());
+      expect(data?.enlisted).toBe('2016-08-25T00:00:00.000Z');
 
       spy.mockRestore();
+    });
+
+    test('should parse the enlisted date independently of the local timezone', async () =>
+    {
+      // vitest.config.ts runs the tests in UTC+14, a local-time parse would give the previous day
+      expect(new Date().getTimezoneOffset()).not.toBe(0);
+
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: fs.readFileSync(path.join(__dirname, 'mocks', 'profile.html'), 'utf8')
+      } as any);
+
+      const data = await user.getProfile('Dymerz');
+
+      // The page shows "Aug 19, 2016"
+      expect(data?.enlisted).toBe('2016-08-19T00:00:00.000Z');
+    });
+
+    test('should parse a redacted profile', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: fs.readFileSync(path.join(__dirname, 'mocks', 'profile-redacted.html'), 'utf8')
+      } as any);
+
+      const data = await user.getProfile('Dewderonomy');
+
+      expect(data).toMatchObject({
+        id: '#711498',
+        display: 'Brandon Van Orr',
+        handle: 'Dewderonomy',
+        badge: {
+          name: 'Mercenary',
+          image: 'https://robertsspaceindustries.com/media/kji9vcgdoaiibr/heap_thumb/Mercenary.png'
+        },
+        image: 'https://robertsspaceindustries.com/media/w0i4i84hml79qr/heap_infobox/AVCOM6.png',
+        enlisted: '2015-01-03T00:00:00.000Z',
+        fluency: ['English']
+      });
+      expect(data?.location).toBeUndefined();
+      expect(data?.website).toBeUndefined();
+      expect(data?.bio.text).toMatch(/^Been playing MMOs for over 25 years/);
+    });
+
+    test('should not report a badge when the citizen has none', async () =>
+    {
+      const mockHtml = `
+        <div class="info">
+          <p class="entry">
+            <strong class="value">Test User</strong>
+          </p>
+          <p class="entry">
+            <span class="label">Handle name</span>
+            <strong class="value">TestUser</strong>
+          </p>
+        </div>
+      `;
+
+      vi.spyOn(httpClient, 'get').mockResolvedValue({
+        status: 200,
+        data: mockHtml
+      } as any);
+
+      const data = await user.getProfile('TestUser');
+
+      expect(data?.display).toBe('Test User');
+      expect(data?.handle).toBe('TestUser');
+      expect(data?.badge).toBeUndefined();
     });
 
     test('should handle invalid enlisted date', async () =>

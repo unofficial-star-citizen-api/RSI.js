@@ -54,7 +54,7 @@ export function search(httpClient: HttpClient, loggerName = 'Organizations'): Re
           language: $(orgElement).find('.label:contains("Lang")').next().text().trim(),
           isRecruiting: $(orgElement).find('.label:contains("Recruiting")').next().text().trim().toLowerCase() === 'yes',
           isRoleplay: $(orgElement).find('.label:contains("Role play")').next().text().trim().toLowerCase() === 'yes',
-          membersCount: parseInt($(orgElement).find('.label:contains("Members")').next().text().trim())
+          membersCount: parseInt($(orgElement).find('.label:contains("Members")').next().text().replace(/\D/g, ''), 10)
         }
       });
     }

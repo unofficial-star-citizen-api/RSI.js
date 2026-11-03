@@ -81,22 +81,24 @@ export class Users
     // Get HTML contents
     const $ = load(response.data);
 
-    const enlistedDate = new Date($('.label:contains("Enlisted")').next().text().trim());
-    const hasBadge = $('.info').first().find('p').last().find('.value').text().trim().length > 0;
+    const info = $('.info').first();
+    // The badge is the only entry with an icon, it is absent when the citizen has no badge
+    const badgeEntry = info.find('.entry').filter((_, entry) => $(entry).find('.icon').length > 0).first();
+    const badgeName = badgeEntry.find('.value').text().trim();
 
     return {
       meta: {
         url
       },
       id: $('.label:contains("UEE Citizen Record")').next().text().trim(),
-      display: $('.info').first().find('p').first().find('.value').text().trim(),
+      display: info.find('p').first().find('.value').text().trim(),
       handle: $('.label:contains("Handle name")').next().text().trim(),
-      badge: hasBadge ? {
-        name: $('.info').first().find('p').last().find('.value').text().trim(),
-        image: HttpClient.toAbsoluteUrl($('.info').first().find('.entry').find('.icon').find('img').attr('src'))
+      badge: badgeName ? {
+        name: badgeName,
+        image: HttpClient.toAbsoluteUrl(badgeEntry.find('.icon img').attr('src'))
       } : undefined,
       image: HttpClient.toAbsoluteUrl($('.title:contains("Profile")').next().find('.thumb').find('img').attr('src')),
-      enlisted: (isNaN(enlistedDate.getTime()) ? undefined : enlistedDate.toISOString()),
+      enlisted: this.extractProfileEnlisted($),
       location: this.extractProfileLocations($),
       fluency: this.extractProfileFluency($),
       website: $('.label:contains("Website")').next().attr('href'),
@@ -147,35 +149,68 @@ export class Users
     const $ = load(response.data);
 
     const mainOrg = $('.org.main');
-    const organization: RSIMainOrganization = {
-      info: {
-        meta: {
-          url: HttpClient.toAbsoluteUrl($(mainOrg).find('.info .entry').first().find('a').attr('href'))
-        },
-        sid: $(mainOrg).find('.label:contains("SID")').next().text().trim(),
-        name: $(mainOrg).find('.info .entry').first().text().trim(),
-        rank: $(mainOrg).find('.label:contains("rank")').next().text().trim(),
-        stars: $(mainOrg).find('.ranking span.active').length,
-        image: HttpClient.toAbsoluteUrl($(mainOrg).find('img').attr('src')),
-        members: Number(/\d+/.exec($(mainOrg).find('.members').text().trim())?.at(0) ?? NaN)
-      },
-      characteristics: {
-        archetype: $(mainOrg).find('.label:contains("Archetype")').next().text().trim(),
-        primaryLanguage: $(mainOrg).find('.label:contains("Prim. Language")').next().text().trim(),
-        primaryActivity: $(mainOrg).find('.label:contains("Prim. Activity")').next().text().trim(),
-        recruiting: $(mainOrg).find('.label:contains("Recruiting")').next().text().trim() === 'Yes',
-        sectorOfActivity: $(mainOrg).find('.label:contains("Sec. Activity")').next().text().trim(),
-        roleplay: $(mainOrg).find('.label:contains("Role Play")').next().text().trim() === 'Yes',
-        commitment: $(mainOrg).find('.label:contains("Commitment")').next().text().trim(),
-        exclusive: $(mainOrg).find('.label:contains("Exclusive")').next().text().trim() === 'Yes'
-      }
-    };
+    const organization: RSIMainOrganization = (mainOrg.length === 0 || mainOrg.find('.restriction').length > 0)
+      ? this.emptyMainOrganization()
+      : this.extractMainOrganization(mainOrg);
 
     // Extract affiliations
     const affiliations = this.extractAffiliations($);
     return {
       organization,
       affiliations
+    };
+  }
+
+  /** Main organization with every field undefined, used when it is redacted or the citizen has none */
+  private emptyMainOrganization(): RSIMainOrganization
+  {
+    return {
+      info: {
+        meta: { url: undefined },
+        sid: undefined,
+        name: undefined,
+        rank: undefined,
+        stars: undefined,
+        image: undefined,
+        members: undefined
+      },
+      characteristics: {
+        archetype: undefined,
+        primaryLanguage: undefined,
+        primaryActivity: undefined,
+        recruiting: undefined,
+        sectorOfActivity: undefined,
+        roleplay: undefined,
+        commitment: undefined,
+        exclusive: undefined
+      }
+    };
+  }
+
+  private extractMainOrganization(mainOrg: ReturnType<CheerioAPI>): RSIMainOrganization
+  {
+    return {
+      info: {
+        meta: {
+          url: HttpClient.toAbsoluteUrl(mainOrg.find('.info .entry').first().find('a').attr('href'))
+        },
+        sid: mainOrg.find('.label:contains("SID")').next().text().trim(),
+        name: mainOrg.find('.info .entry').first().text().trim(),
+        rank: mainOrg.find('.label:contains("rank")').next().text().trim(),
+        stars: mainOrg.find('.ranking span.active').length,
+        image: HttpClient.toAbsoluteUrl(mainOrg.find('img').attr('src')),
+        members: Number(/\d+/.exec(mainOrg.find('.members').text().trim())?.at(0) ?? NaN)
+      },
+      characteristics: {
+        archetype: mainOrg.find('.label:contains("Archetype")').next().text().trim(),
+        primaryLanguage: mainOrg.find('.label:contains("Prim. Language")').next().text().trim(),
+        primaryActivity: mainOrg.find('.label:contains("Prim. Activity")').next().text().trim(),
+        recruiting: mainOrg.find('.label:contains("Recruiting")').next().text().trim() === 'Yes',
+        sectorOfActivity: mainOrg.find('.label:contains("Sec. Activity")').next().text().trim(),
+        roleplay: mainOrg.find('.label:contains("Role Play")').next().text().trim() === 'Yes',
+        commitment: mainOrg.find('.label:contains("Commitment")').next().text().trim(),
+        exclusive: mainOrg.find('.label:contains("Exclusive")').next().text().trim() === 'Yes'
+      }
     };
   }
 
@@ -206,6 +241,16 @@ export class Users
     });
 
     return affiliations;
+  }
+
+  private extractProfileEnlisted($: CheerioAPI): RSIUserProfile['enlisted']
+  {
+    // RSI shows a calendar date ("Aug 19, 2016"), read it as UTC midnight so the result does not depend on the local timezone
+    const date = new Date($('.label:contains("Enlisted")').next().text().trim());
+    if (isNaN(date.getTime()))
+      return undefined;
+
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString();
   }
 
   private extractProfileLocations($: CheerioAPI): RSIUserProfile['location']

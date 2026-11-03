@@ -67,9 +67,9 @@ export class PatchNote
   }
 
   /**
-   * Find the newest patch note whose version contains the given text.
+   * Find the newest patch note whose version equals or starts with the given version.
    *
-   * @param version - Version to look for, for example `4.0.1`; a prefix such as `4.0` also matches
+   * @param version - Version to look for, for example `4.0.1`; a prefix such as `4.0` also matches `4.0.x` versions
    * @returns The matching patch note, or `undefined` if none is listed on the first page
    * @throws {@link RSIError} if RSI answers with a non-200 status
    *
@@ -82,7 +82,8 @@ export class PatchNote
   public async find(version: string): Promise<RSIPatchNote | undefined>
   {
     this.logger.info('Searching patch notes by version', { version });
-    return (await this.fetchAll()).find(patchNote => patchNote.version?.includes(version));
+    // Match whole version components: "4.0" matches "4.0.2" but "0.2" does not
+    return (await this.fetchAll()).find(patchNote => patchNote.version === version || patchNote.version?.startsWith(`${version}.`));
   }
 
   private async fetchAll(): Promise<RSIPatchNote[]>
@@ -96,15 +97,18 @@ export class PatchNote
     return $('#channel a.content-block2').toArray().map((element) =>
     {
       const link = $(element).attr('href')?.trim();
+      const title = $(element).find('.title').text().trim();
+      const commentCount = parseInt($(element).find('.text .comments').text().replace(/\D/g, ''), 10);
 
       return {
-        title: $(element).find('.title').text().trim(),
-        version: $(element).text().match(/((\d\.?)+)/)?.at(1)?.trim(),
+        title,
+        // Keep hotfix suffixes such as "3.23.1a"
+        version: title.match(/\d+(?:\.\d+)+[a-z]?/i)?.at(0),
         meta: {
           url: HttpClient.toAbsoluteUrl(link)
         },
-        image: $(element).find('.background').attr('style')?.match(/url\(["'](.*?)["']/)?.at(1)?.trim(),
-        commentCount: Number($(element).find('.text.comments').text() ?? 0),
+        image: HttpClient.toAbsoluteUrl($(element).find('.background').attr('style')?.match(/url\(["'](.*?)["']/)?.at(1)?.trim()),
+        commentCount: isNaN(commentCount) ? undefined : commentCount,
         time_ago: $(element).find('.text .time_ago .value').text()?.trim(),
       };
     });
