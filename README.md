@@ -95,7 +95,7 @@ Every module hangs off an `RSI` instance. All methods are `async` and return typ
 |---|---|---|
 | `rsi.users` | Citizen profiles and organization affiliations | [Users](https://unofficial-star-citizen-api.github.io/RSI.js/users) |
 | `rsi.organizations` | Organization pages, directory search and member lists | [Organizations](https://unofficial-star-citizen-api.github.io/RSI.js/organizations) |
-| `rsi.ships` | Ship search with ship-matrix specs and store prices | [Ships](https://unofficial-star-citizen-api.github.io/RSI.js/ships) |
+| `rsi.ships` | Ships by ID, chassis or search, with ship-matrix specs and store prices | [Ships](https://unofficial-star-citizen-api.github.io/RSI.js/ships) |
 | `rsi.versions` | LIVE, PTU and ETF versions, patch notes | [Versions](https://unofficial-star-citizen-api.github.io/RSI.js/versions) |
 | `rsi.roadmaps` | Star Citizen and Squadron 42 release roadmaps | [Roadmaps](https://unofficial-star-citizen-api.github.io/RSI.js/roadmaps) |
 | `rsi.progressTrackers` | Progress tracker teams and deliverables | [ProgressTrackers](https://unofficial-star-citizen-api.github.io/RSI.js/progresstrackers) |

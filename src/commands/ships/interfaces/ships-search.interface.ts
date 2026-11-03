@@ -1,7 +1,7 @@
 import type { RSIResourceMeta } from '@/types/resource-meta.interface';
 
 /**
- * A ship returned by {@link Ships.search}: its ship-matrix specs plus the lowest current store price.
+ * A ship returned by {@link Ships}: its ship-matrix specs plus its store price.
  *
  * Field names are kept as returned by the RSI ship matrix (snake_case).
  *
@@ -71,8 +71,10 @@ export interface RSIShipSearch
   readonly 'time_modified.unfiltered': string;
   /** Default components, grouped by component class */
   readonly compiled: RSIShipCompiled;
-  /** Lowest current store price in USD; `0` when the ship is not for sale */
+  /** Standalone store price (MSRP) in USD, set even when the ship is not for sale; `0` when the store has no price */
   price: number;
+  /** Whether the ship can currently be bought standalone in the store */
+  readonly purchasable: boolean;
 }
 
 /**
