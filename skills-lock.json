@@ -12,6 +12,13 @@
       "sourceType": "github",
       "skillPath": "plugins/documentation-generation/skills/changelog-automation/SKILL.md",
       "computedHash": "d636f9b3b0f05e1c554d3badaa18a9d044d806e3aeac9533d2af5a9753f1b901"
+    },
+    "vitest": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "skillPath": "skills/vitest/SKILL.md",
+      "computedHash": "b26b7f8d10e860e944e0334c003207771707c4906514cb96c971faae13fba875",
+      "installMode": "copy"
     }
   }
 }
