@@ -1,3 +1,4 @@
+
 import
 {
   afterEach,
@@ -9,23 +10,18 @@ import
 } from 'vitest';
 import { HttpClient, RSI } from '../../index';
 import { Logger } from '../../logger';
+import {
+  GRAPHQL_URL,
+  MATRIX_URL,
+  MOCK_SHIP,
+  MOCK_STORE_SHIP,
+  SEARCH_HTML,
+  SEARCH_URL,
+  matrixResponse,
+  searchResponse,
+  storeResponse
+} from './mocks/ship.mock';
 import { Ships } from './ships';
-
-const SEARCH_URL = 'https://robertsspaceindustries.com/api/store/getShips';
-const MATRIX_URL = 'https://robertsspaceindustries.com/ship-matrix/index';
-
-const MOCK_SHIP = {
-  id: '56',
-  name: 'Cutlass Black',
-  url: '/pledge/ships/cutlass/Cutlass-Black',
-  afterburner_speed: '1228',
-  beam: '26',
-  cargocapacity: '46',
-  chassis_id: '12',
-  compiled: { RSIAvionic: { computers: [] } }
-};
-
-const SEARCH_HTML = '<div data-ship-id="56"></div>';
 
 describe('Ships', () =>
 {
@@ -57,20 +53,14 @@ describe('Ships', () =>
       {
         if (url === SEARCH_URL)
         {
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
-          } as any);
+          return Promise.resolve(searchResponse(SEARCH_HTML));
         }
-        return Promise.resolve({
-          status: 200,
-          data: { success: 1, data: [MOCK_SHIP] }
-        } as any);
+        if (url === GRAPHQL_URL)
+        {
+          return Promise.resolve(storeResponse([MOCK_STORE_SHIP]));
+        }
+        return Promise.resolve(matrixResponse([MOCK_SHIP]));
       });
-      vi.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 200,
-        data: '<html><body></body></html>'
-      } as any);
 
       await ships.search({ name: 'Cutlass Black' });
 
@@ -88,25 +78,18 @@ describe('Ships', () =>
       {
         if (url === SEARCH_URL)
         {
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
-          } as any);
+          return Promise.resolve(searchResponse(SEARCH_HTML));
         }
         if (url === MATRIX_URL)
         {
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: [MOCK_SHIP] }
-          } as any);
+          return Promise.resolve(matrixResponse([MOCK_SHIP]));
+        }
+        if (url === GRAPHQL_URL)
+        {
+          return Promise.resolve(storeResponse([MOCK_STORE_SHIP]));
         }
         return Promise.reject(new Error(`Unexpected POST to ${url}`));
       });
-
-      vi.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 200,
-        data: '<html><body><span class="final-price" data-value="9500">$95</span></body></html>'
-      } as any);
 
       const data = await ships.search({ name: 'Cutlass Black' });
 
@@ -114,15 +97,36 @@ describe('Ships', () =>
       expect(data).toHaveLength(1);
       expect(data[0].name).toBe('Cutlass Black');
       expect(data[0].meta.url).toBe('https://robertsspaceindustries.com/pledge/ships/cutlass/Cutlass-Black');
-      expect(data[0].price).toBe(95);
+      expect(data[0].price).toBe(110);
+      expect(data[0].purchasable).toBe(true);
+    });
+
+    test('should fetch store prices once per chassis', async () =>
+    {
+      let graphqlCalls = 0;
+      vi.spyOn(httpClient, 'post').mockImplementation((url: string, body?: any) =>
+      {
+        if (url === SEARCH_URL)
+        {
+          return Promise.resolve(searchResponse('<div data-ship-id="56"></div><div data-ship-id="57"></div>'));
+        }
+        if (url === MATRIX_URL)
+        {
+          return Promise.resolve(matrixResponse([{ ...MOCK_SHIP, id: Number(body.id) }]));
+        }
+        graphqlCalls++;
+        return Promise.resolve(storeResponse([MOCK_STORE_SHIP, { id: '57', msrp: 13500, purchasable: false }]));
+      });
+
+      const data = await ships.search({ name: 'Cutlass' });
+
+      expect(graphqlCalls).toBe(1);
+      expect(data.map(s => s.price)).toEqual([110, 135]);
     });
 
     test('should return empty array when search finds no ships (success=1, empty HTML)', async () =>
     {
-      vi.spyOn(httpClient, 'post').mockResolvedValue({
-        status: 200,
-        data: { success: 1, data: { html: '', rowcount: 0 } }
-      } as any);
+      vi.spyOn(httpClient, 'post').mockResolvedValue(searchResponse(''));
 
       const data = await ships.search({ name: 'NonExistentShip' });
 
@@ -152,20 +156,7 @@ describe('Ships', () =>
     test('should throw error when ship-matrix returns no data', async () =>
     {
       vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
-      {
-        if (url === SEARCH_URL)
-        {
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
-          } as any);
-        }
-        // ship-matrix returns empty array -> getShipAsync throws
-        return Promise.resolve({
-          status: 200,
-          data: { success: 1, data: [] }
-        } as any);
-      });
+        Promise.resolve(url === SEARCH_URL ? searchResponse(SEARCH_HTML) : matrixResponse([])));
 
       await expect(ships.search({ name: 'Cutlass Black' })).rejects.toThrow('Ship with ID 56 not found or no data available.');
     });
@@ -179,26 +170,14 @@ describe('Ships', () =>
         {
           requestedPages.push(body.page);
           const hasShips = body.page <= 7;
-          return Promise.resolve({
-            status: 200,
-            data: {
-              success: 1,
-              data: {
-                html: hasShips ? `<div data-ship-id="${body.page}"></div>` : '',
-                rowcount: hasShips ? 1 : 0
-              }
-            }
-          } as any);
+          return Promise.resolve(searchResponse(hasShips ? `<div data-ship-id="${body.page}"></div>` : '', hasShips ? 1 : 0));
         }
-        return Promise.resolve({
-          status: 200,
-          data: { success: 1, data: [{ ...MOCK_SHIP, id: body.id }] }
-        } as any);
+        if (url === GRAPHQL_URL)
+        {
+          return Promise.resolve(storeResponse([]));
+        }
+        return Promise.resolve(matrixResponse([{ ...MOCK_SHIP, id: body.id }]));
       });
-      vi.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 200,
-        data: '<html><body></body></html>'
-      } as any);
 
       const data = await ships.search({ page_max: 100 });
 
@@ -215,10 +194,7 @@ describe('Ships', () =>
         if (url === SEARCH_URL)
         {
           requestedPages.push(body.page);
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: { html: '', rowcount: 10 } }
-          } as any);
+          return Promise.resolve(searchResponse('', 10));
         }
         return Promise.reject(new Error(`Unexpected POST to ${url}`));
       });
@@ -226,34 +202,6 @@ describe('Ships', () =>
       await ships.search({ page: 2, page_max: 3 });
 
       expect(requestedPages.sort((a, b) => a - b)).toEqual([2, 3]);
-    });
-
-    test('should use price 0 when ship page has no price element', async () =>
-    {
-      vi.spyOn(httpClient, 'post').mockImplementation((url: string) =>
-      {
-        if (url === SEARCH_URL)
-        {
-          return Promise.resolve({
-            status: 200,
-            data: { success: 1, data: { html: SEARCH_HTML, rowcount: 0 } }
-          } as any);
-        }
-        return Promise.resolve({
-          status: 200,
-          data: { success: 1, data: [MOCK_SHIP] }
-        } as any);
-      });
-
-      vi.spyOn(httpClient, 'get').mockResolvedValue({
-        status: 200,
-        data: '<html><body>No price here</body></html>'
-      } as any);
-
-      const data = await ships.search({ name: 'Cutlass Black' });
-
-      expect(data).toHaveLength(1);
-      expect(data[0].price).toBe(0);
     });
   });
 });

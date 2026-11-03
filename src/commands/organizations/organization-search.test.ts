@@ -49,7 +49,64 @@ describe('Organization', () =>
       expect(results[0].characteristics.language).toBe('English');
       expect(results[0].characteristics.membersCount).toBe(17);
 
+      // Every cell must be fully parsed, not only the first one
+      for (const org of results)
+      {
+        expect(org.sid).toMatch(/^[A-Z0-9_-]+$/i);
+        expect(org.name).not.toBe('');
+        expect(org.meta.url).toBe(`https://robertsspaceindustries.com/orgs/${org.sid}`);
+        expect(org.icon).toMatch(/^https:\/\//);
+        expect(Object.values(RSIOrganizationCharacteristicsArchetype)).toContain(org.characteristics.archetype);
+        expect(Object.values(RSIOrganizationCharacteristicsCommitment)).toContain(org.characteristics.commitment);
+        expect(org.characteristics.language).not.toBe('');
+        expect(Number.isInteger(org.characteristics.membersCount)).toBe(true);
+      }
+
+      // The fixture contains both role play values
+      expect(results.filter(org => org.characteristics.isRoleplay)).toHaveLength(17);
+      expect(results.filter(org => !org.characteristics.isRoleplay)).toHaveLength(15);
+
       spy.mockRestore();
+    });
+
+    test('should parse "No" values and formatted member counts', async () =>
+    {
+      const html = `
+        <div class="org-cell ">
+          <a href="/orgs/NOPE">
+            <span class="thumb"><img src="/media/x/avatar/NOPE-Logo.png"></span>
+            <h3 class="name">Nope Corp</h3>
+            <span class="symbol">NOPE</span>
+            <span class="label">Archetype: </span><span class="value">PMC</span>
+            <span class="label">Lang: </span><span class="value">French</span>
+            <span class="label">Commitment: </span><span class="value">Casual</span>
+            <span class="label">Recruiting: </span><span class="value recruiting">No</span>
+            <span class="label">Role play: </span><span class="value roleplay">No</span>
+            <span class="label">Members: </span><span class="value">12,345</span>
+          </a>
+        </div>`;
+
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { success: 1, data: { html } }
+      } as any);
+
+      const [org] = await organizations.search();
+
+      expect(org).toEqual({
+        sid: 'NOPE',
+        name: 'Nope Corp',
+        icon: 'https://robertsspaceindustries.com/media/x/avatar/NOPE-Logo.png',
+        meta: { url: 'https://robertsspaceindustries.com/orgs/NOPE' },
+        characteristics: {
+          archetype: RSIOrganizationCharacteristicsArchetype.PMC,
+          commitment: RSIOrganizationCharacteristicsCommitment.Casual,
+          language: 'French',
+          isRecruiting: false,
+          isRoleplay: false,
+          membersCount: 12345
+        }
+      });
     });
   });
 });

@@ -87,5 +87,83 @@ describe('Organizations', () =>
 
       spy.mockRestore();
     });
+
+    test('should skip restricted members of the fixture and parse every other one', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: JSON.parse(fs.readFileSync(path.join(__dirname, 'mocks', 'organization-members-TEST.json'), 'utf8'))
+      } as never);
+
+      const members = await organization.searchMembers({ sid: 'TEST' });
+
+      // The fixture has 32 entries, 5 of them restricted
+      expect(members).toHaveLength(27);
+      expect(new Set(members.map(member => member.handle)).size).toBe(27);
+      for (const member of members)
+      {
+        expect(member.handle).toMatch(/^[a-zA-Z0-9_-]+$/);
+        expect(member.display).not.toBe('');
+        expect(member.meta.url).toBe(`https://robertsspaceindustries.com/citizens/${member.handle}`);
+        expect(member.image).toMatch(/^https:\/\//);
+        expect(member.rank).not.toBe('');
+        expect(member.stars).toBeGreaterThanOrEqual(0);
+        expect(member.stars).toBeLessThanOrEqual(5);
+      }
+    });
+
+    test('should parse partial stars, trim values and skip duplicates', async () =>
+    {
+      const member = (handle: string, stars: string, extra = '') => `
+        <li class="member-item">
+          <a class="membercard" href="/citizens/${handle}">
+            <span class="thumb"><img src="/media/x/avatar/${handle}.png"></span>
+            <ul class="rolelist"> <li class="role"> Officer </li> </ul>
+            <span class="name"> Display ${handle} </span>
+            <span class="nick"> ${handle} </span>
+            <span class="stars" style="width: ${stars};"></span>
+            <span class="rank">
+              Captain
+            </span>
+            ${extra}
+          </a>
+        </li>`;
+
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: {
+          success: 1,
+          data: {
+            html: member('Alpha', '60%')
+              + member('Alpha', '100%')
+              + member('Hidden', '100%', '<span class="restriction"></span>')
+              + member('Bravo', '20%')
+          }
+        }
+      } as never);
+
+      const members = await organization.searchMembers({ sid: 'TEST' });
+
+      expect(members).toEqual([
+        {
+          handle: 'Alpha',
+          display: 'Display Alpha',
+          meta: { url: 'https://robertsspaceindustries.com/citizens/Alpha' },
+          image: 'https://robertsspaceindustries.com/media/x/avatar/Alpha.png',
+          roles: ['Officer'],
+          rank: 'Captain',
+          stars: 3
+        },
+        {
+          handle: 'Bravo',
+          display: 'Display Bravo',
+          meta: { url: 'https://robertsspaceindustries.com/citizens/Bravo' },
+          image: 'https://robertsspaceindustries.com/media/x/avatar/Bravo.png',
+          roles: ['Officer'],
+          rank: 'Captain',
+          stars: 1
+        }
+      ]);
+    });
   });
 });

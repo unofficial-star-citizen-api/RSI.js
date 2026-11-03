@@ -73,8 +73,8 @@ export function searchMembers(httpClient: HttpClient, loggerName = 'Organization
           url: HttpClient.toAbsoluteUrl($(memberElement).find('a').attr('href')?.trim())
         },
         image: HttpClient.toAbsoluteUrl($(memberElement).find('img').attr('src')?.trim()),
-        roles: $(memberElement).find('.rolelist li').map((_, role) => $(role).text()).get(),
-        rank: $(memberElement).find('.rank').text(),
+        roles: $(memberElement).find('.rolelist li').map((_, role) => $(role).text().trim()).get(),
+        rank: $(memberElement).find('.rank').text().trim(),
         stars: Math.floor(parseInt($(memberElement).find('.stars[style]').attr('style')?.match(/:\s*([0-9]*)%/)?.[1] || '0') / 20),
       });
     }

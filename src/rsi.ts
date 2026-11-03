@@ -85,7 +85,7 @@ export class RSI
   public readonly progressTrackers: ProgressTrackers;
   /** Star Citizen and Squadron 42 release roadmaps, see {@link Roadmaps} */
   public readonly roadmaps: Roadmaps;
-  /** Ship search with ship-matrix specs and store prices, see {@link Ships} */
+  /** Ships by ID, chassis or search, with ship-matrix specs and store prices, see {@link Ships} */
   public readonly ships: Ships;
   /** ARK Starmap systems, celestial objects and routes, see {@link Starmaps} */
   public readonly starmaps: Starmaps;

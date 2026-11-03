@@ -19,7 +19,7 @@ export interface RSIUserProfile
   badge: RSIUserProfileBadge | undefined;
   /** Absolute URL of the avatar */
   image: string | undefined;
-  /** Enlistment date as an ISO 8601 string */
+  /** Enlistment date as an ISO 8601 string at UTC midnight, for example `2016-08-19T00:00:00.000Z` */
   enlisted: string | undefined;
   /** Location declared on the profile, if any */
   location: RSIUserProfileLocation | undefined;

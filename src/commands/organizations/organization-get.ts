@@ -39,12 +39,19 @@ export function get(httpClient: HttpClient, loggerName = 'Organizations'): Retur
 
     const symbol = heading.find('.symbol').text().trim();
 
+    // Only keep the h1's own text nodes (excluding the .symbol span), then drop the trailing " / " separator
+    const name = heading.find('.inner h1').contents()
+      .filter((_, node) => node.type === 'text')
+      .text()
+      .trim()
+      .replace(/\s*\/$/, '');
+
     return {
       meta: {
         url: urlOrganization.replace('{0}', symbol)
       },
       sid: symbol,
-      name: heading.find('.inner h1').text().match(/^[^/]+/)?.[0].trim(),
+      name,
       logo: HttpClient.toAbsoluteUrl(heading.find('.logo img').attr('src')),
       banner: HttpClient.toAbsoluteUrl(heading.find('.banner img').attr('src')),
       membersCount: parseInt(heading.find('.logo .count').text().replace(/\D/g, '')),
