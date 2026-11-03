@@ -1,6 +1,7 @@
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
-import {
+import
+{
   ShipHelper, ShipMatrixHelper, ShipStoreHelper
 } from './helpers';
 import { RSIShipSearch } from './interfaces';
