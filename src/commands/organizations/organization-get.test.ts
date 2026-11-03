@@ -56,6 +56,27 @@ describe('Organization with HttpClientMock', () =>
       expect(data?.charter.plaintext).not.toBeUndefined();
     });
 
+    test('should keep slashes in organization name', async () =>
+    {
+      const httpClientMock = new HttpClientMock();
+
+      // Same fixture, but with a name containing slashes
+      httpClientMock.mockResponse(
+        'https://robertsspaceindustries.com/orgs/TEST',
+        fs.readFileSync(
+          path.join(__dirname, 'mocks', 'organization-description.html'),
+          'utf8'
+        ).replace('TEST Squadron - Best Squardon!', 'Protectorat (EU/QC/974/PC)')
+      );
+
+      const organization = new Organizations(httpClientMock);
+
+      const data = await organization.get('TEST');
+
+      expect(data?.name).toBe('Protectorat (EU/QC/974/PC)');
+      expect(data?.sid).toBe('TEST');
+    });
+
     test('should throw an error for non-existing organization', async () =>
     {
       // Create our mock HttpClient
