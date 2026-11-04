@@ -59,9 +59,4 @@ export interface OrganizationMembersSearchParams
    * Page number, starting at 1
    */
   page?: number;
-
-  /**
-   * Number of members per page
-   */
-  pageSize?: number;
 };

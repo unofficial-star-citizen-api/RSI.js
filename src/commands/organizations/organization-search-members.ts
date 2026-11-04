@@ -1,5 +1,5 @@
-import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
+import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { RSIOrganizationNotFoundError } from './errors';
@@ -26,9 +26,9 @@ export function searchMembers(httpClient: HttpClient, loggerName = 'Organization
       search: params.search,
       rank: params.rankIndex,
       role: params.roleIndex,
-      isMainOrg: params.isMainOrg ? 0 : 1,
+      isMainOrg: params.isMainOrg ? '0' : '1',
       page: params.page,
-      pageSize: params.pageSize,
+      pageSize: 32,
     };
 
     const response = await httpClient.post<RSIOrganizationResponse>(urlOrganizationMembers, payload);
