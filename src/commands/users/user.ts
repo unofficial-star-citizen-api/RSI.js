@@ -59,11 +59,11 @@ export class Users
    * const rsi = new RSI();
    * const profile = await rsi.users.getProfile('Dymerz');
    *
-   * console.log(profile?.display, profile?.enlisted); // enlisted is an ISO date string
-   * console.log(profile?.meta.url);                   // https://robertsspaceindustries.com/citizens/Dymerz
+   * console.log(profile.display, profile.enlisted); // enlisted is an ISO date string
+   * console.log(profile.meta.url);                   // https://robertsspaceindustries.com/citizens/Dymerz
    * ```
    */
-  public async getProfile(userHandle: string): Promise<RSIUserProfile | null>
+  public async getProfile(userHandle: string): Promise<RSIUserProfile>
   {
     this.logger.info('Fetching user profile', { userHandle });
 
@@ -126,11 +126,11 @@ export class Users
    * const rsi = new RSI();
    * const result = await rsi.users.getOrganization('Dymerz');
    *
-   * console.log(result?.organization.info.name, result?.organization.info.rank);
-   * console.log(result?.affiliations.map(org => org.sid));
+   * console.log(result.organization.info.name, result.organization.info.rank);
+   * console.log(result.affiliations.map(org => org.sid));
    * ```
    */
-  public async getOrganization(userHandle: string): Promise<RSIUserOrganization | null>
+  public async getOrganization(userHandle: string): Promise<RSIUserOrganization>
   {
     this.logger.info('Fetching user organizations', { userHandle });
 

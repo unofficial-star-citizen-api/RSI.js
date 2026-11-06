@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSINotFoundError } from '@/errors';
 
 /**
  * Thrown when no citizen exists for the requested handle.
@@ -19,22 +19,14 @@ import { RSIError } from '@/errors';
  * }
  * ```
  */
-export class RSIUserNotFoundError extends RSIError
+export class RSIUserNotFoundError extends RSINotFoundError
 {
   /**
    * @param handle - The citizen handle that was not found
    */
   constructor(handle: string)
   {
-    super(`User not found: ${handle}`);
+    super('User', handle);
     this.name = 'RSIUserNotFoundError';
-  }
-
-  /**
-   * @returns `404`
-   */
-  getStatus(): number
-  {
-    return 404;
   }
 }

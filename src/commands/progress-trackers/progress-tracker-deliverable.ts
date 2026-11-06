@@ -1,6 +1,7 @@
 import { RSIError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
+import { ProgressTrackerHelper } from './helpers';
 import { RSIProgressTrackerDeliverable, RSIProgressTrackerDeliverableResponse } from './interfaces';
 
 /**
@@ -161,14 +162,11 @@ export class ProgressTrackerDeliverable
       try
       {
         const responseData = response.data;
+        ProgressTrackerHelper.assertNoErrors(responseData.errors, 'Deliverables', teamSlug);
+
         if (!responseData.data)
         {
           throw new RSIError('Deliverables data retrieval failed: API returned no data.');
-        }
-
-        if ('errors' in responseData.data)
-        {
-          throw new RSIError(`Deliverables data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
         }
 
         if (!responseData.data.progressTracker || !responseData.data.progressTracker.deliverables)

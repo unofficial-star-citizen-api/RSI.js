@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSINotFoundError } from '@/errors';
 
 /**
  * Thrown when no organization exists for the requested SID.
@@ -19,22 +19,14 @@ import { RSIError } from '@/errors';
  * }
  * ```
  */
-export class RSIOrganizationNotFoundError extends RSIError
+export class RSIOrganizationNotFoundError extends RSINotFoundError
 {
   /**
    * @param sid - The organization SID that was not found
    */
   constructor(sid: string)
   {
-    super(`Organization not found: ${sid}`);
+    super('Organization', sid);
     this.name = 'RSIOrganizationNotFoundError';
-  }
-
-  /**
-   * @returns `404`
-   */
-  getStatus(): number
-  {
-    return 404;
   }
 }

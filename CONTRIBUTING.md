@@ -172,7 +172,7 @@ ESLint enforces most of the style (`pnpm run lint:fix` fixes most of it). To sum
 These rules keep the library's output consistent. Please follow them:
 
 1. **Check the status code yourself.** `HttpClient` never throws on an HTTP status (`validateStatus: () => true`). Every command must check `response.status`, and RSI's `success` flag when there is one.
-2. **Throw typed errors.** Use `RSIError` for upstream failures. For "not found" cases, add a subclass in the module's `errors/` folder that overrides `getStatus()` (see `RSIUserNotFoundError`). Throw a plain `Error` only for invalid user input.
+2. **Throw typed errors.** Use `RSIError` for upstream failures. When a resource does not exist, throw a subclass of `RSINotFoundError` from the module's `errors/` folder (see `RSIUserNotFoundError`); never return `null` or an empty result for a single-resource lookup. Throw a plain `Error` only for invalid user input.
 3. **Validate and encode user input** before putting it in a URL (see `Users.encodeHandle`).
 4. **Normalize the output:**
    - Make URLs absolute with `HttpClient.toAbsoluteUrl()`.

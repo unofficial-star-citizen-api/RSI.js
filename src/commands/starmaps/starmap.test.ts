@@ -11,6 +11,7 @@ import { HttpClient, RSIStarmapRouteShipSize } from '../../index';
 import starmapRouteSchema from '../../schemas/starmap_route_search.json';
 import starmapSpeciesSchema from '../../schemas/starmap_species.json';
 import { assertValidSchema } from '../../utils/validator';
+import { RSICelestialObjectNotFoundError, RSIStarSystemNotFoundError } from './errors';
 import { Starmaps } from './starmap';
 
 const BOOTUP_URL = 'https://robertsspaceindustries.com/api/starmap/bootup';
@@ -351,6 +352,20 @@ describe('Starmap', () =>
 
       await expect(starmap.getCelestialObjectByCode('INVALID')).rejects.toThrowError('Celestial object data retrieval failed with success: 0, data: undefined');
     });
+
+    test('should throw a 404 RSICelestialObjectNotFoundError when RSI returns an empty resultset', async () =>
+    {
+      // RSI answers an unknown code with an empty list instead of an object
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { success: 1, code: 'OK', msg: 'OK', data: { rowcount: 0, resultset: [] } }
+      } as any);
+
+      const error = await starmap.getCelestialObjectByCode('NOPE').catch(e => e);
+      expect(error).toBeInstanceOf(RSICelestialObjectNotFoundError);
+      expect(error.getStatus()).toBe(404);
+      expect(error.identifier).toBe('NOPE');
+    });
   });
 
   describe('getStarSystemByCode', () =>
@@ -375,6 +390,19 @@ describe('Starmap', () =>
       } as any);
 
       await expect(starmap.getStarSystemByCode('INVALID')).rejects.toThrowError('Failed to retrieve star system data from https://robertsspaceindustries.com/api/starmap/star-systems/INVALID');
+    });
+
+    test('should throw a 404 RSIStarSystemNotFoundError when RSI returns an empty resultset', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { success: 1, code: 'OK', msg: 'OK', data: { rowcount: 0, resultset: [] } }
+      } as any);
+
+      const error = await starmap.getStarSystemByCode('NOPE').catch(e => e);
+      expect(error).toBeInstanceOf(RSIStarSystemNotFoundError);
+      expect(error.getStatus()).toBe(404);
+      expect(error.message).toBe('Star system not found: NOPE');
     });
   });
 

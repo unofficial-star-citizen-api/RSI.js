@@ -4,9 +4,10 @@ import
 {
   ShipHelper, ShipMatrixHelper, ShipStoreHelper
 } from './helpers';
+import { RSIShipNotFoundError } from './errors';
 import { RSIShipSearch } from './interfaces';
 
-type ReturnFunction = (id: number) => Promise<RSIShipSearch | null>;
+type ReturnFunction = (id: number) => Promise<RSIShipSearch>;
 
 /**
  * Build the function behind {@link Ships.getById}. Use `rsi.ships.getById` instead.
@@ -16,7 +17,7 @@ export function getById(httpClient: HttpClient, loggerName = 'Ships'): ReturnFun
 {
   const logger = createLogger(loggerName);
 
-  return async function (id: number): Promise<RSIShipSearch | null>
+  return async function (id: number): Promise<RSIShipSearch>
   {
     logger.info('Fetching ship', { id });
     ShipHelper.assertPositiveInteger(id, 'Ship ID');
@@ -24,7 +25,7 @@ export function getById(httpClient: HttpClient, loggerName = 'Ships'): ReturnFun
     const [ship] = await ShipMatrixHelper.fetch(httpClient, { id: String(id) });
     if (!ship)
     {
-      return null;
+      throw new RSIShipNotFoundError(id);
     }
 
     // The store cannot filter by ship ID, so price the whole chassis and pick the ship

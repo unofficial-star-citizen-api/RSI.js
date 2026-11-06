@@ -22,7 +22,8 @@ export class Ships
    * Costs two requests: one to the ship matrix, one to the store for the price.
    *
    * @param id - Ship-matrix ID, for example `56` for the Cutlass Black
-   * @returns The ship, or `null` when no ship has this ID
+   * @returns The ship
+   * @throws {@link RSIShipNotFoundError} if no ship has this ID
    * @throws {@link RSIError} if `id` is not a positive integer, or the ship matrix or the store cannot be retrieved
    *
    * @example
@@ -32,10 +33,10 @@ export class Ships
    * const rsi = new RSI();
    *
    * const ship = await rsi.ships.getById(56);
-   * console.log(ship?.name, ship?.price); // Cutlass Black 110
+   * console.log(ship.name, ship.price); // Cutlass Black 110
    * ```
    */
-  public readonly getById: (id: number) => Promise<RSIShipSearch | null>;
+  public readonly getById: (id: number) => Promise<RSIShipSearch>;
 
   /**
    * Get every variant of a ship chassis, for example all Cutlass variants, with specs and store prices.
@@ -43,7 +44,8 @@ export class Ships
    * Costs two requests: one to the ship matrix, one to the store for the prices.
    *
    * @param chassisId - Chassis ID, as found in {@link RSIShipSearch.chassis_id}
-   * @returns The ships sharing this chassis; empty when no ship has this chassis ID
+   * @returns The ships sharing this chassis
+   * @throws {@link RSIShipChassisNotFoundError} if no ship has this chassis ID
    * @throws {@link RSIError} if `chassisId` is not a positive integer, or the ship matrix or the store cannot be retrieved
    *
    * @example
@@ -53,7 +55,7 @@ export class Ships
    * const rsi = new RSI();
    *
    * const cutlass = await rsi.ships.getById(56);
-   * const variants = await rsi.ships.getByChassisId(cutlass!.chassis_id);
+   * const variants = await rsi.ships.getByChassisId(cutlass.chassis_id);
    * console.log(variants.map(ship => ship.name)); // ['Cutlass Black', 'Cutlass Red', ...]
    * ```
    */

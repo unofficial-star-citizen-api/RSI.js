@@ -9,6 +9,8 @@ import
 } from 'vitest';
 import { HttpClient } from '../../index';
 import { Logger } from '../../logger';
+import { RSINotFoundError } from '../../errors';
+import { RSIShipNotFoundError } from './errors';
 import { GRAPHQL_URL, MATRIX_URL, MOCK_SHIP, MOCK_STORE_SHIP, matrixResponse, storeResponse } from './mocks/ship.mock';
 import { Ships } from './ships';
 
@@ -57,11 +59,15 @@ describe('Ships', () =>
       expect((postSpy.mock.calls[1][1] as any).variables.query.ships).toEqual({ chassisId: 6 });
     });
 
-    test('should return null when no ship has this ID', async () =>
+    test('should throw a 404 RSIShipNotFoundError when no ship has this ID', async () =>
     {
       const postSpy = vi.spyOn(httpClient, 'post').mockResolvedValue(matrixResponse([]));
 
-      expect(await ships.getById(999999)).toBeNull();
+      const error = await ships.getById(999999).catch(e => e);
+      expect(error).toBeInstanceOf(RSIShipNotFoundError);
+      expect(error).toBeInstanceOf(RSINotFoundError);
+      expect(error.getStatus()).toBe(404);
+      expect(error.message).toBe('Ship not found: 999999');
       expect(postSpy).toHaveBeenCalledTimes(1);
     });
 

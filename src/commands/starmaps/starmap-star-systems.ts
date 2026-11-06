@@ -1,6 +1,7 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
+import { RSIStarSystemNotFoundError } from './errors';
 import { RSIStarMapStarSystem, RSIStarMapStarSystemResponse } from './interfaces/star-system.interface';
 
 /**
@@ -19,7 +20,7 @@ export class StarmapStarSystems
     this.httpClient = httpClient;
   }
 
-  async getByCode(code: string): Promise<RSIStarMapStarSystem | null>
+  async getByCode(code: string): Promise<RSIStarMapStarSystem>
   {
     this.logger.info('Fetching starmap star system', { code });
 
@@ -31,6 +32,10 @@ export class StarmapStarSystems
     if (resp.success !== 1 || !resp.data)
       throw new RSIError(`Star system data retrieval failed with code: ${resp.code}, message: ${resp.msg}`);
 
-    return resp.data.resultset.at(0) ?? null;
+    const starSystem = resp.data.resultset.at(0);
+    if (!starSystem)
+      throw new RSIStarSystemNotFoundError(code);
+
+    return starSystem;
   }
 }

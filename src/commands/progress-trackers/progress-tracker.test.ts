@@ -9,7 +9,8 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient, ProgressTrackers } from '../../index';
+import { HttpClient, ProgressTrackers, RSIError, RSINotFoundError } from '../../index';
+import { RSIProgressTrackerTeamNotFoundError } from './errors';
 import progressTrackerSchema from '../../schemas/progress_tracker.json';
 import progressTrackerInfoSchema from '../../schemas/progress_tracker_info.json';
 import { assertValidSchema } from '../../utils/validator';
@@ -216,6 +217,76 @@ describe('Progress Tracker', () =>
         GRAPHQL_URL,
         expect.objectContaining({ operationName: 'deliverables' })
       );
+    });
+  });
+  describe('not found', () =>
+  {
+    // Real RSI answer for an unknown team slug
+    const invalidTeamSlugResponse = (field: 'teams' | 'deliverables') => ({
+      status: 200,
+      data: {
+        errors: [{
+          message: 'ErrValidationFailed',
+          path: ['progressTracker', field],
+          extensions: { details: { teamSlug: 'teamSlug is not valid' } },
+          code: 'CFUValidationException'
+        }],
+        data: { progressTracker: { [field]: null, __typename: 'ProgressTracker' } }
+      }
+    });
+
+    test('getTeamBySlug should return the matching team', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: JSON.parse(fs.readFileSync(path.join(__dirname, 'mocks/progress-tracker-teams.json'), 'utf8'))
+      } as any);
+
+      const team = await progressTracker.getTeamBySlug('g42qg07ipfday');
+      expect(team.title).toBe('Game Code (Persistent Universe)');
+    });
+
+    test('getTeamBySlug should throw a 404 when RSI rejects the slug', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue(invalidTeamSlugResponse('teams') as any);
+
+      const error = await progressTracker.getTeamBySlug('not-a-team').catch(e => e);
+      expect(error).toBeInstanceOf(RSIProgressTrackerTeamNotFoundError);
+      expect(error).toBeInstanceOf(RSINotFoundError);
+      expect(error.getStatus()).toBe(404);
+      expect(error.message).toBe('Progress tracker team not found: not-a-team');
+    });
+
+    test('getTeamBySlug should throw a 404 when the slug is absent from the results', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: JSON.parse(fs.readFileSync(path.join(__dirname, 'mocks/progress-tracker-teams.json'), 'utf8'))
+      } as any);
+
+      await expect(progressTracker.getTeamBySlug('other-team')).rejects.toThrow(RSIProgressTrackerTeamNotFoundError);
+    });
+
+    test('getDeliverablesByTeamSlug should throw a 404 when RSI rejects the slug', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue(invalidTeamSlugResponse('deliverables') as any);
+
+      const error = await progressTracker.getDeliverablesByTeamSlug('not-a-team').catch(e => e);
+      expect(error).toBeInstanceOf(RSIProgressTrackerTeamNotFoundError);
+      expect(error.getStatus()).toBe(404);
+    });
+
+    test('should throw a generic RSIError for other GraphQL errors', async () =>
+    {
+      vi.spyOn(httpClient, 'post').mockResolvedValue({
+        status: 200,
+        data: { errors: [{ message: 'Internal', extensions: { details: {} } }], data: null }
+      } as any);
+
+      const error = await progressTracker.getTeams().catch(e => e);
+      expect(error).toBeInstanceOf(RSIError);
+      expect(error).not.toBeInstanceOf(RSINotFoundError);
+      expect(error.message).toContain('API returned errors');
     });
   });
 });

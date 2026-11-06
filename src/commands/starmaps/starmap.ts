@@ -95,7 +95,8 @@ export class Starmaps
    *
    * @param objectCode - Code of the object, for example `TOHIL.PLANETS.TOHILIII`
    * @returns The celestial object
-   * @throws {@link RSIError} if RSI answers with a non-200 status or does not know the code
+   * @throws {@link RSICelestialObjectNotFoundError} if no celestial object has this code
+   * @throws {@link RSIError} if RSI answers with a non-200 status or an unsuccessful payload
    *
    * @example
    * ```typescript
@@ -104,16 +105,17 @@ export class Starmaps
    * const rsi = new RSI();
    * const planet = await rsi.starmaps.getCelestialObjectByCode('TOHIL.PLANETS.TOHILIII');
    *
-   * console.log(planet?.designation, planet?.habitable, planet?.children.length);
+   * console.log(planet.designation, planet.habitable, planet.children.length);
    * ```
    */
-  public readonly getCelestialObjectByCode: (objectCode: string) => Promise<RSIStarmapCelestialObject | null>;
+  public readonly getCelestialObjectByCode: (objectCode: string) => Promise<RSIStarmapCelestialObject>;
 
   /**
    * Get a single star system, with its celestial objects.
    *
    * @param code - Code of the star system, for example `STANTON`
-   * @returns The star system, or `null` if RSI returns none
+   * @returns The star system
+   * @throws {@link RSIStarSystemNotFoundError} if no star system has this code
    * @throws {@link RSIError} if RSI answers with a non-200 status or an unsuccessful payload
    *
    * @example
@@ -123,10 +125,10 @@ export class Starmaps
    * const rsi = new RSI();
    * const stanton = await rsi.starmaps.getStarSystemByCode('STANTON');
    *
-   * console.log(stanton?.name, stanton?.celestial_objects.length);
+   * console.log(stanton.name, stanton.celestial_objects.length);
    * ```
    */
-  public readonly getStarSystemByCode: (code: string) => Promise<RSIStarMapStarSystem | null>;
+  public readonly getStarSystemByCode: (code: string) => Promise<RSIStarMapStarSystem>;
 
   /**
    * Get every star system.

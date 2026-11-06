@@ -11,21 +11,29 @@ Every upstream failure is an `RSIError`, or a subclass of it. `getStatus()` retu
 
 | Error | When | `getStatus()` |
 |---|---|---|
+| {@link RSINotFoundError} | Base class of every error below: the requested resource does not exist. Exposes `resource` and `identifier` | `404` |
 | {@link RSIUserNotFoundError} | The citizen handle does not exist | `404` |
 | {@link RSIOrganizationNotFoundError} | The organization SID does not exist | `404` |
+| {@link RSIShipNotFoundError} | The ship-matrix ID does not exist | `404` |
+| {@link RSIShipChassisNotFoundError} | The chassis ID does not exist | `404` |
+| {@link RSIStarSystemNotFoundError} | The star system code does not exist | `404` |
+| {@link RSICelestialObjectNotFoundError} | The celestial object code does not exist | `404` |
+| {@link RSIProgressTrackerTeamNotFoundError} | The progress tracker team slug does not exist | `404` |
 | {@link RSIError} | RSI returned a non-2xx status, an empty body, `success !== 1`, or a page the scraper can no longer parse | `500` |
 | `Error` | Invalid input, such as a malformed handle, an unknown timetable, or a bad telemetry version. Thrown before any request is sent | n/a |
 
+Catch {@link RSINotFoundError} to handle every missing resource at once, or a subclass to handle a single kind.
+
 ```typescript
-import { RSI, RSIError, RSIUserNotFoundError } from '@unofficial-star-citizen-api/rsi.js';
+import { RSI, RSIError, RSINotFoundError } from '@unofficial-star-citizen-api/rsi.js';
 
 const rsi = new RSI();
 
 try {
   await rsi.users.getProfile('someone');
 } catch (error) {
-  if (error instanceof RSIUserNotFoundError) {
-    // 404: the handle does not exist
+  if (error instanceof RSINotFoundError) {
+    // 404: error.resource is 'User', error.identifier is 'someone'
   } else if (error instanceof RSIError) {
     // RSI is down, rate-limiting you, or changed its page
   } else {

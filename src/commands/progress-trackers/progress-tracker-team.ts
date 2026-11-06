@@ -1,6 +1,8 @@
 import { HttpClient } from '@/http-client';
 import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
+import { RSIProgressTrackerTeamNotFoundError } from './errors';
+import { ProgressTrackerHelper } from './helpers';
 import { RSIProgressTrackerTeam, RSIProgressTrackerTeamResponse } from './interfaces';
 
 /**
@@ -35,13 +37,18 @@ export class ProgressTrackerTeam
   /**
    * Get a team from the progress tracker by slug
    * @param teamSlug - The slug identifier of the team to retrieve
-   * @returns A promise that resolves to the progress tracker team with the specified slug, or undefined if not found
+   * @returns A promise that resolves to the progress tracker team with the specified slug
+   * @throws {@link RSIProgressTrackerTeamNotFoundError} if no team has this slug
    */
-  public async getTeamBySlug(teamSlug: string): Promise<RSIProgressTrackerTeam | undefined>
+  public async getTeamBySlug(teamSlug: string): Promise<RSIProgressTrackerTeam>
   {
     this.logger.info('Fetching progress tracker team', { teamSlug });
     const teams = await this.fetchTeams(teamSlug);
-    return teams.find(team => team.slug === teamSlug);
+    const team = teams.find(team => team.slug === teamSlug);
+    if (!team)
+      throw new RSIProgressTrackerTeamNotFoundError(teamSlug);
+
+    return team;
   }
 
   private async fetchTeams(teamSlug?: string): Promise<RSIProgressTrackerTeam[]>
@@ -134,14 +141,11 @@ export class ProgressTrackerTeam
       try
       {
         const responseData = response.data;
+        ProgressTrackerHelper.assertNoErrors(responseData.errors, 'Progress tracker teams', teamSlug);
+
         if (!responseData.data)
         {
           throw new RSIError('Failed to retrieve progress tracker teams. API returned no data.');
-        }
-
-        if ('errors' in responseData.data)
-        {
-          throw new RSIError(`Progress tracker teams data retrieval failed: API returned errors: ${JSON.stringify(responseData.data.errors)}`);
         }
 
         if (!responseData.data.progressTracker || !responseData.data.progressTracker.teams)

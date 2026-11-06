@@ -38,16 +38,17 @@ export class ProgressTrackers
    * Get a single team by its slug.
    *
    * @param teamSlug - Slug of the team, for example `g42qg07ipfday`; slugs are listed by {@link ProgressTrackers.getTeams}
-   * @returns The team, or `undefined` if no team has this slug
+   * @returns The team
+   * @throws {@link RSIProgressTrackerTeamNotFoundError} if no team has this slug
    * @throws {@link RSIError} if RSI answers with a non-200 status, no data or GraphQL errors
    *
    * @example
    * ```typescript
    * const team = await rsi.progressTrackers.getTeamBySlug('g42qg07ipfday');
-   * console.log(team?.title); // for example 'Game Code (Persistent Universe)'
+   * console.log(team.title); // for example 'Game Code (Persistent Universe)'
    * ```
    */
-  public readonly getTeamBySlug: (teamSlug: string) => Promise<RSIProgressTrackerTeam | undefined>;
+  public readonly getTeamBySlug: (teamSlug: string) => Promise<RSIProgressTrackerTeam>;
 
   /**
    * Get every deliverable on the progress tracker, with its teams, projects and roadmap card.
@@ -72,6 +73,7 @@ export class ProgressTrackers
    *
    * @param teamSlug - Slug of the team; slugs are listed by {@link ProgressTrackers.getTeams}
    * @returns The team's deliverables
+   * @throws {@link RSIProgressTrackerTeamNotFoundError} if no team has this slug
    * @throws {@link RSIError} if RSI answers with a non-200 status, no data or GraphQL errors
    *
    * @example

@@ -9,6 +9,7 @@ import
 } from 'vitest';
 import { HttpClient } from '../../index';
 import { Logger } from '../../logger';
+import { RSIShipChassisNotFoundError } from './errors';
 import { MATRIX_URL, MOCK_SHIP, MOCK_STORE_SHIP, matrixResponse, storeResponse } from './mocks/ship.mock';
 import { Ships } from './ships';
 
@@ -51,11 +52,14 @@ describe('Ships', () =>
       expect(postSpy).toHaveBeenCalledWith(MATRIX_URL, { chassis_id: '6' });
     });
 
-    test('should return an empty array for an unknown chassis', async () =>
+    test('should throw a 404 RSIShipChassisNotFoundError for an unknown chassis', async () =>
     {
-      vi.spyOn(httpClient, 'post').mockResolvedValue(matrixResponse([]));
+      const postSpy = vi.spyOn(httpClient, 'post').mockResolvedValue(matrixResponse([]));
 
-      expect(await ships.getByChassisId(999999)).toEqual([]);
+      const error = await ships.getByChassisId(999999).catch(e => e);
+      expect(error).toBeInstanceOf(RSIShipChassisNotFoundError);
+      expect(error.getStatus()).toBe(404);
+      expect(postSpy).toHaveBeenCalledTimes(1);
     });
 
     test('should reject an invalid chassis ID', async () =>

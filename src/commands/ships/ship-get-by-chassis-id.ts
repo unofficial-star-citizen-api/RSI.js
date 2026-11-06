@@ -3,6 +3,7 @@ import { createLogger } from '@/logger';
 import {
   ShipHelper, ShipMatrixHelper, ShipStoreHelper
 } from './helpers';
+import { RSIShipChassisNotFoundError } from './errors';
 import { RSIShipSearch } from './interfaces';
 
 type ReturnFunction = (chassisId: number) => Promise<RSIShipSearch[]>;
@@ -23,7 +24,7 @@ export function getByChassisId(httpClient: HttpClient, loggerName = 'Ships'): Re
     const ships = await ShipMatrixHelper.fetch(httpClient, { chassis_id: String(chassisId) });
     if (ships.length === 0)
     {
-      return [];
+      throw new RSIShipChassisNotFoundError(chassisId);
     }
 
     const prices = await ShipStoreHelper.fetchPrices(httpClient, { chassisId });

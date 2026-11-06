@@ -30,7 +30,7 @@ RSI has no public API. The data is spread across HTML pages, internal JSON endpo
 - **One client, many sources**: HTML scraping (via [cheerio](https://cheerio.js.org/)), RSI's internal JSON APIs and its GraphQL endpoint, all behind one `RSI` object.
 - **Fully typed results**: every response has an exported TypeScript interface, and every filter has an enum, so your editor autocompletes ship classifications, org activities, roadmap boards and so on.
 - **Clean, normalized output**: relative links are made absolute, dates are ISO strings, and every resource exposes a consistent `meta.url`.
-- **Typed errors**: `RSIUserNotFoundError` and `RSIOrganizationNotFoundError` are distinct from generic upstream failures.
+- **Typed errors**: every missing resource (citizen, organization, ship, star system...) throws an `RSINotFoundError` with a `404` status, distinct from generic upstream failures.
 - **Proxy support built in**: HTTP, HTTPS and SOCKS proxies, `NO_PROXY` matching, plus a ready-to-run Tor rotating proxy for heavy workloads.
 - **Runs anywhere**: CommonJS, ES modules and a browser IIFE bundle.
 
@@ -105,15 +105,15 @@ Every module hangs off an `RSI` instance. All methods are `async` and return typ
 
 ## Error handling
 
-Every upstream failure is an `RSIError`, or a subclass such as `RSIUserNotFoundError` and `RSIOrganizationNotFoundError`. Invalid input throws a plain `Error` before any request is sent.
+Every upstream failure is an `RSIError`. A resource that does not exist throws an `RSINotFoundError` (`404`), or a subclass such as `RSIUserNotFoundError` and `RSIOrganizationNotFoundError`. Invalid input throws a plain `Error` before any request is sent.
 
 ```typescript
-import { RSIError, RSIUserNotFoundError } from '@unofficial-star-citizen-api/rsi.js';
+import { RSIError, RSINotFoundError } from '@unofficial-star-citizen-api/rsi.js';
 
 try {
   await rsi.users.getProfile('someone');
 } catch (error) {
-  if (error instanceof RSIUserNotFoundError) {
+  if (error instanceof RSINotFoundError) {
     // 404: the handle does not exist
   } else if (error instanceof RSIError) {
     // RSI is down, rate-limiting you, or changed its page
