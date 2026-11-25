@@ -98,7 +98,7 @@ Every module hangs off an `RSI` instance. All methods are `async` and return typ
 | `rsi.ships` | Ships by ID, chassis or search, with ship-matrix specs and store prices | [Ships](https://unofficial-star-citizen-api.github.io/RSI.js/ships) |
 | `rsi.versions` | LIVE, PTU and ETF versions, patch notes | [Versions](https://unofficial-star-citizen-api.github.io/RSI.js/versions) |
 | `rsi.spectrum` | Spectrum forum communities, channels, threads and post content | [Spectrum](https://unofficial-star-citizen-api.github.io/RSI.js/spectrum) |
-| `rsi.roadmaps` | Star Citizen and Squadron 42 release roadmaps | [Roadmaps](https://unofficial-star-citizen-api.github.io/RSI.js/roadmaps) |
+| `rsi.roadmaps` | Star Citizen and Squadron 42 roadmap boards and releases | [Roadmaps](https://unofficial-star-citizen-api.github.io/RSI.js/roadmaps) |
 | `rsi.progressTrackers` | Progress tracker teams and deliverables | [ProgressTrackers](https://unofficial-star-citizen-api.github.io/RSI.js/progresstrackers) |
 | `rsi.starmaps` | ARK Starmap systems, celestial objects, tunnels and routes | [Starmaps](https://unofficial-star-citizen-api.github.io/RSI.js/starmaps) |
 | `rsi.telemetries` | Community performance telemetry | [Telemetries](https://unofficial-star-citizen-api.github.io/RSI.js/telemetries) |

@@ -7,6 +7,35 @@ export interface RSIRoadmapResponse
   data: RSIRoadmap;
 }
 
+/** @internal */
+export interface RSIRoadmapInitResponse
+{
+  success: number;
+  code: string;
+  msg: string;
+  data: {
+    boards: RSIRoadmapInitBoard[];
+  } | null;
+}
+
+/** @internal */
+export interface RSIRoadmapInitBoard
+{
+  id: number;
+  url_slug: string;
+  name: string;
+  description: string | null;
+  body: string | null;
+  order: number;
+  thumbnail: RSIRoadmapThumbnail | null;
+  background: RSIRoadmapThumbnail | null;
+  info_heading: string | null;
+  notification_title: string | null;
+  notification_body: string | null;
+  notification_enabled: boolean;
+  last_updated: number | null;
+}
+
 /**
  * Roadmap boards for {@link Roadmaps.getBoardReleases}.
  *

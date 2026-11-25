@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `RSIHttpError` (extends `RSIError`) for an unreachable RSI or an unexpected HTTP status, with the upstream `status` (`undefined` when no response arrived) and `url`.
 - `rsi.spectrum` module for the Spectrum forums: `getCommunities`, `getChannels`, `getThreads` (pagination, sort order, label filter) and `getThread`, which returns the opening post as normalized text, image and video blocks, its plain text, its links and its tracked replies.
 - `RSISpectrumThreadNotFoundError`, `RSISpectrumChannelNotFoundError` and `RSISpectrumCommunityNotFoundError`.
+- `roadmaps.getBoards()`: every roadmap board with its name, Markdown description (which announces the current game versions on the Star Citizen board), notification banner, images and last update date, without its releases.
 
 ### Changed
 
