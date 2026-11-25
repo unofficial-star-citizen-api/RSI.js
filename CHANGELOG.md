@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `RSINotFoundError` (status `404`, with `resource` and `identifier`), the base class of every "resource does not exist" error. `RSIUserNotFoundError` and `RSIOrganizationNotFoundError` now extend it.
 - `RSIShipNotFoundError`, `RSIShipChassisNotFoundError`, `RSIStarSystemNotFoundError`, `RSICelestialObjectNotFoundError` and `RSIProgressTrackerTeamNotFoundError`.
 - `RSIHttpError` (extends `RSIError`) for an unreachable RSI or an unexpected HTTP status, with the upstream `status` (`undefined` when no response arrived) and `url`.
+- `rsi.spectrum` module for the Spectrum forums: `getCommunities`, `getChannels`, `getThreads` (pagination, sort order, label filter) and `getThread`, which returns the opening post as normalized text, image and video blocks, its plain text, its links and its tracked replies.
+- `RSISpectrumThreadNotFoundError`, `RSISpectrumChannelNotFoundError` and `RSISpectrumCommunityNotFoundError`.
 
 ### Changed
 

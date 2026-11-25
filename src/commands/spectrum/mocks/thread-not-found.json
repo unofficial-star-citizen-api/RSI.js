@@ -1,0 +1,8 @@
+{
+  "success": 0,
+  "code": "ErrValidationFailed",
+  "msg": "Validation failed",
+  "data": {
+    "slug": "Invalid thread slug"
+  }
+}
