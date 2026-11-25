@@ -1,14 +1,15 @@
-
+import { RSIError } from '@/errors';
 import { HttpClient } from '@/http-client';
-import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
-import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap.interface';
+import { RSIRoadmapBoard, Roadmaps } from '../roadmaps';
+import { RoadmapVersions } from './interfaces/roadmap.interface';
 
 /**
  * Current game versions announced on the RSI roadmap. Access it through `rsi.versions.roadmap`.
  * Exported as `VersionsRoadmap`.
  *
  * Every method sends one request; call {@link VersionsRoadmap.getVersions} to get all channels at once.
+ * The versions are read from the Star Citizen board description, see {@link Roadmaps.getBoards}.
  *
  * @category Commands
  * @hideconstructor
@@ -16,19 +17,18 @@ import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap
  */
 export class Roadmap
 {
-  private readonly url = 'https://robertsspaceindustries.com/api/roadmap/v1/init';
+  // Versions such as "4.0.1", or "3.23.1a" for a hotfix, without trailing punctuation
+  private readonly regexLive = /live\s*version\s*:\s*(\d+(?:\.\d+)+[a-z]?)/i;
+  private readonly regexPTU = /PTU\s*Version\s*:\s*(\d+(?:\.\d+)+[a-z]?)(.*?)PTU/i;
+  private readonly regexETF = /PTU\s*Version\s*:\s*(\d+(?:\.\d+)+[a-z]?)(.*?)(ETF|(Evocati))/i;
 
-  private readonly regexLive = /live\s*version\s*:\s*([^ ]*)/i;
-  private readonly regexPTU = /PTU\s*Version\s*:\s*([^ ]*)(.*?)PTU/i;
-  private readonly regexETF = /PTU\s*Version\s*:\s*([^ ]*)(.*?)(ETF|(Evocati))/i;
-
-  private readonly httpClient: HttpClient;
+  private readonly roadmaps: Roadmaps;
   private readonly logger = createLogger(Roadmap.name);
 
   /** @hidden */
   constructor(httpClient: HttpClient)
   {
-    this.httpClient = httpClient;
+    this.roadmaps = new Roadmaps(httpClient);
   }
 
   /**
@@ -50,15 +50,12 @@ export class Roadmap
   public async getVersions(): Promise<RoadmapVersions>
   {
     this.logger.info('Fetching game version information');
-    const response = await this.httpClient.get<RSIVersionRoadmapResponse>(this.url);
-    if (response.status !== 200)
-      throw new RSIHttpError(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`, response.status, response.config?.url);
 
-    if (response.data.success !== 1)
-      throw new RSIError(`Query failed from RSI (${response.data.msg})`);
+    const board = (await this.roadmaps.getBoards()).find(board => board.board === RSIRoadmapBoard.StarCitizen);
+    if (!board)
+      throw new RSIError('The Star Citizen roadmap board is missing');
 
-    const description = response.data.data.boards
-      .filter(board => board.id == 1)[0].description; // id '1' is for Star Citizen board
+    const description = board.description ?? '';
 
     const live = this.regexLive.exec(description)?.at(1) ?? null;
     const etf = this.regexETF.exec(description)?.at(1) ?? null;

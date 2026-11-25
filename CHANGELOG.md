@@ -20,7 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Breaking:** network failures (timeout, DNS failure, connection reset) throw `RSIHttpError` instead of a raw axios error. The axios error is kept in the stack trace as `Caused by:`.
 - Every command that fails on an unexpected HTTP status throws `RSIHttpError` instead of a plain `RSIError`. Messages are unchanged, and `instanceof RSIError` still matches, but `getStatus()` now suggests `502` instead of `500`.
-
+- `versions.spectrum` reads threads through `rsi.spectrum`, from the Spectrum v2 API that the website uses. An unsuccessful payload now throws `Spectrum query failed (<code>: <message>)`.
+- `versions.roadmap` reads the Star Citizen board through `roadmaps.getBoards()`, and throws `RSIError` if that board is missing.
+- **Breaking:** `versions.spectrum` reports threads whose title names no release channel (LIVE, PTU or ETF), such as Tech Previews, with `environment: undefined` instead of `ptu`.
 - **Breaking:** `ships.getById`, `starmaps.getStarSystemByCode`, `starmaps.getCelestialObjectByCode` and `progressTrackers.getTeamBySlug` throw a not-found error instead of returning `null`/`undefined`, and their return types are no longer nullable.
 - **Breaking:** `ships.getByChassisId` throws `RSIShipChassisNotFoundError` instead of returning an empty array for an unknown chassis.
 - `progressTrackers.getDeliverablesByTeamSlug` throws `RSIProgressTrackerTeamNotFoundError` for an unknown team slug.
@@ -30,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `starmaps.getCelestialObjectByCode` returned an empty array instead of an object for an unknown code.
 - Progress tracker GraphQL errors were checked in the wrong place, so RSI rejections surfaced as "API returned no teams/deliverables".
+- `versions.spectrum` missed the PTU wave of current thread titles: `[Wave 3]`, `[All Waves]`, `[All Wave]` and `[All Backers]` are now recognized, as well as the older `[Wave 1 PTU]` and `[ALL WAVES PTU]`.
+- `versions.roadmap` kept the punctuation after a version, for example `3.18.0,`.
+
+### Removed
+
+- The raw Spectrum and roadmap response types exported by the versions module, which were hidden from the documentation and no method returned: `RSISpectrumThreadResponse`, `RSISpectrumThreadData*`, `RSISpectrumThreadMeta`, `RSISpectrumThreadContent*`, `RSIPresence` and `RSIVersionRoadmap*`.
 
 ## [0.8.3] - 2026-11-03
 

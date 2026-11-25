@@ -20,7 +20,8 @@ export interface RSISpectrumVersion
   /** Version found in the thread title, for example `3.22.0` */
   name: string | undefined;
   /**
-   * Release channel. Threads that mention neither LIVE nor ETF/Evocati are reported as PTU.
+   * Release channel found in the thread title, `undefined` when the title names none of LIVE, PTU
+   * or ETF/Evocati (for example a Tech Preview thread)
    */
   environment: RSISpectrumEnvironment | undefined;
   /** PTU wave, only set for PTU versions */
