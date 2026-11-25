@@ -11,8 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `RSINotFoundError` (status `404`, with `resource` and `identifier`), the base class of every "resource does not exist" error. `RSIUserNotFoundError` and `RSIOrganizationNotFoundError` now extend it.
 - `RSIShipNotFoundError`, `RSIShipChassisNotFoundError`, `RSIStarSystemNotFoundError`, `RSICelestialObjectNotFoundError` and `RSIProgressTrackerTeamNotFoundError`.
+- `RSIHttpError` (extends `RSIError`) for an unreachable RSI or an unexpected HTTP status, with the upstream `status` (`undefined` when no response arrived) and `url`.
 
 ### Changed
+
+- **Breaking:** network failures (timeout, DNS failure, connection reset) throw `RSIHttpError` instead of a raw axios error. The axios error is kept in the stack trace as `Caused by:`.
+- Every command that fails on an unexpected HTTP status throws `RSIHttpError` instead of a plain `RSIError`. Messages are unchanged, and `instanceof RSIError` still matches, but `getStatus()` now suggests `502` instead of `500`.
 
 - **Breaking:** `ships.getById`, `starmaps.getStarSystemByCode`, `starmaps.getCelestialObjectByCode` and `progressTrackers.getTeamBySlug` throw a not-found error instead of returning `null`/`undefined`, and their return types are no longer nullable.
 - **Breaking:** `ships.getByChassisId` throws `RSIShipChassisNotFoundError` instead of returning an empty array for an unknown chassis.

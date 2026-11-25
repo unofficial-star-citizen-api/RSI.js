@@ -19,13 +19,14 @@ Every upstream failure is an `RSIError`, or a subclass of it. `getStatus()` retu
 | {@link RSIStarSystemNotFoundError} | The star system code does not exist | `404` |
 | {@link RSICelestialObjectNotFoundError} | The celestial object code does not exist | `404` |
 | {@link RSIProgressTrackerTeamNotFoundError} | The progress tracker team slug does not exist | `404` |
-| {@link RSIError} | RSI returned a non-2xx status, an empty body, `success !== 1`, or a page the scraper can no longer parse | `500` |
+| {@link RSIHttpError} | RSI could not be reached (timeout, DNS failure, connection reset) or answered with an unexpected HTTP status. Exposes `status` (`undefined` when no response arrived) and `url` | `502` |
+| {@link RSIError} | Base class of every error above. Thrown as-is when RSI returned an empty body, `success !== 1`, or a page the scraper can no longer parse | `500` |
 | `Error` | Invalid input, such as a malformed handle, an unknown timetable, or a bad telemetry version. Thrown before any request is sent | n/a |
 
-Catch {@link RSINotFoundError} to handle every missing resource at once, or a subclass to handle a single kind.
+Catch {@link RSINotFoundError} to handle every missing resource at once, or a subclass to handle a single kind. Catch {@link RSIHttpError} to tell "RSI is unavailable, retry later" apart from "RSI answered but its data could not be read".
 
 ```typescript
-import { RSI, RSIError, RSINotFoundError } from '@unofficial-star-citizen-api/rsi.js';
+import { RSI, RSIError, RSIHttpError, RSINotFoundError } from '@unofficial-star-citizen-api/rsi.js';
 
 const rsi = new RSI();
 
@@ -34,8 +35,10 @@ try {
 } catch (error) {
   if (error instanceof RSINotFoundError) {
     // 404: error.resource is 'User', error.identifier is 'someone'
+  } else if (error instanceof RSIHttpError) {
+    // RSI is down, timing out or rate-limiting you: error.status is 503, 429... or undefined
   } else if (error instanceof RSIError) {
-    // RSI is down, rate-limiting you, or changed its page
+    // RSI answered, but its response could not be read: it may have changed its page
   } else {
     throw error;
   }

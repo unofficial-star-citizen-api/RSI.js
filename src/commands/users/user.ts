@@ -1,6 +1,6 @@
 import { HttpHelper } from '@/helpers/http.helper';
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { CheerioAPI, load } from 'cheerio';
 import { RSIUserNotFoundError } from './errors';
@@ -76,7 +76,7 @@ export class Users
       throw new RSIUserNotFoundError(userHandle);
 
     if (response.status !== 200)
-      throw new RSIError(`Failed to retrieve user profile data from ${url}`);
+      throw new RSIHttpError(`Failed to retrieve user profile data from ${url}`, response.status, response.config?.url);
 
     // Get HTML contents
     const $ = load(response.data);
@@ -143,7 +143,7 @@ export class Users
       throw new RSIUserNotFoundError(userHandle);
 
     if (response.status !== 200)
-      throw new RSIError(`Failed to retrieve user organization data from ${url}`);
+      throw new RSIHttpError(`Failed to retrieve user organization data from ${url}`, response.status, response.config?.url);
 
     // Get HTML contents
     const $ = load(response.data);

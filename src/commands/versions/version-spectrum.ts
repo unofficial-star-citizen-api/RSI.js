@@ -1,6 +1,6 @@
 // External modules
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import
 {
@@ -120,7 +120,7 @@ export class Spectrum
 
     const response = await this.httpClient.post<RSISpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
     if (response.status !== 200)
-      throw new RSIError(`HTTP request failed while retrieving spectrum threads, status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving spectrum threads, status code: ${response.status}`, response.status, response.config?.url);
 
     if (response.data.success != 1)
       throw new RSIError(`Query failed from RSI (${response.data.msg})`);

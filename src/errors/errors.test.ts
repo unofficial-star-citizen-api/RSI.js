@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import {
   RSICelestialObjectNotFoundError,
   RSIError,
+  RSIHttpError,
   RSINotFoundError,
   RSIOrganizationNotFoundError,
   RSIProgressTrackerTeamNotFoundError,
@@ -18,6 +19,26 @@ describe('Errors', () =>
     const error = new RSIError('boom');
     expect(error.name).toBe('RSIError');
     expect(error.getStatus()).toBe(500);
+  });
+
+  test('RSIHttpError should expose the upstream status and URL, and suggest a 502', () =>
+  {
+    const cause = new Error('socket hang up');
+    const error = new RSIHttpError('RSI is down', 503, 'https://robertsspaceindustries.com/api/stats/getCrowdfundStats', cause);
+    expect(error).toBeInstanceOf(RSIError);
+    expect(error.name).toBe('RSIHttpError');
+    expect(error.message).toBe('RSI is down');
+    expect(error.status).toBe(503);
+    expect(error.url).toBe('https://robertsspaceindustries.com/api/stats/getCrowdfundStats');
+    expect(error.getStatus()).toBe(502);
+    expect(error.stack).toContain('Caused by: Error: socket hang up');
+  });
+
+  test('RSIHttpError should allow a missing status when no response was received', () =>
+  {
+    const error = new RSIHttpError('timeout', undefined);
+    expect(error.status).toBeUndefined();
+    expect(error.url).toBeUndefined();
   });
 
   test('RSINotFoundError should expose a 404 status, the resource and the identifier', () =>

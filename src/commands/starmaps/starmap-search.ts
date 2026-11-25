@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import
 {
@@ -31,7 +31,7 @@ export class StarmapSearch
 
     const req = await this.httpClient.post<RSIStarMapSearchResult>(this.urlFind, data);
     if (req === null || req.status !== 200)
-      throw new RSIError(`Failed to retrieve starmap search data from ${this.urlFind}`);
+      throw new RSIHttpError(`Failed to retrieve starmap search data from ${this.urlFind}`, req?.status, req?.config?.url);
 
     const resp = req.data;
 

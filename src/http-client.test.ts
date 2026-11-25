@@ -9,7 +9,7 @@ import
   test,
   vi
 } from 'vitest';
-import { RSIError } from './errors';
+import { RSIError, RSIHttpError } from './errors';
 import { HttpClient, RSI } from './index';
 import { Logger } from './logger';
 
@@ -199,6 +199,44 @@ describe('HttpClient', () =>
     test('should throw RSIError on 2xx responses with an empty body', async () =>
     {
       await expect(createClient(200, null).get('https://example.com/api')).rejects.toThrow(RSIError);
+    });
+
+    test('should wrap network failures in RSIHttpError without a status', async () =>
+    {
+      const client = new HttpClient({ httpProxy: '', httpsProxy: '' });
+      const axiosInstance = Reflect.get(client, 'axiosInstance') as AxiosInstance;
+      const cause = new AxiosError('timeout of 10000ms exceeded', 'ECONNABORTED');
+      axiosInstance.defaults.adapter = async (config) =>
+      {
+        cause.config = config;
+        throw cause;
+      };
+
+      const error = await client.get('https://example.com/api').catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(RSIHttpError);
+      expect(error).toBeInstanceOf(RSIError);
+      expect(error).toMatchObject({
+        name: 'RSIHttpError',
+        status: undefined,
+        url: 'https://example.com/api',
+        message: 'HTTP request failed: timeout of 10000ms exceeded'
+      });
+      expect((error as RSIHttpError).getStatus()).toBe(502);
+      expect((error as RSIHttpError).stack).toContain('Caused by:');
+    });
+
+    test('should keep the status when axios rejects with a response', async () =>
+    {
+      const client = new HttpClient({ httpProxy: '', httpsProxy: '' });
+      const axiosInstance = Reflect.get(client, 'axiosInstance') as AxiosInstance;
+      axiosInstance.defaults.adapter = async (config) =>
+      {
+        const response = { data: null, status: 503, statusText: '', headers: new AxiosHeaders(), config };
+        throw new AxiosError('Request failed with status code 503', 'ERR_BAD_RESPONSE', config, undefined, response);
+      };
+
+      await expect(client.get('https://example.com/api')).rejects.toMatchObject({ name: 'RSIHttpError', status: 503 });
     });
   });
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { RSICelestialObjectNotFoundError } from './errors';
 import { RSIStarmapCelestialObject, RSIStarmapCelestialObjectResponse } from './interfaces/celestial-object.interface';
@@ -26,7 +26,7 @@ export class StarmapCelestialObjects
 
     const req = await this.httpClient.post<RSIStarmapCelestialObjectResponse>(this.urlCelestial.replace('{0}', ''));
     if (req === null || req.status !== 200)
-      throw new RSIError(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`);
+      throw new RSIHttpError(`Failed to retrieve celestial objects data from ${this.urlCelestial.replace('{0}', '')}`, req?.status, req?.config?.url);
 
     const resp = req.data;
     if (resp.success !== 1 || !resp.data)
@@ -45,7 +45,7 @@ export class StarmapCelestialObjects
     }>(this.urlCelestial.replace('{0}', objectCode));
 
     if (req === null || req.status !== 200)
-      throw new RSIError(`Failed to retrieve celestial object data from ${this.urlCelestial.replace('{0}', objectCode)}`);
+      throw new RSIHttpError(`Failed to retrieve celestial object data from ${this.urlCelestial.replace('{0}', objectCode)}`, req?.status, req?.config?.url);
 
     const resp = req.data;
 

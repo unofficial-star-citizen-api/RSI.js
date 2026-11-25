@@ -117,5 +117,6 @@ describe('Stats (FundingGoals)', () =>
     await expect(fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Hour)).rejects.toThrow(
       'HTTP request failed while retrieving stats data, status code: 500'
     );
+    await expect(fundingGoals.getCrowdfundingStats(RSIFundingGoalsTimePeriod.Hour)).rejects.toMatchObject({ name: 'RSIHttpError', status: 500 });
   });
 });

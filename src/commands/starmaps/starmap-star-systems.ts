@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { RSIStarSystemNotFoundError } from './errors';
 import { RSIStarMapStarSystem, RSIStarMapStarSystemResponse } from './interfaces/star-system.interface';
@@ -26,7 +26,7 @@ export class StarmapStarSystems
 
     const req = await this.httpClient.post<RSIStarMapStarSystemResponse>(this.urlStarSystem.replace('{0}', code));
     if (req === null || req.status !== 200)
-      throw new RSIError(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`);
+      throw new RSIHttpError(`Failed to retrieve star system data from ${this.urlStarSystem.replace('{0}', code)}`, req?.status, req?.config?.url);
 
     const resp = req.data;
     if (resp.success !== 1 || !resp.data)

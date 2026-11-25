@@ -1,6 +1,6 @@
 
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { RoadmapVersions, RSIVersionRoadmapResponse } from './interfaces/roadmap.interface';
 
@@ -52,7 +52,7 @@ export class Roadmap
     this.logger.info('Fetching game version information');
     const response = await this.httpClient.get<RSIVersionRoadmapResponse>(this.url);
     if (response.status !== 200)
-      throw new RSIError(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving roadmap data, status code: ${response.status}`, response.status, response.config?.url);
 
     if (response.data.success !== 1)
       throw new RSIError(`Query failed from RSI (${response.data.msg})`);

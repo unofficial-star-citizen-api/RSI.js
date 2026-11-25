@@ -113,5 +113,6 @@ describe('Telemetry', () =>
     await expect(telemetry.community(RSITelemetryTimetable.Day, 'sc-alpha-4.0')).rejects.toThrow(
       'HTTP request failed while retrieving telemetry data, status code: 503'
     );
+    await expect(telemetry.community(RSITelemetryTimetable.Day, 'sc-alpha-4.0')).rejects.toMatchObject({ name: 'RSIHttpError', status: 503 });
   });
 });

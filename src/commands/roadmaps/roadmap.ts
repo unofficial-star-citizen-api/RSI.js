@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import
 {
@@ -69,7 +69,7 @@ export class Roadmaps
 
     if (request === null || request.status !== 200)
     {
-      throw new RSIError(`Failed to retrieve roadmap data for board: ${board}`);
+      throw new RSIHttpError(`Failed to retrieve roadmap data for board: ${board}`, request?.status, request?.config?.url);
     }
 
     const response = request.data;

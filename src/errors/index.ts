@@ -1,9 +1,10 @@
 /**
  * Base class for every error thrown by RSI.js when RSI fails or answers unexpectedly.
  *
- * It is thrown when RSI returns a non-2xx status, an empty body, a payload with
- * `success !== 1`, or a page whose structure no longer matches the scraper.
- * More specific failures use a subclass: every "resource does not exist" case throws a
+ * It is thrown when RSI returns an empty body, a payload with `success !== 1`, or a page
+ * whose structure no longer matches the scraper.
+ * More specific failures use a subclass: an unreachable RSI or an unexpected HTTP status throws
+ * {@link RSIHttpError}, and every "resource does not exist" case throws a
  * {@link RSINotFoundError} (status `404`), such as {@link RSIUserNotFoundError} or
  * {@link RSIOrganizationNotFoundError}.
  *
@@ -55,6 +56,62 @@ export class RSIError extends Error
   getStatus(): number
   {
     return 500;
+  }
+}
+
+/**
+ * RSI could not be reached or answered with an unexpected HTTP status (5xx, 429, 403...).
+ *
+ * `status` is the status RSI answered with, or `undefined` when no response arrived at all
+ * (timeout, DNS failure, connection reset). Use it to tell "RSI is unavailable" apart from
+ * "RSI answered but the data could not be read", which throws a plain {@link RSIError}.
+ *
+ * @category Errors
+ *
+ * @example
+ * ```typescript
+ * import { RSI, RSIHttpError } from '@unofficial-star-citizen-api/rsi.js';
+ *
+ * const rsi = new RSI();
+ *
+ * try {
+ *   await rsi.users.getProfile('Dymerz');
+ * } catch (error) {
+ *   if (error instanceof RSIHttpError)
+ *     console.warn(`RSI unavailable (status ${error.status ?? 'none'}), retrying later`);
+ *   else
+ *     throw error;
+ * }
+ * ```
+ */
+export class RSIHttpError extends RSIError
+{
+  /** HTTP status RSI answered with, or `undefined` when no response was received */
+  public readonly status: number | undefined;
+
+  /** URL of the failed request, when known */
+  public readonly url: string | undefined;
+
+  /**
+   * @param message - Description of the failure
+   * @param status - HTTP status RSI answered with, or `undefined` when no response was received
+   * @param url - URL of the failed request
+   * @param originalError - Underlying error, appended to the stack trace as `Caused by:`
+   */
+  constructor(message: string, status: number | undefined, url?: string, originalError?: Error)
+  {
+    super(message, originalError);
+    this.name = 'RSIHttpError';
+    this.status = status;
+    this.url = url;
+  }
+
+  /**
+   * @returns `502`: the upstream server (RSI) failed
+   */
+  getStatus(): number
+  {
+    return 502;
   }
 }
 
