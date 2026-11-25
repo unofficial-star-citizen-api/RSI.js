@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import
@@ -28,7 +28,7 @@ export function search(httpClient: HttpClient, loggerName = 'Organizations'): Re
     const response = await httpClient.post<RSIOrganizationResponse>(urlGetOrgs, params);
     if (response.status !== 200)
     {
-      throw new RSIError(`HTTP request failed while retrieving organization data, status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving organization data, status code: ${response.status}`, response.status, response.config?.url);
     }
 
     if (response.data.success !== 1)

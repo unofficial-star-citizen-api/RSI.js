@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
@@ -90,7 +90,7 @@ export class PatchNote
   {
     const response = await this.httpClient.get<string>(this.url);
     if (response.status !== 200)
-      throw new RSIError(`HTTP request failed while retrieving patch notes, status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving patch notes, status code: ${response.status}`, response.status, response.config?.url);
 
     const $ = load(response.data);
 

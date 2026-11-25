@@ -5,7 +5,7 @@ import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import packageJSON from '../package.json';
-import { RSIError } from './errors';
+import { RSIError, RSIHttpError } from './errors';
 import { createLogger, Logger } from './logger';
 
 /**
@@ -256,6 +256,11 @@ export class HttpClient
         'HTTP request failed',
         error instanceof Error ? error.message : String(error)
       );
+
+      // Network failures (timeout, DNS, connection reset) become RSIHttpError, like status failures
+      if (axios.isAxiosError(error))
+        return Promise.reject(new RSIHttpError(`HTTP request failed: ${error.message}`, error.response?.status, error.config?.url, error));
+
       return Promise.reject(error);
     });
 

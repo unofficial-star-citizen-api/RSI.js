@@ -1,0 +1,904 @@
+{
+  "success": 1,
+  "code": "OK",
+  "msg": "OK",
+  "data": {
+    "id": "579706",
+    "time_created": 1795542503,
+    "time_modified": 1795615553,
+    "channel_id": "190048",
+    "label_id": "",
+    "type": "discussion",
+    "slug": "star-citizen-alpha-5-0-ptu-patch-notes-6",
+    "subject": "[Wave 3] Star Citizen Alpha 5.0 PTU Patch Notes 13273298",
+    "is_locked": false,
+    "is_reply_nesting_disabled": false,
+    "is_pinned": true,
+    "is_sinked": false,
+    "is_erased": false,
+    "erased_by": null,
+    "tracked_post_role_id": "2",
+    "content_reply_id": "9260197",
+    "annotation_plaintext": null,
+    "subscription_key": "thread:579706",
+    "content_blocks": [
+      {
+        "id": 1,
+        "type": "text",
+        "data": {
+          "blocks": [
+            {
+              "key": "aa8oo",
+              "text": "Alpha Patch 5.0 has been released and is now available to test on the PTU environment! Patch should now show: VERSION 5.0.0-PTU.13273298",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "5sk35",
+              "text": "Audience: Wave 3 testers",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6o3ae",
+              "text": "Server Info: PTU Channel - US Only",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "7rrsn",
+              "text": "Long Term Persistence: Enabled",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "ct8vr",
+              "text": "Testing/Feedback Focus",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 22,
+                  "style": "UNDERLINE"
+                },
+                {
+                  "offset": 0,
+                  "length": 22,
+                  "style": "BOLD"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "fbdi",
+              "text": "25x Rep reward multiplier is currently active on PTU",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "9d2qk",
+              "text": "Stability, Bugfixes, LTP between PTU releases",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "a8vhq",
+              "text": "Genesis (Planet Tech V5)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6hmh5",
+              "text": "Nyx 1",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "81n2t",
+              "text": "Starchitect Points of Interest",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "5iqhk",
+              "text": "Mission Boards and Local Missions",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4rgqq",
+              "text": "Intraplanetary Server Meshing",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3mbjb",
+              "text": "Time To Kill (TTK) Vehicle Balance",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4bsas",
+              "text": "Missile Lock Interface Update",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "c44o7",
+              "text": "VOIP Reliability Improvements",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "e8taj",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "79pmd",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "24ak3",
+              "text": "Feature Updates",
+              "type": "header-one",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "7dccp",
+              "text": "Starchitect Locations",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 21,
+                  "style": "UNDERLINE"
+                },
+                {
+                  "offset": 0,
+                  "length": 21,
+                  "style": "BOLD"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3ohf0",
+              "text": "Interior lighting has had a broad fog and polish pass across the maintenance, generic, command and habitation buildings, with lights added above medical cabinets and shadow distances reduced on casters. Compound lighting has been reworked to stop light leaking through walls, and the turret tiles have had their red and orange lighting rebalanced. Agriculture rings have had spill lighting added.",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "cl8qk",
+              "text": "Safes have been moved out of kitchens and into storage rooms",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4thu3",
+              "text": "Backs added to exposed ladders, so they no longer read as unfinished",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "81vmb",
+              "text": "Maintenance room doors have been correctly centered on their frames",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6gnmf",
+              "text": "Potential Fix: Stacked decals on storage roofs, misaligned roof effects, floating props and a hole in the generic outpost exteriors",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4d23p",
+              "text": "Potential Fix: A misaligned vent module in the compound wall, with tint and rib placement improved across compound walls",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "7maga",
+              "text": "Potential Fix: Unnecessary climbing points removed from habitation and depot tiles",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3s1vc",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6s3fi",
+              "text": "Contracts",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 9,
+                  "style": "UNDERLINE"
+                },
+                {
+                  "offset": 0,
+                  "length": 9,
+                  "style": "BOLD"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "9eeet",
+              "text": "Potential Fix: The Covalex locker becoming impossible to interact with if another player on a mission had used it first (STARC-218728)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "5us1e",
+              "text": "Potential Fix: Containers not being recognized as mission cargo during Recover Cargo contracts, so no warehouse order was created",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "cq3o7",
+              "text": "Potential Fix: Attack on All Fronts breaking when the player arrived before the location had finished registering them",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "ejsd9",
+              "text": "Potential Fix: Objective markers remaining on screen after the objective was resolved, including when another player had already used the terminal",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6fg3o",
+              "text": "Potential Fix: Courier contract packages displaying incorrect names",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "fk4ob",
+              "text": "Potential Fix: Recover item contracts dropping off at lockers rather than the previous target, with the items to steal moved clear of new interior dressing",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6nrs4",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3f6o2",
+              "text": "Genesis and Nyx I",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 17,
+                  "style": "UNDERLINE"
+                },
+                {
+                  "offset": 0,
+                  "length": 17,
+                  "style": "BOLD"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "fmgdt",
+              "text": "A wind pass has gone through the Nyx I flora, with several plants reprocessed using skeletal meshes so they move more convincingly. Cloud ambient occlusion has had further tuning, and the ocean rendering now fades its reflections out over long distances, which should stop the odd mirrored artifacts previously visible from orbit.",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "bsq33",
+              "text": "Water settings cleaned up, with orphaned regions no longer left behind when settings change",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "8lnid",
+              "text": "Screen space reflection improvements on water",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "btknj",
+              "text": "Potential Fix: The Gatala Fungi harvestable showing placeholder text when scanned from inside a vehicle (STARC-225205)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "9p0ku",
+              "text": "Interaction sounds added for the Gatala Fungi",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "cv2v9",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "j4bh",
+              "text": "Audio",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 5,
+                  "style": "BOLD"
+                },
+                {
+                  "offset": 0,
+                  "length": 5,
+                  "style": "UNDERLINE"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "flfq5",
+              "text": "Biome audio has had a significant correction this build. Sound emitters were moving around even while the player stood still, which caused biome ambience to stack on itself and jitter. Levski has also had a mix fix, where ambient audio was excessively loud and audible throughout the entire station rather than staying in its own areas.",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "1aqdh",
+              "text": "Further biome audio mixing across Nyx",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "74fn1",
+              "text": "Potential Fix: Biome ambience stacking and jittering while the player was stationary",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3trvq",
+              "text": "Potential Fix: Levski ambient audio being excessively loud and carrying across the whole station",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "9v6b9",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "587ge",
+              "text": "Virtual Reality",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 15,
+                  "style": "UNDERLINE"
+                },
+                {
+                  "offset": 0,
+                  "length": 15,
+                  "style": "BOLD"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "8c1hl",
+              "text": "These updates are very experimental so please let us know if you find any oddities with these updated VR changes!",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3ib6j",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "7suln",
+              "text": "The weapon customization interface has been rebuilt as a 3D object for VR. Attachment ports are now drawn directly on the weapon rather than in a flat panel, selected with the stereo cursor, with the attachment list scrolled using the mouse wheel. Your character also stops leaning to follow your head while the interface is open, which previously shifted the view.",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "87q5e",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "632ds",
+              "text": "The stereo cursor now switches between eye tracking and manual aiming automatically, handing control to the mouse when you move it and returning to eye tracking after a couple of seconds",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "2mn95",
+              "text": "The radial menus now use the stereo cursor directly, and work from head direction when eye tracking is unavailable.",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "2qbbo",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "8m3lh",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "19js0",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4n32s",
+              "text": "Bug Fixes & Technical",
+              "type": "header-one",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "5kcet",
+              "text": "Potential Fix: Battaglia not speaking to the player, leaving the mission unable to progress (STARC-216784)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "696nn",
+              "text": "Potential Fix: The second Yormandi not spawning at the Onyx Facility during ASD Delving (STARC-182820)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "2s57j",
+              "text": "Potential Fix: The current location description missing from the front end after loading into the Persistent Universe",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "di8ob",
+              "text": "Potential Fix: Blend sliders in character customization not moving when dragged with the mouse",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "dtk8u",
+              "text": "Potential Fix: Exterior lights flickering rapidly on multiple vehicles",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "372kd",
+              "text": "Potential Fix: Entering the pilot seat of a vehicle on the Crusader Showroom floor repositioning the player and despawning the vehicle (STARC-218640)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "cm7kf",
+              "text": "Potential Fix: The Zeus Exploration helmet light being misaligned, casting shadows while moving and while aiming down sights (STARC-220878)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4d4",
+              "text": "Potential Fix: The MISC Hull C not playing its first retract animation",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "4fgst",
+              "text": "Potential Fix: Undersuits clipping through clothing on Levski NPCs",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "blbr1",
+              "text": "Potential Fix: Gravity generator audio being audible from inside the cockpit (STARC-223999)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "eehbq",
+              "text": "Potential Fix: Model-K2 Rifle descriptions listing it as plasma rather than laser",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "8s5lp",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "9m06g",
+              "text": "",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "6ujqk",
+              "text": "Crash Fixes",
+              "type": "unstyled",
+              "depth": 0,
+              "inlineStyleRanges": [
+                {
+                  "offset": 0,
+                  "length": 11,
+                  "style": "BOLD"
+                },
+                {
+                  "offset": 0,
+                  "length": 11,
+                  "style": "UNDERLINE"
+                }
+              ],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "anems",
+              "text": "Potential Fix: Client freeze and watchdog timeout caused by a lock conflict when loading character models",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "bm46n",
+              "text": "Potential Fix: Client crash in wheeled vehicle physics",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "283l7",
+              "text": "Potential Fix: GPU crashes from invalid maths in the wind and particle shaders (STARC-223665)",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "3lekb",
+              "text": "Potential Fix: Server crash during planet load state queries",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "cn06c",
+              "text": "Potential Fix: Server crash when an entity's density class changed",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            },
+            {
+              "key": "emtrj",
+              "text": "Potential Fix: Several crashes and overflows in the Windows library loading hooks at startup",
+              "type": "unordered-list-item",
+              "depth": 0,
+              "inlineStyleRanges": [],
+              "entityRanges": [],
+              "data": []
+            }
+          ],
+          "entityMap": []
+        }
+      }
+    ],
+    "lexical_content": null,
+    "annotation": null,
+    "highlight_role_id": "2",
+    "community_id": "1",
+    "member": {
+      "id": "429390",
+      "displayname": "Wakapedia-CIG",
+      "nickname": "Wakapedia-CIG",
+      "avatar": "https://robertsspaceindustries.com/media/to3sa6d6ydkrsr/heap_infobox/Pacvinyl-Clear-600x600.png?v=1617059850",
+      "signature": "",
+      "meta": {
+        "badges": [
+          {
+            "name": "Developer",
+            "icon": "https://robertsspaceindustries.com/spectrum/media/bkxsdklvwlhfqr/heap_note/Developer.png"
+          },
+          {
+            "name": "Evocati - NDA",
+            "icon": "https://robertsspaceindustries.com/spectrum/media/6juj9eab23ml0r/heap_note/AVOCADO-Thumbnail.png",
+            "url": "https://robertsspaceindustries.com/orgs/AVOCADO"
+          }
+        ]
+      },
+      "isGM": false,
+      "spoken_languages": [
+        "en"
+      ],
+      "presence": {
+        "info": null,
+        "since": null,
+        "status": "offline"
+      },
+      "roles": {
+        "1": [
+          "11",
+          "2",
+          "3",
+          "4"
+        ],
+        "9711": [
+          "67972",
+          "67973",
+          "67974",
+          "67975"
+        ]
+      }
+    },
+    "replies_count": 70,
+    "views_count": 2824,
+    "latest": 9261908,
+    "latest_activity": {
+      "time_created": 1795615553,
+      "member": {
+        "id": "1000001",
+        "displayname": "Citizen",
+        "nickname": "Citizen",
+        "avatar": "https://cdn.robertsspaceindustries.com/static/spectrum/images/member-avatar-default.jpg",
+        "signature": "",
+        "meta": {
+          "badges": []
+        },
+        "isGM": false,
+        "spoken_languages": [
+          "en"
+        ],
+        "roles": {}
+      },
+      "highlight_role_id": null
+    },
+    "votes": {
+      "count": 99,
+      "voted": 0
+    },
+    "reactions": [],
+    "tracked_replies_references": [],
+    "children_replies_references": [],
+    "notification_subscription": "all",
+    "aspect": "full",
+    "nested_replies_ids": [],
+    "replies": []
+  }
+}

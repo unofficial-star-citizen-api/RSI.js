@@ -1,0 +1,148 @@
+{
+  "success": 1,
+  "code": "OK",
+  "msg": "OK",
+  "data": [
+    {
+      "id": 1,
+      "communityId": 1,
+      "groupId": 1,
+      "name": "Announcements",
+      "description": "Official Star Citizen announcements.",
+      "color": "e05248",
+      "order": 0,
+      "threadCount": 485,
+      "labelRequired": false,
+      "labels": [
+        {
+          "id": 1,
+          "channelId": 1,
+          "name": "Community"
+        },
+        {
+          "id": 3,
+          "channelId": 1,
+          "name": "Live Service"
+        },
+        {
+          "id": 2,
+          "channelId": 1,
+          "name": "Patch"
+        },
+        {
+          "id": 5,
+          "channelId": 1,
+          "name": "Spectrum"
+        },
+        {
+          "id": 4,
+          "channelId": 1,
+          "name": "Store Update"
+        }
+      ],
+      "subscriptionKey": "channel:1",
+      "url": "https://robertsspaceindustries.com/spectrum/community/SC/forum/1",
+      "permissions": {
+        "canRead": true,
+        "canCreateThread": false,
+        "canCreateThreadReply": false,
+        "canManage": false,
+        "canModerate": false
+      }
+    },
+    {
+      "id": 3,
+      "communityId": 1,
+      "groupId": 2,
+      "name": "General",
+      "description": "Main discussion channel for all things SC.",
+      "color": "4aa3c9",
+      "order": 0,
+      "threadCount": 155200,
+      "labelRequired": false,
+      "labels": [
+        {
+          "id": 2751,
+          "channelId": 3,
+          "name": "Arena Commander"
+        },
+        {
+          "id": 8,
+          "channelId": 3,
+          "name": "Citizens"
+        },
+        {
+          "id": 2380,
+          "channelId": 3,
+          "name": "Concern"
+        },
+        {
+          "id": 10,
+          "channelId": 3,
+          "name": "Events"
+        },
+        {
+          "id": 6,
+          "channelId": 3,
+          "name": "Gameplay"
+        },
+        {
+          "id": 5034,
+          "channelId": 3,
+          "name": "Production Schedule"
+        },
+        {
+          "id": 9,
+          "channelId": 3,
+          "name": "PTU"
+        },
+        {
+          "id": 11,
+          "channelId": 3,
+          "name": "Question"
+        },
+        {
+          "id": 2752,
+          "channelId": 3,
+          "name": "Star Marine"
+        }
+      ],
+      "subscriptionKey": "channel:3",
+      "url": "https://robertsspaceindustries.com/spectrum/community/SC/forum/3",
+      "permissions": {
+        "canRead": true,
+        "canCreateThread": false,
+        "canCreateThreadReply": false,
+        "canManage": false,
+        "canModerate": false
+      }
+    },
+    {
+      "id": 190048,
+      "communityId": 1,
+      "groupId": 63927,
+      "name": "Patch Notes",
+      "description": "",
+      "color": "E9B45B",
+      "order": 0,
+      "threadCount": 779,
+      "labelRequired": false,
+      "labels": [
+        {
+          "id": 14664,
+          "channelId": 190048,
+          "name": "Patch Notes"
+        }
+      ],
+      "subscriptionKey": "channel:190048",
+      "url": "https://robertsspaceindustries.com/spectrum/community/SC/forum/190048",
+      "permissions": {
+        "canRead": true,
+        "canCreateThread": false,
+        "canCreateThreadReply": false,
+        "canManage": false,
+        "canModerate": false
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { ShipHelper } from './ship.helper';
 
@@ -97,7 +97,7 @@ export class ShipStoreHelper
 
     if (response === null || response.status !== 200)
     {
-      throw new RSIError(`Failed to retrieve ship prices. Status code: ${response?.status}`);
+      throw new RSIHttpError(`Failed to retrieve ship prices. Status code: ${response?.status}`, response?.status, response?.config?.url);
     }
 
     if (response.data.errors && response.data.errors.length > 0)

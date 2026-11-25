@@ -3,6 +3,7 @@ export * from './organizations';
 export * from './progress-trackers';
 export * from './roadmaps';
 export * from './ships';
+export * from './spectrum';
 export * from './starmaps';
 export * from './telemetry';
 export * from './users';

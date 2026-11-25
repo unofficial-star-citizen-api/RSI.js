@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { ProgressTrackerHelper } from './helpers';
@@ -156,7 +156,7 @@ export class ProgressTrackerDeliverable
 
       if (response === null || response.status !== 200)
       {
-        throw new RSIError(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`);
+        throw new RSIHttpError(`Failed to retrieve deliverables data from ${this.urlProgressTracker}`, response?.status, response?.config?.url);
       }
 
       try

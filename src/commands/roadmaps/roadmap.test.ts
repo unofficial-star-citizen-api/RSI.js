@@ -7,7 +7,9 @@ import
   test,
   vi
 } from 'vitest';
-import { HttpClient } from '../../index';
+import fs from 'fs';
+import path from 'path';
+import { HttpClient, RSIError } from '../../index';
 import { RSIRoadmapBoard } from './interfaces';
 import { Roadmaps } from './roadmap';
 
@@ -188,6 +190,78 @@ describe('Roadmap', () =>
       await roadmap.getBoardReleases(RSIRoadmapBoard.Squadron42);
 
       expect(spy).toHaveBeenCalledWith(S42_URL);
+    });
+  });
+
+  describe('getBoards', () =>
+  {
+    const INIT_URL = 'https://robertsspaceindustries.com/api/roadmap/v1/init';
+    const fixture = (file: string): any => JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
+
+    test('should parse every board', async () =>
+    {
+      const spy = vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: fixture('mocks/roadmap-init.json') } as any);
+
+      const boards = await roadmap.getBoards();
+
+      expect(spy).toHaveBeenCalledWith(INIT_URL);
+      expect(boards.map(board => board.board)).toEqual([RSIRoadmapBoard.StarCitizen, RSIRoadmapBoard.Squadron42]);
+      expect(boards[0]).toEqual({
+        meta: { url: 'https://robertsspaceindustries.com/roadmap/board/1-Release-View' },
+        id: 1,
+        board: RSIRoadmapBoard.StarCitizen,
+        slug: 'Release-View',
+        name: 'Release View',
+        description: expect.stringMatching(/^Live Version: 4\.10\.3 \(\[more info\]/),
+        // RSI writes "The Release View" with a narrow no-break space, returned as-is
+        body: expect.stringMatching(/^# The\sRelease View/),
+        order: 0,
+        infoHeading: 'Roadmap: Caveats',
+        notification: {
+          enabled: true,
+          title: 'Roadmap Roundup for November 18, 2026',
+          body: '([Read Now](https://robertsspaceindustries.com/spectrum/community/SC/forum/3/thread/roadmap-roundup-november-18-2026))'
+        },
+        thumbnail: {
+          square: 'https://robertsspaceindustries.com/media/8iv5eqjfabb80r/heap_infobox/Logos.png',
+          rect: 'https://robertsspaceindustries.com/media/8iv5eqjfabb80r/product_thumb_large/Logos.png',
+          large: 'https://robertsspaceindustries.com/media/8iv5eqjfabb80r/hub_large/Logos.png',
+          source: 'https://robertsspaceindustries.com/media/8iv5eqjfabb80r/source/Logos.png'
+        },
+        background: expect.objectContaining({ source: 'https://robertsspaceindustries.com/media/l3m8eaws8oxrpr/source/Roadmap_RV_Prod.jpg' }),
+        lastUpdated: '2026-11-21T16:07:42.000Z'
+      });
+      expect(boards[1]).toMatchObject({ id: 2, name: 'Squadron 42', background: undefined, notification: { body: expect.stringMatching(/^Learn more/) } });
+    });
+
+    test('should return the description as-is, PTU and ETF announcements included', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: fixture('../versions/mocks/roadmap-live-ptu.json') } as any);
+
+      const [sc] = await roadmap.getBoards();
+
+      expect(sc.description).toContain('PTU Version: 4.0.2 PTU 9584587 RC1');
+    });
+
+    test('should throw RSIHttpError on a non-200 response', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 503, data: null } as any);
+
+      await expect(roadmap.getBoards()).rejects.toMatchObject({ name: 'RSIHttpError', status: 503, url: INIT_URL });
+    });
+
+    test('should throw RSIError on an unsuccessful payload', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: { success: 0, code: 'ErrUnknown', msg: 'Something failed', data: null } } as any);
+
+      await expect(roadmap.getBoards()).rejects.toThrow(new RSIError('Query failed from RSI (Something failed)'));
+    });
+
+    test('should throw RSIError when the payload has no boards', async () =>
+    {
+      vi.spyOn(httpClient, 'get').mockResolvedValue({ status: 200, data: { success: 1, code: 'OK', msg: 'OK', data: {} } } as any);
+
+      await expect(roadmap.getBoards()).rejects.toThrow('Roadmap API returned no boards');
     });
   });
 });

@@ -5,6 +5,7 @@ import
   ProgressTrackers,
   Roadmaps,
   Ships,
+  Spectrum,
   Starmaps,
   Telemetries,
   Users,
@@ -95,6 +96,8 @@ export class RSI
   public readonly telemetries: Telemetries;
   /** Game versions and patch notes, see {@link Versions} */
   public readonly versions: Versions;
+  /** Spectrum forum communities, channels and threads, see {@link Spectrum} */
+  public readonly spectrum: Spectrum;
 
   /**
    * @param config - HTTP and logging options; every field is optional
@@ -113,6 +116,7 @@ export class RSI
     this.fundingGoals = new FundingGoals(this.httpClient);
     this.telemetries = new Telemetries(this.httpClient);
     this.versions = new Versions(this.httpClient);
+    this.spectrum = new Spectrum(this.httpClient);
   }
 }
 

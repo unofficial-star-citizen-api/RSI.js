@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { RSIShipSearch } from '../interfaces';
 
@@ -47,7 +47,7 @@ export class ShipMatrixHelper
     }
     else if (request.status !== 200)
     {
-      throw new RSIError(`Failed to retrieve ship data. Status code: ${request.status}`);
+      throw new RSIHttpError(`Failed to retrieve ship data. Status code: ${request.status}`, request.status, request.config?.url);
     }
     else if (request.data.success !== 1)
     {

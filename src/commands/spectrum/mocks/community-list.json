@@ -1,0 +1,16 @@
+{
+  "success": 1,
+  "code": "OK",
+  "msg": "OK",
+  "data": [
+    {
+      "id": 1,
+      "type": "public",
+      "slug": "SC",
+      "name": "Star Citizen",
+      "avatar": "https://cdn.robertsspaceindustries.com/static/spectrum/images/community-avatar-star-citizen.webp",
+      "banner": "https://cdn.robertsspaceindustries.com/static/spectrum/images/community-banner-star-citizen.webp",
+      "url": "https://robertsspaceindustries.com/spectrum/community/SC"
+    }
+  ]
+}

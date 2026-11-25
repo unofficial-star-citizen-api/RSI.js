@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
@@ -39,7 +39,7 @@ export function searchMembers(httpClient: HttpClient, loggerName = 'Organization
 
     if (response.status !== 200)
     {
-      throw new RSIError(`HTTP request failed while retrieving organization members data, status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving organization members data, status code: ${response.status}`, response.status, response.config?.url);
     }
 
     if (response.data.success !== 1)

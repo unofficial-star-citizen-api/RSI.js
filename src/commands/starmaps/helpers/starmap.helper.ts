@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { RSIStarMapObject, RSIStarMapObjectData } from '../interfaces';
 
 type StarmapField = keyof Omit<RSIStarMapObjectData, 'config'>;
@@ -13,7 +13,7 @@ export class StarMapHelper
     const req = await httpClient.post<RSIStarMapObject>(url);
 
     if (req === null || req.status !== 200)
-      throw new RSIError(`Failed to retrieve starmap data from ${url}`);
+      throw new RSIHttpError(`Failed to retrieve starmap data from ${url}`, req?.status, req?.config?.url);
 
     const resp = req.data;
 

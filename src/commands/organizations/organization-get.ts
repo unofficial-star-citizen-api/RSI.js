@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
 import { RSIOrganizationNotFoundError } from './errors';
@@ -28,7 +28,7 @@ export function get(httpClient: HttpClient, loggerName = 'Organizations'): Retur
       throw new RSIOrganizationNotFoundError(sid);
 
     if (response.status !== 200)
-      throw new RSIError(`HTTP request failed while retrieving organization data for "${sid}", status code: ${response.status}`);
+      throw new RSIHttpError(`HTTP request failed while retrieving organization data for "${sid}", status code: ${response.status}`, response.status, response.config?.url);
 
     // Get HTML contents
     const $ = load(response.data);

@@ -107,8 +107,9 @@ describe('User', () =>
       } as any);
 
       await expect(user.getProfile('SomeUser')).rejects.toThrowError(`Failed to retrieve user profile data from https://robertsspaceindustries.com/citizens/SomeUser`);
+      await expect(user.getProfile('SomeUser')).rejects.toMatchObject({ name: 'RSIHttpError', status: 500 });
 
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(2);
       spy.mockRestore();
     });
 

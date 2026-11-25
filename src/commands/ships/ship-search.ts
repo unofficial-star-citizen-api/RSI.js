@@ -1,4 +1,4 @@
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { HttpClient } from '@/http-client';
 import { createLogger } from '@/logger';
 import { load } from 'cheerio';
@@ -44,7 +44,7 @@ export function search(httpClient: HttpClient, loggerName = 'Ships'): ReturnFunc
     }
     else if (req.status !== 200)
     {
-      throw new RSIError(`Failed to retrieve ship data. Status code: ${req.status}`);
+      throw new RSIHttpError(`Failed to retrieve ship data. Status code: ${req.status}`, req.status, req.config?.url);
     }
 
     const resp = req.data;

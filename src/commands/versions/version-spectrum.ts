@@ -1,34 +1,36 @@
-// External modules
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
 import { createLogger } from '@/logger';
+import {
+  RSISpectrumChannelId, RSISpectrumThread, Spectrum as SpectrumForum 
+} from '../spectrum';
 import
 {
   RSISpectrumEnvironment, RSISpectrumGroups, RSISpectrumVersion
 } from './interfaces';
-import { RSISpectrumThreadDataThread, RSISpectrumThreadResponse } from './interfaces/spectrum-thread.interface';
+
+/** The only thread field the version parsing reads */
+type ThreadSubject = Pick<RSISpectrumThread, 'subject'>;
 
 /**
  * Game versions announced in the Spectrum patch-notes channel, with their release channel and PTU wave.
  * Access it through `rsi.versions.spectrum`. Exported as `VersionsSpectrum`.
  *
- * Every method reads the newest page of threads in the channel.
+ * Every method reads the newest page of threads in the channel, through {@link Spectrum.getThreads}.
+ * Use {@link Spectrum} directly for the thread details, such as build numbers in the post content.
  *
  * @category Commands
  * @hideconstructor
  */
 export class Spectrum
 {
-  private readonly urlSpectrumPatchNotes = 'https://robertsspaceindustries.com/api/spectrum/forum/channel/threads';
-
   private readonly regexVersion = /(\d(\.\d+)+)\s?(\d+)?\s?(\w+)/;
-  private readonly httpClient: HttpClient;
+  private readonly forum: SpectrumForum;
   private readonly logger = createLogger(Spectrum.name);
 
   /** @hidden */
   constructor(httpClient: HttpClient)
   {
-    this.httpClient = httpClient;
+    this.forum = new SpectrumForum(httpClient);
   }
 
   /**
@@ -111,40 +113,24 @@ export class Spectrum
 
   private async fetchVersions(): Promise<RSISpectrumVersion[]>
   {
-    const payload = {
-      channel_id: '190048',
-      page: 1,
-      sort: 'newest',
-      label_id: null
-    };
-
-    const response = await this.httpClient.post<RSISpectrumThreadResponse>(this.urlSpectrumPatchNotes, payload);
-    if (response.status !== 200)
-      throw new RSIError(`HTTP request failed while retrieving spectrum threads, status code: ${response.status}`);
-
-    if (response.data.success != 1)
-      throw new RSIError(`Query failed from RSI (${response.data.msg})`);
-
-    const threads = response.data.data.threads;
+    const threads = await this.forum.getThreads(RSISpectrumChannelId.PatchNotes);
 
     return threads.map(thread =>
     {
       const name = this.getVersionFromSubject(thread);
-      const channel = this.getEnvironment(thread);
-      if (channel === RSISpectrumEnvironment.Live || channel === RSISpectrumEnvironment.ETF)
-      {
-        return { name, environment: channel };
-      }
+      const environment = this.getEnvironment(thread);
+      if (environment !== RSISpectrumEnvironment.PTU)
+        return { name, environment };
 
       return {
         name,
-        environment: RSISpectrumEnvironment.PTU,
+        environment,
         group: this.getGroup(thread)
       };
     });
   }
 
-  private getVersionFromSubject(thread: RSISpectrumThreadDataThread): string | undefined
+  private getVersionFromSubject(thread: ThreadSubject): string | undefined
   {
     const matches = this.regexVersion.exec(thread.subject);
     if (!matches)
@@ -154,7 +140,7 @@ export class Spectrum
     return version;
   }
 
-  private getEnvironment(thread: RSISpectrumThreadDataThread): RSISpectrumEnvironment | undefined
+  private getEnvironment(thread: ThreadSubject): RSISpectrumEnvironment | undefined
   {
     // check if the thread is a live version
     if ((/live/i).test(thread.subject))
@@ -171,12 +157,14 @@ export class Spectrum
     return undefined;
   }
 
-  private getGroup(thread: RSISpectrumThreadDataThread): RSISpectrumGroups | undefined
+  private getGroup(thread: ThreadSubject): RSISpectrumGroups | undefined
   {
-    if (/^\[all waves ptu/i.test(thread.subject))
+    // "[ALL WAVES PTU]", "[All Waves]", "[All Wave]", "[All Backers]", "[All Backer PTU]"
+    if (/^\[all (waves?|backers?)\b/i.test(thread.subject))
       return RSISpectrumGroups.ALL;
 
-    const matches = new RegExp(/\[wave\s+(\d+)\s+\w+\]/i).exec(thread.subject);
+    // "[Wave 1 PTU]" and "[Wave 3]"
+    const matches = /\[wave\s+(\d+)\b[^\]]*\]/i.exec(thread.subject);
     if (matches == null)
       return undefined;
 

@@ -41,9 +41,9 @@ describe('Version', () =>
     // Create new Version instance with the mock client
     const testVersion = new Versions(mockHttpClient);
 
-    // Verify the httpClient was passed to each component
-    expect(testVersion.spectrum['httpClient']).toBe(mockHttpClient);
+    // Verify the httpClient was passed to each component, or to the module it reads from
+    expect(testVersion.spectrum['forum']['httpClient']).toBe(mockHttpClient);
     expect(testVersion.patchNote['httpClient']).toBe(mockHttpClient);
-    expect(testVersion.roadmap['httpClient']).toBe(mockHttpClient);
+    expect(testVersion.roadmap['roadmaps']['httpClient']).toBe(mockHttpClient);
   });
 });

@@ -1,5 +1,5 @@
 import { HttpClient } from '@/http-client';
-import { RSIError } from '@/errors';
+import { RSIError, RSIHttpError } from '@/errors';
 import { createLogger } from '@/logger';
 import { RSIProgressTrackerTeamNotFoundError } from './errors';
 import { ProgressTrackerHelper } from './helpers';
@@ -135,7 +135,7 @@ export class ProgressTrackerTeam
 
       if (response === null || response.status !== 200)
       {
-        throw new RSIError(`Failed to retrieve progress tracker teams. Status code: ${response?.status}`);
+        throw new RSIHttpError(`Failed to retrieve progress tracker teams. Status code: ${response?.status}`, response?.status, response?.config?.url);
       }
 
       try
